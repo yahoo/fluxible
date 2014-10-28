@@ -1,0 +1,15 @@
+{
+  "name": "basic",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Example application",
+  "main": "server.js",
+  "locator": {
+    "rulesets": "td-locator-rulesets"
+  },
+  "dependencies": {
+    "body-parser": "^1.8.2",
+    "express": "^4.9.2",
+    "express-state": "^1.2.0"
+  }
+}
