@@ -37,9 +37,9 @@ For a more extensive example of usage both on the server and the client, see [fl
 
 ### Dehydration/Rehydration
 
-Fluxible uses reserved methods throughout called `rehydrate` and `dehydrate` which are responsible for taking a snapshot of server-side state so that it can be sent to the browser and rehydrated back to the same state in the browser. This naming scheme also extends to [dispatchr](https://github.com/yahoo/dispatchr) which takes care of dehydrating/rehydrating the store instances.
+fluxible-app uses reserved methods throughout called `rehydrate` and `dehydrate` which are responsible for taking a snapshot of server-side state so that it can be sent to the browser and rehydrated back to the same state in the browser. This naming scheme also extends to [dispatchr](https://github.com/yahoo/dispatchr) which takes care of dehydrating/rehydrating the store instances.
 
-There are two kinds of state within FluxibleApp:
+There are two kinds of state within fluxible-app:
 
  * **Application State**: Settings and data that are registered on server start
  * **Context State**: Settings and data that are created per context/request
@@ -48,7 +48,7 @@ Application level rehydrate method is allowed asynchronous operation in case it 
 
 ### Context Types
 
-Within a context, Fluxible creates interfaces providing access to only certain parts of the system. These are broken down as such:
+Within a context, fluxible-app creates interfaces providing access to only certain parts of the system. These are broken down as such:
 
  * **Action Context**: interface accessible by action creator methods. Passed as first parameter to all action creators.
  * **Component Context**: interface accessible by React components. Should be passed as prop to top level React component and then propagated to child components that require acess to it.
@@ -107,9 +107,13 @@ context.getComponentContext().getFoo(); // returns 'bar'
 // or this.props.context.getFoo() from a React component
 ```
 
+Example plugins:
+ * [flux-plugin-fetchr](https://github.com/yahoo/flux-plugin-fetchr) - Polymorphic RESTful services
+ * [flux-plugin-routr](https://github.com/yahoo/flux-plugin-routr) - Routing behavior
+
 ## Store Mixin
 
-FluxibleApp also provides a React component mixin that can be used to statically list store dependencies and listen to them automatically in componentDidMount. This is done by adding a static property `storeListeners` in your component.
+fluxible-app also provides a React component mixin that can be used to statically list store dependencies and listen to them automatically in componentDidMount. This is done by adding a static property `storeListeners` in your component.
 
 You can do this with an array, which will default all store listeners to call the `onChange` method:
 
