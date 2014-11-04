@@ -138,7 +138,7 @@ var Component = React.createClass({
     mixins: [StoreMixin],
     statics: {
         storeListeners: {
-            onMockStoreChange: MockStore
+            onMockStoreChange: [MockStore]
         }
     },
     onMockStoreChange: function () {
@@ -148,6 +148,10 @@ var Component = React.createClass({
 ```
 
 This prevents boilerplate for listening to stores in `componentDidMount` and unlistening in `componentWillUnmount`.
+
+## Helper Utilities
+
+fluxible-app also exports [dispatcher's store utilities](https://github.com/yahoo/dispatchr#helper-utilities) so that you do not need to have an additional dependency on dispatchr. They are available by using `require('fluxible-app/utils/BaseStore')` and `require('fluxible-app/utils/createStore')`.
 
 ## API
 
