@@ -31,9 +31,7 @@ context.executeAction(loadPageAction, {/*payload*/}, function (err) {
 });
 ```
 
-<!-- wait til it's been updated
 For a more extensive example of usage both on the server and the client, see [flux-examples](https://github.com/yahoo/flux-examples).
--->
 
 ### Dehydration/Rehydration
 
