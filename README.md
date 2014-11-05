@@ -106,8 +106,8 @@ context.getComponentContext().getFoo(); // returns 'bar'
 ```
 
 Example plugins:
- * [flux-plugin-fetchr](https://github.com/yahoo/flux-plugin-fetchr) - Polymorphic RESTful services
- * [flux-plugin-routr](https://github.com/yahoo/flux-plugin-routr) - Routing behavior
+ * [fluxible-plugin-fetchr](https://github.com/yahoo/fluxible-plugin-fetchr) - Polymorphic RESTful services
+ * [fluxible-plugin-routr](https://github.com/yahoo/fluxible-plugin-routr) - Routing behavior
 
 ## Store Mixin
 
