@@ -4,8 +4,7 @@
  */
 'use strict';
 
-var MockFetcher = require('./MockFetcher'),
-    dispatchr = require('dispatchr');
+var dispatchr = require('dispatchr');
 
 module.exports = function createMockActionContext() {
     var Dispatcher = dispatchr();
@@ -15,7 +14,6 @@ module.exports = function createMockActionContext() {
         this.dispatcher = new Dispatcher();
         this.executeActionCalls = [];
         this.dispatchCalls = [];
-        this.fetcher = new MockFetcher();
     }
 
     MockActionContext.prototype.getStore = function (name) {
