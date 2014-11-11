@@ -80,19 +80,19 @@ app.plug({
 
             // Allows context plugin settings to be persisted between server and client. Called on server
             // to send data down to the client
-            rehydrate: function () {
+            dehydrate: function () {
                 return {
                     foo: foo
                 };
             },
             // Called on client to rehydrate the context plugin settings
-            dehydrate: function (state) {
+            rehydrate: function (state) {
                 foo = state.foo;
             }
         };
     },
     // Allows dehydration of application plugin settings
-    dehydrate: function () { return {}; }
+    dehydrate: function () { return {}; },
     // Allows rehydration of application plugin settings
     rehydrate: function (state) {}
 });
@@ -106,8 +106,8 @@ context.getComponentContext().getFoo(); // returns 'bar'
 ```
 
 Example plugins:
- * [flux-plugin-fetchr](https://github.com/yahoo/flux-plugin-fetchr) - Polymorphic RESTful services
- * [flux-plugin-routr](https://github.com/yahoo/flux-plugin-routr) - Routing behavior
+ * [fluxible-plugin-fetchr](https://github.com/yahoo/fluxible-plugin-fetchr) - Polymorphic RESTful services
+ * [fluxible-plugin-routr](https://github.com/yahoo/fluxible-plugin-routr) - Routing behavior
 
 ## Store Mixin
 
