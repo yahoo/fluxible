@@ -12,6 +12,7 @@
     "async": "^0.9.0",
     "debug": "^2.0.0",
     "dispatchr": "^0.2.5",
+    "object-assign": "^1.0.0",
     "setimmediate": "^1.0.2"
   },
   "devDependencies": {

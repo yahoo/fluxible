@@ -12,21 +12,25 @@ fluxible-app is a pluggable container for isomorphic [flux](https://github.com/f
 ```js
 var AppComponent = require('./components/Application.jsx'); // Top level React component
 var FluxibleApp = require('fluxible-app');
-var app = new FluxibleApp();
+var app = new FluxibleApp({
+    appComponent: AppComponent // optional top level component
+});
 
 // Per request/session
 var context = app.createContext();
 var loadPageAction = require('./actions/loadPage');
 context.executeAction(loadPageAction, {/*payload*/}, function (err) {
     if (err) throw err;
-    var component = AppComponent({
+    var element = AppComponent({
         // Allow the component to access only certain methods of this session context
         context: context.getComponentContext();
     });
+    // OR since the appComponent was passed into the constructor:
+    // var element = context.createElement({});
+
+    var html = React.renderToString(element);
 
     var appState = app.dehydrate(context);
-
-    // Use react to render the component
     // Expose appState to the client
 });
 ```
@@ -204,6 +208,16 @@ Creates a new context instance with the following parameters:
 
  * `options`: An object containing the context settings
  * `options.app`: Provides access to the application level functions and settings
+
+#### createElement(props)
+
+Instantiates the app level React component (if provied in the constructor) with the given props with an additional `context` key containing a ComponentContext. This is the same as the following assuming AppComponent is your top level React component:
+
+```js
+AppComponent({
+    context: context.getComponentContext();
+});
+```
 
 #### executeAction(action, payload, callback)
 
