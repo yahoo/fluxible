@@ -1,6 +1,10 @@
 # fluxible-app
 
-[![npm version](https://badge.fury.io/js/fluxible-app.svg)](http://badge.fury.io/js/fluxible-app) [![Build Status](https://travis-ci.org/yahoo/fluxible-app.svg?branch=master)](https://travis-ci.org/yahoo/fluxible-app) [![Dependency Status](https://david-dm.org/yahoo/fluxible-app.svg)](https://david-dm.org/yahoo/fluxible-app) [![Coverage Status](https://coveralls.io/repos/yahoo/fluxible-app/badge.png?branch=master)](https://coveralls.io/r/yahoo/fluxible-app?branch=master)
+[![npm version](https://badge.fury.io/js/fluxible-app.svg)](http://badge.fury.io/js/fluxible-app)
+[![Build Status](https://travis-ci.org/yahoo/fluxible-app.svg?branch=master)](https://travis-ci.org/yahoo/fluxible-app)
+[![Dependency Status](https://david-dm.org/yahoo/fluxible-app.svg)](https://david-dm.org/yahoo/fluxible-app)
+[![devDependency Status](https://david-dm.org/yahoo/fluxible-app/dev-status.svg)](https://david-dm.org/yahoo/fluxible-app#info=devDependencies)
+[![Coverage Status](https://coveralls.io/repos/yahoo/fluxible-app/badge.png?branch=master)](https://coveralls.io/r/yahoo/fluxible-app?branch=master)
 
 Pluggable container for isomorphic [flux](https://github.com/facebook/flux) applications that provides interfaces that are common throughout the Flux architecture and restricts usage of these APIs to only the parts that need them to enforce the unidirectional flow.
 
