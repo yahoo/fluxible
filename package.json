@@ -1,6 +1,6 @@
 {
   "name": "fluxible-app",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A pluggable container for isomorphic flux applications",
   "main": "index.js",
   "scripts": {
