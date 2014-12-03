@@ -211,7 +211,7 @@ Creates a new context instance with the following parameters:
 
 #### createElement(props)
 
-Instantiates the app level React component (if provied in the constructor) with the given props with an additional `context` key containing a ComponentContext. This is the same as the following assuming AppComponent is your top level React component:
+Instantiates the app level React component (if provided in the constructor) with the given props with an additional `context` key containing a ComponentContext. This is the same as the following assuming AppComponent is your top level React component:
 
 ```js
 AppComponent({
