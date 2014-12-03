@@ -6,16 +6,32 @@ var path = require('path');
 var expect = require('chai').expect;
 var AppComponent = require('../../fixtures/applications/basic/components/Application.jsx');
 var FluxibleApp = require('../../../lib/FluxibleApp');
+var MockFactory = function (props) {
+    return props;
+};
 
 describe('FluxibleContext', function () {
-    var app,
-        context;
+    var app;
+    var context;
 
     beforeEach(function () {
         app = new FluxibleApp({
             appComponent: AppComponent
         });
-        context = app.createContext()
+        context = app.createContext();
+    });
+
+    describe('createElement', function () {
+        it('should receive the correct props', function () {
+            app = new FluxibleApp({
+                appComponent: MockFactory
+            });
+            context = app.createContext();
+
+            var fullProps = context.createElement({foo: 'bar'});
+            expect(fullProps.foo).to.equal('bar');
+            expect(fullProps.context).to.equal(context.getComponentContext());
+        });
     });
 
     describe('actionContext', function () {
