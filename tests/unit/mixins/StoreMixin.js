@@ -167,4 +167,20 @@ describe('StoreListenerMixin', function () {
             expect(StoreMixin.listeners).to.have.length(0);
         });
     });
+
+    describe('executeAction', function () {
+        it('should call context executeAction when context provided', function () {
+            var Component = React.createClass({
+                mixins: [StoreMixin],
+                getInitialState: function () {
+                    this.executeAction(function () {},2,function(){});
+                    return {};
+                },
+                render: function () { return null; }
+            }),
+            component = ReactTestUtils.renderIntoDocument(Component({context: context}));
+
+            expect(context.executeActionCalls).to.have.length(1);
+        });
+    });
 });
