@@ -169,6 +169,20 @@ describe('StoreListenerMixin', function () {
     });
 
     describe('executeAction', function () {
+        it('should throw when no context provided', function () {
+            var Component = React.createClass({
+                mixins: [StoreMixin],
+                getInitialState: function () {
+                    this.executeAction(function () {},2,function(){});
+                    return {};
+                },
+                render: function () { return null; }
+            });
+           
+            expect(function () {
+                ReactTestUtils.renderIntoDocument(Component());
+            }).to.throw();
+        });
         it('should call context executeAction when context provided', function () {
             var Component = React.createClass({
                 mixins: [StoreMixin],
