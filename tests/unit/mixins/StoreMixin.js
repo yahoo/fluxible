@@ -1,5 +1,5 @@
 /*globals describe,it,afterEach,beforeEach*/
-"use strict";
+'use strict';
 
 var expect = require('chai').expect,
     React = require('react/addons'),
@@ -59,7 +59,8 @@ describe('StoreListenerMixin', function () {
                 },
                 render: function () { return null; }
             });
-            var component = ReactTestUtils.renderIntoDocument(Component({context: context}));
+            var Element = React.createFactory(Component);
+            var component = ReactTestUtils.renderIntoDocument(Element({context: context}));
             expect(component.listeners).to.have.length(1);
             mockStore.emitChange();
         });
@@ -76,7 +77,8 @@ describe('StoreListenerMixin', function () {
                 },
                 render: function () { return null; }
             });
-            var component = ReactTestUtils.renderIntoDocument(Component({context: context}));
+            var Element = React.createFactory(Component);
+            var component = ReactTestUtils.renderIntoDocument(Element({context: context}));
             expect(component.listeners).to.have.length(1);
             mockStore.emitChange();
         });
@@ -93,7 +95,8 @@ describe('StoreListenerMixin', function () {
                 },
                 render: function () { return null; }
             });
-            var component = ReactTestUtils.renderIntoDocument(Component({context: context}));
+            var Element = React.createFactory(Component);
+            var component = ReactTestUtils.renderIntoDocument(Element({context: context}));
             expect(component.listeners).to.have.length(1);
             mockStore.emitChange();
         });
@@ -110,7 +113,8 @@ describe('StoreListenerMixin', function () {
                 },
                 render: function () { return null; }
             });
-            var component = ReactTestUtils.renderIntoDocument(Component({context: context}));
+            var Element = React.createFactory(Component);
+            var component = ReactTestUtils.renderIntoDocument(Element({context: context}));
             expect(component.getStores(), 'getStores').to.have.length(2);
             expect(component.getListeners(), 'getListeners').to.have.length(2);
         });
@@ -129,7 +133,8 @@ describe('StoreListenerMixin', function () {
                 },
                 render: function () { return null; }
             });
-            var component = ReactTestUtils.renderIntoDocument(Component({context: context}));
+            var Element = React.createFactory(Component);
+            var component = ReactTestUtils.renderIntoDocument(Element({context: context}));
             expect(component.getStores(), 'getStores').to.have.length(2);
             expect(component.getListeners(), 'getListeners').to.have.length(2);
         });
@@ -145,7 +150,8 @@ describe('StoreListenerMixin', function () {
                 },
                 render: function () { return null; }
             });
-            var component = ReactTestUtils.renderIntoDocument(Component({context: context}));
+            var Element = React.createFactory(Component);
+            var component = ReactTestUtils.renderIntoDocument(Element({context: context}));
             expect(component.getStores(), 'getStores').to.have.length(2);
             expect(component.getListeners(), 'getListeners').to.have.length(2);
         });

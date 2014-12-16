@@ -1,8 +1,7 @@
 /*globals describe,it,beforeEach */
-"use strict";
+'use strict';
 require('node-jsx').install({ extension: '.jsx' });
 
-var path = require('path');
 var expect = require('chai').expect;
 var AppComponent = require('../../fixtures/applications/basic/components/Application.jsx');
 var FluxibleApp = require('../../../lib/FluxibleApp');
