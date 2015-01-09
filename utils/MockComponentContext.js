@@ -6,28 +6,30 @@
 
 var dispatchr = require('dispatchr');
 
+function noop () {}
+
 module.exports = function createMockComponentContextClass() {
     var Dispatcher = dispatchr();
 
-    function MockActionContext () {
+    function MockComponentContext () {
         this.dispatcher = new Dispatcher();
         this.executeActionCalls = [];
         this.dispatchCalls = [];
     }
 
-    MockActionContext.prototype.getStore = function (name) {
+    MockComponentContext.prototype.getStore = function (name) {
         return this.dispatcher.getStore(name);
     };
 
-    MockActionContext.prototype.executeAction = function (action, payload, callback) {
+    MockComponentContext.prototype.executeAction = function (action, payload) {
         this.executeActionCalls.push({
             action: action,
             payload: payload
         });
-        action(this, payload, callback);
+        action(this, payload, noop);
     };
 
-    MockActionContext.Dispatcher = Dispatcher;
+    MockComponentContext.Dispatcher = Dispatcher;
 
-    return MockActionContext;
+    return MockComponentContext;
 };
