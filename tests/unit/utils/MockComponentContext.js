@@ -9,7 +9,7 @@ var expect = require('chai').expect;
 var mockery = require('mockery');
 
 describe('MockComponentContext', function () {
-    var MockComponentContext;
+    var ComponentContext;
 
     function dispatchr () {}
     dispatchr.prototype.getStore = function () {};
@@ -24,71 +24,59 @@ describe('MockComponentContext', function () {
             return dispatchr;
         });
 
-        MockComponentContext = require(ROOT_DIR + '/utils/MockComponentContext');
+        ComponentContext = require(ROOT_DIR + '/utils/MockComponentContext')();
     });
 
-    it('should be a function', function () {
-        expect(MockComponentContext).to.be.a('function');
+    it('should be a constructor', function () {
+        expect(new ComponentContext()).to.be.an.instanceof(ComponentContext);
     });
 
-    describe('ComponentContext', function () {
-        var ComponentContext;
+    it('should have a Dispatcher property that is a dispatchr constructor', function() {
+        expect(ComponentContext).to.have.property('Dispatcher', dispatchr);
+    });
 
-        before(function() {
-            ComponentContext = MockComponentContext();
+    describe('instance', function () {
+        var context;
+
+        before(function () {
+            context = new ComponentContext();
         });
 
-        it('should be a constructor', function () {
-            expect(new ComponentContext()).to.be.an.instanceof(ComponentContext);
+        it('should have the following properties: dispatcher, executeActionCalls', function () {
+            expect(context).to.have.property('dispatcher').that.is.an.instanceof(dispatchr);
+            expect(context).to.have.property('executeActionCalls').that.is.an('array').and.empty();
         });
 
-        it('should have a Dispatcher property that is dispatchr', function() {
-            expect(ComponentContext).to.have.property('Dispatcher', dispatchr);
+        describe('#getStore', function () {
+            it('should delegate to the dispatcher getStore method', function () {
+                expect(context).to.have.property('getStore', dispatchr.getStore);
+            });
         });
 
-        describe('instance', function () {
-            var context;
-
-            before(function () {
-                context = new ComponentContext();
+        describe('#executeAction', function () {
+            it('should provide an executeAction method', function () {
+                expect(context).to.respondTo('executeAction');
             });
 
-            it('should have the following properties: dispatcher, executeActionCalls', function () {
-                expect(context).to.have.property('dispatcher').that.is.an.instanceof(dispatchr);
-                expect(context).to.have.property('executeActionCalls').that.is.an('array').and.empty();
-            });
+            it('should execute the action', function () {
+                var mockPayload = {
+                    foo: 'bar',
+                    baz: 'fubar'
+                };
 
-            describe('#getStore', function () {
-                it('should delegate to the dispatcher getStore method', function () {
-                    expect(context).to.have.property('getStore', dispatchr.getStore);
-                });
-            });
+                function mockAction (ctx, payload, done) {
+                    expect(ctx).to.equal(context);
+                    expect(payload).to.equal(mockPayload);
+                    done();
+                }
 
-            describe('#executeAction', function () {
-                it('should provide an executeAction method', function () {
-                    expect(context).to.respondTo('executeAction');
-                });
+                context.executeAction(mockAction, mockPayload);
 
-                it('should execute the action', function () {
-                    var mockPayload = {
-                        foo: 'bar',
-                        baz: 'fubar'
-                    };
+                expect(context.executeActionCalls).to.have.length(1);
 
-                    function mockAction (ctx, payload, done) {
-                        expect(ctx).to.equal(context);
-                        expect(payload).to.equal(mockPayload);
-                        done();
-                    }
-
-                    context.executeAction(mockAction, mockPayload);
-
-                    expect(context.executeActionCalls).to.have.length(1);
-
-                    var call = context.executeActionCalls[0];
-                    expect(call).to.have.property('action', mockAction);
-                    expect(call).to.have.property('payload', mockPayload);
-                });
+                var call = context.executeActionCalls[0];
+                expect(call).to.have.property('action', mockAction);
+                expect(call).to.have.property('payload', mockPayload);
             });
         });
     });
