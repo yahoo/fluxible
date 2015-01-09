@@ -14,7 +14,6 @@ module.exports = function createMockComponentContextClass() {
     function MockComponentContext () {
         this.dispatcher = new Dispatcher();
         this.executeActionCalls = [];
-        this.dispatchCalls = [];
     }
 
     MockComponentContext.prototype.getStore = function (name) {
