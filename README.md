@@ -1,22 +1,22 @@
-# fluxible-app
+# Fluxible
 
-[![npm version](https://badge.fury.io/js/fluxible-app.svg)](http://badge.fury.io/js/fluxible-app)
-[![Build Status](https://travis-ci.org/yahoo/fluxible-app.svg?branch=master)](https://travis-ci.org/yahoo/fluxible-app)
-[![Dependency Status](https://david-dm.org/yahoo/fluxible-app.svg)](https://david-dm.org/yahoo/fluxible-app)
-[![devDependency Status](https://david-dm.org/yahoo/fluxible-app/dev-status.svg)](https://david-dm.org/yahoo/fluxible-app#info=devDependencies)
-[![Coverage Status](https://coveralls.io/repos/yahoo/fluxible-app/badge.png?branch=master)](https://coveralls.io/r/yahoo/fluxible-app?branch=master)
+[![npm version](https://badge.fury.io/js/fluxible.svg)](http://badge.fury.io/js/fluxible)
+[![Build Status](https://travis-ci.org/yahoo/fluxible.svg?branch=master)](https://travis-ci.org/yahoo/fluxible)
+[![Dependency Status](https://david-dm.org/yahoo/fluxible.svg)](https://david-dm.org/yahoo/fluxible)
+[![devDependency Status](https://david-dm.org/yahoo/fluxible/dev-status.svg)](https://david-dm.org/yahoo/fluxible#info=devDependencies)
+[![Coverage Status](https://coveralls.io/repos/yahoo/fluxible/badge.png?branch=master)](https://coveralls.io/r/yahoo/fluxible?branch=master)
 
 Pluggable container for isomorphic [flux](https://github.com/facebook/flux) applications that provides interfaces that are common throughout the Flux architecture and restricts usage of these APIs to only the parts that need them to enforce the unidirectional flow.
 
 ## Install
 
-`npm install --save fluxible-app`
+`npm install --save fluxible`
 
 ## Usage
 
 ```js
 var AppComponent = require('./components/Application.jsx'); // Top level React component
-var FluxibleApp = require('fluxible-app');
+var FluxibleApp = require('fluxible');
 var app = new FluxibleApp({
     appComponent: AppComponent // optional top level component
 });
@@ -44,9 +44,9 @@ For a more extensive example of usage both on the server and the client, see [fl
 
 ### Dehydration/Rehydration
 
-fluxible-app uses reserved methods throughout called `rehydrate` and `dehydrate` which are responsible for taking a snapshot of server-side state so that it can be sent to the browser and rehydrated back to the same state in the browser. This naming scheme also extends to [dispatchr](https://github.com/yahoo/dispatchr) which takes care of dehydrating/rehydrating the store instances.
+Fluxible uses reserved methods throughout called `rehydrate` and `dehydrate` which are responsible for taking a snapshot of server-side state so that it can be sent to the browser and rehydrated back to the same state in the browser. This naming scheme also extends to [dispatchr](https://github.com/yahoo/dispatchr) which takes care of dehydrating/rehydrating the store instances.
 
-There are two kinds of state within fluxible-app:
+There are two kinds of state within fluxible:
 
  * **Application State**: Settings and data that are registered on server start
  * **Context State**: Settings and data that are created per context/request
@@ -55,7 +55,7 @@ Application level rehydrate method is allowed asynchronous operation in case it 
 
 ### Context Types
 
-Within a context, fluxible-app creates interfaces providing access to only certain parts of the system. These are broken down as such:
+Within a context, Fluxible creates interfaces providing access to only certain parts of the system. These are broken down as such:
 
  * **Action Context**: interface accessible by action creator methods. Passed as first parameter to all action creators.
  * **Component Context**: interface accessible by React components. Should be passed as prop to top level React component and then propagated to child components that require acess to it.
@@ -66,7 +66,7 @@ Within a context, fluxible-app creates interfaces providing access to only certa
 Plugins allow you to extend the interface of each context type. Here, we'll give components access to the `getFoo()` function:
 
 ```js
-var FluxibleApp = require('fluxible-app');
+var FluxibleApp = require('fluxible');
 var app = new FluxibleApp();
 
 app.plug({
@@ -120,12 +120,12 @@ Example plugins:
 
 ## Store Mixin
 
-fluxible-app also provides a React component mixin that can be used to statically list store dependencies and listen to them automatically in componentDidMount. This is done by adding a static property `storeListeners` in your component.
+Fluxible also provides a React component mixin that can be used to statically list store dependencies and listen to them automatically in componentDidMount. This is done by adding a static property `storeListeners` in your component.
 
 You can do this with an array, which will default all store listeners to call the `onChange` method:
 
 ```js
-var StoreMixin = require('fluxible-app').StoreMixin;
+var StoreMixin = require('fluxible').StoreMixin;
 var MockStore = require('./stores/MockStore'); // Your store
 var Component = React.createClass({
     mixins: [StoreMixin],
@@ -141,7 +141,7 @@ var Component = React.createClass({
 Or you can be more explicit with which function to call for each store by using a hash:
 
 ```js
-var StoreMixin = require('fluxible-app').StoreMixin;
+var StoreMixin = require('fluxible').StoreMixin;
 var MockStore = require('./stores/MockStore'); // Your store
 var Component = React.createClass({
     mixins: [StoreMixin],
@@ -160,7 +160,7 @@ This prevents boilerplate for listening to stores in `componentDidMount` and unl
 
 ## Helper Utilities
 
-fluxible-app also exports [dispatcher's store utilities](https://github.com/yahoo/dispatchr#helper-utilities) so that you do not need to have an additional dependency on dispatchr. They are available by using `require('fluxible-app/utils/BaseStore')` and `require('fluxible-app/utils/createStore')`.
+Fluxible also exports [dispatcher's store utilities](https://github.com/yahoo/dispatchr#helper-utilities) so that you do not need to have an additional dependency on dispatchr. They are available by using `require('fluxible/utils/BaseStore')` and `require('fluxible/utils/createStore')`.
 
 ## API
 
@@ -277,4 +277,4 @@ Takes an object representing the state of the FluxibleContext and Dispatchr inst
 This software is free to use under the Yahoo! Inc. BSD license.
 See the [LICENSE file][] for license text and copyright information.
 
-[LICENSE file]: https://github.com/yahoo/fluxible-app/blob/master/LICENSE.md
+[LICENSE file]: https://github.com/yahoo/fluxible/blob/master/LICENSE.md
