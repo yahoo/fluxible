@@ -1,11 +1,11 @@
 {
-  "name": "fluxible-app",
+  "name": "fluxible",
   "version": "0.1.5",
   "description": "A pluggable container for isomorphic flux applications",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yahoo/fluxible-app"
+    "url": "https://github.com/yahoo/fluxible"
   },
   "scripts": {
     "test": "mocha tests/unit/ --recursive --reporter spec",
@@ -41,7 +41,7 @@
   "licenses": [
     {
       "type": "BSD",
-      "url": "https://github.com/yahoo/fluxible-app/blob/master/LICENSE.md"
+      "url": "https://github.com/yahoo/fluxible/blob/master/LICENSE.md"
     }
   ],
   "keywords": [
