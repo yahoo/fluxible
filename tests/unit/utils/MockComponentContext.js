@@ -14,6 +14,8 @@ describe('MockComponentContext', function () {
     function dispatchr () {}
     dispatchr.prototype.getStore = function () {};
 
+    function MockActionContext () {}
+
     before(function () {
         mockery.enable({
             useCleanCache: true,
@@ -23,6 +25,11 @@ describe('MockComponentContext', function () {
         mockery.registerMock('dispatchr', function () {
             return dispatchr;
         });
+
+        mockery.registerMock('./MockActionContext', function () {
+                return MockActionContext;
+            }
+        );
 
         ComponentContext = require(ROOT_DIR + '/utils/MockComponentContext')();
     });
@@ -58,14 +65,14 @@ describe('MockComponentContext', function () {
                 expect(context).to.respondTo('executeAction');
             });
 
-            it('should execute the action', function () {
+            it('should execute the action and pass a MockActionContext', function () {
                 var mockPayload = {
                     foo: 'bar',
                     baz: 'fubar'
                 };
 
                 function mockAction (ctx, payload, done) {
-                    expect(ctx).to.equal(context);
+                    expect(ctx).to.be.an.instanceof(MockActionContext);
                     expect(payload).to.equal(mockPayload);
                     done();
                 }
