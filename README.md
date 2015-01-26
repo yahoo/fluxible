@@ -5,6 +5,7 @@
 [![Dependency Status](https://david-dm.org/yahoo/fluxible.svg)](https://david-dm.org/yahoo/fluxible)
 [![devDependency Status](https://david-dm.org/yahoo/fluxible/dev-status.svg)](https://david-dm.org/yahoo/fluxible#info=devDependencies)
 [![Coverage Status](https://coveralls.io/repos/yahoo/fluxible/badge.png?branch=master)](https://coveralls.io/r/yahoo/fluxible?branch=master)
+[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/gitterHQ/gitter)
 
 Pluggable container for isomorphic [flux](https://github.com/facebook/flux) applications that provides interfaces that are common throughout the Flux architecture and restricts usage of these APIs to only the parts that need them to enforce the unidirectional flow.
 
