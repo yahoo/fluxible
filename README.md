@@ -162,6 +162,7 @@ This prevents boilerplate for listening to stores in `componentDidMount` and unl
 
 Fluxible also exports [dispatcher's store utilities](https://github.com/yahoo/dispatchr#helper-utilities) so that you do not need to have an additional dependency on dispatchr. They are available by using `require('fluxible/utils/BaseStore')` and `require('fluxible/utils/createStore')`.
 
+[//]: # (API_START)
 ## API
 
 ### FluxibleApp
@@ -271,6 +272,8 @@ Returns a serializable object containing the state of the FluxibleContext and it
 #### rehydrate(state)
 
 Takes an object representing the state of the FluxibleContext and Dispatchr instances (usually retrieved from dehydrate) to rehydrate them to the same state as they were on the server. This will also call any plugins whose plugContext method returns an object containing a rehydrate method.
+
+[//]: # (API_STOP)
 
 ## License
 
