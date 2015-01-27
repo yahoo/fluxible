@@ -163,9 +163,8 @@ This prevents boilerplate for listening to stores in `componentDidMount` and unl
 
 Fluxible also exports [dispatcher's store utilities](https://github.com/yahoo/dispatchr#helper-utilities) so that you do not need to have an additional dependency on dispatchr. They are available by using `require('fluxible/utils/BaseStore')` and `require('fluxible/utils/createStore')`.
 
-[//]: # (API_START)
 ## API
-
+[//]: # (API_START)
 ### FluxibleApp
 
 Instantiated once across all requests, this holds settings and interfaces that are used across all requests/sessions.
