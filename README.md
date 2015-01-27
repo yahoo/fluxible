@@ -17,8 +17,8 @@ Pluggable container for isomorphic [flux](https://github.com/facebook/flux) appl
 
 ```js
 var AppComponent = require('./components/Application.jsx'); // Top level React component
-var FluxibleApp = require('fluxible');
-var app = new FluxibleApp({
+var Fluxible = require('fluxible');
+var app = new Fluxible({
     appComponent: AppComponent // optional top level component
 });
 
@@ -67,8 +67,8 @@ Within a context, Fluxible creates interfaces providing access to only certain p
 Plugins allow you to extend the interface of each context type. Here, we'll give components access to the `getFoo()` function:
 
 ```js
-var FluxibleApp = require('fluxible');
-var app = new FluxibleApp();
+var Fluxible = require('fluxible');
+var app = new Fluxible();
 
 app.plug({
     // Required unique name property
@@ -165,7 +165,7 @@ Fluxible also exports [dispatcher's store utilities](https://github.com/yahoo/di
 
 ## API
 [//]: # (API_START)
-### FluxibleApp
+### Fluxible
 
 Instantiated once across all requests, this holds settings and interfaces that are used across all requests/sessions.
 
@@ -198,11 +198,11 @@ Provides access to the `options.appComponent` that was passed to the constructor
 
 #### dehydrate(context)
 
-Returns a serializable object containing the state of the FluxibleApp and passed FluxibleContext instances. This is useful for serializing the state of the application to send it to the client. This will also call any plugins which contain a dehydrate method.
+Returns a serializable object containing the state of the Fluxible and passed FluxibleContext instances. This is useful for serializing the state of the application to send it to the client. This will also call any plugins which contain a dehydrate method.
 
 #### rehydrate(state)
 
-Takes an object representing the state of the FluxibleApp and FluxibleContext instances (usually retrieved from dehydrate) to rehydrate them to the same state as they were on the server. This will also call any plugins which contain a rehydrate method.
+Takes an object representing the state of the Fluxible and FluxibleContext instances (usually retrieved from dehydrate) to rehydrate them to the same state as they were on the server. This will also call any plugins which contain a rehydrate method.
 
 ### FluxibleContext
 

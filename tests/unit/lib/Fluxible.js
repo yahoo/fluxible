@@ -5,16 +5,16 @@ require('node-jsx').install({ extension: '.jsx' });
 var path = require('path');
 var expect = require('chai').expect;
 var AppComponent = require('../../fixtures/applications/basic/components/Application.jsx');
-var FluxibleApp = require('../../../lib/FluxibleApp');
+var Fluxible = require('../../../lib/Fluxible');
 
-describe('FluxibleApp', function () {
+describe('Fluxible', function () {
     var app;
     var FooStore;
 
     beforeEach(function () {
         FooStore = function () {};
         FooStore.storeName = 'FooStore';
-        app = new FluxibleApp({
+        app = new Fluxible({
             appComponent: AppComponent
         });
     });
@@ -44,7 +44,7 @@ describe('FluxibleApp', function () {
         it('should dehydrate and rehydrate with the same context', function (done) {
             var context = app.createContext();
             var json = app.dehydrate(context);
-            var newApp = new FluxibleApp({
+            var newApp = new Fluxible({
                 appComponent: AppComponent
             });
             newApp.rehydrate(json, function (err, newContext) {
@@ -104,7 +104,7 @@ describe('FluxibleApp', function () {
             expect(state.plugins).to.be.an('object');
             expect(state.plugins.TestAppPlugin).to.be.an('object');
             expect(state.plugins.TestAppPlugin.foo).to.equal(foo);
-            var newApp = new FluxibleApp({
+            var newApp = new Fluxible({
                 appComponent: AppComponent
             });
             newApp.plug(testPlugin());
