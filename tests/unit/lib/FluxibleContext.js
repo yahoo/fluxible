@@ -4,7 +4,7 @@ require('node-jsx').install({ extension: '.jsx' });
 
 var expect = require('chai').expect;
 var AppComponent = require('../../fixtures/applications/basic/components/Application.jsx');
-var FluxibleApp = require('../../../lib/FluxibleApp');
+var Fluxible = require('../../../lib/Fluxible');
 var MockFactory = function (props) {
     return props;
 };
@@ -14,7 +14,7 @@ describe('FluxibleContext', function () {
     var context;
 
     beforeEach(function () {
-        app = new FluxibleApp({
+        app = new Fluxible({
             appComponent: AppComponent
         });
         context = app.createContext();
@@ -22,7 +22,7 @@ describe('FluxibleContext', function () {
 
     describe('createElement', function () {
         it('should receive the correct props', function () {
-            app = new FluxibleApp({
+            app = new Fluxible({
                 appComponent: MockFactory
             });
             context = app.createContext();
@@ -107,7 +107,7 @@ describe('FluxibleContext', function () {
     describe('serialization', function () {
         it('should dehydrate and rehydrate with the same context', function (done) {
             var json = app.dehydrate(context);
-            var newApp = new FluxibleApp({
+            var newApp = new Fluxible({
                 appComponent: AppComponent
             });
             newApp.rehydrate(json, function (err, newContext) {
