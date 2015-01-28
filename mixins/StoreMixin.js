@@ -177,6 +177,18 @@ StoreMixin = {
             listener.store.removeChangeListener(listener.handler);
         });
         this.listeners = [];
+    },
+
+    /**
+     * wrap context executeAction
+     * @method executeAction
+     */
+    executeAction: function () {
+        if (!this.props.context) {
+            throw new Error('storeListener mixin was called but no context was provided for executeAction()');
+        }
+
+        return this.props.context.executeAction.apply(this.props.context, arguments);
     }
 };
 
