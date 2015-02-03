@@ -19,6 +19,9 @@
     "object-assign": "^2.0.0",
     "setimmediate": "^1.0.2"
   },
+  "peerDependencies": {
+    "react": "^0.12.x"
+  },
   "devDependencies": {
     "chai": "^1.10.0",
     "cheerio": "^0.18.0",

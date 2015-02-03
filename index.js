@@ -4,4 +4,4 @@
  */
 module.exports = require('./lib/FluxibleApp');
 module.exports.FluxibleContext = require('./lib/FluxibleContext');
-module.exports.StoreMixin = require('./mixins/StoreMixin');
+module.exports.Mixin = require('./mixins/StoreMixin');

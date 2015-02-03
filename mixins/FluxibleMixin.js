@@ -34,10 +34,14 @@
  *     ...
  * });
  */
-var DEFAULT_CHANGE_HANDLER = 'onChange',
-    StoreMixin;
+var DEFAULT_CHANGE_HANDLER = 'onChange';
+var React = require('react');
 
-StoreMixin = {
+var StoreMixin = {
+    contextTypes: {
+        getStore: React.PropTypes.func,
+        executeAction: React.PropTypes.func
+    },
     /**
      * Registers staticly declared listeners
      * @method componentDidMount
@@ -53,6 +57,18 @@ StoreMixin = {
     },
 
     /**
+     * Calls an action
+     * @method executeAction
+     */
+    executeAction: function executeAction() {
+        var context = this.props.context || this.context;
+        if (!context || !context.executeAction) {
+            throw new Error('executeAction was called but no context was provided');
+        }
+        return context.executeAction.apply(context, arguments);
+    },
+
+    /**
      * Gets a store instance from the context
      * @param {Function|String} store The store to get
      * @returns {Object}
@@ -61,10 +77,11 @@ StoreMixin = {
     getStore: function (store) {
         var storeInstance = store;
         if ('object' !== typeof storeInstance) {
-            if (!this.props.context) {
+            var context = this.props.context || this.context;
+            if (!context) {
                 throw new Error('storeListener mixin was called but no context was provided for getting the store');
             }
-            storeInstance = this.props.context.getStore(store);
+            storeInstance = context.getStore(store);
         }
         return storeInstance;
     },
