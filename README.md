@@ -119,17 +119,33 @@ Example plugins:
  * [fluxible-plugin-fetchr](https://github.com/yahoo/fluxible-plugin-fetchr) - Polymorphic RESTful services
  * [fluxible-plugin-routr](https://github.com/yahoo/fluxible-plugin-routr) - Routing behavior
 
-## Store Mixin
+## Mixin
 
-Fluxible also provides a React component mixin that can be used to statically list store dependencies and listen to them automatically in componentDidMount. This is done by adding a static property `storeListeners` in your component.
+The mixin (accessible via `require('fluxible').Mixin`) uses React's context to provide access to the component context from within a component. This prevents you from having to pass the context to every component via props. This requires that you pass the component context as the context to React:
+
+```js
+var FluxibleMixin = require('fluxible').Mixin;
+var Component = React.createClass({
+    mixins: [FluxibleMixin],
+    getInitialState: function () {
+        return this.getStore(FooStore).getState();
+    }
+});
+
+React.withContext(context.getComponentContext(), function () {
+    var html = React.renderToString(<Component />);
+});
+```
+
+The mixin can also be used to statically list store dependencies and listen to them automatically in componentDidMount. This is done by adding a static property `storeListeners` in your component.
 
 You can do this with an array, which will default all store listeners to call the `onChange` method:
 
 ```js
-var StoreMixin = require('fluxible').StoreMixin;
+var FluxibleMixin = require('fluxible').Mixin;
 var MockStore = require('./stores/MockStore'); // Your store
 var Component = React.createClass({
-    mixins: [StoreMixin],
+    mixins: [FluxibleMixin],
     statics: {
         storeListeners: [MockStore]
     },
@@ -142,10 +158,10 @@ var Component = React.createClass({
 Or you can be more explicit with which function to call for each store by using a hash:
 
 ```js
-var StoreMixin = require('fluxible').StoreMixin;
+var FluxibleMixin = require('fluxible').Mixin;
 var MockStore = require('./stores/MockStore'); // Your store
 var Component = React.createClass({
-    mixins: [StoreMixin],
+    mixins: [FluxibleMixin],
     statics: {
         storeListeners: {
             onMockStoreChange: [MockStore]
