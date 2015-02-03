@@ -6,7 +6,7 @@
 
 var React = require('react/addons'),
     updateTime = require('../actions/updateTime');
-var FluxibleMixin = require('../../../../../mixins/FluxibleMixin').Mixin;
+var FluxibleMixin = require('../../../../../mixins/FluxibleMixin');
 
 var Timestamp = React.createClass({
     mixins: [FluxibleMixin],
