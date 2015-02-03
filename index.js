@@ -3,5 +3,4 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 module.exports = require('./lib/Fluxible');
-module.exports.FluxibleContext = require('./lib/FluxibleContext');
-module.exports.StoreMixin = require('./mixins/StoreMixin');
+module.exports.Mixin = require('./mixins/FluxibleMixin');

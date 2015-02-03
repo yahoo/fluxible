@@ -4,7 +4,7 @@
 var expect = require('chai').expect,
     React = require('react/addons'),
     ReactTestUtils = require('react/lib/ReactTestUtils'),
-    StoreMixin = require('../../../mixins/StoreMixin'),
+    FluxibleMixin = require('../../../mixins/FluxibleMixin'),
     createStore = require('dispatchr/utils/createStore'),
     MockStore = createStore({
         storeName: 'MockStore'
@@ -43,14 +43,14 @@ describe('StoreListenerMixin', function () {
 
     describe('componentDidMount', function () {
         it('should create an listeners array on start', function () {
-            expect(StoreMixin.listeners).to.not.exist;
-            StoreMixin.componentDidMount();
-            expect(StoreMixin.listeners).to.exist;
-            expect(StoreMixin.listeners).to.be.empty;
+            expect(FluxibleMixin.listeners).to.not.exist;
+            FluxibleMixin.componentDidMount();
+            expect(FluxibleMixin.listeners).to.exist;
+            expect(FluxibleMixin.listeners).to.be.empty;
         });
         it('should register static listener array', function (done) {
             var Component = React.createClass({
-                mixins: [StoreMixin],
+                mixins: [FluxibleMixin],
                 statics: {
                     storeListeners: [MockStore]
                 },
@@ -66,7 +66,7 @@ describe('StoreListenerMixin', function () {
         });
         it('should register static listener object', function (done) {
             var Component = React.createClass({
-                mixins: [StoreMixin],
+                mixins: [FluxibleMixin],
                 statics: {
                     storeListeners: {
                         'onChange2': MockStore
@@ -84,7 +84,7 @@ describe('StoreListenerMixin', function () {
         });
         it('should register static listener object with array', function (done) {
             var Component = React.createClass({
-                mixins: [StoreMixin],
+                mixins: [FluxibleMixin],
                 statics: {
                     storeListeners: {
                         'onChange2': [MockStore]
@@ -105,7 +105,7 @@ describe('StoreListenerMixin', function () {
     describe('iterating over storeListeners', function() {
         it('should expose iterables for static listener array', function () {
             var Component = React.createClass({
-                mixins: [StoreMixin],
+                mixins: [FluxibleMixin],
                 statics: {
                     storeListeners: [MockStore, MockStore2]
                 },
@@ -120,7 +120,7 @@ describe('StoreListenerMixin', function () {
         });
         it('should expose iterables for static listener object', function () {
             var Component = React.createClass({
-                mixins: [StoreMixin],
+                mixins: [FluxibleMixin],
                 statics: {
                     storeListeners: {
                         'onChange2': MockStore,
@@ -140,7 +140,7 @@ describe('StoreListenerMixin', function () {
         });
         it('should expose iterables for static listener object with array', function () {
             var Component = React.createClass({
-                mixins: [StoreMixin],
+                mixins: [FluxibleMixin],
                 statics: {
                     storeListeners: {
                         'onChange2': [MockStore, MockStore2]
@@ -159,18 +159,65 @@ describe('StoreListenerMixin', function () {
 
     describe('events', function () {
         it('should attach a change listener', function (done) {
-            expect(StoreMixin.listeners).to.have.length(0);
-            StoreMixin._attachStoreListener(StoreMixin.getListener(mockStore,  function () { done(); }));
-            expect(StoreMixin.listeners).to.have.length(1);
+            expect(FluxibleMixin.listeners).to.have.length(0);
+            FluxibleMixin._attachStoreListener(FluxibleMixin.getListener(mockStore,  function () { done(); }));
+            expect(FluxibleMixin.listeners).to.have.length(1);
             mockStore.emitChange();
         });
     });
 
     describe('componentWillUnmount', function () {
         it('should remove all change listeners', function () {
-            expect(StoreMixin.listeners).to.have.length(1);
-            StoreMixin.componentWillUnmount();
-            expect(StoreMixin.listeners).to.have.length(0);
+            expect(FluxibleMixin.listeners).to.have.length(1);
+            FluxibleMixin.componentWillUnmount();
+            expect(FluxibleMixin.listeners).to.have.length(0);
+        });
+    });
+
+    describe('executeAction', function () {
+        it('should throw when no context provided', function () {
+            var Component = React.createClass({
+                mixins: [FluxibleMixin],
+                getInitialState: function () {
+                    this.executeAction(function () {},2,function(){});
+                    return {};
+                },
+                render: function () { return null; }
+            });
+
+            expect(function () {
+                ReactTestUtils.renderIntoDocument(React.createFactory(Component)());
+            }).to.throw();
+        });
+        it('should call context executeAction when context provided', function () {
+            var Component = React.createClass({
+                    mixins: [FluxibleMixin],
+                    getInitialState: function () {
+                        this.executeAction(function () {},2,function(){});
+                        return {};
+                    },
+                    render: function () { return null; }
+                }),
+                component = ReactTestUtils.renderIntoDocument(React.createFactory(Component)({context: context}));
+
+            expect(context.executeActionCalls).to.have.length(1);
+        });
+        it('should call context executeAction when context provided via React context', function () {
+            React.withContext({
+                executeAction: context.executeAction.bind(context)
+            }, function () {
+                var Component = React.createClass({
+                        mixins: [FluxibleMixin],
+                        getInitialState: function () {
+                            this.executeAction(function () {},2,function(){});
+                            return {};
+                        },
+                        render: function () { return null; }
+                    }),
+                    component = ReactTestUtils.renderIntoDocument(React.createFactory(Component)());
+            });
+
+            expect(context.executeActionCalls).to.have.length(1);
         });
     });
 });

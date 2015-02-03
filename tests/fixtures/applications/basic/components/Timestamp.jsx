@@ -6,8 +6,10 @@
 
 var React = require('react/addons'),
     updateTime = require('../actions/updateTime');
+var FluxibleMixin = require('../../../../../mixins/FluxibleMixin');
 
 var Timestamp = React.createClass({
+    mixins: [FluxibleMixin],
     getInitialState: function () {
         this.store = this.props.context.getStore('TimeStore');
         return this.store.getState();
@@ -20,7 +22,7 @@ var Timestamp = React.createClass({
         });
     },
     onReset: function (event) {
-        this.props.context.executeAction(updateTime);
+        this.executeAction(updateTime);
     },
     render: function() {
         return (
