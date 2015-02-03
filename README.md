@@ -5,6 +5,7 @@
 [![Dependency Status](https://david-dm.org/yahoo/fluxible.svg)](https://david-dm.org/yahoo/fluxible)
 [![devDependency Status](https://david-dm.org/yahoo/fluxible/dev-status.svg)](https://david-dm.org/yahoo/fluxible#info=devDependencies)
 [![Coverage Status](https://coveralls.io/repos/yahoo/fluxible/badge.png?branch=master)](https://coveralls.io/r/yahoo/fluxible?branch=master)
+[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/yahoo/fluxible)
 
 Pluggable container for isomorphic [flux](https://github.com/facebook/flux) applications that provides interfaces that are common throughout the Flux architecture and restricts usage of these APIs to only the parts that need them to enforce the unidirectional flow.
 
@@ -16,8 +17,8 @@ Pluggable container for isomorphic [flux](https://github.com/facebook/flux) appl
 
 ```js
 var AppComponent = require('./components/Application.jsx'); // Top level React component
-var FluxibleApp = require('fluxible');
-var app = new FluxibleApp({
+var Fluxible = require('fluxible');
+var app = new Fluxible({
     appComponent: AppComponent // optional top level component
 });
 
@@ -66,8 +67,8 @@ Within a context, Fluxible creates interfaces providing access to only certain p
 Plugins allow you to extend the interface of each context type. Here, we'll give components access to the `getFoo()` function:
 
 ```js
-var FluxibleApp = require('fluxible');
-var app = new FluxibleApp();
+var Fluxible = require('fluxible');
+var app = new Fluxible();
 
 app.plug({
     // Required unique name property
@@ -163,8 +164,8 @@ This prevents boilerplate for listening to stores in `componentDidMount` and unl
 Fluxible also exports [dispatcher's store utilities](https://github.com/yahoo/dispatchr#helper-utilities) so that you do not need to have an additional dependency on dispatchr. They are available by using `require('fluxible/utils/BaseStore')` and `require('fluxible/utils/createStore')`.
 
 ## API
-
-### FluxibleApp
+[//]: # (API_START)
+### Fluxible
 
 Instantiated once across all requests, this holds settings and interfaces that are used across all requests/sessions.
 
@@ -197,11 +198,11 @@ Provides access to the `options.appComponent` that was passed to the constructor
 
 #### dehydrate(context)
 
-Returns a serializable object containing the state of the FluxibleApp and passed FluxibleContext instances. This is useful for serializing the state of the application to send it to the client. This will also call any plugins which contain a dehydrate method.
+Returns a serializable object containing the state of the Fluxible and passed FluxibleContext instances. This is useful for serializing the state of the application to send it to the client. This will also call any plugins which contain a dehydrate method.
 
 #### rehydrate(state)
 
-Takes an object representing the state of the FluxibleApp and FluxibleContext instances (usually retrieved from dehydrate) to rehydrate them to the same state as they were on the server. This will also call any plugins which contain a rehydrate method.
+Takes an object representing the state of the Fluxible and FluxibleContext instances (usually retrieved from dehydrate) to rehydrate them to the same state as they were on the server. This will also call any plugins which contain a rehydrate method.
 
 ### FluxibleContext
 
@@ -271,6 +272,8 @@ Returns a serializable object containing the state of the FluxibleContext and it
 #### rehydrate(state)
 
 Takes an object representing the state of the FluxibleContext and Dispatchr instances (usually retrieved from dehydrate) to rehydrate them to the same state as they were on the server. This will also call any plugins whose plugContext method returns an object containing a rehydrate method.
+
+[//]: # (API_STOP)
 
 ## License
 

@@ -1,6 +1,6 @@
-var FluxibleApp = require('../../../../lib/FluxibleApp'); // require('fluxible-app')
+var Fluxible = require('../../../../lib/Fluxible'); // require('fluxible-app')
 var AppComponent = require('./components/Application.jsx');
 
-module.exports = new FluxibleApp({
+module.exports = new Fluxible({
     appComponent: AppComponent
 });
