@@ -4,3 +4,4 @@
  */
 module.exports = require('./lib/Fluxible');
 module.exports.Mixin = require('./mixins/FluxibleMixin');
+module.exports.FluxibleMixin = module.exports.Mixin;
