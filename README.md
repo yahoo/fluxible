@@ -206,7 +206,7 @@ Provides access to get a plugged plugin by name.
 
 #### registerStore(store)
 
-Passthrough to [dispatchr's registerStore function](https://github.com/yahoo/dispatchr#registerstorestore)
+Passthrough to [dispatchr's registerStore function](https://github.com/yahoo/dispatchr#registerstorestoreclass)
 
 #### getAppComponent()
 
