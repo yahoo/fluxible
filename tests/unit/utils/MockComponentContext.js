@@ -51,7 +51,7 @@ describe('MockComponentContext', function () {
 
         it('should have the following properties: dispatcher, executeActionCalls', function () {
             expect(context).to.have.property('dispatcher').that.is.an.instanceof(dispatchr);
-            expect(context).to.have.property('executeActionCalls').that.is.an('array').and.empty();
+            expect(context).to.have.property('executeActionCalls').that.is.an('array').and.empty;
         });
 
         describe('#getStore', function () {
