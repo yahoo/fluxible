@@ -23,7 +23,7 @@
     "react": "^0.12.x"
   },
   "devDependencies": {
-    "chai": "^1.10.0",
+    "chai": "^2.0.0",
     "cheerio": "^0.18.0",
     "connect-livereload": "^0.5.2",
     "coveralls": "^2.11.1",
