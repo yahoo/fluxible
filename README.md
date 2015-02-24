@@ -187,7 +187,7 @@ Fluxible also exports [dispatcher's store utilities](https://github.com/yahoo/di
 
 ## License
 
-This software is free to use under the Yahoo! Inc. BSD license.
+This software is free to use under the Yahoo Inc. BSD license.
 See the [LICENSE file][] for license text and copyright information.
 
 [LICENSE file]: https://github.com/yahoo/fluxible/blob/master/LICENSE.md
