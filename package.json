@@ -20,7 +20,7 @@
     "setimmediate": "^1.0.2"
   },
   "peerDependencies": {
-    "react": "^0.12.x"
+    "react": ">=0.12.0 <=0.13.0-rcx"
   },
   "devDependencies": {
     "chai": "^2.0.0",
@@ -36,7 +36,7 @@
     "mockery": "^1.4.0",
     "node-jsx": "^0.12.4",
     "precommit-hook": "1.0.x",
-    "react": "^0.12.0",
+    "react": ">=0.12.0 <=0.13.0-rcx",
     "supertest": "^0.15.0"
   },
   "author": "Michael Ridgway <mridgway@yahoo-inc.com>",
