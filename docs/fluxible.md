@@ -7,7 +7,7 @@ Instantiated once across all requests, this holds settings and interfaces that a
 Creates a new application instance with the following parameters:
 
  * `options`: An object containing the application settings
- * `options.appComponent` (optional): Stores your top level React component for access using getAppComponent()
+ * `options.component` (optional): Stores your top level React component for access using getComponent()
 
 ## createContext(contextOptions)
 
@@ -25,9 +25,9 @@ Provides access to get a plugged plugin by name.
 
 Passthrough to [dispatchr's registerStore function](https://github.com/yahoo/dispatchr#registerstorestoreclass)
 
-## getAppComponent()
+## getComponent()
 
-Provides access to the `options.appComponent` that was passed to the constructor. This is useful if you want to create the application in a file that is shared both server and client but then need to access the top level component in server and client specific files.
+Provides access to the `options.component` that was passed to the constructor. This is useful if you want to create the application in a file that is shared both server and client but then need to access the top level component in server and client specific files.
 
 ## dehydrate(context)
 

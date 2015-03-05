@@ -16,10 +16,10 @@ Pluggable container for isomorphic [flux](https://github.com/facebook/flux) appl
 ## Usage
 
 ```js
-var AppComponent = require('./components/Application.jsx'); // Top level React component
+var Component = require('./components/Application.jsx'); // Top level React component
 var Fluxible = require('fluxible');
 var app = new Fluxible({
-    appComponent: AppComponent // optional top level component
+    component: Component // optional top level component
 });
 
 // Per request/session
@@ -27,11 +27,11 @@ var context = app.createContext();
 var loadPageAction = require('./actions/loadPage');
 context.executeAction(loadPageAction, {/*payload*/}, function (err) {
     if (err) throw err;
-    var element = AppComponent({
+    var element = Component({
         // Allow the component to access only certain methods of this session context
         context: context.getComponentContext();
     });
-    // OR since the appComponent was passed into the constructor:
+    // OR since the component was passed into the constructor:
     // var element = context.createElement({});
 
     var html = React.renderToString(element);
