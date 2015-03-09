@@ -91,6 +91,23 @@ describe('FluxibleContext', function () {
                 }).to.throw();
                 done();
             });
+            it('should use the defined component action handler', function (done) {
+                var myActionHandler = function (err) {
+                    expect(err).to.be.an('object');
+                    done();
+                };
+                var app2 = new Fluxible({
+                    component: Component,
+                    componentActionHandler: myActionHandler
+                });
+                var context2 = app2.createContext();
+                var componentContext2 = context2.getComponentContext();
+                var action = function (context, payload, cb) {
+                    cb(Error('Something went wrong'));
+                };
+
+                componentContext2.executeAction(action, {});
+            });
         });
     });
 
