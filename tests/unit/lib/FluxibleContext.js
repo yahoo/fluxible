@@ -92,8 +92,8 @@ describe('FluxibleContext', function () {
                 done();
             });
             it('should use the defined component action handler', function (done) {
-                var myActionHandler = function (err) {
-                    expect(err).to.be.an('object');
+                var myActionHandler = function (context, payload, cb) {
+                    expect(payload.err).to.be.an('object');
                     done();
                 };
                 var app2 = new Fluxible({
