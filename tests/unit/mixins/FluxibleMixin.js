@@ -254,35 +254,44 @@ describe('StoreListenerMixin', function () {
                 ReactTestUtils.renderIntoDocument(React.createFactory(Component)());
             }).to.throw();
         });
-        it('should call context executeAction when context provided', function () {
-            var Component = React.createClass({
-                    mixins: [FluxibleMixin],
-                    getInitialState: function () {
-                        this.executeAction(function () {},2,function(){});
-                        return {};
-                    },
-                    render: function () { return null; }
-                }),
-                component = ReactTestUtils.renderIntoDocument(React.createFactory(Component)({context: context}));
+        it('should call context executeAction when context provided', function (done) {
+            var Component = React.createFactory(React.createClass({
+                mixins: [FluxibleMixin],
+                componentDidMount: function () {
+                    this.executeAction(function () {
+                        expect(context.executeActionCalls).to.have.length(1);
+                        done();
+                    }, 2);
+                },
+                render: function () { return null; }
+            }));
+            ReactTestUtils.renderIntoDocument(Component({context: context}));
 
-            expect(context.executeActionCalls).to.have.length(1);
         });
-        it('should call context executeAction when context provided via React context', function () {
-            React.withContext({
-                executeAction: context.executeAction.bind(context)
-            }, function () {
-                var Component = React.createClass({
-                        mixins: [FluxibleMixin],
-                        getInitialState: function () {
-                            this.executeAction(function () {},2,function(){});
-                            return {};
-                        },
-                        render: function () { return null; }
-                    }),
-                    component = ReactTestUtils.renderIntoDocument(React.createFactory(Component)());
-            });
-
-            expect(context.executeActionCalls).to.have.length(1);
+        it('should call context executeAction when context provided via React context', function (done) {
+            var Wrapper = React.createFactory(React.createClass({
+                displayName: 'Wrapper',
+                mixins: [FluxibleMixin],
+                render: function () {
+                    return React.addons.cloneWithProps(this.props.children, {});
+                }
+            }));
+            var Component = React.createFactory(React.createClass({
+                displayName: 'Component',
+                contextTypes: {
+                    executeAction: React.PropTypes.func.isRequired
+                },
+                componentDidMount: function () {
+                    this.context.executeAction(function () {
+                        expect(context.executeActionCalls).to.have.length(1);
+                        done();
+                    }, 2);
+                },
+                render: function () { return null; }
+            }));
+            ReactTestUtils.renderIntoDocument(Wrapper({
+                context: context
+            }, Component()));
         });
     });
 });
