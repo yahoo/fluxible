@@ -27,17 +27,11 @@ var context = app.createContext();
 var loadPageAction = require('./actions/loadPage');
 context.executeAction(loadPageAction, {/*payload*/}, function (err) {
     if (err) throw err;
-    var element = Component({
-        // Allow the component to access only certain methods of this session context
-        context: context.getComponentContext();
-    });
-    // OR since the component was passed into the constructor:
-    // var element = context.createElement({});
-
+    var element = context.createElement({});
     var html = React.renderToString(element);
-
     var appState = app.dehydrate(context);
     // Expose appState to the client
+    ...
 });
 ```
 
@@ -119,30 +113,42 @@ Example plugins:
  * [fluxible-plugin-fetchr](https://github.com/yahoo/fluxible-plugin-fetchr) - Polymorphic RESTful services
  * [fluxible-plugin-routr](https://github.com/yahoo/fluxible-plugin-routr) - Routing behavior
 
-## Mixin
+## FluxibleComponent
 
-The mixin (accessible via `require('fluxible').Mixin`) uses React's context to provide access to the component context from within a component. This prevents you from having to pass the context to every component via props. This requires that you pass the component context as the context to React:
+The `FluxibleComponent` is a wrapper component that will provide all of its children with access to the Fluxible component
+context via React's context. This should be used to wrap your top level component:
 
-```js
-var FluxibleMixin = require('fluxible').Mixin;
+ ```js
+var FluxibleComponent = require('fluxible').FluxibleComponent;
 var Component = React.createClass({
-    mixins: [FluxibleMixin],
+    contextTypes: {
+        getStore: React.PropTypes.func.isRequired
+    },
     getInitialState: function () {
         return this.getStore(FooStore).getState();
     }
 });
 
-React.withContext(context.getComponentContext(), function () {
-    var html = React.renderToString(<Component />);
-});
-```
+ var html = React.renderToString(
+    <FluxibleComponent context={context.getComponentContext()}>
+        <Component />
+    </FluxibleComponent>
+);
+ ```
+
+If you're using `context.createElement(props)`, you will receive your component wrapped with a `FluxibleComponent`.
+
+## FluxibleMixin
+
+The mixin (accessible via `require('fluxible').FluxibleMixin`) will add the contextTypes `getStore` and `executeAction`
+to your component and provides a a helper for listening to stores:
 
 The mixin can also be used to statically list store dependencies and listen to them automatically in componentDidMount. This is done by adding a static property `storeListeners` in your component.
 
 You can do this with an array, which will default all store listeners to call the `onChange` method:
 
 ```js
-var FluxibleMixin = require('fluxible').Mixin;
+var FluxibleMixin = require('fluxible').FluxibleMixin;
 var MockStore = require('./stores/MockStore'); // Your store
 var Component = React.createClass({
     mixins: [FluxibleMixin],
@@ -150,7 +156,7 @@ var Component = React.createClass({
         storeListeners: [MockStore]
     },
     onChange: function () {
-        done();
+        this.setState(this.getStore(MockStore).getState());
     },
 });
 ```
@@ -158,7 +164,7 @@ var Component = React.createClass({
 Or you can be more explicit with which function to call for each store by using a hash:
 
 ```js
-var FluxibleMixin = require('fluxible').Mixin;
+var FluxibleMixin = require('fluxible').FluxibleMixin;
 var MockStore = require('./stores/MockStore'); // Your store
 var Component = React.createClass({
     mixins: [FluxibleMixin],
@@ -168,7 +174,7 @@ var Component = React.createClass({
         }
     },
     onMockStoreChange: function () {
-        done();
+        this.setState(this.getStore(MockStore).getState());
     },
 });
 ```

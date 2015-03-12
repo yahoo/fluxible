@@ -4,10 +4,8 @@ require('node-jsx').install({ extension: '.jsx' });
 
 var expect = require('chai').expect;
 var Component = require('../../fixtures/applications/basic/components/Application.jsx');
-var Fluxible = require('../../../lib/Fluxible');
-var MockFactory = function (props) {
-    return props;
-};
+var Fluxible = require('../../../');
+var React = require('react');
 
 describe('FluxibleContext', function () {
     var app;
@@ -21,15 +19,27 @@ describe('FluxibleContext', function () {
     });
 
     describe('createElement', function () {
-        it('should receive the correct props', function () {
-            app = new Fluxible({
-                component: MockFactory
+        it('should receive the correct props and context', function (done) {
+            var Component = React.createFactory(React.createClass({
+                displayName: 'Component',
+                contextTypes: {
+                    getStore: React.PropTypes.func.isRequired,
+                    executeAction: React.PropTypes.func.isRequired
+                },
+                componentWillMount: function () {
+                    expect(this.props.foo).to.equal('bar');
+                    expect(this.context.getStore).to.be.a('function');
+                    expect(this.context.executeAction).to.be.a('function');
+                    done();
+                },
+                render: function () { return null; }
+            }));
+            var app = new Fluxible({
+                component: Component
             });
             context = app.createContext();
 
-            var fullProps = context.createElement({foo: 'bar'});
-            expect(fullProps.foo).to.equal('bar');
-            expect(fullProps.context).to.equal(context.getComponentContext());
+            React.renderToString(context.createElement({foo: 'bar'}));
         });
     });
 
@@ -81,7 +91,7 @@ describe('FluxibleContext', function () {
                 var payload = {};
                 componentContext.executeAction(action, payload, callback);
             });
-            it.skip('should throw if the action throws', function (done) {
+            it('should throw if the action throws', function (done) {
                 var action = function (context, payload, cb) {
                     foo.invalid();
                 };

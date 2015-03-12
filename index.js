@@ -3,8 +3,14 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 module.exports = require('./lib/Fluxible');
-module.exports.FluxibleMixin = require('./mixins/FluxibleMixin');
+module.exports.FluxibleMixin = require('./lib/FluxibleMixin');
 module.exports.FluxibleComponent = require('./lib/FluxibleComponent');
 
-// @todo: deprecate
-module.exports.Mixin = module.exports.FluxibleMixin;
+// Deprecated
+var objectAssign = require('object-assign');
+module.exports.Mixin = objectAssign({}, require('./lib/FluxibleMixin'), {
+    componentWillMount: function () {
+        console.warn("require('fluxible').Mixin is deprecated. Please use " +
+        "require('fluxible').FluxibleMixin.");
+    }
+});
