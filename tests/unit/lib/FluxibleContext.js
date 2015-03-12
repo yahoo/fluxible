@@ -91,16 +91,6 @@ describe('FluxibleContext', function () {
                 var payload = {};
                 componentContext.executeAction(action, payload, callback);
             });
-            it('should throw if the action throws', function (done) {
-                var action = function (context, payload, cb) {
-                    foo.invalid();
-                };
-                var payload = {};
-                expect(function () {
-                    componentContext.executeAction(action, payload);
-                }).to.throw();
-                done();
-            });
             it('should use the defined component action handler', function (done) {
                 var myActionHandler = function (context, payload, cb) {
                     expect(payload.err).to.be.an('object');
