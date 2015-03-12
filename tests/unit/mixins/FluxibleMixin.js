@@ -269,13 +269,7 @@ describe('StoreListenerMixin', function () {
 
         });
         it('should call context executeAction when context provided via React context', function (done) {
-            var Wrapper = React.createFactory(React.createClass({
-                displayName: 'Wrapper',
-                mixins: [FluxibleMixin],
-                render: function () {
-                    return React.addons.cloneWithProps(this.props.children, {});
-                }
-            }));
+            var Wrapper = React.createFactory(require('../../../index').FluxibleComponent);
             var Component = React.createFactory(React.createClass({
                 displayName: 'Component',
                 contextTypes: {

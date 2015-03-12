@@ -10,7 +10,7 @@ var React = require('react/addons'),
     About = require('./About.jsx'),
     Timestamp = require('./Timestamp.jsx'),
     RouterMixin = require('flux-router-component').RouterMixin,
-    FluxibleMixin = require(__dirname + '/../../../../../mixins/FluxibleMixin'),
+    FluxibleMixin = require(__dirname + '/../../../../../').FluxibleMixin,
     ApplicationStore = require('../stores/ApplicationStore');
 
 var Application = React.createClass({

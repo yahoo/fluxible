@@ -38,11 +38,13 @@ var DEFAULT_CHANGE_HANDLER = 'onChange';
 var React = require('react');
 
 var FluxibleMixin = {
+
     contextTypes: {
         getStore: React.PropTypes.func,
         executeAction: React.PropTypes.func
     },
 
+    // @todo: remove child context and encourage use of the FluxibleComponent
     childContextTypes: {
         getStore: React.PropTypes.func,
         executeAction: React.PropTypes.func
