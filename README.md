@@ -141,7 +141,7 @@ If you're using `context.createElement(props)`, you will receive your component 
 ## FluxibleMixin
 
 The mixin (accessible via `require('fluxible').FluxibleMixin`) will add the contextTypes `getStore` and `executeAction`
-to your component and provides a a helper for listening to stores:
+to your component and provides a helper for listening to stores:
 
 The mixin can also be used to statically list store dependencies and listen to them automatically in componentDidMount. This is done by adding a static property `storeListeners` in your component.
 
