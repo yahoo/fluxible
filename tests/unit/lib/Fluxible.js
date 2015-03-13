@@ -5,7 +5,7 @@ require('node-jsx').install({ extension: '.jsx' });
 var path = require('path');
 var expect = require('chai').expect;
 var Component = require('../../fixtures/applications/basic/components/Application.jsx');
-var Fluxible = require('../../../lib/Fluxible');
+var Fluxible = require('../../../');
 
 describe('Fluxible', function () {
     var app;

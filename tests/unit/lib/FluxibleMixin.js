@@ -4,7 +4,7 @@
 var expect = require('chai').expect,
     React = require('react/addons'),
     ReactTestUtils = require('react/lib/ReactTestUtils'),
-    FluxibleMixin = require('../../../mixins/FluxibleMixin'),
+    FluxibleMixin = require('../../../').FluxibleMixin,
     createStore = require('dispatchr/utils/createStore'),
     MockStore = createStore({
         storeName: 'MockStore'
