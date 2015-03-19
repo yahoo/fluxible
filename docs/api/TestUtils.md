@@ -15,7 +15,7 @@ When `executeAction` is called, it will push an object to the `executeActionCall
 Here is an example mocha test that display using each of `ActionContext` methods being tested:
 
 ```js
-var MockActionContext = require('./utils').createMockActionContext();
+var MockActionContext = require('fluxible/utils').createMockActionContext();
 
 // Real store, overridden with MockStore in test
 var createStore = require('fluxible/addons').createStore;
@@ -88,7 +88,7 @@ When `executeAction` is called, it will push an object to the `executeActionCall
 Here is an example component test that uses `React.TestUtils` to render the component into `jsdom` to test the store integration.
 
 ```js
-var MockComponentContext = require('./utils').createMockComponentContext();
+var MockComponentContext = require('fluxible/utils').createMockComponentContext();
 
 // Real store, overridden with MockStore in test
 var createStore = require('./addons').createStore;

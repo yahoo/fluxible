@@ -1,6 +1,6 @@
 # API: Stores
 
-Flux stores are where you keep your application's state and handle business logic that reacts to data events. Stores in Fluxible are just classes that adhere to a simple interface. Because we want stores to be able to be completely decoupled from Fluxible, we do not provide any store implementation in our default exports, however you can use the [helper utilities](#Helper Utilities) for creating your stores.
+Flux stores are where you keep your application's state and handle business logic that reacts to data events. Stores in Fluxible are just classes that adhere to a simple interface. Because we want stores to be able to be completely decoupled from Fluxible, we do not provide any store implementation in our default exports, however you can use the [helper utilities](#helper-utilities) for creating your stores.
 
 ```js
 var util = require('util');
@@ -48,7 +48,7 @@ module.exports = ApplicationStore;
 The store should have a constructor function that will be used to instantiate your store using `new Store(dispatcherInterface)` where the parameters are as follows:
 
   * `dispatcherInterface`: An object providing access to the following methods:
-    * `dispatcherInterface.getContext()`: Retrieve the [store context](#Store Context)
+    * `dispatcherInterface.getContext()`: Retrieve the [store context](#store-context)
     * `dispatcherInterface.getStore(storeClass)`
     * `dispatcherInterface.waitFor(storeClass[], callback)`
 
@@ -161,7 +161,7 @@ var BaseStore = require('fluxible/addons').BaseStore;
 #### Built-In Methods
 
  * `emitChange()` - emits a 'change' event
- * `getContext()` - returns the [store context](FluxibleContext.md#StoreContext)
+ * `getContext()` - returns the [store context](FluxibleContext.md#store-context)
  * `addChangeListener(callback)` - simple method to add a change listener
  * `removeChangeListener(callback)` - removes a change listener
  * `shouldDehydrate()` - default implementation that returns true if a `change` event has been emitted

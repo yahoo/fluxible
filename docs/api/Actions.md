@@ -15,7 +15,7 @@ module.exports = function myAction(actionContext, payload, done) {
 };
 ```
 
-The first action for a context is called via `context.executeAction(myAction, payload)` but actions can also be fired by other actions:
+Actions are generally called via [`FluxibleContext.executeAction(myAction, payload, done)`](FluxibleContext.md#executeactionaction-payload-callback) but actions can also be fired by other actions:
 
 ```js
 module.exports = function myParentAction(actionContext, payload, done) {

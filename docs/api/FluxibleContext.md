@@ -2,28 +2,15 @@
 
 Instantiated once per request/session by calling `Fluxible.createContext(options)`, this container provides isolation of stores, dispatches, and other data so that it is not shared between requests on the server side.
 
-## Context Types
+## SubContexts
 
-Within a FluxibleContext, each component of your application receives a subset of the methods within the `FluxibleContext`. This prevents the components from breaking out of the Flux flow. These context types are modifiable by [plugins](Plugins.md).
+Within a `FluxibleContext`, each component of your application receives a subset of the methods within the `FluxibleContext`. This prevents the components from breaking out of the Flux flow. These subcontexts are modifiable by [plugins](Plugins.md). Each subcontext has a corresponding getter on the `FluxibleContext`, for instance `getComponentContext()`, although for the most part, they will be provided to you within your components without needing to call the getter.
 
-### Action Context
+ * [Action Context](actions.md#action-context) - Passed as first parameter to all actions. Has access to most methods within Fluxible.
+ * [Component Context](actions.md#component-context) - Passed as a prop to top level React component and then propagated to child components that require access to it.
+ * [Store Context](stores.md#store-context) - Passed as first parameter to all store constructors. By default has no methods or properties.
 
-Passed as first parameter to all action creators.
-
- * `actionContext.executeAction(action, payload, done)`
-   * `action`: Another action function
-   * `payload`: the action payload
-   * `done`: the callback to call when the action has been completed
-
-### Component Context
-
-Passed as prop to top level React component and then propagated to child components that require access to it.
-
-### Store Context
-
-Passed as first parameter to all store constructors. By default has no
-
-## Top Level API
+## Methods
 
 ### Constructor
 
@@ -34,12 +21,12 @@ Creates a new context instance with the following parameters:
 
 ### createElement(props)
 
-Instantiates the app level React component (if provided in the constructor) with the given props with an additional `context` key containing a ComponentContext. This is the same as the following assuming Component is your top level React component:
+Instantiates the app level React component (if provided in the constructor) with the given props with an additional `context` key containing a ComponentContext. This is the same as the following assuming `Component` is your top level React component:
 
 ```js
-Component({
-    context: context.getComponentContext();
-});
+<FluxibleComponent context={context.getComponentContext()}>
+    <Component ...props />
+</FluxibleComponent>
 ```
 
 ### executeAction(action, payload, callback)
@@ -68,7 +55,7 @@ Allows custom context settings to be shared between server and client. Also allo
 
 ### getActionContext()
 
-Returns the [Action Context](actions.md#Action Context) which provides access to only the functions that should be called from actions. By default: `dispatch`, `executeAction`, and `getStore`.
+Returns the [Action Context](actions.md#action-context) which provides access to only the functions that should be called from actions. By default: `dispatch`, `executeAction`, and `getStore`.
 
 This action context object is used every time an `executeAction` method is called and is passed as the first parameter to the action.
 
@@ -86,8 +73,8 @@ Returns the [Store Context](stores.md#Store Context) which provides access to on
 
 ### dehydrate()
 
-Returns a serializable object containing the state of the FluxibleContext and its Dispatchr instance. This is useful for serializing the state of the current context to send it to the client. This will also call any plugins whose plugContext method returns an object containing a dehydrate method.
+Returns a serializable object containing the state of the `FluxibleContext` and its `Dispatchr` instance. This is useful for serializing the state of the current context to send it to the client. This will also call any plugins whose `plugContext` method returns an object containing a dehydrate method.
 
 ### rehydrate(state)
 
-Takes an object representing the state of the FluxibleContext and Dispatchr instances (usually retrieved from dehydrate) to rehydrate them to the same state as they were on the server. This will also call any plugins whose plugContext method returns an object containing a rehydrate method.
+Takes an object representing the state of the `FluxibleContext` and `Dispatchr` instances (usually retrieved from dehydrate) to rehydrate them to the same state as they were on the server. This will also call any plugins whose `plugContext` method returns an object containing a rehydrate method.

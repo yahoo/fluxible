@@ -15,4 +15,4 @@ open http://localhost:3000
 
 This will generate a simple application that demonstrates the basics of using Fluxible: routing, store dehydration from server, and client rehydrating.
 
-From here, we recommend learning about [stores](api/Stores.md), [actions](api/Actions.md), and React integration with the [FluxibleComponent](api/FluxibleComponent.md) and the [FluxibleMixin](api/FluxibleMixin).
+From here, we recommend learning about [stores](api/Stores.md), [actions](api/Actions.md), and React integration with the [`FluxibleComponent`](api/Components.md#Fluxible Component) and the [`FluxibleMixin`](api/Components.md#Fluxible Mixin).
