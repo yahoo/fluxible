@@ -1,15 +1,38 @@
-# FluxibleContext
+# API: `FluxibleContext`
 
-Instantiated once per request/session, this provides isolation of data so that it is not shared between requests on the server side.
+Instantiated once per request/session by calling `Fluxible.createContext(options)`, this container provides isolation of stores, dispatches, and other data so that it is not shared between requests on the server side.
 
-## Constructor
+## Context Types
+
+Within a FluxibleContext, each component of your application receives a subset of the methods within the `FluxibleContext`. This prevents the components from breaking out of the Flux flow. These context types are modifiable by [plugins](Plugins.md).
+
+### Action Context
+
+Passed as first parameter to all action creators.
+
+ * `actionContext.executeAction(action, payload, done)`
+   * `action`: Another action function
+   * `payload`: the action payload
+   * `done`: the callback to call when the action has been completed
+
+### Component Context
+
+Passed as prop to top level React component and then propagated to child components that require access to it.
+
+### Store Context
+
+Passed as first parameter to all store constructors. By default has no
+
+## Top Level API
+
+### Constructor
 
 Creates a new context instance with the following parameters:
 
  * `options`: An object containing the context settings
  * `options.app`: Provides access to the application level functions and settings
 
-## createElement(props)
+### createElement(props)
 
 Instantiates the app level React component (if provided in the constructor) with the given props with an additional `context` key containing a ComponentContext. This is the same as the following assuming Component is your top level React component:
 
@@ -19,7 +42,7 @@ Component({
 });
 ```
 
-## executeAction(action, payload, callback)
+### executeAction(action, payload, callback)
 
 This is the entry point into an application's execution. The initial action is what begins the flux flow: action dispatches events to stores and stores update their data structures. On the server, we wait for the initial action to finish and then we're ready to render using React. On the client, the components are already rendered and are waiting for store change events.
 
@@ -39,32 +62,32 @@ Parameters:
  });
  ```
 
-## plug(plugin)
+### plug(plugin)
 
 Allows custom context settings to be shared between server and client. Also allows dynamically plugging the ActionContext, ComponentContext, and StoreContext to provide additional methods.
 
-## getActionContext()
+### getActionContext()
 
-Generates a context interface providing access to only the functions that should be called from actions. By default: `dispatch`, `executeAction`, and `getStore`.
+Returns the [Action Context](actions.md#Action Context) which provides access to only the functions that should be called from actions. By default: `dispatch`, `executeAction`, and `getStore`.
 
 This action context object is used every time an `executeAction` method is called and is passed as the first parameter to the action.
 
-## getComponentContext()
+### getComponentContext()
 
-Generates a context interface providing access to only the functions that should be called from components. By default: `executeAction`, `getStore`. `executeAction` does not allow passing a callback from components so that it enforces actions to be send and forget.
+Returns the [Component Context](components.md#Component Context) which provides access to only the functions that should be called from components. By default: `executeAction`, `getStore`. `executeAction` does not allow passing a callback from components so that it enforces actions to be send and forget.
 
-Note: You may provide an app level `componentActionHandler` function when instantiating Fluxible. This allows you to catch errors (at a high level) spawning from components firing actions.
+*Note: You may provide an app level `componentActionHandler` function when instantiating Fluxible. This allows you to catch errors (at a high level) spawning from components firing actions.*
 
 This context interface should be passed in to your top level React component and then sent down to children as needed. These components will now have access to listen to store instances, execute actions, and access any methods added to the component context by plugins.
 
-## getStoreContext()
+### getStoreContext()
 
-Generates a context interface providing access to only the functions that should be called from stores. By default, this is empty. See [store constructor interface](https://github.com/yahoo/dispatchr#constructor) for how to access this from stores.
+Returns the [Store Context](stores.md#Store Context) which provides access to only the functions that should be called from stores. By default, this is empty, but it is modifiable by plugins.
 
-## dehydrate()
+### dehydrate()
 
 Returns a serializable object containing the state of the FluxibleContext and its Dispatchr instance. This is useful for serializing the state of the current context to send it to the client. This will also call any plugins whose plugContext method returns an object containing a dehydrate method.
 
-## rehydrate(state)
+### rehydrate(state)
 
 Takes an object representing the state of the FluxibleContext and Dispatchr instances (usually retrieved from dehydrate) to rehydrate them to the same state as they were on the server. This will also call any plugins whose plugContext method returns an object containing a rehydrate method.
