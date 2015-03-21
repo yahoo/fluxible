@@ -6,9 +6,9 @@ Instantiated once per request/session by calling `Fluxible.createContext(options
 
 Within a `FluxibleContext`, each component of your application receives a subset of the methods within the `FluxibleContext`. This prevents the components from breaking out of the Flux flow. These subcontexts are modifiable by [plugins](Plugins.md). Each subcontext has a corresponding getter on the `FluxibleContext`, for instance `getComponentContext()`, although for the most part, they will be provided to you within your components without needing to call the getter.
 
- * [Action Context](actions.md#action-context) - Passed as first parameter to all actions. Has access to most methods within Fluxible.
- * [Component Context](actions.md#component-context) - Passed as a prop to top level React component and then propagated to child components that require access to it.
- * [Store Context](stores.md#store-context) - Passed as first parameter to all store constructors. By default has no methods or properties.
+ * [Action Context](Actions.md#action-context) - Passed as first parameter to all actions. Has access to most methods within Fluxible.
+ * [Component Context](Components.md#component-context) - Passed as a prop to top level React component and then propagated to child components that require access to it.
+ * [Store Context](Stores.md#store-context) - Passed as first parameter to all store constructors. By default has no methods or properties.
 
 ## Methods
 
@@ -55,13 +55,13 @@ Allows custom context settings to be shared between server and client. Also allo
 
 ### getActionContext()
 
-Returns the [Action Context](actions.md#action-context) which provides access to only the functions that should be called from actions. By default: `dispatch`, `executeAction`, and `getStore`.
+Returns the [Action Context](Actions.md#action-context) which provides access to only the functions that should be called from actions. By default: `dispatch`, `executeAction`, and `getStore`.
 
 This action context object is used every time an `executeAction` method is called and is passed as the first parameter to the action.
 
 ### getComponentContext()
 
-Returns the [Component Context](components.md#Component Context) which provides access to only the functions that should be called from components. By default: `executeAction`, `getStore`. `executeAction` does not allow passing a callback from components so that it enforces actions to be send and forget.
+Returns the [Component Context](Components.md#Component Context) which provides access to only the functions that should be called from components. By default: `executeAction`, `getStore`. `executeAction` does not allow passing a callback from components so that it enforces actions to be send and forget.
 
 *Note: You may provide an app level `componentActionHandler` function when instantiating Fluxible. This allows you to catch errors (at a high level) spawning from components firing actions.*
 
@@ -69,7 +69,7 @@ This context interface should be passed in to your top level React component and
 
 ### getStoreContext()
 
-Returns the [Store Context](stores.md#Store Context) which provides access to only the functions that should be called from stores. By default, this is empty, but it is modifiable by plugins.
+Returns the [Store Context](Stores.md#Store Context) which provides access to only the functions that should be called from stores. By default, this is empty, but it is modifiable by plugins.
 
 ### dehydrate()
 
