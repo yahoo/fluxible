@@ -2,7 +2,7 @@
 
 React components need to be able to access the state of the application that is held within stores and also be able to execute actions that the stores can react to. Since we are not using singletons, we need to provide access to the current request's `ComponentContext`.
 
-The [`ComponentContext`](#Component Context) should be passed as a prop to the top level component for your application. From there, it needs to be propagated to any controller views using two options:
+The [`ComponentContext`](#component-context) should be passed as a prop to the top level component for your application. From there, it needs to be propagated to any controller views using two options:
 
  * Pass it through props to every child
  * Use React's context
@@ -12,13 +12,13 @@ We recommend using React's context, since it will implicitly handle propagation 
 ## FluxibleComponent
 
 The `FluxibleComponent` is a wrapper component that will provide all of its children with access to the Fluxible component
-context via React's `childContextTypes` and `getChildContext`. This should be used to wrap your top level component. It provides access to the methods on the [component context](#Component Context).
+context via React's `childContextTypes` and `getChildContext`. This should be used to wrap your top level component. It provides access to the methods on the [component context](#component-context).
 
  You can get access to these methods by setting the correct `contextTypes` within your component or including the [`FluxibleMixin`](FluxibleMixin.md) which will add them for you.
 
 ### Usage
 
-If you have a component that needs access to the [`ComponentContext`](ComponentContext.md) methods:
+If you have a component that needs access to the [`ComponentContext`](#component-context) methods:
 
  ```js
 var Component = React.createClass({
