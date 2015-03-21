@@ -14,7 +14,7 @@ We recommend using React's context, since it will implicitly handle propagation 
 The `FluxibleComponent` is a wrapper component that will provide all of its children with access to the Fluxible component
 context via React's `childContextTypes` and `getChildContext`. This should be used to wrap your top level component. It provides access to the methods on the [component context](#component-context).
 
- You can get access to these methods by setting the correct `contextTypes` within your component or including the [`FluxibleMixin`](Components.md#fluxible-mixin) which will add them for you.
+ You can get access to these methods by setting the correct `contextTypes` within your component or including the [`FluxibleMixin`](Components.md#fluxiblemixin) which will add them for you.
 
 ### Usage
 
@@ -43,7 +43,7 @@ var html = React.renderToString(
 );
 ```
 
- If you are using [`FluxibleContext.createElement()`](FluxibleContext.md#createElementprops) this will happen for you automatically:
+If you are using [`FluxibleContext.createElement()`](FluxibleContext.md#createElementprops) this will happen for you automatically:
 
 ```js
 var html = React.renderToString(context.createElement());
