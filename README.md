@@ -22,6 +22,7 @@ $ npm install --save fluxible
 ## Features
 
  * Singleton-free for [server rendering](https://github.com/yahoo/fluxible/blob/master/docs/api/server-rendering.md)
+ * [Server dehydration](https://github.com/yahoo/fluxible/blob/master/docs/guides/server-rendering.md#dehydrationrehydration) for client bootstrapping
  * Stateless async [actions](https://github.com/yahoo/fluxible/blob/master/docs/api/Actions.md)
  * React [mixin](https://github.com/yahoo/fluxible/blob/master/docs/api/FluxibleMixin.md) and [component](https://github.com/yahoo/fluxible/blob/master/docs/api/FluxibleComponent.md) for easy integration
  * Enforcement of Flux flow - restricted access to the [Flux context](https://github.com/yahoo/fluxible/blob/master/docs/api/FluxibleContext.md) from within components
