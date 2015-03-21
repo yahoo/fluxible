@@ -1,6 +1,6 @@
 # API Documentation
 
-`var Fluxible = require('fluxible')`` exports the following:
+`var Fluxible = require('fluxible')` exports the following:
 
  * [`Fluxible`](Fluxible.md)
  * [`Fluxible.FluxibleComponent`](Components.md#fluxiblecomponent)
