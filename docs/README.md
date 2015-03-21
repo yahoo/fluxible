@@ -10,4 +10,4 @@ If you want to look at example applications, check out our examples:
  - [React Router](https://github.com/yahoo/flux-examples/tree/master/react-router) - Simple isomorphic routing with React router.
  - [TodoMVC](https://github.com/yahoo/flux-examples/tree/master/todo) - [TodoMVC](https://github.com/tastejs/todomvc) example using Fluxible.
  
-Or check out some [community applications](reference-applications.md).
+Or check out some [community applications](community/reference-applications.md).
