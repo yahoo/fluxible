@@ -43,7 +43,7 @@ Registers a [store](Stores.md) to the application making them available to handl
 
 ### plug(plugin)
 
-Allows custom application wide settings to be shared between server and client. Also allows dynamically plugging the [FluxibleContext](FluxibleComntext.md) instance each time it is created by implementing a `plugContext` function that receives the context options.
+Allows custom application wide settings to be shared between server and client. Also allows dynamically plugging the [FluxibleContext](FluxibleContext.md) instance each time it is created by implementing a `plugContext` function that receives the context options.
 
 ### getPlugin(pluginName)
 
