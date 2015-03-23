@@ -212,7 +212,7 @@ module.exports = ApplicationStore;
 A helper method similar to `React.createClass` but for creating stores that extend `BaseStore`. Also supports mixins.
 
 ```js
-var BaseStore = require('fluxible/addons').createStore;
+var createStore = require('fluxible/addons').createStore;
 
 module.exports = createStore({
     storeName: 'ApplicationStore',
