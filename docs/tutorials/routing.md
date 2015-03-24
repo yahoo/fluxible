@@ -176,7 +176,7 @@ should be rendered.
 
 Let's make our original application component a little smarter. We'll include
 the `ApplicationStore` we just created. We also use the
-[`FluxibleMixin`](/api/fluxible.html), which adds convenient methods to interact
+[`FluxibleMixin`](../api/Fluxible.md), which adds convenient methods to interact
 with stores.
 
 File: `/components/Application.jsx`
@@ -186,7 +186,7 @@ var React = require('react');
 var ApplicationStore = require('../stores/ApplicationStore');
 var Home = require('./Home.jsx');
 var About = require('./About.jsx');
-var FluxibleMixin = require('fluxible').Mixin;
+var FluxibleMixin = require('fluxible').FluxibleMixin;
 
 var Application = React.createClass({
     mixins: [ FluxibleMixin ],
@@ -221,11 +221,10 @@ var Fluxible = require('fluxible');
 var routrPlugin = require('fluxible-plugin-routr');
 var routes = require('./configs/routes');
 var App = require('./components/Application.jsx');
-var Component = React.createFactory(App);
 var ApplicationStore = require('./stores/ApplicationStore');
 
 var app = new Fluxible({
-    component: Component
+    component: App
 });
 
 app.plug(routrPlugin({
@@ -267,12 +266,7 @@ server.use(function (req, res, next) {
             }
             return;
         }
-
-        var Component = app.getComponent();
-        var component = Component({
-            context: context.getComponentContext()
-        });
-        var html = React.renderToString(component);
+        var html = React.renderToString(context.createElement());
 
         res.send(html);
     });
@@ -369,7 +363,7 @@ var ApplicationStore = require('../stores/ApplicationStore');
 var Home = require('./Home.jsx');
 var About = require('./About.jsx');
 var Nav = require('./Nav.jsx');
-var FluxibleMixin = require('fluxible').Mixin;
+var FluxibleMixin = require('fluxible').FluxibleMixin;
 
 var Application = React.createClass({
     mixins: [ FluxibleMixin ],
@@ -427,11 +421,9 @@ var HtmlComponent = React.createFactory(require('./components/Html.jsx'));
 
 // ...
 
-    React.withContext(context.getComponentContext(), function () {
-        var html = React.renderToStaticMarkup(HtmlComponent({
-            markup: React.renderToString(Component())
-        }));
-    });
+    var html = React.renderToStaticMarkup(HtmlComponent({
+        markup: context.createElement()
+    }));
 
 // ...
 ```
@@ -495,14 +487,12 @@ server.use(function (req, res, next) {
         res.expose(app.dehydrate(context), 'App');
 
         var Component = app.getComponent();
-        React.withContext(context.getComponentContext(), function () {
-            var html = React.renderToStaticMarkup(HtmlComponent({
-                state: res.locals.state,
-                markup: React.renderToString(Component())
-            }));
+        var html = React.renderToStaticMarkup(HtmlComponent({
+            state: res.locals.state,
+            markup: React.renderToString(context.createElement())
+        }));
 
-            res.send(html);
-        });
+        res.send(html);
     });
 });
 ```
@@ -535,9 +525,7 @@ app.rehydrate(dehydratedState, function (err, context) {
     }
     var mountNode = document.getElementById('app');
 
-    React.withContext(context.getComponentContext(), function () {
-        React.render(app.getComponent()(), mountNode);
-    });
+    React.render(context.createElement(), mountNode);
 });
 ```
 
@@ -594,7 +582,7 @@ var About = require('./About.jsx');
 var Nav = require('./Nav.jsx');
 var ApplicationStore = require('../stores/ApplicationStore');
 var RouterMixin = require('flux-router-component').RouterMixin;
-var FluxibleMixin = require('fluxible').Mixin;
+var FluxibleMixin = require('fluxible').FluxibleMixin;
 
 var Application = React.createClass({
     mixins: [ RouterMixin, FluxibleMixin ],
@@ -641,7 +629,7 @@ In: `/components/Application.jsx`
 
 ```js
 var RouterMixin = require('flux-router-component').RouterMixin;
-var FluxibleMixin = require('fluxible').Mixin;
+var FluxibleMixin = require('fluxible').FluxibleMixin;
 
 var Application = React.createClass({
     mixins: [RouterMixin, FluxibleMixin],

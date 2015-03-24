@@ -87,7 +87,7 @@ var App = React.createClass({
 
 // App
 var fluxibleApp = new Fluxible({
-    component: React.createFactory(App)
+    component: App
 });
 fluxibleApp.registerStore(Store);
 
