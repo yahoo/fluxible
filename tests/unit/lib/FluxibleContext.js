@@ -20,7 +20,7 @@ describe('FluxibleContext', function () {
 
     describe('createElement', function () {
         it('should receive the correct props and context', function (done) {
-            var Component = React.createFactory(React.createClass({
+            var Component = React.createClass({
                 displayName: 'Component',
                 contextTypes: {
                     getStore: React.PropTypes.func.isRequired,
@@ -33,7 +33,7 @@ describe('FluxibleContext', function () {
                     done();
                 },
                 render: function () { return null; }
-            }));
+            });
             var app = new Fluxible({
                 component: Component
             });
