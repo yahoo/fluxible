@@ -10,6 +10,12 @@ Within a `FluxibleContext`, each component of your application receives a subset
  * [Component Context](Components.md#component-context) - Passed as a prop to top level React component and then propagated to child components that require access to it.
  * [Store Context](Stores.md#store-context) - Passed as first parameter to all store constructors. By default has no methods or properties.
 
+|               	| FluxibleContext 	| Action Context 	| Component Context 	| Store Context 	|
+|---------------	|-----------------	|----------------	|-------------------	|---------------	|
+| dispatch      	|                 	|        ✓       	|                   	|               	|
+| executeAction 	|        ✓        	|        ✓       	|    no callback    	|               	|
+| getStore      	|                 	|        ✓       	|         ✓         	|               	|
+
 ## Methods
 
 ### Constructor
