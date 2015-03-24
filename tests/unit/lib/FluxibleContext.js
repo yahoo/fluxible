@@ -41,6 +41,28 @@ describe('FluxibleContext', function () {
 
             React.renderToString(context.createElement({foo: 'bar'}));
         });
+        it('should receive the correct props and context if passed factory', function (done) {
+            var Component = React.createFactory(React.createClass({
+                displayName: 'Component',
+                contextTypes: {
+                    getStore: React.PropTypes.func.isRequired,
+                    executeAction: React.PropTypes.func.isRequired
+                },
+                componentWillMount: function () {
+                    expect(this.props.foo).to.equal('bar');
+                    expect(this.context.getStore).to.be.a('function');
+                    expect(this.context.executeAction).to.be.a('function');
+                    done();
+                },
+                render: function () { return null; }
+            }));
+            var app = new Fluxible({
+                component: Component
+            });
+            context = app.createContext();
+
+            React.renderToString(context.createElement({foo: 'bar'}));
+        });
     });
 
     describe('actionContext', function () {
