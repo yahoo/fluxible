@@ -540,10 +540,8 @@ server.get('/', function (req, res, next) {
     var context = app.createContext();
 
     context.executeAction(showMessages, {}, function () {
-        var html = React.renderToString(ChatComponent({
-            // give components a component interface into the context
-            context: context.getComponentContext()
-        }));
+        // Create and render the component passed to Fluxible and automatically set context
+        var html = React.renderToString(context.createElement());
         res.send(html);
     });
 });
@@ -574,7 +572,7 @@ The component now receives the component context via React's context. This conte
 var readMessage = require('./action/readMessage');
 var MessagesStore = require('./stores/MessageStore');
 var MessageSection = React.createClass({
-    mixins: [require('fluxible').Mixin],
+    mixins: [require('fluxible').FluxibleMixin],
     statics: {
         storeListeners: [MessageStore]
     },
@@ -600,7 +598,7 @@ var MessageSection = React.createClass({
 module.exports = MessageSection;
 ```
 
-Internally, `executeAction` passes the `actionContext` to the action creators even though it's being called from the `componentContext`.
+Internally, `executeAction` passes the `actionContext` to the action creators even though it's being called from the `componentContext`. We also enforce the fire-and-forget nature of actions from within components by not allowing a callback to be passed to the `executeAction` method from the `componentContext`.
 
 ## Conclusion
 
