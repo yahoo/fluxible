@@ -6,15 +6,17 @@
 
 var dispatchr = require('dispatchr');
 
-module.exports = function createMockActionContext() {
-    var Dispatcher = dispatchr();
+module.exports = function createMockActionContext(Dispatcher) {
+    var Dispatcher = Dispatcher || dispatchr();
 
-    function MockActionContext () {
+    function MockActionContext (dispatcher) {
         this.Dispatcher = Dispatcher;
-        this.dispatcher = new Dispatcher();
+        this.dispatcher = dispatcher || new Dispatcher();
         this.executeActionCalls = [];
         this.dispatchCalls = [];
     }
+
+    MockActionContext.registerStore = Dispatcher.registerStore;
 
     MockActionContext.prototype.getStore = function (name) {
         return this.dispatcher.getStore(name);

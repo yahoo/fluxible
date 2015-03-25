@@ -5,12 +5,12 @@
 'use strict';
 
 var dispatchr = require('dispatchr');
-var MockActionContext = require('./MockActionContext')();
-
+var createMockActionContext = require('./MockActionContext');
 function noop () {}
 
-module.exports = function createMockComponentContextClass() {
-    var Dispatcher = dispatchr();
+module.exports = function createMockComponentContextClass(Dispatcher) {
+    Dispatcher = Dispatcher || dispatchr();
+    var MockActionContext = createMockActionContext(Dispatcher);
 
     function MockComponentContext () {
         this.dispatcher = new Dispatcher();
@@ -28,10 +28,11 @@ module.exports = function createMockComponentContextClass() {
             action: action,
             payload: payload
         });
-        action(new MockActionContext(), payload, noop);
+        action(new MockActionContext(this.dispatcher), payload, noop);
     };
 
     MockComponentContext.Dispatcher = Dispatcher;
+    MockComponentContext.registerStore = Dispatcher.registerStore;
 
     return MockComponentContext;
 };
