@@ -59,4 +59,7 @@ Returns a serializable object containing the state of the Fluxible and passed Fl
 
 ### rehydrate(state, callback)
 
-Takes an object representing the state of the Fluxible and FluxibleContext instances (usually retrieved from dehydrate) to rehydrate them to the same state as they were on the server. This will also call any plugins which contain a rehydrate method. This method is asynchronous to allow for plugins to load necessary assets or data needed for bootstrapping the application.
+Takes an object representing the state of the Fluxible and FluxibleContext instances (usually retrieved from dehydrate) to rehydrate them to the same state as they were on the server. This will also call any plugins which contain a rehydrate method. This method is asynchronous to allow for plugins to load necessary assets or data needed for bootstrapping the application. The callback receives the following:
+
+ * `err` - If rehydration had an error
+ * `context` - A newly created context that is rehydrated to the server state
