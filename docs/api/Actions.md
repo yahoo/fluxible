@@ -23,7 +23,7 @@ module.exports = function myParentAction(actionContext, payload, done) {
 };
 ```
 
-or from a component:
+or from a [component](Components.md):
 
 ```js
 var myAction = require('./myAction');
@@ -39,6 +39,8 @@ module.exports React.createClass({
     }
 });
 ```
+
+It's important to note that `executeAction` does not allow passing a callback from the component. This enforces that the actions are fire-and-forget and that state changes should only be handled through the Flux flow. When actions are executed from components, the callback becomes the `componentActionHandler` function provided to the [Fluxible](Fluxible.md) constructor. 
 
 ## Action Context
 
