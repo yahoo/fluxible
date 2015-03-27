@@ -6,8 +6,8 @@ The [`ComponentContext`](#component-context) should be passed as a prop to the t
 
  * Pass it through props to every child
  * Use React's context
- 
-We recommend using React's context, since it will implicitly handle propagation as long as the controller view registers its `contextTypes`. We provide a couple of helpers to make this easier: 
+
+We recommend using React's context, since it will implicitly handle propagation as long as the controller view registers its `contextTypes`. We provide a couple of helpers to make this easier:
 
 ## FluxibleComponent
 
@@ -104,5 +104,124 @@ The component context receives limited access to the [FluxibleContext](FluxibleC
 
  * `executeAction(action, payload)`
  * `getStore(storeConstructor)`
- 
+
 It's important to note that `executeAction` does not allow passing a callback from the component. This enforces that the actions are fire-and-forget and that state changes should only be handled through the Flux flow. You may however provide an app level `componentActionHandler` function when instantiating Fluxible. This allows you to handle errors (at a high level) spawning from components firing actions.
+
+
+## Testing
+
+When testing your components, you can use our `MockComponentContext` library and pass an instance to your component to record the methods that the component calls on the context.
+
+When `executeAction` is called, it will push an object to the `executeActionCalls` array. Each object contains an `action` and `payload` key.
+
+`getStore` calls will be proxied to a dispatcher instance, which you can register stores to via `MockActionContext.registerStore(MockStore)`.
+
+### Usage
+
+Here is an example component test that uses `React.TestUtils` to render the component into `jsdom` to test the store integration.
+
+```js
+var MockComponentContext = require('fluxible/utils').createMockComponentContext();
+
+// Real store, overridden with MockStore in test
+var createStore = require('./addons').createStore;
+var FooStore = createStore({
+    storeName: 'FooStore'
+});
+
+// Action fired from component, could be overridden using Mockery library
+var myAction = function (actionContext, payload, done) {
+    var foo = actionContext.getStore(FooStore).getFoo() + payload;
+    actionContext.dispatch('FOO', foo);
+    done();
+};
+
+// Register the mock FooStore
+MockComponentContext.registerStore(createStore({
+    storeName: 'FooStore', // Matches FooStore.storeName
+    handlers: {
+        FOO: 'handleFoo'
+    },
+    initialize: function () {
+        this.foo = 'foo';
+    },
+    handleFoo: function (payload) {
+        this.foo = payload;
+        this.emitChange();
+    },
+    getFoo: function () {
+        return this.foo;
+    }
+}));
+
+describe('TestComponent', function () {
+    var jsdom = require('jsdom');
+    var assert = require('assert');
+    var componentContext;
+    var React;
+    var ReactTestUtils;
+    var FluxibleMixin;
+    var TestComponent;
+
+    beforeEach(function (done) {
+        componentContext = new MockComponentContext();
+        jsdom.env('<html><body></body></html>', [], function (err, window) {
+            global.window = window;
+            global.document = window.document;
+            global.navigator = window.navigator;
+
+            // React must be required after window is set
+            React = require('react');
+            ReactTestUtils = require('react/lib/ReactTestUtils');
+            FluxibleMixin = require('fluxible').FluxibleMixin;
+
+            // The component being tested
+            TestComponent = React.createClass({
+                mixins: [FluxibleMixin],
+                statics: {
+                    storeListeners: [FooStore]
+                },
+                getInitialState: function () {
+                    return {
+                        foo: this.context.getStore(FooStore).getFoo()
+                    };
+                },
+                onChange: function () { // Called when FooStore emits change
+                    this.setState({
+                        foo: this.context.getStore(FooStore).getFoo()
+                    });
+                },
+                onClick: function () {
+                    this.context.executeAction(myAction, 'bar');
+                },
+                render: function () {
+                    return <button onClick={this.onClick}>{this.state.foo}</button>;
+                }
+            });
+            done();
+        });
+    });
+
+    afterEach(function () {
+        delete global.window;
+        delete global.document;
+        delete global.navigator;
+    });
+
+    it('should call context executeAction when context provided via React context', function (done) {
+        var FluxibleComponent = require('fluxible').FluxibleComponent;
+        var component = ReactTestUtils.renderIntoDocument(
+            <FluxibleComponent context={componentContext}>
+                <TestComponent />
+            </FluxibleComponent>
+        );
+        var node = component.getDOMNode();
+        assert.equal('foo', node.innerHTML);
+        ReactTestUtils.Simulate.click(node);
+        assert.equal('foobar', node.innerHTML);
+        ReactTestUtils.Simulate.click(node);
+        assert.equal('foobarbar', node.innerHTML);
+        done();
+    });
+});
+```
