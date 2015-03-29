@@ -23,7 +23,7 @@ module.exports = function myParentAction(actionContext, payload, done) {
 };
 ```
 
-or from a component:
+or from a [component](Components.md):
 
 ```js
 var myAction = require('./myAction');
@@ -40,6 +40,8 @@ module.exports React.createClass({
 });
 ```
 
+It's important to note that `executeAction` does not allow passing a callback from the component. This enforces that the actions are fire-and-forget and that state changes should only be handled through the Flux flow. When actions are executed from components, the callback becomes the `componentActionHandler` function provided to the [Fluxible](Fluxible.md) constructor.
+
 ## Action Context
 
 Actions have the most access to the Flux context. The context contains the following methods:
@@ -55,3 +57,79 @@ Executes another action and allows waiting for the `done` callback to be called.
 ### `getStore(storeConstructor)`
 
 Retrieve a store instance by constructor. Useful for reading from the store. Should never be used for modifying the store.
+
+
+## Testing
+
+When testing your actions, you can use our `MockActionContext` library and pass an instance to your action to record the methods that the action calls on the context.
+
+When `dispatch` is called, it will push an object to the `dispatchCalls` array. Each object contains a `name` and `payload` key.
+
+When `executeAction` is called, it will push an object to the `executeActionCalls` array. Each object contains an `action` and `payload` key.
+
+`getStore` calls will be proxied to a dispatcher instance, which you can register stores to via `MockActionContext.registerStore(MockStore)`.
+
+### Usage
+
+Here is an example mocha test that display using each of `ActionContext` methods being tested:
+
+```js
+var MockActionContext = require('fluxible/utils').createMockActionContext();
+
+// Real store, overridden with MockStore in test
+var createStore = require('fluxible/addons').createStore;
+var FooStore = createStore({
+    storeName: 'FooStore'
+});
+
+// Actions being tested
+var myAction = function (actionContext, payload, done) {
+    var foo = actionContext.getStore(FooStore).getFoo() + payload;
+    actionContext.dispatch('FOO', foo);
+    actionContext.executeAction(otherAction, foo, done);
+};
+
+var otherAction = function (actionContext, payload, done) {
+    done();
+};
+
+// Register the mock FooStore
+MockActionContext.registerStore(createStore({
+    storeName: 'FooStore', // Matches FooStore.storeName
+    handlers: {
+        FOO: 'handleFoo'
+    },
+    initialize: function () {
+        this.foo = 'foo';
+    },
+    handleFoo: function (payload) {
+        this.foo = payload
+    },
+    getFoo: function () {
+        return this.foo;
+    }
+}));
+
+
+// Tests
+describe('myAction', function () {
+    var assert = require('assert');
+    var actionContext;
+
+    beforeEach(function () {
+        actionContext = new MockActionContext();
+    });
+
+    it('should dispatch foo', function (done) {
+        myAction(actionContext, 'bar', function () {
+            assert.equal(1, actionContext.dispatchCalls.length);
+            assert.equal('FOO', actionContext.dispatchCalls[0].name);
+            assert.equal('foobar', actionContext.dispatchCalls[0].payload);
+            assert.equal(1, actionContext.executeActionCalls.length);
+            assert.equal(otherAction, actionContext.executeActionCalls[0].action);
+            assert.equal('foobar', actionContext.executeActionCalls[0].payload);
+            done();
+        });
+    });
+});
+```

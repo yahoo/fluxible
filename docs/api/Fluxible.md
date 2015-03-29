@@ -57,6 +57,9 @@ Provides access to the `options.component` that was passed to the constructor. T
 
 Returns a serializable object containing the state of the Fluxible and passed FluxibleContext instances. This is useful for serializing the state of the application to send it to the client. This will also call any plugins which contain a dehydrate method.
 
-### rehydrate(state)
+### rehydrate(state, callback)
 
-Takes an object representing the state of the Fluxible and FluxibleContext instances (usually retrieved from dehydrate) to rehydrate them to the same state as they were on the server. This will also call any plugins which contain a rehydrate method.
+Takes an object representing the state of the Fluxible and FluxibleContext instances (usually retrieved from dehydrate) to rehydrate them to the same state as they were on the server. This will also call any plugins which contain a rehydrate method. This method is asynchronous to allow for plugins to load necessary assets or data needed for bootstrapping the application. The callback receives the following:
+
+ * `err` - If rehydration had an error
+ * `context` - A newly created context that is rehydrated to the server state
