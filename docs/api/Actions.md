@@ -6,6 +6,8 @@ Actions in Fluxible are stateless functions that receive three parameters:
  * `payload` - The action payload
  * `done` - A function to be called when the action has been completed
 
+If the action does not return a promise and takes three parameters, executeAction will wait for the done callback:
+
 ```js
 module.exports = function myAction(actionContext, payload, done) {
     setTimeout(function () { // simulate async
@@ -15,13 +17,49 @@ module.exports = function myAction(actionContext, payload, done) {
 };
 ```
 
-Actions are generally called via [`FluxibleContext.executeAction(myAction, payload, done)`](FluxibleContext.md#executeactionaction-payload-callback) but actions can also be fired by other actions:
+If the action returns a promise, executeAction will wait for it to be resolved or rejected:
+
+```js
+module.exports = function myPromiseAction(actionContext, payload) {
+    return new Promise(function (resolve, reject) {
+        getServerData(payload)
+        .then(function (data) {
+            actionContext.dispatch('RECEIVED_SERVER_DATA', data);
+        })
+        .then(resolve, reject);
+    });
+};
+```
+
+If the action takes less than three parameters, executeAction will resolve the promise with the return value, if any:
+
+```js
+module.export = function mySyncAction(actionContext, payload) {
+    actionContext.dispatch('MY_ACTION', payload);
+}
+```
+
+Actions are generally called via [`FluxibleContext.executeAction(myAction, payload, [done])`](FluxibleContext.md#executeactionaction-payload-callback) but actions can also be fired by other actions:
+
+**Callback**
 
 ```js
 module.exports = function myParentAction(actionContext, payload, done) {
     actionContext.executeAction(myAction, payload, done);
 };
 ```
+
+**Promise**
+
+```js
+module.exports = function myParentAction(actionContext, payload) {
+    actionContext.executeAction(myAction, payload)
+    .then(function (result) {
+        // do something
+    });
+}
+```
+
 
 or from a [component](Components.md):
 
@@ -40,7 +78,7 @@ module.exports React.createClass({
 });
 ```
 
-It's important to note that `executeAction` does not allow passing a callback from the component. This enforces that the actions are fire-and-forget and that state changes should only be handled through the Flux flow. When actions are executed from components, the callback becomes the `componentActionHandler` function provided to the [Fluxible](Fluxible.md) constructor.
+It's important to note that `executeAction` does not allow passing a callback from the component nor does it return the promise. This enforces that the actions are fire-and-forget and that state changes should only be handled through the Flux flow. When actions are executed from components, the callback becomes the `componentActionHandler` function provided to the [Fluxible](Fluxible.md) constructor.
 
 ## Action Context
 
@@ -50,9 +88,9 @@ Actions have the most access to the Flux context. The context contains the follo
 
 Dispatches a new data event and calls the store handlers.
 
-### `executeAction(action, payload, done)`
+### `executeAction(action, payload, [done])`
 
-Executes another action and allows waiting for the `done` callback to be called.
+Executes another action. Allows waiting for the returned promise to be resolved or rejected, or the optional `done` callback to be called.
 
 ### `getStore(storeConstructor)`
 

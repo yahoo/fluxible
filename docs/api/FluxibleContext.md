@@ -35,7 +35,7 @@ Instantiates the app level React component (if provided in the constructor) with
 </FluxibleComponent>
 ```
 
-### executeAction(action, payload, callback)
+### executeAction(action, payload, [done])
 
 This is the entry point into an application's execution. The initial action is what begins the flux flow: action dispatches events to stores and stores update their data structures. On the server, we wait for the initial action to finish and then we're ready to render using React. On the client, the components are already rendered and are waiting for store change events.
 
@@ -43,7 +43,13 @@ Parameters:
 
  * `action`: A function that takes three parameters: `actionContext`, `payload`, `done`
  * `payload`: the action payload
- * `done`: the callback to call when the action has been completed
+ * `done`: optional callback to call when the action has been completed. Receives error as the first parameter and result as the second.
+
+Returns:
+
+* `executeActionPromise`: promise that is resolved once the action is completed, or rejected if it has an error
+
+**Callback**
 
  ```js
  var action = function (actionContext, payload, done) {
@@ -52,6 +58,22 @@ Parameters:
  };
  context.executeAction(action, {}, function (err) {
      // action has completed
+ });
+ ```
+
+**Promise**
+
+ ```js
+ var action = function (actionContext, payload, done) {
+     // do stuff
+     done();
+ };
+ context.executeAction(action, {})
+ .then(function (result) {
+     // action has completed
+ })
+ .catch(function (err) {
+     // action had an error
  });
  ```
 
