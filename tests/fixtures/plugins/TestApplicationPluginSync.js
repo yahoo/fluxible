@@ -32,9 +32,8 @@ module.exports = function TestApplicationPlugin(initialFoo) {
                 foo: foo
             };
         },
-        rehydrate: function rehydrate(state, done) {
+        rehydrate: function rehydrate(state) {
             foo = state.foo;
-            setImmediate(done);
         }
     }
 };
