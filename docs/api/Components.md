@@ -21,22 +21,23 @@ context via React's `childContextTypes` and `getChildContext`. This should be us
 If you have a component that needs access to the [`ComponentContext`](#component-context) methods:
 
  ```js
-var Component = React.createClass({
-    contextTypes: {
-        getStore: React.PropTypes.func.isRequired,
-        executeAction: React.PropTypes.func.isRequired
-    },
-    getInitialState: function () {
-        return this.getStore(FooStore).getState();
+class Component extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = this.getStore(FooStore).getState();
     }
-});
+}
+Component.contextTypes = {
+    getStore: React.PropTypes.func.isRequired,
+    executeAction: React.PropTypes.func.isRequired
+};
 ```
 
 you can wrap the component with `FluxibleComponent` to provide the correct context:
 
 ```js
-var FluxibleComponent = require('fluxible').FluxibleComponent;
-var html = React.renderToString(
+import {FluxibleComponent} from 'fluxible';
+let html = React.renderToString(
     <FluxibleComponent context={context.getComponentContext()}>
         <Component />
     </FluxibleComponent>
@@ -46,7 +47,7 @@ var html = React.renderToString(
 If you are using [`FluxibleContext.createElement()`](FluxibleContext.md#createElementprops) this will happen for you automatically:
 
 ```js
-var html = React.renderToString(context.createElement());
+let html = React.renderToString(context.createElement());
 ```
 
 ## FluxibleMixin
@@ -121,38 +122,42 @@ When `executeAction` is called, it will push an object to the `executeActionCall
 Here is an example component test that uses `React.TestUtils` to render the component into `jsdom` to test the store integration.
 
 ```js
-var MockComponentContext = require('fluxible/utils').createMockComponentContext();
+import utils from 'fluxible/utils';
+let MockComponentContext = utils.createMockComponentContext();
 
 // Real store, overridden with MockStore in test
-var createStore = require('./addons').createStore;
-var FooStore = createStore({
-    storeName: 'FooStore'
-});
+import {BaseStore} from 'fluxible/addons';
+class FooStore extends BaseStore {
+    // ...
+}
+FooStore.storeName = 'FooStore';
 
 // Action fired from component, could be overridden using Mockery library
-var myAction = function (actionContext, payload, done) {
+let myAction = function (actionContext, payload, done) {
     var foo = actionContext.getStore(FooStore).getFoo() + payload;
     actionContext.dispatch('FOO', foo);
     done();
 };
 
 // Register the mock FooStore
-MockComponentContext.registerStore(createStore({
-    storeName: 'FooStore', // Matches FooStore.storeName
-    handlers: {
-        FOO: 'handleFoo'
-    },
-    initialize: function () {
+class MockFooStore extends BaseStore {
+    constructor (dispatcher) {
+        super(dispatcher);
         this.foo = 'foo';
-    },
-    handleFoo: function (payload) {
+    }
+    handleFoo (payload) {
         this.foo = payload;
         this.emitChange();
-    },
-    getFoo: function () {
+    }
+    getFoo () {
         return this.foo;
     }
-}));
+}
+MockFooStore.storeName = 'FooStore'; // Matches FooStore.storeName
+MockFooStore.handlers = {
+    'FOO': 'handleFoo'
+};
+MockActionContext.registerStore(MockFooStore);
 
 describe('TestComponent', function () {
     var jsdom = require('jsdom');

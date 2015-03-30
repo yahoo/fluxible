@@ -59,11 +59,11 @@ Let's first look at what a Flux application looks like when it's client-side onl
 
 ```js
 // client.js
-var React = require('react');
-var ChatApp = React.createFactory(require('./components/ChatApp.jsx'));
+import React from 'react';
+let ChatApp = React.createFactory(require('./components/ChatApp.jsx'));
 
 
-var showMessages = require('./actions/showMessages');
+let showMessages = require('./actions/showMessages');
 React.render(ChatApp(), document.getElementById('app'), function (err) {
     if (err) {
         throw err;
@@ -74,32 +74,32 @@ React.render(ChatApp(), document.getElementById('app'), function (err) {
 
 ```js
 // actions/showMessages.js
-var messages = require('../data/messages');
-var dispatcher = require('../lib/dispatcher');
+let messages = require('../data/messages');
+let dispatcher = require('../lib/dispatcher');
 
-module.exports = function showMessages() {
+export default function showMessages() {
     dispatcher.dispatch({
         type: 'RECEIVE_MESSAGES',
         messages: messages
     });
-};
+}
 ```
 
 ```js
 // lib/dispatcher.js
-var Dispatcher = require('flux').Dispatcher;
+import {Dispatcher} from 'flux';
 
-module.exports = new Dispatcher();
+export default new Dispatcher();
 ```
 
 ```js
 // stores/MessageStores.js
-var dispatcher = require('../lib/dispatcher');
-var objectAssign = require('object-assign');
-var EventEmitter = require('events').EventEmitter;
+import dispatcher from '../lib/dispatcher';
+import objectAssign from 'object-assign';
+import {EventEmitter} from 'events';
 
-var messages = [];
-var MessageStore = objectAssign({}, EventEmitter.prototype, {
+let messages = [];
+let MessageStore = objectAssign({}, EventEmitter.prototype, {
     onAddMessage: function (message) {
         messages.push(message);
         MessageStore.emitChange();
@@ -135,7 +135,7 @@ dispatcher.register(function (payload) {
     }
 });
 
-module.exports = MessageStore;
+export default MessageStore;
 ```
 
 ### Adding the Server ([Full Diff](https://github.com/mridgway/isomorphic-chat/commit/ddeb9c89108a8d0330b1711745d9f6f60d2a0a51))
@@ -144,14 +144,14 @@ When working in the client, a user initiated event could be a click or a form su
 
 ```js
 // server.js
-var express = require('express');
-var showMessages = require('./actions/showMessages');
-var server = express();
+import express from 'express';
+import showMessages from './actions/showMessages';
+let server = express();
 
 server.get('/', function (req, res, next) {
     showMessages({});
 
-    var html = React.renderToString(ChatComponent());
+    let html = React.renderToString(ChatComponent());
     res.send(html);
 });
 
@@ -168,9 +168,9 @@ What if that action needs to fetch data asynchronously? Let's fetch the message 
 
 ```js
 // actions/showMessages.js
-var superagent = require('superagent');
-var dispatcher = require('./dispatcher');
-module.exports = function showMessages(payload) {
+import superagent from 'superagent';
+import dispatcher from './dispatcher';
+export default function showMessages(payload) {
     superagent
         .get('https://rawgit.com/mridgway/10be75846faa22eb6e22/raw/')
         .set('Accept', 'application/json')
@@ -185,13 +185,13 @@ Now we need the middleware to wait until the data is ready before rendering the 
 
 ```js
 // server.js
-var express = require('express');
-var showMessages = require('./actions/showMessages');
-var server = express();
+import express from 'express';
+import showMessages from './actions/showMessages';
+let server = express();
 
 server.get('/', function (req, res, next) {
     showMessages({}, function showMessagesCallback() { //add a callback
-        var html = React.renderToString(ChatComponent());
+        let html = React.renderToString(ChatComponent());
         res.send(html);
     });
 });
@@ -203,13 +203,13 @@ Now let's add that callback as a parameter in the action creator
 
 ```js
 // actions/showMessages.js
-var superagent = require('superagent');
-module.exports = function showMessages(payload, done) {
+import superagent from 'superagent';
+export default function showMessages(payload, done) {
     superagent
         .get('http://yahoo.com/api/ChatExampleData.json')
         .set('Accept', 'application/json')
         .end(function (res) {
-            var messages = JSON.stringify(res.body);
+            let messages = JSON.stringify(res.body);
             dispatcher.dispatch('RECEIVE_MESSAGES', messages);
             done(); // call the callback
         });
@@ -224,8 +224,8 @@ Let's take another look at the store:
 
 ```js
 // stores/MessageStore.js
-var messages = [];
-var MessageStore = Object.assign({}, EventEmitter.prototype, {
+let messages = [];
+let MessageStore = Object.assign({}, EventEmitter.prototype, {
     onReceiveMessages: function (payload) {
         messages = messages.concat(payload);
         MessageStore.emitChange();
@@ -237,40 +237,40 @@ var MessageStore = Object.assign({}, EventEmitter.prototype, {
         return messages;
     }
 });
-var dispatcher = require('./dispatcher');
+import dispatcher from './dispatcher';
 dispatcher.register('RECEIVE_MESSAGES', MessageStore.onReceiveMessages);
 
-module.exports = MessageStore;
+export default MessageStore;
 ```
 
 `messages` is being stored in a static variable that is shared across requests. In order to make this store request specific, we'll turn it into a class that can then be instantiated per request.
 
 ```js
 // stores/MessageStore.js
-var MessageStore = function () {
-    this.messages = [];
-};
-
-Object.assign(MessageStore.prototype, EventEmitter.prototype, {
-    onReceiveMessages: function (payload) {
+class MessageStore extends EventEmitter {
+    constructor () {
+        super();
+        this.messages = [];
+    }
+    onReceiveMessages (payload) {
         this.messages = this.messages.concat(payload);
         this.emitChange();
-    },
-    emitChange: function () {
+    }
+    emitChange () {
         this.emit('change');
-    },
-    getAllMessages: function () {
+    }
+    getAllMessages () {
         return this.messages;
     }
-});
+}
 
-module.exports = MessageStore;
+export default MessageStore;
 ```
 
 Ok, that was fairly simple. We're now exporting a store class instead of a store instance. But a piece has been removed:
 
 ```js
-var dispatcher = require('./dispatcher');
+import dispatcher from './dispatcher';
 dispatcher.register('RECEIVE_MESSAGES', MessageStore.onReceiveMessages);
 ```
 
@@ -282,30 +282,33 @@ We've created a dispatcher that aids in this isolation: [dispatchr](https://gith
 
 ```js
 // lib/dispatcher.js
-var Dispatcher = require('dispatchr')();
-var MessageStore = require('../stores/MessageStore');
+import dispatcher from './dispatcher';
+import MessageStore from '../stores/MessageStore';
+
+let Dispatcher = dispatchr();
 
 // Register the store constructors
 Dispatcher.registerStore(MessageStore);
 
-module.exports = Dispatcher;
+export default Dispatcher;
 ```
 
 And now we'll update the server to instantiate the dispatcher class per request. We'll also pass the dispatcher instance into the action as the first parameter so that it can dispatch on that specific instance.
 
 ```js
 // server.js
-var express = require('express');
-var showMessages = require('./actions/showMessages');
-var server = express();
-var Dispatcher = require('./lib/dispatcher');
+import express from 'express';
+import showMessages from './actions/showMessages';
+import Dispatcher from './lib/dispatcher';
+
+let server = express();
 
 server.get('/', function (req, res, next) {
-    var dispatcher = new Dispatchr();
+    let dispatcher = new Dispatchr();
 
     // Now the action needs access to the dispatcher too
     showMessages(dispatcher, {}, function () {
-        var html = React.renderToString(ChatComponent());
+        let html = React.renderToString(ChatComponent());
         res.send(html);
     });
 });
@@ -316,8 +319,8 @@ server.listen(process.env.PORT, 3000)
 So now the `showMessages` action creator can no longer require the dispatcher directly, it will be passed in to the function as follows:
 
 ```js
-var superagent = require('superagent');
-module.exports = function showMessages(dispatcher, payload, done) {
+import superagent from 'superagent';
+export default function showMessages(dispatcher, payload, done) {
     superagent
         .get('http://yahoo.com/api/ChatExampleData.json')
         .set('Accept', 'application/json')
@@ -337,7 +340,7 @@ Alright, that completes the server side Flux flow, but now we have to render the
 // server.js
 //...
     showMessages(dispatcher, {}, function () {
-        var html = React.renderToString(ChatComponent({
+        let html = React.renderToString(ChatComponent({
             dispatcher: dispatcher // Pass the constructor!
         }));
         res.send(html);
@@ -349,24 +352,25 @@ Now in the component we can call `this.props.dispatcher.getStore()`:
 
 ```js
 // components/Chat.jsx
-var MessagesStore = require('./stores/MessageStore');
-var MessageSection = React.createClass({
-    getInitialState: function() {
+import MessagesStore from './stores/MessageStore';
+
+class MessageSection from React.Component {
+    constructor (props, context) {
+        super(props, context);
         // access the dispatcher instance
-        var dispatcher = this.props.dispatcher;
-        var messageStore = dispatcher.getStore(MessageStore);
-        return {
+        let dispatcher = this.props.dispatcher;
+        let messageStore = dispatcher.getStore(MessageStore);
+        this.state = {
             messages: messageStore.getAllMessages()
         };
-    },
-    render: function() {
-        var messageListItems = this.state.messages.map(/*...*/);
+    }
+    render () {
+        let messageListItems = this.state.messages.map(/*...*/);
         //...
     }
+}
 
-});
-
-module.exports = MessageSection;
+export default MessageSection;
 ```
 
 ### Dehydration/Rehydration ([Full Diff](https://github.com/mridgway/isomorphic-chat/commit/cb21eed71b107741a0b263f3d46e0273797542dc))
@@ -379,33 +383,33 @@ So, we essentially need to take the state of the application from the server and
 
 ```js
 // stores/MessageStore.js
-var MessageStore = function () {
-    this.messages = [];
-};
-
-Object.assign(MessageStore.prototype, EventEmitter.prototype, {
-    onReceiveMessages: function (payload) {
+class MessageStore extends EventEmitter {
+    constructor () {
+        super();
+        this.messages = [];
+    }
+    onReceiveMessages (payload) {
         this.messages = this.messages.concat(payload);
         this.emitChange();
-    },
-    emitChange: function () {
+    }
+    emitChange () {
         this.emit('change');
-    },
-    getAllMessages: function () {
+    }
+    getAllMessages () {
         return this.messages;
-    },
+    }
     // Add these methods
-    dehydrate: function () {
+    dehydrate () {
         return {
             messages: this.messages
         };
-    },
-    rehydrate: function (state) {
+    }
+    rehydrate (state) {
         this.messages = state.messages;
     }
-});
+}
 
-module.exports = MessageStore;
+export default MessageStore;
 ```
 
 So now on the server, we can use a library like “express-state” to send the full state down to the client.
@@ -414,11 +418,11 @@ So now on the server, we can use a library like “express-state” to send the 
 // server.js
 //...
 server.get('/', function (req, res, next) {
-    var dispatcher = new Dispatchr();
+    let dispatcher = new Dispatchr();
 
     // Now the action needs access to the dispatcher too
     showMessages(dispatcher, {}, function () {
-        var html = React.renderToString(ChatComponent({
+        let html = React.renderToString(ChatComponent({
             dispatcher: dispatcher
         }));
         // use express-state to expose the app state on window.App
@@ -437,14 +441,14 @@ Now the app state will be available on `window.App` on the client.
 The client is meant to pick up where the server left off. We have the DOM and we have the dehydrated state, so we need to reinitialize our flux application and re-render React to get it ready for changes. You'll notice this will look pretty similar to the server, except now we don't need to be concerned with concurrency and we add a `rehydrate` call to set our stores back to the state they were in on the server.
 
 ```js
-var Dispatcher = require('./lib/dispatcher');
+import Dispatcher from './lib/dispatcher';
 
 // Our session dispatcher
-var dispatcher = new Dispatcher();
+let dispatcher = new Dispatcher();
 // window.App contains our dehydrated state
 dispatcher.rehydrate(window.App, function (err) {
-    var mountNode = document.getElementById('app');
-    var html = React.render(ChatComponent({
+    let mountNode = document.getElementById('app');
+    let html = React.render(ChatComponent({
         dispatcher: dispatcher
     }), mountNode, function () {
         // React is done and everything is ready to go
@@ -459,36 +463,37 @@ With Flux, a component will have handlers that will call action creators and the
 Notice that when we call the action creators, we need to provide access to the dispatcher instance, so we pass it in as the first parameter just like we did in the server code.
 
 ```js
-var readMessage = require('./action/readMessage');
-var MessagesStore = require('./stores/MessageStore');
-var MessageSection = React.createClass({
-    getInitialState: function () {
-        return this.getState();
-    },
-    getState: function() {
-        var dispatcher = this.props.dispatcher;
-        var messageStore = dispatcher.getStore(MessageStore);
+import readMessage from './action/readMessage';
+import MessagesStore from './stores/MessageStore';
+
+class MessageSection extends React.Component {
+    constructor: function (props, context) {
+        super(props, context);
+        this.state = this.getState();
+    }
+    getState () {
+        let dispatcher = this.props.dispatcher;
+        let messageStore = dispatcher.getStore(MessageStore);
         return {
             messages: messageStore.getAllMessages()
         };
-    },
-    onClick: function (e) {
+    }
+    onClick (e) {
         readMessage(this.props.dispatcher, {/*payload*/});
-    },
-    onChange: function () {
+    }
+    onChange () {
         this.setState(this.getState());
     }
-    componentDidMount: function () {
+    componentDidMount () {
         this.props.dispatcher.getStore(MessageStore).on('change',  this.onChange);
-    },
-    render: function() {
-        var messageListItems = this.state.messages.map(/*...*/);
+    }
+    render () {
+        let messageListItems = this.state.messages.map(/*...*/);
         //...
     }
+}
 
-});
-
-module.exports = MessageSection;
+export default MessageSection;
 ```
 
 ## Protecting Your Flow
@@ -499,7 +504,7 @@ Let's ensure that this flow is followed. Instead of passing the full dispatcher 
 
 ```js
 //...
-        var html = React.renderToString(ChatComponent({
+        let html = React.renderToString(ChatComponent({
             dispatcher: {
                 getStore: dispatcher.getStore.bind(dispatcher)
             }
@@ -517,31 +522,32 @@ We'll start by creating an `app.js` file that will contain all of the common app
 
 ```js
 // app.js
-var Fluxible = require('fluxible');
-var app = new Fluxible({
+import Fluxible from 'fluxible';
+let app = new Fluxible({
     component: ChatComponent
 });
 app.registerStore(MessageStore);
-module.exports = app;
+export default app;
 ```
 
 Now on the server we can use the `createContext` method to create a request scoped context:
 
 ```js
-var express = require('express');
-var showMessages = require('./actions/showMessages');
-var server = express();
+import express from 'express';
+import showMessages from './actions/showMessages';
 
 // get the fluxible instance
-var app = require('./app');
+import app from './app';
+
+let server = express();
 
 server.get('/', function (req, res, next) {
     // create a request context
-    var context = app.createContext();
+    let context = app.createContext();
 
     context.executeAction(showMessages, {}, function () {
         // Create and render the component passed to Fluxible and automatically set context
-        var html = React.renderToString(context.createElement());
+        let html = React.renderToString(context.createElement());
         res.send(html);
     });
 });
@@ -552,13 +558,13 @@ server.listen(process.env.PORT, 3000)
 The action creator now receives an `actionContext` instead of the dispatcher directly. This `actionContext` provides the `dispatch` method, but not direct access to the dispatcher instance:
 
 ```js
-var superagent = require('superagent');
-module.exports = function showMessages(actionContext, payload, done) {
+import superagent from 'superagent';
+export default function showMessages(actionContext, payload, done) {
     superagent
         .get('http://yahoo.com/api/ChatExampleData.json')
         .set('Accept', 'application/json')
         .end(function (res) {
-            var messages = JSON.stringify(res.body);
+            let messages = JSON.stringify(res.body);
             actionContext.dispatch('RECEIVE_MESSAGES', messages);
             done();
         });
@@ -569,9 +575,9 @@ The component now receives the component context via React's context. This conte
 
 ```js
 // components/Chat.jsx
-var readMessage = require('./action/readMessage');
-var MessagesStore = require('./stores/MessageStore');
-var MessageSection = React.createClass({
+import readMessage from './action/readMessage';
+import MessagesStore from './stores/MessageStore';
+let MessageSection = React.createClass({
     mixins: [require('fluxible').FluxibleMixin],
     statics: {
         storeListeners: [MessageStore]
@@ -595,7 +601,7 @@ var MessageSection = React.createClass({
 
 });
 
-module.exports = MessageSection;
+export default MessageSection;
 ```
 
 Internally, `executeAction` passes the `actionContext` to the action creators even though it's being called from the `componentContext`. We also enforce the fire-and-forget nature of actions from within components by not allowing a callback to be passed to the `executeAction` method from the `componentContext`.

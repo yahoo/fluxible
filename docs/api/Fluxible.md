@@ -5,8 +5,8 @@ Instantiated once for your application, this holds settings and interfaces that 
 ## Usage
 
 ```js
-var Fluxible = require('fluxible');
-var fluxibleApp = new Fluxible({
+import Fluxible from 'fluxible';
+let fluxibleApp = new Fluxible({
     component: require('./components/App.jsx')
 })
 ```
@@ -14,10 +14,10 @@ var fluxibleApp = new Fluxible({
 For each request:
 
 ```js
-var context = fluxibleApp.createContext();
+let context = fluxibleApp.createContext();
 context.executeAction(action, payload, function () {
-    var markup = React.renderToString(context.createElement());
-    var state = fluxibleApp.dehydrate(context);
+    let markup = React.renderToString(context.createElement());
+    let state = fluxibleApp.dehydrate(context);
 
     // ... send markup and state to the client ...
 });

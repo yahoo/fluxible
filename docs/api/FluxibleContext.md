@@ -46,7 +46,7 @@ Parameters:
  * `done`: the callback to call when the action has been completed
 
  ```js
- var action = function (actionContext, payload, done) {
+ let action = function (actionContext, payload, done) {
      // do stuff
      done();
  };

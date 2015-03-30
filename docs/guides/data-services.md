@@ -14,12 +14,12 @@ The service code that you write is always executed on the server, but can be acc
 
 ```js
 // app.js
-var Fluxible = require('fluxible');
-var fetchrPlugin = require('fluxible-plugin-fetchr');
-var pluginInstance = fetchrPlugin({
+import Fluxible from 'fluxible';
+import fetchrPlugin from 'fluxible-plugin-fetchr';
+let pluginInstance = fetchrPlugin({
     xhrPath: '/api' // Path for XHR to be served from
 });
-var app = new Fluxible();
+const app = new Fluxible();
 
 app.plug(pluginInstance);
 ```
@@ -29,7 +29,7 @@ app.plug(pluginInstance);
 
 ```js
 // UserService.js
-module.exports = {
+export default {
     // Name is the resource. Required.
     name: 'user',
     // At least one of the CRUD methods is Required
@@ -49,14 +49,14 @@ module.exports = {
 
 ```js
 // server.js
-var userService = require('services/UserService.js');
+import userService from 'services/UserService.js';
 pluginInstance.registerService(userService);
 ```
 
 Or if you need to do this from your application without direct access to the plugin:
 
 ```js
-var userService = require('services/UserService.js');
+import userService from 'services/UserService.js';
 app.getPlugin('FetchrPlugin').registerService(userService);
 ```
 
@@ -67,7 +67,7 @@ Fetchr also contains an express/connect middleware that can be used as your REST
 
 ```js
 // server.js
-var server = express();
+const server = express();
 server.use(pluginInstance.getXhrPath(), pluginInstance.getMiddleware());
 ```
 
@@ -78,7 +78,7 @@ To maintain the Flux unidirectional data flow, services are only accessible from
 
 ```js
 // loaderUser.js
-module.exports = function loadUser(context, payload, done) {
+export default function loadUser(context, payload, done) {
     context.service.read('user', {}, {}, function (err, userInfo) {
         if (err || !userInfo) {
             context.dispatch('RECEIVE_USER_INFO_FAILURE', err);
@@ -87,5 +87,5 @@ module.exports = function loadUser(context, payload, done) {
         }
         done();
     });
-};
+}
 ```

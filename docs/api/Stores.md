@@ -3,12 +3,33 @@
 Flux stores are where you keep your application's state and handle business logic that reacts to data events. Stores in Fluxible are just classes that adhere to a simple interface. Because we want stores to be able to be completely decoupled from Fluxible, we do not provide any store implementation in our default exports, however you can use the [helper utilities](#helper-utilities) for creating your stores.
 
 ```js
-var util = require('util');
-var EventEmitter = require('events').EventEmitter;
+import {EventEmitter} from 'events';
 
-function ApplicationStore(dispatcher) {
-    this.dispatcher = dispatcher; // Provides access to waitFor and getStore methods
-    this.currentPageName = null;
+class ApplicationStore extends EventEmitter {
+    constructor (dispatcher) {
+        super(dispatcher);
+        this.dispatcher = dispatcher; // Provides access to waitFor and getStore methods
+        this.currentPageName = null;
+    }
+
+    handleReceivePage (payload) {
+        this.currentPageName = payload.pageName;
+        this.emit('change');
+    }
+
+    getCurrentPageName () {
+        return this.currentPageName;
+    }
+
+    // For sending state to the client
+    dehydrate () {
+        return this.getState();
+    }
+
+    // For rehydrating server state
+    rehydrate (state) {
+        this.currentPageName = state.currentPageName;
+    }
 }
 
 ApplicationStore.storeName = 'ApplicationStore';
@@ -16,29 +37,7 @@ ApplicationStore.handlers = {
     'RECEIVE_PAGE': 'handleReceivePage'
 };
 
-util.inherits(ApplicationStore, EventEmitter);
-
-ApplicationStore.prototype.handleReceivePage = function (payload) {
-    this.currentPageName = payload.pageName;
-    this.emit('change');
-};
-
-ApplicationStore.prototype.getCurrentPageName = function () {
-    return this.currentPageName;
-};
-
-// For sending state to the client
-ApplicationStore.prototype.dehydrate = function () {
-    return this.getState();
-};
-
-// For rehydrating server state
-ApplicationStore.prototype.rehydrate = function (state) {
-    this.currentPageName = state.currentPageName;
-};
-
-module.exports = ApplicationStore;
-
+export default ApplicationStore;
 ```
 
 ## Interface
@@ -55,10 +54,12 @@ The store should have a constructor function that will be used to instantiate yo
 The constructor is also where the initial state of the store should be set.
 
 ```js
-function ExampleStore(dispatcher) {
-    this.dispatcher = dispatcher;
-    if (this.initialize) {
-        this.initialize();
+class ExampleStore {
+    constructor (dispatcher) {
+        this.dispatcher = dispatcher;
+        if (this.initialize) {
+            this.initialize();
+        }
     }
 }
 ```
@@ -66,12 +67,14 @@ function ExampleStore(dispatcher) {
 It is also recommended to extend an event emitter so that your store can emit `change` events to the components.
 
 ```js
-util.inherits(ExampleStore, EventEmitter);
+class ExampleStore extends EventEmitter {
+    // ...
+}
 ```
 
 ### Static Properties
 
-#### `storeName`
+#### storeName
 
 The store should define a static property that gives the name of the store. This is used internally and for debugging purposes.
 
@@ -96,10 +99,12 @@ The handler function will be passed two parameters:
   * `actionName`: The name of the action. This is primarily useful when using the `default` handler
 
 ```js
-ExampleStore.prototype.handleNavigate = function (payload, actionName) {
-    this.navigating = true;
-    this.emit('change'); // Component may be listening for changes to state
-};
+class ExampleStore {
+    handleNavigate (payload, actionName) {
+        this.navigating = true;
+        this.emit('change'); // Component may be listening for changes to state
+    }
+}
 ```
 
 If you prefer to define private methods for handling actions, you can use a static function instead of a method name. This function will be bound to the store instance when it is called:
@@ -121,11 +126,13 @@ ExampleStore.handlers = {
 The store should define this function to dehydrate the store if it will be shared between server and client. It should return a serializable data object that will be passed to the client.
 
 ```js
-ExampleStore.prototype.dehydrate = function () {
-    return {
-        navigating: this.navigating
-    };
-};
+class ExampleStore {
+    dehydrate () {
+        return {
+            navigating: this.navigating
+        };
+    }
+}
 ```
 
 #### rehydrate(state)
@@ -133,9 +140,11 @@ ExampleStore.prototype.dehydrate = function () {
 The store should define this function to rehydrate the store if it will be shared between server and client. It should restore the store to the original state using the passed `state`.
 
 ```js
-ExampleStore.prototype.rehydrate = function (state) {
-    this.navigating = state.navigating;
-};
+class ExampleStore {
+    rehydrate (state) {
+        this.navigating = state.navigating;
+    }
+}
 ```
 
 #### shouldDehydrate()
@@ -143,8 +152,10 @@ ExampleStore.prototype.rehydrate = function (state) {
 The store can optionally define this function to control whether the store state should be dehydrated by the dispatcher. This method should return a boolean. If this function is undefined, the store will always be dehydrated (just as if true was returned from method).
 
 ```js
-ExampleStore.prototype.shouldDehydrate = function () {
-    return true;
+class ExampleStore {
+    shouldDehydrate () {
+        return true;
+    }
 }
 ```
 
@@ -155,7 +166,7 @@ ExampleStore.prototype.shouldDehydrate = function () {
 A base class that you can extend to reduce boilerplate when creating stores.
 
 ```js
-var BaseStore = require('fluxible/addons').BaseStore;
+import {BaseStore} from 'fluxible/addons';
 ```
 
 #### Built-In Methods
@@ -167,12 +178,34 @@ var BaseStore = require('fluxible/addons').BaseStore;
  * `shouldDehydrate()` - default implementation that returns true if a `change` event has been emitted
 
 ```js
-var BaseStore = require('fluxible/addons').BaseStore;
-var util = require('util');
+import {BaseStore} from 'fluxible/addons';
 
-function ApplicationStore(dispatcher) {
-    BaseStore.apply(this, arguments);
-    this.currentPageName = null;
+class ApplicationStore extends BaseStore {
+    constructor (dispatcher) {
+        super(dispatcher);
+        this.currentPageName = null;
+    }
+
+    handleReceivePage (payload) {
+        this.currentPageName = payload.pageName;
+        this.emitChange();
+    }
+
+    getCurrentPageName () {
+        return this.currentPageName;
+    }
+
+    // For sending state to the client
+    dehydrate () {
+        return {
+            currentPageName: this.currentPageName
+        };
+    }
+
+    // For rehydrating server state
+    rehydrate (state) {
+        this.currentPageName = state.currentPageName;
+    }
 }
 
 ApplicationStore.storeName = 'ApplicationStore';
@@ -180,31 +213,7 @@ ApplicationStore.handlers = {
     'RECEIVE_PAGE': 'handleReceivePage'
 };
 
-util.inherits(ApplicationStore, BaseStore);
-
-ApplicationStore.prototype.handleReceivePage = function (payload) {
-    this.currentPageName = payload.pageName;
-    this.emitChange();
-};
-
-ApplicationStore.prototype.getCurrentPageName = function () {
-    return this.currentPageName;
-};
-
-// For sending state to the client
-ApplicationStore.prototype.dehydrate = function () {
-    return {
-        currentPageName: this.currentPageName
-    };
-};
-
-// For rehydrating server state
-ApplicationStore.prototype.rehydrate = function (state) {
-    this.currentPageName = state.currentPageName;
-};
-
-module.exports = ApplicationStore;
-
+export default ApplicationStore;
 ```
 
 ### createStore
@@ -212,9 +221,9 @@ module.exports = ApplicationStore;
 A helper method similar to `React.createClass` but for creating stores that extend `BaseStore`. Also supports mixins.
 
 ```js
-var createStore = require('fluxible/addons').createStore;
+import {createStore} from 'fluxible/addons';
 
-module.exports = createStore({
+export default createStore({
     storeName: 'ApplicationStore',
     handlers: {
         'RECEIVE_PAGE': 'handleReceivePage'
