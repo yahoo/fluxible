@@ -28,9 +28,8 @@ module.exports = function (dims) {
                 dimensions: dimensions
             };
         },
-        rehydrate: function (state, done) {
+        rehydrate: function (state) {
             dimensions = state.dimensions;
-            setImmediate(done);
         }
     }
 };

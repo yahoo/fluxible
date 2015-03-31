@@ -276,6 +276,7 @@ describe('FluxibleContext', function () {
 
     describe('plugins', function () {
         var dimensionsPlugin = require('../../fixtures/plugins/DimensionsContextPlugin'),
+            dimensionsPluginSync = require('../../fixtures/plugins/DimensionsContextPluginSync'),
             dimensions = {
                 foo: 'bar'
             };
@@ -305,7 +306,7 @@ describe('FluxibleContext', function () {
             expect(storeContext.getDimensions).to.be.a('function');
             expect(storeContext.getDimensions()).to.deep.equal(dimensions);
         });
-        it('should dehydrate and rehydrate the plugin correctly', function () {
+        it('should dehydrate and rehydrate the async plugin correctly', function (done) {
             // Create a copy of the state
             var state = JSON.parse(JSON.stringify(context.dehydrate()));
             expect(state).to.be.an('object');
@@ -315,10 +316,35 @@ describe('FluxibleContext', function () {
             expect(state.plugins.DimensionsPlugin.dimensions).to.deep.equal(dimensions);
             var newContext = app.createContext();
             newContext.plug(dimensionsPlugin());
-            newContext.rehydrate(state);
-            expect(newContext.getActionContext().getDimensions()).to.deep.equal(dimensions);
-            expect(newContext.getComponentContext().getDimensions()).to.deep.equal(dimensions);
-            expect(newContext.getStoreContext().getDimensions()).to.deep.equal(dimensions);
+            newContext.rehydrate(state, function (err) {
+                if (err) {
+                    done(err);
+                }
+                expect(newContext.getActionContext().getDimensions()).to.deep.equal(dimensions);
+                expect(newContext.getComponentContext().getDimensions()).to.deep.equal(dimensions);
+                expect(newContext.getStoreContext().getDimensions()).to.deep.equal(dimensions);
+                done();
+            });
+        });
+        it('should dehydrate and rehydrate the sync plugin correctly', function (done) {
+            // Create a copy of the state
+            var state = JSON.parse(JSON.stringify(context.dehydrate()));
+            expect(state).to.be.an('object');
+            expect(state.dispatcher).to.be.an('object');
+            expect(state.plugins).to.be.an('object');
+            expect(state.plugins.DimensionsPlugin).to.be.an('object');
+            expect(state.plugins.DimensionsPlugin.dimensions).to.deep.equal(dimensions);
+            var newContext = app.createContext();
+            newContext.plug(dimensionsPluginSync());
+            newContext.rehydrate(state, function (err) {
+                if (err) {
+                    done(err);
+                }
+                expect(newContext.getActionContext().getDimensions()).to.deep.equal(dimensions);
+                expect(newContext.getComponentContext().getDimensions()).to.deep.equal(dimensions);
+                expect(newContext.getStoreContext().getDimensions()).to.deep.equal(dimensions);
+                done();
+            });
         });
     });
 
