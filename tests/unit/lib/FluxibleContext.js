@@ -6,7 +6,7 @@ var expect = require('chai').expect;
 var Component = require('../../fixtures/applications/basic/components/Application.jsx');
 var Fluxible = require('../../../');
 var isPromise = require('is-promise');
-var Bluebird = require('bluebird');
+var PromiseLib = global.Promise || require('es6-promise').Promise;
 var React = require('react');
 
 describe('FluxibleContext', function () {
@@ -158,7 +158,7 @@ describe('FluxibleContext', function () {
 
             it('should wait for returned promise', function (done) {
                 var action = function (context, payload) {
-                    return new Bluebird(function (resolve) {
+                    return new PromiseLib(function (resolve) {
                         setTimeout(function () {
                             resolve(payload);
                         }, 0);

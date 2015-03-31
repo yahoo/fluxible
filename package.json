@@ -14,9 +14,9 @@
   },
   "dependencies": {
     "async": "^0.9.0",
-    "bluebird": "^2.9.14",
     "debug": "^2.0.0",
     "dispatchr": "^0.2.5",
+    "es6-promise": "^2.0.1",
     "is-promise": "^2.0.0",
     "object-assign": "^2.0.0",
     "setimmediate": "^1.0.2"
