@@ -8,6 +8,7 @@ var Fluxible = require('../../../');
 var isPromise = require('is-promise');
 var PromiseLib = global.Promise || require('es6-promise').Promise;
 var React = require('react');
+var domain = require('domain');
 
 describe('FluxibleContext', function () {
     var app;
@@ -75,9 +76,10 @@ describe('FluxibleContext', function () {
             actionCalls = [];
         });
         describe ('#executeAction', function () {
-            it('should return a promise', function () {
-                var promise = actionContext.executeAction(function () {}, {});
+            it('should return a promise', function (done) {
+                var promise = actionContext.executeAction(function () {}, {}).catch(done);
                 expect(isPromise(promise)).to.equal(true);
+                done();
             });
 
             it('should set a default payload', function (done) {
@@ -117,6 +119,32 @@ describe('FluxibleContext', function () {
                 actionContext.executeAction(action, {}, function (executeActionError) {
                     expect(executeActionError).to.equal(err);
                     done();
+                });
+            });
+
+            it('should not swallow callback errors', function (done) {
+                var action = function (context, payload, callback) {
+                    callback();
+                };
+                var payload = {};
+                var calledOnce = false;
+                var callback = function () {
+                    // Without setImmediate in executeAction, this would be recursive
+                    if (calledOnce) {
+                        done(new Error('Callback called multiple times'));
+                        return;
+                    }
+                    calledOnce = true;
+                    throw new Error('test');
+                };
+
+                // Error is expected, but will not be catchable. Crudely using domain
+                var d = domain.create();
+                d.once('error', function () {
+                    done();
+                });
+                d.run(function () {
+                    actionContext.executeAction(action, payload, callback);
                 });
             });
 
