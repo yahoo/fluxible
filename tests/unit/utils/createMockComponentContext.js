@@ -3,60 +3,26 @@
 
 'use strict';
 
-var ROOT_DIR = require('path').resolve(__dirname + '/../../..');
-
 var expect = require('chai').expect;
 var mockery = require('mockery');
+var createMockComponentContext = require('../../../utils').createMockComponentContext;
 
-describe('MockComponentContext', function () {
-    var ComponentContext;
-
-    function dispatchr () {}
-    dispatchr.prototype.getStore = function () {};
-
-    function MockActionContext () {}
-
-    before(function () {
-        mockery.enable({
-            useCleanCache: true,
-            warnOnUnregistered: false
-        });
-
-        mockery.registerMock('dispatchr', function () {
-            return dispatchr;
-        });
-
-        mockery.registerMock('./MockActionContext', function () {
-                return MockActionContext;
-            }
-        );
-
-        ComponentContext = require(ROOT_DIR + '/utils/MockComponentContext')();
-    });
-
-    it('should be a constructor', function () {
-        expect(new ComponentContext()).to.be.an.instanceof(ComponentContext);
-    });
-
-    it('should have a Dispatcher property that is a dispatchr constructor', function() {
-        expect(ComponentContext).to.have.property('Dispatcher', dispatchr);
-    });
+describe('createMockComponentContext', function () {
 
     describe('instance', function () {
         var context;
 
         before(function () {
-            context = new ComponentContext();
+            context = createMockComponentContext();
         });
 
         it('should have the following properties: dispatcher, executeActionCalls', function () {
-            expect(context).to.have.property('dispatcher').that.is.an.instanceof(dispatchr);
             expect(context).to.have.property('executeActionCalls').that.is.an('array').and.empty;
         });
 
         describe('#getStore', function () {
             it('should delegate to the dispatcher getStore method', function () {
-                expect(context).to.have.property('getStore', dispatchr.getStore);
+                expect(context).to.have.property('getStore');
             });
         });
 
@@ -72,7 +38,9 @@ describe('MockComponentContext', function () {
                 };
 
                 function mockAction (ctx, payload, done) {
-                    expect(ctx).to.be.an.instanceof(MockActionContext);
+                    expect(ctx).to.be.an('object');
+                    expect(ctx.dispatch).to.be.a('function');
+                    expect(ctx.executeAction).to.be.a('function');
                     expect(payload).to.equal(mockPayload);
                     done();
                 }

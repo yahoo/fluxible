@@ -115,15 +115,18 @@ When testing your components, you can use our `MockComponentContext` library and
 
 When `executeAction` is called, it will push an object to the `executeActionCalls` array. Each object contains an `action` and `payload` key.
 
-`getStore` calls will be proxied to a dispatcher instance, which you can register stores to via `MockActionContext.registerStore(MockStore)`.
+`getStore` calls will be proxied to a dispatcher instance, which you can register stores to upon instantiation:
+
+```js
+createMockComponentContext({ stores: [MockStore] });`
+```
 
 ### Usage
 
 Here is an example component test that uses `React.TestUtils` to render the component into `jsdom` to test the store integration.
 
 ```js
-import utils from 'fluxible/utils';
-let MockComponentContext = utils.createMockComponentContext();
+import createMockComponentContext from 'fluxible/utils';
 
 // Real store, overridden with MockStore in test
 import {BaseStore} from 'fluxible/addons';
@@ -139,7 +142,7 @@ let myAction = function (actionContext, payload, done) {
     done();
 };
 
-// Register the mock FooStore
+// the mock FooStore
 class MockFooStore extends BaseStore {
     constructor (dispatcher) {
         super(dispatcher);
@@ -157,7 +160,6 @@ MockFooStore.storeName = 'FooStore'; // Matches FooStore.storeName
 MockFooStore.handlers = {
     'FOO': 'handleFoo'
 };
-MockActionContext.registerStore(MockFooStore);
 
 describe('TestComponent', function () {
     var jsdom = require('jsdom');
@@ -169,7 +171,9 @@ describe('TestComponent', function () {
     var TestComponent;
 
     beforeEach(function (done) {
-        componentContext = new MockComponentContext();
+        componentContext = createMockComponentContext({
+            stores: [FooStore]
+        });
         jsdom.env('<html><body></body></html>', [], function (err, window) {
             global.window = window;
             global.document = window.document;
