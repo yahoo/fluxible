@@ -2,10 +2,15 @@
 'use strict';
 require('node-jsx').install({ extension: '.jsx' });
 
+// Fix for https://github.com/joyent/node/issues/8648
+global.Promise = require('es6-promise').Promise;
+
 var expect = require('chai').expect;
 var Component = require('../../fixtures/applications/basic/components/Application.jsx');
 var Fluxible = require('../../../');
+var isPromise = require('is-promise');
 var React = require('react');
+var domain = require('domain');
 
 describe('FluxibleContext', function () {
     var app;
@@ -67,17 +72,34 @@ describe('FluxibleContext', function () {
 
     describe('actionContext', function () {
         var actionContext;
+        var actionCalls;
         beforeEach(function () {
             actionContext = context.getActionContext();
+            actionCalls = [];
         });
         describe ('#executeAction', function () {
+            it('should return a promise', function (done) {
+                var promise = actionContext.executeAction(function () {}, {}).catch(done);
+                expect(isPromise(promise)).to.equal(true);
+                done();
+            });
+
+            it('should set a default payload', function (done) {
+                var action = function (context, payload) {
+                    return payload;
+                };
+                actionContext.executeAction(action)
+                .then(function (result) {
+                    expect(result).to.be.an('object');
+                    done();
+                }).catch(done);
+            });
+
             it('should execute the action', function (done) {
-                var actionCalls = [];
                 var action = function (context, payload, callback) {
                     actionCalls.push({
                         context: context,
-                        payload: payload,
-                        callback: callback
+                        payload: payload
                     });
                     callback();
                 };
@@ -86,11 +108,133 @@ describe('FluxibleContext', function () {
                     expect(actionCalls.length).to.equal(1);
                     expect(actionCalls[0].context).to.equal(actionContext);
                     expect(actionCalls[0].payload).to.equal(payload);
-                    expect(actionCalls[0].callback).to.equal(callback);
                     done();
                 };
                 actionContext.executeAction(action, payload, callback);
             });
+
+            it('should call executeAction callback with errors', function (done) {
+                var err = new Error();
+                var action = function (context, payload, callback) {
+                    callback(err);
+                };
+                actionContext.executeAction(action, {}, function (executeActionError) {
+                    expect(executeActionError).to.equal(err);
+                    done();
+                });
+            });
+
+            it('should not swallow callback errors', function (done) {
+                // Error is expected, but will not be catchable. Crudely using domain.
+                var testError = new Error('test');
+                var d = domain.create();
+                d.on('error', function (e) {
+                    expect(e).to.equal(testError);
+                    done();
+                });
+                d.run(function () {
+                    var action = function (context, payload, callback) {
+                        callback();
+                    };
+                    var payload = {};
+                    var calledOnce = false;
+                    var callback = function () {
+                        // Without setImmediate in executeAction, this could be recursive
+                        if (calledOnce) {
+                            done(new Error('Callback called multiple times'));
+                            return;
+                        }
+                        calledOnce = true;
+                        throw testError;
+                    };
+                    actionContext.executeAction(action, payload, callback);
+                });
+            });
+
+            it('should call executeAction callback with result', function (done) {
+                var payload = {};
+                var action = function (context, payload) {
+                    return payload;
+                };
+                actionContext.executeAction(action, payload, function (err, result) {
+                    expect(err).to.equal(null);
+                    expect(result).to.equal(payload);
+                    done();
+                });
+            });
+
+            it('should reject promise if callback is called with first param', function (done) {
+                var err = new Error();
+                var action = function (context, payload, callback) {
+                    callback(err);
+                };
+                actionContext.executeAction(action, {})
+                .catch(function (callbackError) {
+                    expect(callbackError).to.equal(err);
+                    done();
+                });
+            });
+
+            it('should resolve promise if callback is called with second param', function (done) {
+                var payload = {};
+                var action = function (context, payload, callback) {
+                    callback(null, payload);
+                };
+                actionContext.executeAction(action, payload)
+                .then(function (promiseResult) {
+                    expect(promiseResult).to.equal(promiseResult);
+                    done();
+                }).catch(done);
+            });
+
+            it('should wait for returned promise', function (done) {
+                var action = function (context, payload) {
+                    return new Promise(function (resolve) {
+                        setTimeout(function () {
+                            resolve(payload);
+                        }, 0);
+                    }).catch(done);
+                };
+                var payload = {};
+                actionContext.executeAction(action, payload)
+                .then(function (result) {
+                    expect(result).to.equal(payload);
+                    done();
+                }).catch(done);
+            });
+
+            it('should resolve promise with returned non-promise value', function (done) {
+                var action = function (context, payload) {
+                    return payload;
+                };
+                var payload = {};
+                actionContext.executeAction(action, payload)
+                .then(function (promiseResult) {
+                    expect(promiseResult).to.equal(payload);
+                    done();
+                }).catch(done);
+            });
+
+            it('should reject promise with thrown error', function (done) {
+                var err = new Error();
+                var action = function (context, payload) {
+                    actionCalls.push({
+                        context: context,
+                        payload: payload
+                    });
+                    throw err;
+                };
+                var payload = {};
+                actionContext.executeAction(action, payload)
+                .catch(function (actionError) {
+                    expect(actionError).to.equal(err);
+                    expect(actionCalls.length).to.equal(1);
+                    expect(actionCalls[0].context).to.equal(actionContext);
+                    expect(actionCalls[0].payload).to.equal(payload);
+                    done();
+                });
+            });
+
             it('should not coerce non-objects', function (done) {
                 var actionCalls = [];
                 var action = function (context, payload, callback) {
@@ -132,6 +276,7 @@ describe('FluxibleContext', function () {
             it('should use the defined component action handler', function (done) {
                 var myActionHandler = function (context, payload, cb) {
                     expect(payload.err).to.be.an('object');
+                    cb();
                     done();
                 };
                 var app2 = new Fluxible({
