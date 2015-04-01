@@ -120,12 +120,8 @@ createMockActionContext({ stores: [MockStore] });`
 Here is an example mocha test that display using each of `ActionContext` methods being tested:
 
 ```js
-<<<<<<< HEAD
 import utils from 'fluxible/utils';
-let MockActionContext = utils.createMockActionContext();
-=======
-var createMockActionContext = require('fluxible/utils').createMockActionContext;
->>>>>>> [resolves #95] Update to dispatchr@0.3.x and change test utils to use new-less API
+let createMockActionContext = utils.createMockActionContext();
 
 // Real store, overridden with MockStore in test
 import {BaseStore} from 'fluxible/addons';
