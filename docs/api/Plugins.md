@@ -1,14 +1,14 @@
 # API: Plugins
 
-Plugins allow you to extend the interface of each context type. 
+Plugins allow you to extend the interface of each context type.
 
 ## Creating Plugins
 
 Here, we'll give components access to the `getFoo()` function:
 
 ```js
-var Fluxible = require('fluxible');
-var app = new Fluxible();
+import Fluxible from 'fluxible';
+let app = new Fluxible();
 
 app.plug({
     // Required unique name property
@@ -16,7 +16,7 @@ app.plug({
     // Called after context creation to dynamically create a context plugin
     plugContext: function (options) {
         // `options` is the same as what is passed into `Fluxible.createContext(options)`
-        var foo = options.foo;
+        let foo = options.foo;
         // Returns a context plugin
         return {
             // Method called to allow modification of the component context
@@ -47,7 +47,7 @@ app.plug({
     rehydrate: function (state) {}
 });
 
-var context = app.createContext({
+let context = app.createContext({
     foo: 'bar'
 });
 

@@ -52,7 +52,7 @@ Returns:
 **Callback**
 
  ```js
- var action = function (actionContext, payload, done) {
+ let action = function (actionContext, payload, done) {
      // do stuff
      done();
  };
