@@ -2,11 +2,13 @@
 'use strict';
 require('node-jsx').install({ extension: '.jsx' });
 
+// Fix for https://github.com/joyent/node/issues/8648
+global.Promise = require('es6-promise').Promise;
+
 var expect = require('chai').expect;
 var Component = require('../../fixtures/applications/basic/components/Application.jsx');
 var Fluxible = require('../../../');
 var isPromise = require('is-promise');
-var PromiseLib = global.Promise || require('es6-promise').Promise;
 var React = require('react');
 var domain = require('domain');
 
@@ -90,7 +92,7 @@ describe('FluxibleContext', function () {
                 .then(function (result) {
                     expect(result).to.be.an('object');
                     done();
-                });
+                }).catch(done);
             });
 
             it('should execute the action', function (done) {
@@ -123,27 +125,27 @@ describe('FluxibleContext', function () {
             });
 
             it('should not swallow callback errors', function (done) {
-                var action = function (context, payload, callback) {
-                    callback();
-                };
-                var payload = {};
-                var calledOnce = false;
-                var callback = function () {
-                    // Without setImmediate in executeAction, this would be recursive
-                    if (calledOnce) {
-                        done(new Error('Callback called multiple times'));
-                        return;
-                    }
-                    calledOnce = true;
-                    throw new Error('test');
-                };
-
-                // Error is expected, but will not be catchable. Crudely using domain
+                // Error is expected, but will not be catchable. Crudely using domain.
                 var d = domain.create();
-                d.once('error', function () {
+                d.on('error', function () {
+                    console.log('test');
                     done();
                 });
                 d.run(function () {
+                    var action = function (context, payload, callback) {
+                        callback();
+                    };
+                    var payload = {};
+                    var calledOnce = false;
+                    var callback = function () {
+                        // Without setImmediate in executeAction, this could be recursive
+                        if (calledOnce) {
+                            done(new Error('Callback called multiple times'));
+                            return;
+                        }
+                        calledOnce = true;
+                        throw new Error('test');
+                    };
                     actionContext.executeAction(action, payload, callback);
                 });
             });
@@ -181,23 +183,23 @@ describe('FluxibleContext', function () {
                 .then(function (promiseResult) {
                     expect(promiseResult).to.equal(promiseResult);
                     done();
-                });
+                }).catch(done);
             });
 
             it('should wait for returned promise', function (done) {
                 var action = function (context, payload) {
-                    return new PromiseLib(function (resolve) {
+                    return new Promise(function (resolve) {
                         setTimeout(function () {
                             resolve(payload);
                         }, 0);
-                    });
+                    }).catch(done);
                 };
                 var payload = {};
                 actionContext.executeAction(action, payload)
                 .then(function (result) {
                     expect(result).to.equal(payload);
                     done();
-                });
+                }).catch(done);
             });
 
             it('should resolve promise with returned non-promise value', function (done) {
@@ -209,7 +211,7 @@ describe('FluxibleContext', function () {
                 .then(function (promiseResult) {
                     expect(promiseResult).to.equal(payload);
                     done();
-                });
+                }).catch(done);
             });
 
             it('should reject promise with thrown error', function (done) {
