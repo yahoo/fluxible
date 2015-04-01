@@ -20,13 +20,13 @@ export default function myAction(actionContext, payload, done) {
 If the action returns a promise, executeAction will wait for it to be resolved or rejected:
 
 ```js
-module.exports = function myPromiseAction(actionContext, payload) {
+export default function myPromiseAction(actionContext, payload) {
     return new Promise(function (resolve, reject) {
         getServerData(payload)
-        .then(function (data) {
-            actionContext.dispatch('RECEIVED_SERVER_DATA', data);
-        })
-        .then(resolve, reject);
+            .then(function (data) {
+                actionContext.dispatch('RECEIVED_SERVER_DATA', data);
+            })
+            .then(resolve, reject);
     });
 };
 ```
@@ -34,8 +34,8 @@ module.exports = function myPromiseAction(actionContext, payload) {
 If the action takes less than three parameters, executeAction will resolve the promise with the return value, if any:
 
 ```js
-module.export = function mySyncAction(actionContext, payload) {
-    actionContext.dispatch('MY_ACTION', payload);
+export default function mySyncAction(actionContext, payload) {
+    return actionContext.dispatch('MY_ACTION', payload);
 }
 ```
 
@@ -52,11 +52,11 @@ export default function myParentAction(actionContext, payload, done) {
 **Promise**
 
 ```js
-module.exports = function myParentAction(actionContext, payload) {
-    actionContext.executeAction(myAction, payload)
-    .then(function (result) {
-        // do something
-    });
+export default function myParentAction(actionContext, payload) {
+    return actionContext.executeAction(myAction, payload)
+        .then(function (result) {
+            // do something
+        });
 }
 ```
 
