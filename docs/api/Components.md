@@ -60,73 +60,9 @@ The mixin can also be used to statically list store dependencies and listen to t
 You can do this with an array, which will default all store listeners to call the `onChange` method:
 
 ```js
-var FluxibleMixin = require('fluxible').FluxibleMixin;
-var FooStore = require('./stores/FooStore'); // Your store
-var Component = React.createClass({
-    mixins: [FluxibleMixin],
-    statics: {
-        storeListeners: [FooStore]
-    },
-    onChange: function () {
-        this.setState(this.getStore(FooStore).getState());
-    },
-});
-```
-
-Or you can be more explicit with which function to call for each store by using a hash:
-
-```js
-var FluxibleMixin = require('fluxible').FluxibleMixin;
-var FooStore = require('./stores/FooStore'); // Your store
-var BarStore = require('./stores/BarStore'); // Your store
-var Component = React.createClass({
-    mixins: [FluxibleMixin],
-    statics: {
-        storeListeners: {
-            onFooStoreChange: [FooStore],
-            onBarStoreChange: [BarStore]
-        }
-    },
-    onFooStoreChange: function () {
-        this.setState(this.getStore(FooStore).getState());
-    },
-    onBarStateChange: function () {
-        this.setState(this.getStore(BarStore).getState());
-    }
-});
-```
-
-This prevents boilerplate for listening to stores in `componentDidMount` and unlistening in `componentWillUnmount`.
-
-
-## Component Context
-
-The component context receives limited access to the [FluxibleContext](FluxibleContext.md) so that it can't dispatch directly. It contains the following methods:
-
- * `executeAction(action, payload)`
- * `getStore(storeConstructor)`
-
-It's important to note that `executeAction` does not allow passing a callback from the component. This enforces that the actions are fire-and-forget and that state changes should only be handled through the Flux flow. You may however provide an app level `componentActionHandler` function when instantiating Fluxible. This allows you to handle errors (at a high level) spawning from components firing actions.
-
-
-## Testing
-
-When testing your components, you can use our `MockComponentContext` library and pass an instance to your component to record the methods that the component calls on the context.
-
-When `executeAction` is called, it will push an object to the `executeActionCalls` array. Each object contains an `action` and `payload` key.
-
-`getStore` calls will be proxied to a dispatcher instance, which you can register stores to upon instantiation:
-
-```js
-createMockComponentContext({ stores: [MockStore] });`
-```
-
-### Usage
-
-Here is an example component test that uses `React.TestUtils` to render the component into `jsdom` to test the store integration.
-
-```js
-import createMockComponentContext from 'fluxible/utils';
+import {createMockComponentContext} from 'fluxible/utils';
+import assert from 'assert';
+import jsdom from 'jsdom';
 
 // Real store, overridden with MockStore in test
 import {BaseStore} from 'fluxible/addons';
@@ -162,8 +98,6 @@ MockFooStore.handlers = {
 };
 
 describe('TestComponent', function () {
-    var jsdom = require('jsdom');
-    var assert = require('assert');
     var componentContext;
     var React;
     var ReactTestUtils;
@@ -172,7 +106,7 @@ describe('TestComponent', function () {
 
     beforeEach(function (done) {
         componentContext = createMockComponentContext({
-            stores: [FooStore]
+            stores: [MockFooStore]
         });
         jsdom.env('<html><body></body></html>', [], function (err, window) {
             global.window = window;
@@ -182,7 +116,7 @@ describe('TestComponent', function () {
             // React must be required after window is set
             React = require('react');
             ReactTestUtils = require('react/lib/ReactTestUtils');
-            FluxibleMixin = require('fluxible').FluxibleMixin;
+            FluxibleMixin = require('fluxible/index').FluxibleMixin;
 
             // The component being tested
             TestComponent = React.createClass({
@@ -218,7 +152,7 @@ describe('TestComponent', function () {
     });
 
     it('should call context executeAction when context provided via React context', function (done) {
-        var FluxibleComponent = require('fluxible').FluxibleComponent;
+        var FluxibleComponent = require('fluxible/index').FluxibleComponent;
         var component = ReactTestUtils.renderIntoDocument(
             <FluxibleComponent context={componentContext}>
                 <TestComponent />
