@@ -126,9 +126,10 @@ describe('FluxibleContext', function () {
 
             it('should not swallow callback errors', function (done) {
                 // Error is expected, but will not be catchable. Crudely using domain.
+                var testError = new Error('test');
                 var d = domain.create();
-                d.on('error', function () {
-                    console.log('test');
+                d.on('error', function (e) {
+                    expect(e).to.equal(testError);
                     done();
                 });
                 d.run(function () {
@@ -144,7 +145,7 @@ describe('FluxibleContext', function () {
                             return;
                         }
                         calledOnce = true;
-                        throw new Error('test');
+                        throw testError;
                     };
                     actionContext.executeAction(action, payload, callback);
                 });
