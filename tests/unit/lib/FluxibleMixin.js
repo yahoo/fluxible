@@ -5,18 +5,15 @@ var expect = require('chai').expect,
     React = require('react/addons'),
     ReactTestUtils = require('react/lib/ReactTestUtils'),
     FluxibleMixin = require('../../../').FluxibleMixin,
-    createStore = require('dispatchr/utils/createStore'),
+    createStore = require('dispatchr/addons/createStore'),
     MockStore = createStore({
         storeName: 'MockStore'
     }),
     MockStore2 = createStore({
         storeName: 'MockStore2'
     }),
-    MockContext = require('../../../utils/MockComponentContext')(),
+    createMockComponentContext = require('../../../utils/createMockComponentContext'),
     jsdom = require('jsdom');
-
-MockContext.Dispatcher.registerStore(MockStore);
-MockContext.Dispatcher.registerStore(MockStore2);
 
 describe('StoreListenerMixin', function () {
     var context,
@@ -24,7 +21,9 @@ describe('StoreListenerMixin', function () {
         mockStore2;
 
     beforeEach(function (done) {
-        context = new MockContext();
+        context = createMockComponentContext({
+            stores: [MockStore, MockStore2]
+        });
         mockStore = context.getStore(MockStore);
         mockStore2 = context.getStore(MockStore2);
         jsdom.env('<html><body></body></html>', [], function (err, window) {

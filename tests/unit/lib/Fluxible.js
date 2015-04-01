@@ -39,7 +39,7 @@ describe('Fluxible', function () {
     describe('#registerStore', function () {
         it('should register the new store', function () {
             app.registerStore(FooStore);
-            expect(app._dispatcherClass.isRegistered(FooStore)).to.equal(true);
+            expect(app._dispatcher.isRegistered(FooStore)).to.equal(true);
         });
     });
 

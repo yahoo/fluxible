@@ -1,1 +1,1 @@
-module.exports = require('dispatchr/utils/createStore');
+module.exports = require('dispatchr/addons/createStore');

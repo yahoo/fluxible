@@ -1,4 +1,4 @@
 module.exports = {
-    createMockActionContext: require('./MockActionContext'),
-    createMockComponentContext: require('./MockComponentContext')
+    createMockActionContext: require('./createMockActionContext'),
+    createMockComponentContext: require('./createMockComponentContext')
 };

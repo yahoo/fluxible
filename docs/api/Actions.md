@@ -103,21 +103,29 @@ Retrieve a store instance by constructor. Useful for reading from the store. Sho
 
 ## Testing
 
-When testing your actions, you can use our `MockActionContext` library and pass an instance to your action to record the methods that the action calls on the context.
+When testing your actions, you can use our `createMockActionContext` library and pass an instance to your action to record the methods that the action calls on the context.
 
 When `dispatch` is called, it will push an object to the `dispatchCalls` array. Each object contains a `name` and `payload` key.
 
 When `executeAction` is called, it will push an object to the `executeActionCalls` array. Each object contains an `action` and `payload` key.
 
-`getStore` calls will be proxied to a dispatcher instance, which you can register stores to via `MockActionContext.registerStore(MockStore)`.
+`getStore` calls will be proxied to a dispatcher instance, which you can register stores to upon instantiation:
+ 
+```js
+createMockActionContext({ stores: [MockStore] });`
+```
 
 ### Usage
 
 Here is an example mocha test that display using each of `ActionContext` methods being tested:
 
 ```js
+<<<<<<< HEAD
 import utils from 'fluxible/utils';
 let MockActionContext = utils.createMockActionContext();
+=======
+var createMockActionContext = require('fluxible/utils').createMockActionContext;
+>>>>>>> [resolves #95] Update to dispatchr@0.3.x and change test utils to use new-less API
 
 // Real store, overridden with MockStore in test
 import {BaseStore} from 'fluxible/addons';
@@ -137,7 +145,7 @@ let otherAction = function (actionContext, payload, done) {
     done();
 };
 
-// Register the mock FooStore
+// the mock FooStore
 class MockFooStore extends BaseStore {
     constructor (dispatcher) {
         super(dispatcher);
@@ -155,7 +163,6 @@ MockFooStore.storeName = 'FooStore'; // Matches FooStore.storeName
 MockFooStore.handlers = {
     'FOO': 'handleFoo'
 };
-MockActionContext.registerStore(MockFooStore);
 
 // Tests
 describe('myAction', function () {
@@ -163,7 +170,9 @@ describe('myAction', function () {
     let actionContext;
 
     beforeEach(function () {
-        actionContext = new MockActionContext();
+        actionContext = createMockActionContext({
+            stores: [FooStore]
+        });
     });
 
     it('should dispatch foo', function (done) {
