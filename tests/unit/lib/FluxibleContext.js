@@ -91,6 +91,22 @@ describe('FluxibleContext', function () {
                 };
                 actionContext.executeAction(action, payload, callback);
             });
+            it('should not coerce non-objects', function (done) {
+                var actionCalls = [];
+                var action = function (context, payload, callback) {
+                    actionCalls.push({
+                        context: context,
+                        payload: payload,
+                        callback: callback
+                    });
+                    callback();
+                };
+                var payload = false;
+                actionContext.executeAction(action, payload, function () {
+                    expect(actionCalls[0].payload).to.equal(false);
+                    done();
+                })
+            });
         });
     });
 
