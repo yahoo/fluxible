@@ -509,7 +509,7 @@ Let's ensure that this flow is followed. Instead of passing the full dispatcher 
 
 Now the components only have access to the `getStore` method which will return the store instance. But we've created another problem: when a component calls an action creator, the dispatcher that is sent to the action creators doesn't have access to the dispatch method any more.
 
-## Introducing the Fluxible Library
+## Introducing the Fluxible Library ([Full Example](https://github.com/mridgway/flux-example/tree/master/chat))
 
 Fluxible's job is to take care of these concerns for you. It is a application wrapper that only exposes the methods that should be allowed in a specific context: within a component, an action creator, or a store. It uses `dispatchr` under the hood and it provides an abstraction for your application to share some of the boilerplate you saw between the server and the client. Let's turn this into a Fluxible app.
 
