@@ -249,7 +249,7 @@ describe('FluxibleContext', function () {
                 actionContext.executeAction(action, payload, function () {
                     expect(actionCalls[0].payload).to.equal(false);
                     done();
-                })
+                });
             });
         });
     });
@@ -335,23 +335,31 @@ describe('FluxibleContext', function () {
                 context.plug({});
             }).to.throw();
         });
+        it('should throw if a plugin is already registerd by that name', function () {
+            expect(function () {
+                context.plug({ name: 'DimensionsPlugin' });
+            }).to.throw();
+        });
         it('should add the getDimensions function to the action context', function () {
             var actionContext = context.getActionContext();
             expect(actionContext).to.be.an('object');
-            expect(actionContext.getDimensions).to.be.a('function');
-            expect(actionContext.getDimensions()).to.deep.equal(dimensions);
+            expect(actionContext.DimensionsPlugin).to.be.an('object');
+            expect(actionContext.DimensionsPlugin.getDimensions).to.be.a('function');
+            expect(actionContext.DimensionsPlugin.getDimensions()).to.deep.equal(dimensions);
         });
         it('should add the getDimensions function to the component context', function () {
             var componentContext = context.getComponentContext();
             expect(componentContext).to.be.an('object');
-            expect(componentContext.getDimensions).to.be.a('function');
-            expect(componentContext.getDimensions()).to.deep.equal(dimensions);
+            expect(componentContext.DimensionsPlugin).to.be.an('object');
+            expect(componentContext.DimensionsPlugin.getDimensions).to.be.a('function');
+            expect(componentContext.DimensionsPlugin.getDimensions()).to.deep.equal(dimensions);
         });
         it('should add the getDimensions function to the store context', function () {
             var storeContext = context.getStoreContext();
             expect(storeContext).to.be.an('object');
-            expect(storeContext.getDimensions).to.be.a('function');
-            expect(storeContext.getDimensions()).to.deep.equal(dimensions);
+            expect(storeContext.DimensionsPlugin).to.be.an('object');
+            expect(storeContext.DimensionsPlugin.getDimensions).to.be.a('function');
+            expect(storeContext.DimensionsPlugin.getDimensions()).to.deep.equal(dimensions);
         });
         it('should dehydrate and rehydrate the async plugin correctly', function (done) {
             // Create a copy of the state
@@ -367,9 +375,9 @@ describe('FluxibleContext', function () {
                 if (err) {
                     done(err);
                 }
-                expect(newContext.getActionContext().getDimensions()).to.deep.equal(dimensions);
-                expect(newContext.getComponentContext().getDimensions()).to.deep.equal(dimensions);
-                expect(newContext.getStoreContext().getDimensions()).to.deep.equal(dimensions);
+                expect(newContext.getActionContext().DimensionsPlugin.getDimensions()).to.deep.equal(dimensions);
+                expect(newContext.getComponentContext().DimensionsPlugin.getDimensions()).to.deep.equal(dimensions);
+                expect(newContext.getStoreContext().DimensionsPlugin.getDimensions()).to.deep.equal(dimensions);
                 done();
             });
         });
@@ -387,9 +395,9 @@ describe('FluxibleContext', function () {
                 if (err) {
                     done(err);
                 }
-                expect(newContext.getActionContext().getDimensions()).to.deep.equal(dimensions);
-                expect(newContext.getComponentContext().getDimensions()).to.deep.equal(dimensions);
-                expect(newContext.getStoreContext().getDimensions()).to.deep.equal(dimensions);
+                expect(newContext.getActionContext().DimensionsPlugin.getDimensions()).to.deep.equal(dimensions);
+                expect(newContext.getComponentContext().DimensionsPlugin.getDimensions()).to.deep.equal(dimensions);
+                expect(newContext.getStoreContext().DimensionsPlugin.getDimensions()).to.deep.equal(dimensions);
                 done();
             });
         });

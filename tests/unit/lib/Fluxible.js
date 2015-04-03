@@ -1,11 +1,10 @@
 /*globals describe,it,beforeEach */
-"use strict";
+'use strict';
 require('node-jsx').install({ extension: '.jsx' });
 
 // Fix for https://github.com/joyent/node/issues/8648
 global.Promise = require('es6-promise').Promise;
 
-var path = require('path');
 var expect = require('chai').expect;
 var Component = require('../../fixtures/applications/basic/components/Application.jsx');
 var Fluxible = require('../../../');
@@ -62,11 +61,12 @@ describe('Fluxible', function () {
     });
 
     describe('plugins', function () {
-        var testPlugin = require('../../fixtures/plugins/TestApplicationPlugin'),
-            testPluginSync = require('../../fixtures/plugins/TestApplicationPluginSync'),
-            pluginInstance,
-            foo = 'bar',
-            context;
+        var testPlugin = require('../../fixtures/plugins/TestApplicationPlugin');
+        var testPluginSync = require('../../fixtures/plugins/TestApplicationPluginSync');
+        var pluginInstance;
+        var foo = 'bar';
+        var context;
+
         beforeEach(function () {
             pluginInstance = testPlugin(foo);
             app.plug(pluginInstance);
@@ -77,26 +77,34 @@ describe('Fluxible', function () {
                 app.plug({});
             }).to.throw();
         });
+        it('should throw if a plugin is already registerd by that name', function () {
+            expect(function () {
+                app.plug({ name: 'TestAppPlugin' });
+            }).to.throw();
+        });
         it('should provide access to the plugin instance', function () {
             expect(app.getPlugin(pluginInstance.name)).to.equal(pluginInstance);
         });
         it('should add the getFoo function to the action context', function () {
             var actionContext = context.getActionContext();
             expect(actionContext).to.be.an('object');
-            expect(actionContext.getFoo).to.be.a('function');
-            expect(actionContext.getFoo()).to.equal(foo);
+            expect(actionContext.TestAppPlugin).to.be.an('object');
+            expect(actionContext.TestAppPlugin.getFoo).to.be.a('function');
+            expect(actionContext.TestAppPlugin.getFoo()).to.equal(foo);
         });
         it('should add the getDimensions function to the component context', function () {
             var componentContext = context.getComponentContext();
             expect(componentContext).to.be.an('object');
-            expect(componentContext.getFoo).to.be.a('function');
-            expect(componentContext.getFoo()).to.equal(foo);
+            expect(componentContext.TestAppPlugin).to.be.an('object');
+            expect(componentContext.TestAppPlugin.getFoo).to.be.a('function');
+            expect(componentContext.TestAppPlugin.getFoo()).to.equal(foo);
         });
         it('should add the getDimensions function to the store context', function () {
             var storeContext = context.getStoreContext();
             expect(storeContext).to.be.an('object');
-            expect(storeContext.getFoo).to.be.a('function');
-            expect(storeContext.getFoo()).to.equal(foo);
+            expect(storeContext.TestAppPlugin).to.be.an('object');
+            expect(storeContext.TestAppPlugin.getFoo).to.be.a('function');
+            expect(storeContext.TestAppPlugin.getFoo()).to.equal(foo);
         });
         it('should dehydrate and rehydrate the async plugin correctly', function (done) {
             // Create a copy of the state
@@ -117,9 +125,9 @@ describe('Fluxible', function () {
                     done(err);
                     return;
                 }
-                expect(newContext.getActionContext().getFoo()).to.equal(foo);
-                expect(newContext.getComponentContext().getFoo()).to.equal(foo);
-                expect(newContext.getStoreContext().getFoo()).to.equal(foo);
+                expect(newContext.getActionContext().TestAppPlugin.getFoo()).to.equal(foo);
+                expect(newContext.getComponentContext().TestAppPlugin.getFoo()).to.equal(foo);
+                expect(newContext.getStoreContext().TestAppPlugin.getFoo()).to.equal(foo);
                 done();
             });
         });
@@ -142,9 +150,9 @@ describe('Fluxible', function () {
                     done(err);
                     return;
                 }
-                expect(newContext.getActionContext().getFoo()).to.equal(foo);
-                expect(newContext.getComponentContext().getFoo()).to.equal(foo);
-                expect(newContext.getStoreContext().getFoo()).to.equal(foo);
+                expect(newContext.getActionContext().TestAppPlugin.getFoo()).to.equal(foo);
+                expect(newContext.getComponentContext().TestAppPlugin.getFoo()).to.equal(foo);
+                expect(newContext.getStoreContext().TestAppPlugin.getFoo()).to.equal(foo);
                 done();
             });
         });
