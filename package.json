@@ -8,8 +8,8 @@
     "url": "https://github.com/yahoo/fluxible"
   },
   "scripts": {
-    "test": "mocha tests/unit/ --recursive --reporter spec",
-    "cover": "istanbul cover --dir artifacts -- _mocha tests/unit/ --recursive --reporter spec",
+    "test": "mocha tests/unit/ --recursive --compilers js:babel/register --reporter spec",
+    "cover": "istanbul cover --dir artifacts -- _mocha tests/unit/ --recursive --compilers js:babel/register --reporter spec",
     "lint": "jshint"
   },
   "dependencies": {
@@ -25,6 +25,7 @@
     "react": "0.13.x"
   },
   "devDependencies": {
+    "babel": "^5.0.2",
     "chai": "^2.0.0",
     "cheerio": "^0.18.0",
     "connect-livereload": "^0.5.2",

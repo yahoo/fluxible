@@ -52,7 +52,7 @@ let context = app.createContext({
 });
 
 context.getComponentContext().getFoo(); // returns 'bar'
-// or this.props.context.getFoo() from a React component
+// or this.context.getFoo() from a React component
 ```
 
 Example plugins:

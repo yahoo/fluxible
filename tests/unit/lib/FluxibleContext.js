@@ -1,16 +1,17 @@
 /*globals describe,it,beforeEach */
 'use strict';
-require('node-jsx').install({ extension: '.jsx' });
-
-// Fix for https://github.com/joyent/node/issues/8648
-global.Promise = require('es6-promise').Promise;
 
 var expect = require('chai').expect;
 var Component = require('../../fixtures/applications/basic/components/Application.jsx');
+var provideContext = require('../../../addons/provideContext');
 var Fluxible = require('../../../');
+var FluxibleContext = require('../../../lib/FluxibleContext');
 var isPromise = require('is-promise');
 var React = require('react');
 var domain = require('domain');
+
+// Fix for https://github.com/joyent/node/issues/8648
+FluxibleContext.Promise = require('es6-promise').Promise;
 
 describe('FluxibleContext', function () {
     var app;
@@ -24,7 +25,7 @@ describe('FluxibleContext', function () {
     });
 
     describe('createElement', function () {
-        it('should receive the correct props and context', function (done) {
+        it('should receive the correct props and context when using FluxibleComponent', function (done) {
             var Component = React.createClass({
                 displayName: 'Component',
                 contextTypes: {
@@ -46,8 +47,8 @@ describe('FluxibleContext', function () {
 
             React.renderToString(context.createElement({foo: 'bar'}));
         });
-        it('should receive the correct props and context if passed factory', function (done) {
-            var Component = React.createFactory(React.createClass({
+        it('should receive the correct props and context when using contextProvider', function (done) {
+            var Component = React.createClass({
                 displayName: 'Component',
                 contextTypes: {
                     getStore: React.PropTypes.func.isRequired,
@@ -60,7 +61,30 @@ describe('FluxibleContext', function () {
                     done();
                 },
                 render: function () { return null; }
-            }));
+            });
+            Component = provideContext(Component);
+            var app = new Fluxible({
+                component: Component
+            });
+            context = app.createContext();
+
+            React.renderToString(context.createElement({foo: 'bar'}));
+        });
+        it('should receive the correct props and context if passed factory', function (done) {
+            var Component = React.createClass({
+                displayName: 'Component',
+                contextTypes: {
+                    getStore: React.PropTypes.func.isRequired,
+                    executeAction: React.PropTypes.func.isRequired
+                },
+                componentWillMount: function () {
+                    expect(this.props.foo).to.equal('bar');
+                    expect(this.context.getStore).to.be.a('function');
+                    expect(this.context.executeAction).to.be.a('function');
+                    done();
+                },
+                render: function () { return null; }
+            });
             var app = new Fluxible({
                 component: Component
             });

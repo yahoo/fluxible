@@ -4,13 +4,13 @@
 var expect = require('chai').expect,
     React = require('react/addons'),
     ReactTestUtils = require('react/lib/ReactTestUtils'),
-    FluxibleMixin = require('../../../').FluxibleMixin,
+    FluxibleMixin = require('../../../addons').FluxibleMixin,
     createStore = require('dispatchr/addons/createStore'),
     MockStore = createStore({
-        storeName: 'MockStore'
+        storeName: 'FooStore'
     }),
     MockStore2 = createStore({
-        storeName: 'MockStore2'
+        storeName: 'BarStore'
     }),
     createMockComponentContext = require('../../../utils/createMockComponentContext'),
     jsdom = require('jsdom');
@@ -203,7 +203,7 @@ describe('StoreListenerMixin', function () {
 
         });
         it('should call context executeAction when context provided via React context', function (done) {
-            var Wrapper = React.createFactory(require('../../../index').FluxibleComponent);
+            var Wrapper = React.createFactory(require('../../../addons/FluxibleComponent'));
             var Component = React.createFactory(React.createClass({
                 displayName: 'Component',
                 contextTypes: {

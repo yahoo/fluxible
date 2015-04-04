@@ -1,6 +1,11 @@
 # API: Stores
 
-Flux stores are where you keep your application's state and handle business logic that reacts to data events. Stores in Fluxible are just classes that adhere to a simple interface. Because we want stores to be able to be completely decoupled from Fluxible, we do not provide any store implementation in our default exports, however you can use the [helper utilities](#helper-utilities) for creating your stores.
+Flux stores are where you keep your application's state and handle business 
+logic that reacts to data events. Stores in Fluxible are just classes that 
+adhere to a simple interface. Because we want stores to be able to be completely 
+decoupled from Fluxible, we do not provide any store implementation in our 
+default exports, however you can use the [helper utilities](#helper-utilities) 
+for creating your stores.
 
 ```js
 import {EventEmitter} from 'events';
@@ -40,11 +45,22 @@ ApplicationStore.handlers = {
 export default ApplicationStore;
 ```
 
+## Helper Utilities
+
+Fluxible provides a couple of helpers for building stores with some default
+behavior and convenience methods.
+
+ * [BaseStore](addons/BaseStore.md) - Store class that can be extended
+ * [createStore](addons/createStore.md) - function for creating a class that 
+extends `BaseStore`
+
 ## Interface
 
 ### Constructor
 
-The store should have a constructor function that will be used to instantiate your store using `new Store(dispatcherInterface)` where the parameters are as follows:
+The store should have a constructor function that will be used to instantiate 
+your store using `new Store(dispatcherInterface)` where the parameters are as 
+follows:
 
   * `dispatcherInterface`: An object providing access to the following methods:
     * `dispatcherInterface.getContext()`: Retrieve the [store context](#store-context)
@@ -64,7 +80,8 @@ class ExampleStore {
 }
 ```
 
-It is also recommended to extend an event emitter so that your store can emit `change` events to the components.
+It is also recommended to extend an event emitter so that your store can emit 
+`change` events to the components.
 
 ```js
 class ExampleStore extends EventEmitter {
@@ -76,7 +93,8 @@ class ExampleStore extends EventEmitter {
 
 #### storeName
 
-The store should define a static property that gives the name of the store. This is used internally and for debugging purposes.
+The store should define a static property that gives the name of the store. This 
+is used internally and for debugging purposes.
 
 ```js
 ExampleStore.storeName = 'ExampleStore';
@@ -84,7 +102,9 @@ ExampleStore.storeName = 'ExampleStore';
 
 #### handlers
 
-The store should define a static property that maps action names to handler functions or method names. These functions will be called in the event that an action has been dispatched by the Dispatchr instance.
+The store should define a static property that maps action names to handler 
+functions or method names. These functions will be called in the event that an 
+action has been dispatched by the Dispatchr instance.
 
 ```js
 ExampleStore.handlers = {
@@ -96,7 +116,8 @@ ExampleStore.handlers = {
 The handler function will be passed two parameters:
 
   * `payload`: An object containing action information.
-  * `actionName`: The name of the action. This is primarily useful when using the `default` handler
+  * `actionName`: The name of the action. This is primarily useful when using 
+the `default` handler
 
 ```js
 class ExampleStore {
@@ -107,7 +128,9 @@ class ExampleStore {
 }
 ```
 
-If you prefer to define private methods for handling actions, you can use a static function instead of a method name. This function will be bound to the store instance when it is called:
+If you prefer to define private methods for handling actions, you can use a 
+static function instead of a method name. This function will be bound to the 
+store instance when it is called:
 
 ```js
 ExampleStore.handlers = {
@@ -123,7 +146,9 @@ ExampleStore.handlers = {
 
 #### dehydrate()
 
-The store should define this function to dehydrate the store if it will be shared between server and client. It should return a serializable data object that will be passed to the client.
+The store should define this function to dehydrate the store if it will be 
+shared between server and client. It should return a serializable data object 
+that will be passed to the client.
 
 ```js
 class ExampleStore {
@@ -137,7 +162,9 @@ class ExampleStore {
 
 #### rehydrate(state)
 
-The store should define this function to rehydrate the store if it will be shared between server and client. It should restore the store to the original state using the passed `state`.
+The store should define this function to rehydrate the store if it will be 
+shared between server and client. It should restore the store to the original 
+state using the passed `state`.
 
 ```js
 class ExampleStore {
@@ -149,7 +176,10 @@ class ExampleStore {
 
 #### shouldDehydrate()
 
-The store can optionally define this function to control whether the store state should be dehydrated by the dispatcher. This method should return a boolean. If this function is undefined, the store will always be dehydrated (just as if true was returned from method).
+The store can optionally define this function to control whether the store state 
+should be dehydrated by the dispatcher. This method should return a boolean. If 
+this function is undefined, the store will always be dehydrated (just as if true 
+was returned from method).
 
 ```js
 class ExampleStore {
@@ -159,94 +189,7 @@ class ExampleStore {
 }
 ```
 
-## Helper Utilities
-
-### BaseStore
-
-A base class that you can extend to reduce boilerplate when creating stores.
-
-```js
-import {BaseStore} from 'fluxible/addons';
-```
-
-#### Built-In Methods
-
- * `emitChange()` - emits a 'change' event
- * `getContext()` - returns the [store context](FluxibleContext.md#store-context)
- * `addChangeListener(callback)` - simple method to add a change listener
- * `removeChangeListener(callback)` - removes a change listener
- * `shouldDehydrate()` - default implementation that returns true if a `change` event has been emitted
-
-```js
-import {BaseStore} from 'fluxible/addons';
-
-class ApplicationStore extends BaseStore {
-    constructor (dispatcher) {
-        super(dispatcher);
-        this.currentPageName = null;
-    }
-
-    handleReceivePage (payload) {
-        this.currentPageName = payload.pageName;
-        this.emitChange();
-    }
-
-    getCurrentPageName () {
-        return this.currentPageName;
-    }
-
-    // For sending state to the client
-    dehydrate () {
-        return {
-            currentPageName: this.currentPageName
-        };
-    }
-
-    // For rehydrating server state
-    rehydrate (state) {
-        this.currentPageName = state.currentPageName;
-    }
-}
-
-ApplicationStore.storeName = 'ApplicationStore';
-ApplicationStore.handlers = {
-    'RECEIVE_PAGE': 'handleReceivePage'
-};
-
-export default ApplicationStore;
-```
-
-### createStore
-
-A helper method similar to `React.createClass` but for creating stores that extend `BaseStore`. Also supports mixins.
-
-```js
-import {createStore} from 'fluxible/addons';
-
-export default createStore({
-    storeName: 'ApplicationStore',
-    handlers: {
-        'RECEIVE_PAGE': 'handleReceivePage'
-    },
-    handleReceivePage: function (payload) {
-        this.currentPageName = payload.pageName;
-        this.emitChange();
-    },
-    getCurrentPage: function () {
-        return this.currentPageName;
-    },
-    dehydrate: function () {
-        return {
-            currentPageName: this.currentPageName
-        };
-    },
-    rehydrate: function (state) {
-        this.currentPageName = state.currentPageName;
-    }
-});
-
-```
-
 ## Store Context
 
-The store context by default contains no methods, but can be modified by plugins.
+The store context by default contains no methods, but can be modified by 
+plugins.
