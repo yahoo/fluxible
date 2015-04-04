@@ -30,7 +30,7 @@ export default Application
 Now when you render the Application component, you can pass in the component context via the `context` prop and be assured that all children will have access to it by specifying the respective `contextType`.
 
 ```js
-React.renderToString(<WrappedComponent context={context} />);
+React.renderToString(<Application context={context} />);
 ```
 
 If you're using the [`FluxibleContext.createElement()` method](../FluxibleContext.md#createelement-props-) and you passed a higher-order `provideContext` component to the Fluxible constructor, then the `context` prop will automatically be passed in for you.
