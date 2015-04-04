@@ -12,9 +12,9 @@
 
 ### Breaking Changes
 
- * `require('fluxible').Mixin` removed
- * `require('fluxible/utils/MockActionContext')` removed
- * `require('fluxible/utils/MockComponentContext')` removed
+ * removed `require('fluxible').Mixin` 
+ * removed `require('fluxible/utils/MockActionContext')` 
+ * removed `require('fluxible/utils/MockComponentContext')` 
 
 ### Deprecations
 
