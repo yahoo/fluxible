@@ -5,8 +5,9 @@
 'use strict';
 var PromiseLib = require('es6-promise').Promise;
 
-module.exports = function TestApplicationPlugin(initialFoo) {
+module.exports = function TestApplicationPlugin(initialFoo, initialBar) {
     var foo = initialFoo;
+    var bar = initialBar;
     return {
         name: 'TestAppPlugin',
         plugContext: function (options) {
@@ -14,6 +15,9 @@ module.exports = function TestApplicationPlugin(initialFoo) {
                 plugActionContext: function plugActionContext(actionContext) {
                     actionContext.getFoo = function () {
                         return foo;
+                    };
+                    actionContext.getBar = function () {
+                        return bar;
                     };
                 },
                 plugComponentContext: function plugComponentContext(componentContext) {
@@ -25,6 +29,17 @@ module.exports = function TestApplicationPlugin(initialFoo) {
                     storeContext.getFoo = function () {
                         return foo;
                     };
+                },
+                dehydrate: function () {
+                    return {
+                        bar: bar
+                    };
+                },
+                rehydrate: function (state, done) {
+                    return new Promise(function (resolve) {
+                        bar = state.bar;
+                        resolve();
+                    });
                 }
             };
         },

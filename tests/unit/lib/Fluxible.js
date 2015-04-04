@@ -66,9 +66,10 @@ describe('Fluxible', function () {
             testPluginPromise = require('../../fixtures/plugins/TestApplicationPluginPromise'),
             pluginInstance,
             foo = 'bar',
+            bar = 'baz',
             context;
         beforeEach(function () {
-            pluginInstance = testPlugin(foo);
+            pluginInstance = testPlugin(foo, bar);
             app.plug(pluginInstance);
             context = app.createContext();
         });
@@ -118,6 +119,7 @@ describe('Fluxible', function () {
                     return;
                 }
                 expect(newContext.getActionContext().getFoo()).to.equal(foo);
+                expect(newContext.getActionContext().getBar()).to.equal(bar);
                 expect(newContext.getComponentContext().getFoo()).to.equal(foo);
                 expect(newContext.getStoreContext().getFoo()).to.equal(foo);
                 done();
@@ -143,6 +145,7 @@ describe('Fluxible', function () {
                     return;
                 }
                 expect(newContext.getActionContext().getFoo()).to.equal(foo);
+                expect(newContext.getActionContext().getBar()).to.equal(bar);
                 expect(newContext.getComponentContext().getFoo()).to.equal(foo);
                 expect(newContext.getStoreContext().getFoo()).to.equal(foo);
                 done();
@@ -168,6 +171,7 @@ describe('Fluxible', function () {
                     return;
                 }
                 expect(newContext.getActionContext().getFoo()).to.equal(foo);
+                expect(newContext.getActionContext().getBar()).to.equal(bar);
                 expect(newContext.getComponentContext().getFoo()).to.equal(foo);
                 expect(newContext.getStoreContext().getFoo()).to.equal(foo);
                 done();

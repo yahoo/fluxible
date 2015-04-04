@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.4.1
+
+### Bug Fixes
+
+ * Fixed context plugin rehydration throwing undefined error
+
 ## 0.4.0
 
 ### New Features
