@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.4.2
+
+### Bug Fixes
+
+ * [#115] Moved factory warning to context.createElement since it's only relevant when using this method
+
 ## 0.4.1
 
 ### Bug Fixes
