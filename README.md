@@ -42,6 +42,7 @@ $ npm install --save fluxible
 import Fluxible from 'fluxible';
 import React from 'react';
 import {connectToStores, createStore, provideContext} from 'fluxible/addons';
+import objectAssign from 'object-assign';
 
 // Action
 const action = (actionContext, payload) => {
@@ -75,8 +76,8 @@ class App extends React.Component {
 }
 
 App = provideContext(connectToStores(App, [FooStore], {
-    FooStore(store) {
-        return store.getState();
+    FooStore(state, store) {
+        objectAssign(state, store.getState());
     }
 }));
 

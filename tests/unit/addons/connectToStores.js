@@ -67,15 +67,11 @@ describe('connectToStores', function () {
             }
         });
         var WrappedComponent = provideContext(connectToStores(Component, [FooStore, BarStore], {
-            FooStore: function (store, props) {
-                return {
-                    foo: store.getFoo()
-                }
+            FooStore: function (state, store, props) {
+                state.foo = store.getFoo();
             },
-            BarStore: function (store, props) {
-                return {
-                    bar: store.getBar()
-                }
+            BarStore: function (state, store, props) {
+                state.bar = store.getBar();
             }
         }));
 

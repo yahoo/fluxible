@@ -9,8 +9,8 @@ import connectToStores from 'fluxible/addons/connectToStores';
 Takes the following parameters:
 
  * `Component` - the component that should receive the state as props
- * `stores` - array of store constructors to listen for changes
- * `storeGetters` - hash of storeName -> getter function; the return values are merged as props
+ * `stores` - array of store constructors to listen for changes; the array order defines the order the reducers are called
+ * `storeReducers` - map of storeName -> reduce callback; should modify the first `state` argument to add state
 
 ## Example
 
@@ -29,12 +29,12 @@ class Component extends React.Component {
 }
 
 Component = connectToStores(Component, [FooStore, BarStore], {
-    FooStore: (store, props) => ({
-        foo: store.getFoo()
-    }),
-    BarStore: (store, props) => ({
-        bar: store.getBar()
-    })
+    FooStore: (state, store, props) => {
+        state.foo = store.getFoo();
+    },
+    BarStore: (state, store, props) => {
+        state.bar = store.getBar()
+    }
 });
 
 module.exports = Component;
