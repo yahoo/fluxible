@@ -1,6 +1,6 @@
 # FluxibleMixin
 
-*** FluxibleMixin will be deprecated since React mixin support will eventually
+***FluxibleMixin will be deprecated since React mixin support will eventually
 be removed. It is highly recommended to use [provideContext](provideContext.md)
 instead.***
 
