@@ -21,11 +21,11 @@ $ npm install --save fluxible
 
 ## Features
 
- * Singleton-free for [server rendering](https://github.com/yahoo/fluxible/blob/master/docs/api/server-rendering.md)
- * [Server dehydration](https://github.com/yahoo/fluxible/blob/master/docs/guides/server-rendering.md#dehydrationrehydration) for client bootstrapping
+ * Singleton-free for server rendering
+ * Server dehydration for client bootstrapping
  * Stateless async [actions](https://github.com/yahoo/fluxible/blob/master/docs/api/Actions.md)
- * React [mixin](https://github.com/yahoo/fluxible/blob/master/docs/api/FluxibleMixin.md) and [component](https://github.com/yahoo/fluxible/blob/master/docs/api/FluxibleComponent.md) for easy integration
- * Enforcement of Flux flow - restricted access to the [Flux context](https://github.com/yahoo/fluxible/blob/master/docs/api/FluxibleContext.md) from within components
+ * Higher order [components](https://github.com/yahoo/fluxible/blob/master/docs/api/Components.md) for easy integration
+ * Enforcement of Flux flow - restricted access to the [Flux interface](https://github.com/yahoo/fluxible/blob/master/docs/api/FluxibleContext.md) from within components
  * [Pluggable](https://github.com/yahoo/fluxible/blob/master/docs/api/Plugins.md) - add your own interfaces to the Flux context
  * Updated for React 0.13
  
@@ -39,18 +39,17 @@ $ npm install --save fluxible
 ## Usage
 
 ```js
-var Fluxible = require('fluxible');
-var React = require('react');
+import Fluxible from 'fluxible';
+import React from 'react';
+import {connectToStores, createStore, provideContext} from 'fluxible/addons';
 
 // Action
-var action = function (context, payload, done) {
-    context.dispatch('FOO_ACTION', payload);
-    done();
+const action = (actionContext, payload) => {
+    actionContext.dispatch('FOO_ACTION', payload);
 };
 
 // Store
-var createStore = require('fluxible/addons').createStore;
-var Store = createStore({
+const FooStore = createStore({
     storeName: 'FooStore',
     handlers: {
         'FOO_ACTION': 'fooHandler'
@@ -58,7 +57,7 @@ var Store = createStore({
     initialize: function () { // Set the initial state
         this.foo = null;
     },
-    fooHandler: function (payload) { 
+    fooHandler: function (payload) {
         this.foo = payload;
     },
     getState: function () {
@@ -69,30 +68,26 @@ var Store = createStore({
 });
 
 // Component
-var App = React.createClass({
-    mixins: [Fluxible.FluxibleMixin], // Calls onChange when storeListeners emit change
-    statics: {
-        storeListeners: [Store]
-    },
-    getInitialState: function () {
-        return this.getStore(Store).getState();
-    },
-    onChange: function () {
-        this.setState(this.getStore(Store).getState());
-    },
-    render: function () {
-        return <span>{this.state.foo}</span>
+class App extends React.Component {
+    render() {
+        return <span>{this.props.foo}</span>
     }
-});
+}
+
+App = provideContext(connectToStores(App, [FooStore], {
+    FooStore(store) {
+        return store.getState();
+    }
+}));
 
 // App
-var fluxibleApp = new Fluxible({
-    component: App
+const app = new Fluxible({
+    component: App,
+    stores: [FooStore]
 });
-fluxibleApp.registerStore(Store);
 
 // Bootstrap
-var context = fluxibleApp.createContext();
+const context = app.createContext();
 context.executeAction(action, 'bar', function () {
     console.log(React.renderToString(context.createElement()));
 });
