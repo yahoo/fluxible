@@ -15,10 +15,10 @@ var contextTypes = require('../lib/contextTypes');
  * @method connectToStores
  * @param {React.Component} Component component to pass state as props to
  * @param {array} stores List of stores to listen for changes
- * @param {object} storeGetters Map of storeName => stateGetterMethod used to retrieve state from the store
+ * @param {object} storeReducers Map of storeName -> reduce callback; should modify the first `state` argument to add state
  * @returns {React.Component}
  */
-module.exports = function connectToStores(Component, stores, storeGetters) {
+module.exports = function connectToStores(Component, stores, storeReducers) {
     var componentName = Component.displayName || Component.name;
     var StoreConnector = React.createClass({
         displayName: componentName + 'StoreConnector',
@@ -40,10 +40,13 @@ module.exports = function connectToStores(Component, stores, storeGetters) {
         },
         getStateFromStores: function () {
             var state = {};
-            Object.keys(storeGetters).forEach(function (storeName) {
-                var stateGetter = storeGetters[storeName];
-                var store = this.context.getStore(storeName);
-                objectAssign(state, stateGetter(store, this.props));
+            stores.forEach(function(store) {
+                var storeName = store.name || store.storeName || store;
+                var stateGetter = storeReducers[storeName];
+                var storeInstance = this.context.getStore(store);
+                if (stateGetter) {
+                    stateGetter(state, storeInstance, this.props)
+                }
             }, this);
             return state;
         },
