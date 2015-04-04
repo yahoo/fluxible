@@ -348,6 +348,7 @@ describe('FluxibleContext', function () {
     describe('plugins', function () {
         var dimensionsPlugin = require('../../fixtures/plugins/DimensionsContextPlugin'),
             dimensionsPluginSync = require('../../fixtures/plugins/DimensionsContextPluginSync'),
+            dimensionsPluginPromise = require('../../fixtures/plugins/DimensionsContextPluginPromise'),
             dimensions = {
                 foo: 'bar'
             };
@@ -387,15 +388,13 @@ describe('FluxibleContext', function () {
             expect(state.plugins.DimensionsPlugin.dimensions).to.deep.equal(dimensions);
             var newContext = app.createContext();
             newContext.plug(dimensionsPlugin());
-            newContext.rehydrate(state, function (err) {
-                if (err) {
-                    done(err);
-                }
+            var rehydratePromise = newContext.rehydrate(state).then(function () {
                 expect(newContext.getActionContext().getDimensions()).to.deep.equal(dimensions);
                 expect(newContext.getComponentContext().getDimensions()).to.deep.equal(dimensions);
                 expect(newContext.getStoreContext().getDimensions()).to.deep.equal(dimensions);
                 done();
-            });
+            }, done);
+            expect(isPromise(rehydratePromise));
         });
         it('should dehydrate and rehydrate the sync plugin correctly', function (done) {
             // Create a copy of the state
@@ -407,15 +406,31 @@ describe('FluxibleContext', function () {
             expect(state.plugins.DimensionsPlugin.dimensions).to.deep.equal(dimensions);
             var newContext = app.createContext();
             newContext.plug(dimensionsPluginSync());
-            newContext.rehydrate(state, function (err) {
-                if (err) {
-                    done(err);
-                }
+            var rehydratePromise = newContext.rehydrate(state).then(function () {
                 expect(newContext.getActionContext().getDimensions()).to.deep.equal(dimensions);
                 expect(newContext.getComponentContext().getDimensions()).to.deep.equal(dimensions);
                 expect(newContext.getStoreContext().getDimensions()).to.deep.equal(dimensions);
                 done();
-            });
+            }, done);
+            expect(isPromise(rehydratePromise));
+        });
+        it('should dehydrate and rehydrate the promise plugin correctly', function (done) {
+            // Create a copy of the state
+            var state = JSON.parse(JSON.stringify(context.dehydrate()));
+            expect(state).to.be.an('object');
+            expect(state.dispatcher).to.be.an('object');
+            expect(state.plugins).to.be.an('object');
+            expect(state.plugins.DimensionsPlugin).to.be.an('object');
+            expect(state.plugins.DimensionsPlugin.dimensions).to.deep.equal(dimensions);
+            var newContext = app.createContext();
+            newContext.plug(dimensionsPluginPromise());
+            var rehydratePromise = newContext.rehydrate(state).then(function () {
+                expect(newContext.getActionContext().getDimensions()).to.deep.equal(dimensions);
+                expect(newContext.getComponentContext().getDimensions()).to.deep.equal(dimensions);
+                expect(newContext.getStoreContext().getDimensions()).to.deep.equal(dimensions);
+                done();
+            }, done);
+            expect(isPromise(rehydratePromise));
         });
     });
 

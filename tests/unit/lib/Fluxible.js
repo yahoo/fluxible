@@ -63,6 +63,7 @@ describe('Fluxible', function () {
     describe('plugins', function () {
         var testPlugin = require('../../fixtures/plugins/TestApplicationPlugin'),
             testPluginSync = require('../../fixtures/plugins/TestApplicationPluginSync'),
+            testPluginPromise = require('../../fixtures/plugins/TestApplicationPluginPromise'),
             pluginInstance,
             foo = 'bar',
             context;
@@ -136,6 +137,31 @@ describe('Fluxible', function () {
                 component: Component
             });
             newApp.plug(testPluginSync());
+            newApp.rehydrate(state, function (err, newContext) {
+                if (err) {
+                    done(err);
+                    return;
+                }
+                expect(newContext.getActionContext().getFoo()).to.equal(foo);
+                expect(newContext.getComponentContext().getFoo()).to.equal(foo);
+                expect(newContext.getStoreContext().getFoo()).to.equal(foo);
+                done();
+            });
+        });
+        it('should dehydrate and rehydrate the promise plugin correctly', function (done) {
+            // Create a copy of the state
+            var state = JSON.parse(JSON.stringify(app.dehydrate(context)));
+            expect(state).to.be.an('object');
+            expect(state.context).to.be.an('object');
+            expect(state.context.dispatcher).to.be.an('object');
+            expect(state.context.plugins).to.be.an('object');
+            expect(state.plugins).to.be.an('object');
+            expect(state.plugins.TestAppPlugin).to.be.an('object');
+            expect(state.plugins.TestAppPlugin.foo).to.equal(foo);
+            var newApp = new Fluxible({
+                component: Component
+            });
+            newApp.plug(testPluginPromise());
             newApp.rehydrate(state, function (err, newContext) {
                 if (err) {
                     done(err);

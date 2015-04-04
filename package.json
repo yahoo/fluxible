@@ -13,7 +13,6 @@
     "lint": "jshint"
   },
   "dependencies": {
-    "async": "^0.9.0",
     "debug": "^2.0.0",
     "dispatchr": "^0.3.1",
     "es6-promise": "^2.0.1",
@@ -27,20 +26,15 @@
   "devDependencies": {
     "babel": "^5.0.2",
     "chai": "^2.0.0",
-    "cheerio": "^0.18.0",
-    "connect-livereload": "^0.5.2",
     "coveralls": "^2.11.1",
     "flux-router-component": "^0.6.0",
-    "grunt": "^0.4.5",
     "istanbul": "^0.3.2",
     "jsdom": "^3.1.2",
     "jshint": "^2.5.5",
     "mocha": "^2.0.1",
     "mockery": "^1.4.0",
-    "node-jsx": "^0.12.4",
     "precommit-hook": "1.0.x",
-    "react": "0.13.x",
-    "supertest": "^0.15.0"
+    "react": "0.13.x"
   },
   "author": "Michael Ridgway <mridgway@yahoo-inc.com>",
   "contributors": [],
