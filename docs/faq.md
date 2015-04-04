@@ -58,5 +58,3 @@ This is caused by the csrf middleware. You need to make sure you pass the `csrf`
 ### In react-router, how do I get access to the Fluxible context from `willTransitionTo`?
 
 Since `willTransitionTo` is defined statically on the component, it will not have access to the Fluxible context. There is a [open issue](https://github.com/rackt/react-router/pull/590) from react-router to provide access but, as of this writing) it has yet to be resolved.
-
-

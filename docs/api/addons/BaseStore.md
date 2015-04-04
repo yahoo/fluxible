@@ -17,8 +17,6 @@ A base class that you can extend to reduce boilerplate when creating stores.
 ## Example
 
 ```js
-import {BaseStore} from 'fluxible/addons';
-
 class ApplicationStore extends BaseStore {
     constructor (dispatcher) {
         super(dispatcher);

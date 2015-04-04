@@ -22,20 +22,20 @@ $ npm install --save fluxible
 ## Features
 
  * Singleton-free for server rendering
- * Server dehydration for client bootstrapping
+ * [Store](https://github.com/yahoo/fluxible/blob/master/docs/api/Stores.md) dehydration for client bootstrapping
  * Stateless async [actions](https://github.com/yahoo/fluxible/blob/master/docs/api/Actions.md)
  * Higher order [components](https://github.com/yahoo/fluxible/blob/master/docs/api/Components.md) for easy integration
  * Enforcement of Flux flow - restricted access to the [Flux interface](https://github.com/yahoo/fluxible/blob/master/docs/api/FluxibleContext.md) from within components
  * [Pluggable](https://github.com/yahoo/fluxible/blob/master/docs/api/Plugins.md) - add your own interfaces to the Flux context
  * Updated for React 0.13
- 
+
 ## Extras
 
  * [Yeoman generator](https://github.com/yahoo/generator-fluxible)
  * [Example Applications](https://github.com/yahoo/flux-examples)
  * [Fluxible Routing](https://github.com/yahoo/fluxible-plugin-routr)
  * [Isomorphic Data Services](https://github.com/yahoo/fluxible-plugin-fetchr)
- 
+
 ## Usage
 
 ```js

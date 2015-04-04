@@ -69,12 +69,12 @@ Returns:
      done();
  };
  context.executeAction(action, {})
- .then(function (result) {
-     // action has completed
- })
- .catch(function (err) {
-     // action had an error
- });
+     .then(function (result) {
+         // action has completed
+     })
+     .catch(function (err) {
+         // action had an error
+     });
  ```
 
 ### plug(plugin)
