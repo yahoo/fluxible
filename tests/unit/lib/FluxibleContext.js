@@ -101,7 +101,7 @@ describe('FluxibleContext', function () {
             actionContext = context.getActionContext();
             actionCalls = [];
         });
-        describe ('#executeAction', function () {
+        describe('#executeAction', function () {
             it('should return a promise', function (done) {
                 var promise = actionContext.executeAction(function () {}, {}).catch(done);
                 expect(isPromise(promise)).to.equal(true);
@@ -273,7 +273,7 @@ describe('FluxibleContext', function () {
                 actionContext.executeAction(action, payload, function () {
                     expect(actionCalls[0].payload).to.equal(false);
                     done();
-                })
+                });
             });
         });
     });
@@ -283,7 +283,7 @@ describe('FluxibleContext', function () {
         beforeEach(function () {
             componentContext = context.getComponentContext();
         });
-        describe ('#executeAction', function () {
+        describe('#executeAction', function () {
             it('should execute the action', function (done) {
                 var callback = function () {
                     throw new Error('This should not be called');
