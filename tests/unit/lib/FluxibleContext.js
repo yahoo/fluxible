@@ -315,6 +315,29 @@ describe('FluxibleContext', function () {
 
                 componentContext2.executeAction(action, {});
             });
+            it('throws if component action handler does not handle the error', function (done) {
+                var actionError = new Error('action error');
+                var componentActionHandler = function (context, payload) {
+                    throw payload.err;
+                };
+                var action = function () {
+                    throw actionError;
+                };
+                var app2 = new Fluxible({
+                    componentActionHandler: componentActionHandler
+                });
+                var context2 = app2.createContext();
+                var componentContext2 = context2.getComponentContext();
+
+                var setImmediate = global.setImmediate;
+                global.setImmediate = function (fn) {
+                    expect(function () { fn(); }).to.throw(actionError);
+                    global.setImmediate = setImmediate;
+                    done();
+                };
+
+                componentContext2.executeAction(action, {});
+            });
         });
     });
 
