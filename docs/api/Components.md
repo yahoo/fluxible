@@ -173,12 +173,10 @@ describe('TestComponent', function () {
                 }
             });
             // Wrap with context provider and store connector
-            TestComponent = provideContext(connectToStores(TestComponent, [FooStore], {
-                FooStore: function (store, props) {
-                    return {
-                        foo: store.getFoo()
-                    }
-                }
+            TestComponent = provideContext(connectToStores(TestComponent, [FooStore], function (stores) {
+                return {
+                    foo: stores.FooStore.getFoo()
+                };
             }));
             done();
         });

@@ -28,13 +28,11 @@ class Component extends React.Component {
     }
 }
 
-Component = connectToStores(Component, [FooStore, BarStore], {
-    FooStore: (store, props) => ({
-        foo: store.getFoo()
-    }),
-    BarStore: (store, props) => ({
-        bar: store.getBar()
-    })
+Component = connectToStores(Component, [FooStore, BarStore], function (stores, props) {
+    return {
+        foo: stores.FooStore.getFoo(),
+        bar: stores.BarStore.getBar()
+    };
 });
 
 module.exports = Component;

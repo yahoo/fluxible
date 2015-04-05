@@ -15,10 +15,11 @@ var contextTypes = require('../lib/contextTypes');
  * @method connectToStores
  * @param {React.Component} Component component to pass state as props to
  * @param {array} stores List of stores to listen for changes
- * @param {object} storeGetters Map of storeName => stateGetterMethod used to retrieve state from the store
+ * @param {function} getStateFromStores function that receives all stores and should return
+ *      the full state object. Receives `stores` hash and component `props` as arguments
  * @returns {React.Component}
  */
-module.exports = function connectToStores(Component, stores, storeGetters) {
+module.exports = function connectToStores(Component, stores, getStateFromStores) {
     var componentName = Component.displayName || Component.name;
     var StoreConnector = React.createClass({
         displayName: componentName + 'StoreConnector',
@@ -39,9 +40,18 @@ module.exports = function connectToStores(Component, stores, storeGetters) {
             }, this);
         },
         getStateFromStores: function () {
+            if ('function' === typeof getStateFromStores) {
+                var storeInstances = {};
+                stores.forEach(function (store) {
+                    var storeName = store.name || store.storeName || store;
+                    storeInstances[storeName] = this.context.getStore(store);
+                }, this);
+                return getStateFromStores(storeInstances, this.props);
+            }
             var state = {};
-            Object.keys(storeGetters).forEach(function (storeName) {
-                var stateGetter = storeGetters[storeName];
+            //@TODO deprecate?
+            Object.keys(getStateFromStores).forEach(function (storeName) {
+                var stateGetter = getStateFromStores[storeName];
                 var store = this.context.getStore(storeName);
                 objectAssign(state, stateGetter(store, this.props));
             }, this);

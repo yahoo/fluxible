@@ -74,10 +74,8 @@ class App extends React.Component {
     }
 }
 
-App = provideContext(connectToStores(App, [FooStore], {
-    FooStore(store) {
-        return store.getState();
-    }
+App = provideContext(connectToStores(App, [FooStore], function (stores) {
+    return stores.FooStore.getState();
 }));
 
 // App
