@@ -1,10 +1,10 @@
 # Fluxible
 
-[![npm version](https://img.shields.io/npm/v/fluxible.svg?style=flat-square)](https://www.npmjs.com/package/fluxible)
-[![Build Status](https://img.shields.io/travis/yahoo/fluxible.svg?style=flat-square)](https://travis-ci.org/yahoo/fluxible)
-[![Coverage Status](https://img.shields.io/coveralls/yahoo/fluxible.svg?style=flat-square)](https://coveralls.io/r/yahoo/fluxible?branch=master)
-[![Dependency Status](https://img.shields.io/david/yahoo/fluxible.svg?style=flat-square)](https://david-dm.org/yahoo/fluxible)
-[![devDependency Status](https://img.shields.io/david/dev/yahoo/fluxible.svg?style=flat-square)](https://david-dm.org/yahoo/fluxible#info=devDependencies)
+[![NPM version](https://badge.fury.io/js/fluxible.svg)](http://badge.fury.io/js/fluxible)
+[![Build Status](https://img.shields.io/travis/yahoo/fluxible.svg)](https://travis-ci.org/yahoo/fluxible)
+[![Coverage Status](https://img.shields.io/coveralls/yahoo/fluxible.svg)](https://coveralls.io/r/yahoo/fluxible?branch=master)
+[![Dependency Status](https://img.shields.io/david/yahoo/fluxible.svg)](https://david-dm.org/yahoo/fluxible)
+[![devDependency Status](https://img.shields.io/david/dev/yahoo/fluxible.svg)](https://david-dm.org/yahoo/fluxible#info=devDependencies)
 
 Pluggable, singleton-free container for isomorphic [Flux](https://github.com/facebook/flux) applications.
 
