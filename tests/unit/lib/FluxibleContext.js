@@ -318,26 +318,25 @@ describe('FluxibleContext', function () {
             });
             it('throws if component action handler does not handle the error', function (done) {
                 var actionError = new Error('action error');
-                var componentActionHandler = function (context, payload) {
-                    throw payload.err;
-                };
-                var action = function () {
-                    throw actionError;
-                };
-                var app2 = new Fluxible({
-                    componentActionHandler: componentActionHandler
-                });
-                var context2 = app2.createContext();
-                var componentContext2 = context2.getComponentContext();
-
-                var setImmediate = global.setImmediate;
-                global.setImmediate = function (fn) {
-                    expect(function () { fn(); }).to.throw(actionError);
-                    global.setImmediate = setImmediate;
+                var d = domain.create();
+                d.on('error', function (e) {
+                    expect(e).to.equal(actionError);
                     done();
-                };
-
-                componentContext2.executeAction(action, {});
+                });
+                d.run(function () {
+                    var componentActionHandler = function (context, payload) {
+                        throw payload.err;
+                    };
+                    var action = function () {
+                        throw actionError;
+                    };
+                    var app2 = new Fluxible({
+                        componentActionHandler: componentActionHandler
+                    });
+                    var context2 = app2.createContext();
+                    var componentContext2 = context2.getComponentContext();
+                    componentContext2.executeAction(action, {});
+                });
             });
         });
     });
