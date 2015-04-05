@@ -298,8 +298,9 @@ describe('FluxibleContext', function () {
                 componentContext.executeAction(action, payload, callback);
             });
             it('should use the defined component action handler', function (done) {
+                var actionError = new Error('something went wrong');
                 var myActionHandler = function (context, payload, cb) {
-                    expect(payload.err).to.be.an('object');
+                    expect(payload.err).to.equal(actionError);
                     cb();
                     done();
                 };
@@ -310,7 +311,7 @@ describe('FluxibleContext', function () {
                 var context2 = app2.createContext();
                 var componentContext2 = context2.getComponentContext();
                 var action = function (context, payload, cb) {
-                    cb(Error('Something went wrong'));
+                    cb(actionError);
                 };
 
                 componentContext2.executeAction(action, {});
