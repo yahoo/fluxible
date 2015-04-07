@@ -54,13 +54,13 @@ const FooStore = createStore({
     handlers: {
         'FOO_ACTION': 'fooHandler'
     },
-    initialize: function () { // Set the initial state
+    initialize: () => { // Set the initial state
         this.foo = null;
     },
-    fooHandler: function (payload) {
+    fooHandler: (payload) => {
         this.foo = payload;
     },
-    getState: function () {
+    getState: () => {
         return {
             foo: this.foo
         }
@@ -74,10 +74,8 @@ class App extends React.Component {
     }
 }
 
-App = provideContext(connectToStores(App, [FooStore], {
-    FooStore(store) {
-        return store.getState();
-    }
+App = provideContext(connectToStores(App, [FooStore], (stores, props) => {
+    return stores.FooStore.getState();
 }));
 
 // App
@@ -88,7 +86,7 @@ const app = new Fluxible({
 
 // Bootstrap
 const context = app.createContext();
-context.executeAction(action, 'bar', function () {
+context.executeAction(action, 'bar', (err) => {
     console.log(React.renderToString(context.createElement()));
 });
 ```
