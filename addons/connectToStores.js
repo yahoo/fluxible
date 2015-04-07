@@ -19,13 +19,14 @@ var contextTypes = require('../lib/contextTypes');
  *      the full state object. Receives `stores` hash and component `props` as arguments
  * @returns {React.Component}
  */
-module.exports = function connectToStores(Component, stores, getStateFromStores) {
+module.exports = function connectToStores(Component, stores, getStateFromStores, extraContextTypes) {
     var componentName = Component.displayName || Component.name;
+    var componentContextTypes = objectAssign({
+        getStore: contextTypes.getStore
+    }, extraContextTypes);
     var StoreConnector = React.createClass({
         displayName: componentName + 'StoreConnector',
-        contextTypes: {
-            getStore: contextTypes.getStore
-        },
+        contextTypes: componentContextTypes,
         getInitialState: function getInitialState() {
             return this.getStateFromStores();
         },
@@ -49,7 +50,7 @@ module.exports = function connectToStores(Component, stores, getStateFromStores)
                     var storeName = store.name || store.storeName || store;
                     storeInstances[storeName] = this.context.getStore(store);
                 }, this);
-                return getStateFromStores(storeInstances, overrideProps || this.props);
+                return getStateFromStores(storeInstances, overrideProps || this.props, this.context);
             }
             var state = {};
             //@TODO deprecate?
