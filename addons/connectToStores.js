@@ -27,33 +27,36 @@ module.exports = function connectToStores(Component, stores, getStateFromStores)
             getStore: contextTypes.getStore
         },
         getInitialState: function getInitialState() {
-            return this.getStateFromStores(this.props);
+            return this.getStateFromStores();
         },
         componentDidMount: function componentDidMount() {
             stores.forEach(function storesEach(Store) {
                 this.context.getStore(Store).addChangeListener(this._onStoreChange);
             }, this);
         },
+        componentWillReceiveProps: function(nextProps) {
+            this.setState(this.getStateFromStores(nextProps));
+        },
         componentWillUnmount: function componentWillUnmount() {
             stores.forEach(function storesEach(Store) {
                 this.context.getStore(Store).removeChangeListener(this._onStoreChange);
             }, this);
         },
-        getStateFromStores: function () {
+        getStateFromStores: function (overrideProps) {
             if ('function' === typeof getStateFromStores) {
                 var storeInstances = {};
                 stores.forEach(function (store) {
                     var storeName = store.name || store.storeName || store;
                     storeInstances[storeName] = this.context.getStore(store);
                 }, this);
-                return getStateFromStores(storeInstances, this.props);
+                return getStateFromStores(storeInstances, overrideProps || this.props);
             }
             var state = {};
             //@TODO deprecate?
             Object.keys(getStateFromStores).forEach(function (storeName) {
                 var stateGetter = getStateFromStores[storeName];
                 var store = this.context.getStore(storeName);
-                objectAssign(state, stateGetter(store, this.props));
+                objectAssign(state, stateGetter(store, overrideProps || this.props));
             }, this);
             return state;
         },
@@ -65,5 +68,5 @@ module.exports = function connectToStores(Component, stores, getStateFromStores)
         }
     });
 
-    return StoreConnector
+    return StoreConnector;
 };
