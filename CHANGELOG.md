@@ -69,7 +69,7 @@
 
 ### Features
 
- * `React.createFactory` no longer neesd to be called on your component before passing it in to Fluxible
+ * `React.createFactory` no longer needs to be called on your component before passing it in to Fluxible
 
 ## 0.3.0
 
