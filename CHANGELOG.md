@@ -1,5 +1,15 @@
 # Change Log
 
+## 0.4.3
+
+### Features
+
+ * [#117] Add option to pass function to connectToStores which receives access to all stores
+
+### Bug Fixes
+
+ * [#120] Fixed component action handler errors being swallowed - @cesarandreu
+
 ## 0.4.2
 
 ### Bug Fixes
