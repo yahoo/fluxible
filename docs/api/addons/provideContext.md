@@ -4,7 +4,7 @@
 import provideContext from 'fluxible/addons/provideContext';
 ```
 
-`providesContext` wraps the `Component` with a higher-order component that specifies the child context for you. This allows the React context to propagate to all children that specify their `contextTypes`.
+`provideContext` wraps the `Component` with a higher-order component that specifies the child context for you. This allows the React context to propagate to all children that specify their `contextTypes`.
 
 Receives the following parameters:
 
