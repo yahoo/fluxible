@@ -6,7 +6,7 @@ For example, your application might have a User Service which defines how to cre
 
 [Fetchr](https://github.com/yahoo/fetchr) manages an application's services and provides an isomorphic interface for calling the services. Fetchr transparently changes how it calls the services based on environment: on the server, calls are made directly to the services, while on the client, calls are executed via XHR to a route that proxies to the individual services.
 
-The service code that you write is always executed on the server, but can be access transparently from actions without any knowledge of whether it's on the server or client. Fetchr provides an appropriate abstraction so that you can fetch (CRUD) the data needed in your stores using the same exact syntax on server and client side.
+The service code that you write is always executed on the server, but can be accessed transparently from actions without any knowledge of whether it's on the server or client. Fetchr provides an appropriate abstraction so that you can fetch (CRUD) the data needed in your stores using the same exact syntax on server and client side.
 
 ## Using The Plugin
 
@@ -26,6 +26,8 @@ app.plug(pluginInstance);
 
 
 ## Creating Your Services
+
+All you need to do is create an object that contains a `name` property to uniquely identify the service and a `read` method request data.
 
 ```js
 // UserService.js
