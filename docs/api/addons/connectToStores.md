@@ -10,7 +10,7 @@ Takes the following parameters:
 
  * `Component` - the component that should receive the state as props
  * `stores` - array of store constructors to listen for changes
- * `storeGetters` - hash of storeName -> getter function; the return values are merged as props
+ * `getStateFromStores` - function that receives all stores and should return the full state object. Receives `stores` hash and component `props` as arguments
 
 ## Example
 
