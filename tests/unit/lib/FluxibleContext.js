@@ -251,12 +251,59 @@ describe('FluxibleContext', function () {
                 var payload = {};
                 actionContext.executeAction(action, payload)
                 .catch(function (actionError) {
-                    expect(actionError).to.equal(err);
-                    expect(actionCalls.length).to.equal(1);
-                    expect(actionCalls[0].context).to.equal(actionContext);
-                    expect(actionCalls[0].payload).to.equal(payload);
-                    done();
+                        try {
+                            expect(actionError).to.equal(err);
+                            expect(actionCalls.length).to.equal(1);
+                            expect(actionCalls[0].context).to.equal(actionContext);
+                            expect(actionCalls[0].payload).to.equal(payload);
+                            done();
+                        } catch (e) {
+                            done(e);
+                        }
                 });
+            });
+
+            it('should execute the action asynchronously when using a callback', function (done) {
+                var log = [];
+                var action = function (context, payload, callback) {
+                    log.push('action');
+                    callback();
+                };
+                var payload = {};
+                var callback = function () {
+                    try {
+                        expect(log).to.deep.equal(['start', 'after executeAction', 'action']);
+                        done();
+                    } catch (e) {
+                        done(e);
+                    }
+                };
+                log.push('start');
+                actionContext.executeAction(action, payload, callback);
+                log.push('after executeAction')
+            });
+
+            it('should execute the action asynchronously when using a promise', function (done) {
+                var log = [];
+                var action = function (context, payload) {
+                    return new Promise(function (resolve) {
+                        log.push('action');
+                        resolve();
+                    });
+                };
+                var payload = {};
+
+                log.push('start');
+                actionContext.executeAction(action, payload)
+                    .then(function () {
+                        try {
+                            expect(log).to.deep.equal(['start', 'after executeAction', 'action']);
+                            done();
+                        } catch (e) {
+                            done(e);
+                        }
+                    });
+                log.push('after executeAction')
             });
 
             it('should not coerce non-objects', function (done) {
