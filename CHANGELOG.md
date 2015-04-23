@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.4.4
+
+### Bug Fixes
+
+ * [#141] Fixed `executeAction` not behaving asynchronously - @bruderstein
+ * [#142] Fixed issue with `FluxibleComponent` double rendering - @antonklava
+
 ## 0.4.3
 
 ### Features
