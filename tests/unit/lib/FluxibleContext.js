@@ -8,6 +8,7 @@ var Fluxible = require('../../../');
 var FluxibleContext = require('../../../lib/FluxibleContext');
 var isPromise = require('is-promise');
 var React = require('react');
+var createStore = require('dispatchr/addons/createStore');
 var domain = require('domain');
 
 // Fix for https://github.com/joyent/node/issues/8648
@@ -251,12 +252,59 @@ describe('FluxibleContext', function () {
                 var payload = {};
                 actionContext.executeAction(action, payload)
                 .catch(function (actionError) {
-                    expect(actionError).to.equal(err);
-                    expect(actionCalls.length).to.equal(1);
-                    expect(actionCalls[0].context).to.equal(actionContext);
-                    expect(actionCalls[0].payload).to.equal(payload);
-                    done();
+                        try {
+                            expect(actionError).to.equal(err);
+                            expect(actionCalls.length).to.equal(1);
+                            expect(actionCalls[0].context).to.equal(actionContext);
+                            expect(actionCalls[0].payload).to.equal(payload);
+                            done();
+                        } catch (e) {
+                            done(e);
+                        }
                 });
+            });
+
+            it('should execute the action asynchronously when using a callback', function (done) {
+                var log = [];
+                var action = function (context, payload, callback) {
+                    log.push('action');
+                    callback();
+                };
+                var payload = {};
+                var callback = function () {
+                    try {
+                        expect(log).to.deep.equal(['start', 'after executeAction', 'action']);
+                        done();
+                    } catch (e) {
+                        done(e);
+                    }
+                };
+                log.push('start');
+                actionContext.executeAction(action, payload, callback);
+                log.push('after executeAction')
+            });
+
+            it('should execute the action asynchronously when using a promise', function (done) {
+                var log = [];
+                var action = function (context, payload) {
+                    return new Promise(function (resolve) {
+                        log.push('action');
+                        resolve();
+                    });
+                };
+                var payload = {};
+
+                log.push('start');
+                actionContext.executeAction(action, payload)
+                    .then(function () {
+                        try {
+                            expect(log).to.deep.equal(['start', 'after executeAction', 'action']);
+                            done();
+                        } catch (e) {
+                            done(e);
+                        }
+                    });
+                log.push('after executeAction')
             });
 
             it('should not coerce non-objects', function (done) {
@@ -273,6 +321,81 @@ describe('FluxibleContext', function () {
                 actionContext.executeAction(action, payload, function () {
                     expect(actionCalls[0].payload).to.equal(false);
                     done();
+                });
+            });
+
+            describe('simultaneous actions', function () {
+                var originalWarn;
+                var warningCalls;
+
+                var store;
+
+                beforeEach(function () {
+
+                    originalWarn = console.warn;
+                    warningCalls = [];
+                    console.warn = function () {
+                        warningCalls.push(Array.prototype.slice.call(arguments));
+                    };
+
+                    store = createStore({
+
+                        storeName: 'TestStore',
+
+                        handlers: {
+                            'TEST': function () {
+                                console.log('Emitting change');
+                                this.emitChange();
+                            }
+                        }
+                    });
+
+                    app.registerStore(store);
+                });
+
+                afterEach(function () {
+                    console.warn = originalWarn;
+                });
+
+                it('should output a warning when an action is currently being dispatched', function (done) {
+
+                    var action1ExecuteCount = 0;
+                    var action2ExecuteCount = 0;
+                    var payload = {};
+
+                    var action1 = function action1(context, payload, callback) {
+                        context.dispatch('TEST', payload);
+                        action1ExecuteCount++;
+
+                        callback();
+                    };
+
+                    var action2 = function action2(context, payload, callback) {
+                        action2ExecuteCount++;
+                        callback()
+                    };
+
+                    var storeInstance = actionContext.getStore(store);
+                    storeInstance.addChangeListener(function () {
+                        console.log('Got change from store, executing action');
+                        actionContext.executeAction(action2, payload, function () {
+                            try {
+                                expect(warningCalls.length).to.equal(1);
+                                expect(warningCalls[0][0]).to.equal('Warning: executeAction for `action2` was ' +
+                                'called, but `TEST` is currently being dispatched. This could mean there are ' +
+                                'cascading updates, which should be avoided. `action2` will only start after ' +
+                                '`TEST` is complete.');
+                                expect(action1ExecuteCount).to.equal(1);
+                                expect(action2ExecuteCount).to.equal(1);
+                                done();
+                            } catch (e) {
+                                done(e);
+                            }
+                        });
+                    });
+
+                    actionContext.executeAction(action1)
+
                 });
             });
         });
