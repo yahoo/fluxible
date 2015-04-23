@@ -27,7 +27,9 @@ var FluxibleComponent = React.createClass({
     },
 
     render: function () {
-        return React.addons.cloneWithProps(this.props.children);
+        return React.addons.cloneWithProps(this.props.children, {
+            context: this.props.context
+        });
     }
 });
 

@@ -13,7 +13,7 @@ var BarStore = require('../../fixtures/stores/BarStore');
 var createMockComponentContext = require('../../../utils/createMockComponentContext');
 var jsdom = require('jsdom');
 
-describe('fluxibleComponent', function () {
+describe('FluxibleComponent', function () {
     var context;
 
     beforeEach(function (done) {
@@ -63,6 +63,23 @@ describe('fluxibleComponent', function () {
         );
         expect(React.findDOMNode(element).outerHTML).to.equal(
             '<div class="Component" data-reactid=".0">Some child</div>'
+        );
+    });
+
+    it('should pass context prop to child', function (done) {
+        const Component = React.createClass({
+            render: function() {
+                expect(this.props.context).to.equal(context);
+                done();
+                return (
+                    <div className="Component">{this.props.children}</div>
+                );
+            }
+        });
+        const element = ReactTestUtils.renderIntoDocument(
+            <FluxibleComponent context={context}>
+                <Component>Some child</Component>
+            </FluxibleComponent>
         );
     });
 });
