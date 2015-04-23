@@ -65,5 +65,5 @@ module.exports = function connectToStores(Component, stores, getStateFromStores)
         }
     });
 
-    return StoreConnector
+    return StoreConnector;
 };
