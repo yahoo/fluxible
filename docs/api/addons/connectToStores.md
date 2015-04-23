@@ -1,4 +1,4 @@
-# `connectToStores(Component, stores, storeGetters)`
+# `connectToStores(Component, stores, getStateFromStores)`
 
 ```js
 import connectToStores from 'fluxible/addons/connectToStores';
