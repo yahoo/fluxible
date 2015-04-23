@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.4.5
+
+### Bug Fixes
+
+ * Fix undefined error on first `executeAction` in context
+
 ## 0.4.4
 
 ### Bug Fixes
