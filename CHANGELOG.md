@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.4.6
+
+### Bug Fixes
+
+ * [#144] Fixed issue with context prop not being provided to child of `FluxibleComponent`
+
 ## 0.4.5
 
 ### Bug Fixes
