@@ -6,4 +6,4 @@
 
 throw new Error("`require('fluxible/utils/MockComponentContext')` has been removed in " +
     "favor of `require('fluxible/utils').createMockComponentContext; See " +
-    "https://github.com/yahoo/fluxible/pulls/99 for details.`");
+    "https://github.com/yahoo/fluxible/pull/99 for details.`");
