@@ -14,7 +14,7 @@ example](https://github.com/yahoo/flux-examples/tree/master/fluxible-router).
 
 Let's start by creating a very basic React component.
 
-File: `/components/Application.jsx`
+File: `/components/Application.js`
 
 ```js
 var React = require('react');
