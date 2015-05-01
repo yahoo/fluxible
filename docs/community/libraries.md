@@ -10,6 +10,8 @@ Take a look at some of the libraries that our community has built. Edit this pag
 
 * [fluxible-plugin-facebook](https://github.com/Hairfie/fluxible-plugin-facebook) - Fluxible plugin for integrating the facebook's official SDK in fluxible applications.
 
+* [fluxible-plugin-cookie](https://github.com/Hairfie/fluxible-plugin-cookie) - Fluxible plugin for writing and reading cookies.
+
 ## Actions
 
  * [fluxible-action-utils](https://github.com/yahoo/fluxible-action-utils) - utility methods to aid in writing [actions](http://fluxible.io/api/fluxible-context.html#executeaction-action-payload-callback-) for [fluxible](http://fluxible.io) based applications.
