@@ -56,5 +56,5 @@ context.getComponentContext().getFoo(); // returns 'bar'
 ```
 
 Example plugins:
- * [fluxible-plugin-fetchr](https://github.com/yahoo/fluxible-plugin-fetchr) - Polymorphic RESTful services
+ * [fluxible-plugin-fetchr](https://github.com/yahoo/fluxible-plugin-fetchr) - Isomorphic RESTful services
  * [fluxible-plugin-routr](https://github.com/yahoo/fluxible-plugin-routr) - Routing behavior
