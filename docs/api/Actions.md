@@ -21,12 +21,9 @@ If the action returns a promise, executeAction will wait for it to be resolved o
 
 ```js
 export default function myPromiseAction(actionContext, payload) {
-    return new Promise(function (resolve, reject) {
-        getServerData(payload)
-            .then(function (data) {
-                actionContext.dispatch('RECEIVED_SERVER_DATA', data);
-            })
-            .then(resolve, reject);
+    return getServerData(payload).then(function (data) {
+            actionContext.dispatch('RECEIVED_SERVER_DATA', data);
+        });
     });
 };
 ```
