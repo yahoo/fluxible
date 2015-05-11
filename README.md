@@ -35,7 +35,7 @@ Join the #fluxible channel of the [Reactiflux](http://reactiflux.com) Slack comm
 
  * [Yeoman generator](https://github.com/yahoo/generator-fluxible)
  * [Example Applications](https://github.com/yahoo/flux-examples)
- * [Fluxible Routing](https://github.com/yahoo/fluxible-plugin-routr)
+ * [Fluxible Routing](https://github.com/yahoo/fluxible-router)
  * [Isomorphic Data Services](https://github.com/yahoo/fluxible-plugin-fetchr)
 
 ## Usage
