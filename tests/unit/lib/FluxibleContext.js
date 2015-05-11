@@ -344,7 +344,6 @@ describe('FluxibleContext', function () {
 
                         handlers: {
                             'TEST': function () {
-                                console.log('Emitting change');
                                 this.emitChange();
                             }
                         }
@@ -377,7 +376,6 @@ describe('FluxibleContext', function () {
 
                     var storeInstance = actionContext.getStore(store);
                     storeInstance.addChangeListener(function () {
-                        console.log('Got change from store, executing action');
                         actionContext.executeAction(action2, payload, function () {
                             try {
                                 expect(warningCalls.length).to.equal(1);
