@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.4.7
+
+### Bug Fixes
+
+ * [#156] Fixed issue with connectToStores calling setState after componentWillUnmount has been called
+
 ## 0.4.6
 
 ### Bug Fixes
@@ -53,9 +59,9 @@
 
 ### Breaking Changes
 
- * removed `require('fluxible').Mixin` 
- * removed `require('fluxible/utils/MockActionContext')` 
- * removed `require('fluxible/utils/MockComponentContext')` 
+ * removed `require('fluxible').Mixin`
+ * removed `require('fluxible/utils/MockActionContext')`
+ * removed `require('fluxible/utils/MockComponentContext')`
 
 ### Deprecations
 
