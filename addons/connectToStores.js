@@ -58,7 +58,9 @@ module.exports = function connectToStores(Component, stores, getStateFromStores)
             return state;
         },
         _onStoreChange: function onStoreChange() {
-            this.setState(this.getStateFromStores());
+            if (this.isMounted()) {
+                this.setState(this.getStateFromStores());
+            }
         },
         render: function render() {
             return React.createElement(Component, objectAssign({}, this.props, this.state));
