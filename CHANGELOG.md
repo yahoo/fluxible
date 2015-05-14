@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.4.8
+
+### Bug Fixes
+
+ * [#162] Fixed issue with 'catch' usage in IE<9
+
 ## 0.4.7
 
 ### Bug Fixes
