@@ -4,6 +4,30 @@
  */
 'use strict';
 
-throw new Error("`require('fluxible/utils/MockActionContext')` has been removed in " +
-    "favor of `require('fluxible/utils').createMockActionContext; See " +
-    "https://github.com/yahoo/fluxible/pull/99 for details.`");
+function MockActionContext (dispatcherContext) {
+    this.dispatcherContext = dispatcherContext;
+    this.executeActionCalls = [];
+    this.dispatchCalls = [];
+}
+
+MockActionContext.prototype.getStore = function (name) {
+    return this.dispatcherContext.getStore(name);
+};
+
+MockActionContext.prototype.dispatch = function (name, payload) {
+    this.dispatchCalls.push({
+        name: name,
+        payload: payload
+    });
+    this.dispatcherContext.dispatch(name, payload);
+};
+
+MockActionContext.prototype.executeAction = function (action, payload, callback) {
+    this.executeActionCalls.push({
+        action: action,
+        payload: payload
+    });
+    action(this, payload, callback);
+};
+
+module.exports = MockActionContext;
