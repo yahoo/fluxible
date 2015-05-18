@@ -43,7 +43,7 @@ module.exports = function connectToStores(Component, stores, getStateFromStores)
             if ('function' === typeof getStateFromStores) {
                 var storeInstances = {};
                 stores.forEach(function (store) {
-                    var storeName = store.name || store.storeName || store;
+                    var storeName = store.storeName || store.name || store;
                     storeInstances[storeName] = this.context.getStore(store);
                 }, this);
                 return getStateFromStores(storeInstances, this.props);
