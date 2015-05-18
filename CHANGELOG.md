@@ -1,5 +1,16 @@
 # Change Log
 
+## 0.4.9
+
+### Features
+
+ * [#165] Export `fluxible/utils/MockActionContext` and `fluxible/utils/MockComponentContext` classes 
+ to make it easier to extend the classes for testing custom plugin functionality.
+
+### Bug Fixes
+
+* [#164] Fixed the `connectToStores` functionality in minified environments as long as users specify a `storeName` static property.
+
 ## 0.4.8
 
 ### Bug Fixes
