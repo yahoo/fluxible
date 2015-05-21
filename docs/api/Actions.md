@@ -1,6 +1,6 @@
 # API: Actions
 
-Actions (called to "action creators" in Flux) in Fluxible are stateless functions that receive three parameters:
+Actions (called "action creators" in Flux) in Fluxible are stateless functions that receive three parameters:
 
  * [`actionContext`](#action-context) - Provides access to Flux methods
  * `payload` - The action payload
