@@ -7,7 +7,7 @@
 var React = require('react');
 var objectAssign = require('object-assign');
 var contextTypes = require('../lib/contextTypes');
-var hoistNonReactStatics = require('../utils/hoistNonReactStatics');
+var hoistNonReactStatics = require('hoist-non-react-statics');
 
 /**
  * Registers change listeners and retrieves state from stores using `getStateFromStores`

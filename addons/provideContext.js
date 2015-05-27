@@ -7,7 +7,7 @@ var React = require('react');
 
 var objectAssign = require('object-assign');
 var contextTypes = require('../lib/contextTypes');
-var hoistNonReactStatics = require('../utils/hoistNonReactStatics');
+var hoistNonReactStatics = require('hoist-non-react-statics');
 
 /**
  * Provides context prop to all children as React context
