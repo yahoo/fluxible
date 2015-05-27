@@ -59,13 +59,13 @@ extends `BaseStore`
 ### Constructor
 
 The store should have a constructor function that will be used to instantiate 
-your store using `new Store(dispatcherInterface)` where the parameters are as 
+your store using `new Store(dispatcher)` where the parameters are as 
 follows:
 
-  * `dispatcherInterface`: An object providing access to the following methods:
-    * `dispatcherInterface.getContext()`: Retrieve the [store context](#store-context)
-    * `dispatcherInterface.getStore(storeClass)`
-    * `dispatcherInterface.waitFor(storeClass[], callback)`
+  * `dispatcher`: An object providing access to the following methods:
+    * `dispatcher.getContext()`: Retrieve the [store context](#store-context)
+    * `dispatcher.getStore(storeClass)`
+    * `dispatcher.waitFor(storeClass[], callback)`
 
 The constructor is also where the initial state of the store should be set.
 
