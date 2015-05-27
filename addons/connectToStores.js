@@ -7,6 +7,7 @@
 var React = require('react');
 var objectAssign = require('object-assign');
 var contextTypes = require('../lib/contextTypes');
+var hoistNonReactStatics = require('../utils/hoistNonReactStatics');
 
 /**
  * Registers change listeners and retrieves state from stores using `getStateFromStores`
@@ -66,6 +67,8 @@ module.exports = function connectToStores(Component, stores, getStateFromStores)
             return React.createElement(Component, objectAssign({}, this.props, this.state));
         }
     });
+
+    hoistNonReactStatics(StoreConnector, Component);
 
     return StoreConnector;
 };

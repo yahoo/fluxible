@@ -149,4 +149,34 @@ describe('connectToStores', function () {
         expect(context.getStore(FooStore).listeners('change').length).to.equal(0);
         done();
     });
+
+    it('should hoist non-react statics to higher order component', function () {
+        var Component = React.createClass({
+            displayName: 'Component',
+            statics: {
+                initAction: function () {}
+            },
+            render: function () {
+                return (
+                    <p>Hello world.</p>
+                );
+            }
+        });
+        var WrapperComponent = provideContext(connectToStores(Component, [FooStore, BarStore], {
+            displayName: 'WrapperComponent',
+            FooStore: function (store, props) {
+                return {
+                    foo: store.getFoo()
+                }
+            },
+            BarStore: function (store, props) {
+                return {
+                    bar: store.getBar()
+                }
+            }
+        }));
+
+        expect(WrapperComponent.initAction).to.be.a('function');
+        expect(WrapperComponent.displayName).to.not.equal(Component.displayName);
+    });
 });

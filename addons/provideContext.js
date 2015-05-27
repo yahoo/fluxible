@@ -7,6 +7,7 @@ var React = require('react');
 
 var objectAssign = require('object-assign');
 var contextTypes = require('../lib/contextTypes');
+var hoistNonReactStatics = require('../utils/hoistNonReactStatics');
 
 /**
  * Provides context prop to all children as React context
@@ -44,6 +45,8 @@ module.exports = function provideContext(Component, customContextTypes) {
             return React.createElement(Component, this.props);
         }
     });
+
+    hoistNonReactStatics(ContextProvider, Component);
 
     return ContextProvider;
 };
