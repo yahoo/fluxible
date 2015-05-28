@@ -1,5 +1,13 @@
 # Change Log
 
+## 0.4.10
+
+### Bug Fixes
+
+ * [#174] `MockActionContext.executeAction` now returns the result of the action properly - @ross-pfahler
+ * [#175] Better protection for plugin's `plugContext` method returning undefined - @cesarandreu
+ * [#176] Non-react specific statics on components will now be hoisted to the higher-order component wrappers
+
 ## 0.4.9
 
 ### Features
