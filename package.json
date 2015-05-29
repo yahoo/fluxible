@@ -34,7 +34,7 @@
     "jshint": "^2.5.5",
     "mocha": "^2.0.1",
     "mockery": "^1.4.0",
-    "precommit-hook": "1.0.x",
+    "pre-commit": "^1.0.7",
     "react": "0.13.x"
   },
   "author": "Michael Ridgway <mridgway@yahoo-inc.com>",

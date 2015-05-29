@@ -406,17 +406,23 @@ describe('FluxibleContext', function () {
         });
         describe('#executeAction', function () {
             it('should execute the action', function (done) {
-                var callback = function () {
-                    throw new Error('This should not be called');
-                };
-                var action = function (actionContext, payload, cb) {
-                    expect(actionContext).to.equal(context.getActionContext());
-                    expect(payload).to.equal(payload);
-                    expect(callback).to.not.equal(cb);
-                    done();
-                };
-                var payload = {};
-                componentContext.executeAction(action, payload, callback);
+                var oldWarn = console.warn;
+                console.warn = function () {};
+                try {
+                    var callback = function () {
+                        throw new Error('This should not be called');
+                    };
+                    var action = function (actionContext, payload, cb) {
+                        expect(actionContext).to.equal(context.getActionContext());
+                        expect(payload).to.equal(payload);
+                        expect(callback).to.not.equal(cb);
+                        done();
+                    };
+                    var payload = {};
+                    componentContext.executeAction(action, payload, callback);
+                } finally {
+                    console.warn = oldWarn;
+                }
             });
             it('should use the defined component action handler', function (done) {
                 var actionError = new Error('something went wrong');
