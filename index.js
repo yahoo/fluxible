@@ -6,9 +6,4 @@ var Fluxible = require('./lib/Fluxible');
 Fluxible.Fluxible = require('./lib/Fluxible');
 Fluxible.contextTypes = require('./lib/contextTypes');
 
-// DEPRECATIONS
-// @TODO(next minor): remove all deprecations
-Fluxible.FluxibleComponent = require('./lib/FluxibleComponent');
-Fluxible.FluxibleMixin = require('./lib/FluxibleMixin');
-
 module.exports = Fluxible;
