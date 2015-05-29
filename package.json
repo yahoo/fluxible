@@ -10,7 +10,7 @@
   "scripts": {
     "test": "mocha tests/unit/ --recursive --compilers js:babel/register --reporter spec",
     "cover": "istanbul cover --dir artifacts -- _mocha tests/unit/ --recursive --compilers js:babel/register --reporter spec",
-    "lint": "jshint"
+    "lint": "eslint lib/ addons/"
   },
   "dependencies": {
     "debug": "^2.0.0",
@@ -28,10 +28,10 @@
     "babel": "^5.0.2",
     "chai": "^2.0.0",
     "coveralls": "^2.11.1",
+    "eslint": "^0.21.2",
     "flux-router-component": "^0.6.0",
     "istanbul": "^0.3.2",
     "jsdom": "^3.1.2",
-    "jshint": "^2.5.5",
     "mocha": "^2.0.1",
     "mockery": "^1.4.0",
     "pre-commit": "^1.0.7",

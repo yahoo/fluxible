@@ -71,9 +71,9 @@ module.exports = function provideContext(Component, customContextTypes) {
     // support decorator pattern
     if (arguments.length === 0 || typeof arguments[0] !== 'function') {
         customContextTypes = arguments[0];
-        return function connectToStoresDecorator(Component) {
-            return createComponent(Component, customContextTypes);
-        }
+        return function connectToStoresDecorator(ComponentToDecorate) {
+            return createComponent(ComponentToDecorate, customContextTypes);
+        };
     }
 
     return createComponent.apply(null, arguments);
