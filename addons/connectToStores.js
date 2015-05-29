@@ -108,9 +108,9 @@ module.exports = function connectToStores(Component, stores, getStateFromStores)
     if (arguments.length === 2) {
         stores = arguments[0];
         getStateFromStores = arguments[1];
-        return function connectToStoresDecorator(Component) {
-            return createComponent(Component, stores, getStateFromStores);
-        }
+        return function connectToStoresDecorator(ComponentToDecorate) {
+            return createComponent(ComponentToDecorate, stores, getStateFromStores);
+        };
     }
 
     return createComponent.apply(null, arguments);
