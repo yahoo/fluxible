@@ -9,18 +9,7 @@ var objectAssign = require('object-assign');
 var contextTypes = require('../lib/contextTypes');
 var hoistNonReactStatics = require('hoist-non-react-statics');
 
-/**
- * Registers change listeners and retrieves state from stores using `getStateFromStores`
- * method. Concept provided by Dan Abramov via
- * https://medium.com/@dan_abramov/mixins-are-dead-long-live-higher-order-components-94a0d2f9e750
- * @method connectToStores
- * @param {React.Component} Component component to pass state as props to
- * @param {array} stores List of stores to listen for changes
- * @param {function} getStateFromStores function that receives all stores and should return
- *      the full state object. Receives `stores` hash and component `props` as arguments
- * @returns {React.Component}
- */
-module.exports = function connectToStores(Component, stores, getStateFromStores) {
+function createComponent(Component, stores, getStateFromStores) {
     var componentName = Component.displayName || Component.name;
     var StoreConnector = React.createClass({
         displayName: componentName + 'StoreConnector',
@@ -71,4 +60,52 @@ module.exports = function connectToStores(Component, stores, getStateFromStores)
     hoistNonReactStatics(StoreConnector, Component);
 
     return StoreConnector;
+}
+
+/**
+ * Registers change listeners and retrieves state from stores using the `getStateFromStores`
+ * method. Concept provided by Dan Abramov via
+ * https://medium.com/@dan_abramov/mixins-are-dead-long-live-higher-order-components-94a0d2f9e750
+ *
+ * Example:
+ *   connectToStores(Component, [FooStore], {
+ *       FooStore: function (store, props) {
+ *           return {
+ *               foo: store.getFoo()
+ *           }
+ *       }
+ *   })
+ *
+ * Also supports the decorator pattern:
+ *   @connectToStores([FooStore],  {
+ *       FooStore: function (store, props) {
+ *           return {
+ *               foo: store.getFoo()
+ *           }
+ *       }
+ *   })
+ *   class ConnectedComponent extends React.Component {
+ *       render() {
+ *           return <div/>;
+ *       }
+ *   }
+ *
+ * @method connectToStores
+ * @param {React.Component} [Component] component to pass state as props to.
+ * @param {array} stores List of stores to listen for changes
+ * @param {function} getStateFromStores function that receives all stores and should return
+ *      the full state object. Receives `stores` hash and component `props` as arguments
+ * @returns {React.Component} or {Function} if using decorator pattern
+ */
+module.exports = function connectToStores(Component, stores, getStateFromStores) {
+    // support decorator pattern
+    if (arguments.length === 2) {
+        stores = arguments[0];
+        getStateFromStores = arguments[1];
+        return function connectToStoresDecorator(Component) {
+            return createComponent(Component, stores, getStateFromStores);
+        }
+    }
+
+    return createComponent.apply(null, arguments);
 };

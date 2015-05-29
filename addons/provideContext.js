@@ -1,22 +1,15 @@
-var React = require('react');
 /**
  * Copyright 2015, Yahoo Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 'use strict';
 
+var React = require('react');
 var objectAssign = require('object-assign');
 var contextTypes = require('../lib/contextTypes');
 var hoistNonReactStatics = require('hoist-non-react-statics');
 
-/**
- * Provides context prop to all children as React context
- * @method provideContext
- * @param {React.Component} Component component to wrap
- * @param {object} customContextTypes Custom contextTypes to add
- * @returns {React.Component}
- */
-module.exports = function provideContext(Component, customContextTypes) {
+function createComponent(Component, customContextTypes) {
     var childContextTypes = objectAssign({}, contextTypes, customContextTypes || {});
 
     var ContextProvider = React.createClass({
@@ -49,4 +42,39 @@ module.exports = function provideContext(Component, customContextTypes) {
     hoistNonReactStatics(ContextProvider, Component);
 
     return ContextProvider;
+}
+
+/**
+ * Provides context prop to all children as React context
+ *
+ * Example:
+ *   var WrappedComponent = provideContext(Component, {
+ *       foo: React.PropTypes.string
+ *   });
+ *
+ * Also supports the decorator pattern:
+ *   @provideContext({
+ *       foo: React.PropTypes.string
+ *   })
+ *   class ConnectedComponent extends React.Component {
+ *       render() {
+ *           return <div/>;
+ *       }
+ *   }
+ *
+ * @method provideContext
+ * @param {React.Component} [Component] component to wrap
+ * @param {object} customContextTypes Custom contextTypes to add
+ * @returns {React.Component} or {Function} if using decorator pattern
+ */
+module.exports = function provideContext(Component, customContextTypes) {
+    // support decorator pattern
+    if (arguments.length === 0 || typeof arguments[0] !== 'function') {
+        customContextTypes = arguments[0];
+        return function connectToStoresDecorator(Component) {
+            return createComponent(Component, customContextTypes);
+        }
+    }
+
+    return createComponent.apply(null, arguments);
 };
