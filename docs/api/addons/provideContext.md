@@ -8,7 +8,7 @@ import provideContext from 'fluxible/addons/provideContext';
 
 Receives the following parameters:
 
- * `Component`: the component to wrap, typically your top-level application component
+ * `Component`: the component to wrap, typically your top-level application component, optional if using decorator pattern
  * `customContextTypes`: additional `childContextTypes` to add; useful for plugins that add to the component context
 
 By default, the `executeAction` and `getStore` methods will be added to the child context and `customContextTypes` will be merged with these defaults.
@@ -24,7 +24,7 @@ class Application extends React.Component {
     }
 }
 Application = provideContext(Application);
-export default Application
+export default Application;
 ```
 
 Now when you render the Application component, you can pass in the component context via the `context` prop and be assured that all children will have access to it by specifying the respective `contextType`.
@@ -43,4 +43,18 @@ Since plugins have the ability to add new methods or properties to the component
 Application = provideContext(Application, {
     foo: React.PropTypes.string
 });
+```
+
+### Using [decorator pattern](https://github.com/wycats/javascript-decorators)
+
+```js
+@provideContext({
+    foo: React.PropTypes.string
+})
+class Application extends React.Component {
+    render() {
+        ...
+    }
+}
+export default Application;
 ```

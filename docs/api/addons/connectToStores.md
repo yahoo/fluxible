@@ -8,7 +8,7 @@ import connectToStores from 'fluxible/addons/connectToStores';
 
 Takes the following parameters:
 
- * `Component` - the component that should receive the state as props
+ * `Component` - the component that should receive the state as props, optional if using decorator pattern
  * `stores` - array of store constructors to listen for changes
  * `getStateFromStores` - function that receives all stores and should return the full state object. Receives `stores` hash and component `props` as arguments
 
@@ -35,5 +35,22 @@ Component = connectToStores(Component, [FooStore, BarStore], function (stores, p
     };
 });
 
-module.exports = Component;
+export default Component;
+```
+
+### Using [decorator pattern](https://github.com/wycats/javascript-decorators)
+
+```js
+@connectToStores([FooStore, BarStore], function (stores, props) {
+    return {
+        foo: stores.FooStore.getFoo(),
+        bar: stores.BarStore.getBar()
+    };
+})
+class Component extends React.Component {
+    render() {
+        return <div/>;
+    }
+}
+export default Component;
 ```

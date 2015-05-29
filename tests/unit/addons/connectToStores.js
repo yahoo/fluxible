@@ -102,6 +102,64 @@ describe('connectToStores', function () {
         done();
     });
 
+    it('should get the state from the stores using decorator pattern', function (done) {
+        @connectToStores([FooStore, BarStore], {
+            FooStore: function (store, props) {
+                return {
+                    foo: store.getFoo()
+                }
+            },
+            BarStore: function (store, props) {
+                return {
+                    bar: store.getBar()
+                }
+            }
+        })
+        class Component extends React.Component {
+            static contextTypes = {
+                executeAction: React.PropTypes.func.isRequired
+            }
+            onClick() {
+                this.context.executeAction(function (actionContext) {
+                    actionContext.dispatch('DOUBLE_UP');
+                });
+            }
+            render() {
+                return (
+                    <div>
+                        <span id="foo">{this.props.foo}</span>
+                        <span id="bar">{this.props.bar}</span>
+                        <button id="button" onClick={this.onClick.bind(this)} />
+                    </div>
+                );
+            }
+        }
+
+        var WrappedComponent = provideContext(Component);
+
+        var container = document.createElement('div');
+        var component = React.render(React.createElement(WrappedComponent, {
+            context: context
+        }), container);
+        var domNode = component.getDOMNode();
+        expect(domNode.querySelector('#foo').textContent).to.equal('bar');
+        expect(domNode.querySelector('#bar').textContent).to.equal('baz');
+
+        ReactTestUtils.Simulate.click(domNode.querySelector('#button'));
+
+        expect(domNode.querySelector('#foo').textContent).to.equal('barbar');
+        expect(domNode.querySelector('#bar').textContent).to.equal('bazbaz');
+
+        expect(context.getStore(BarStore).listeners('change').length).to.equal(1);
+        expect(context.getStore(FooStore).listeners('change').length).to.equal(1);
+
+        React.unmountComponentAtNode(container);
+
+        expect(context.getStore(BarStore).listeners('change').length).to.equal(0);
+        expect(context.getStore(FooStore).listeners('change').length).to.equal(0);
+        done();
+    });
+
     it('should allow using function that receives store hash', function (done) {
         var Component = React.createClass({
             contextTypes: {
