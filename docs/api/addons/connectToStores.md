@@ -40,6 +40,8 @@ export default Component;
 
 ### Using [decorator pattern](https://github.com/wycats/javascript-decorators)
 
+**available in 0.5**
+
 ```js
 @connectToStores([FooStore, BarStore], function (stores, props) {
     return {

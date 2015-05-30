@@ -47,6 +47,8 @@ Application = provideContext(Application, {
 
 ### Using [decorator pattern](https://github.com/wycats/javascript-decorators)
 
+**available in 0.5**
+
 ```js
 @provideContext({
     foo: React.PropTypes.string
