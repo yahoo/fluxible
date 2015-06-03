@@ -9,6 +9,7 @@ var FluxibleContext = require('../../../lib/FluxibleContext');
 var isPromise = require('is-promise');
 var React = require('react');
 var createStore = require('dispatchr/addons/createStore');
+var createElementWithContext = require('../../../addons/createElementWithContext')
 var domain = require('domain');
 
 // Fix for https://github.com/joyent/node/issues/8648
@@ -46,7 +47,7 @@ describe('FluxibleContext', function () {
             });
             context = app.createContext();
 
-            React.renderToString(context.createElement({foo: 'bar'}));
+            React.renderToString(createElementWithContext(context, {foo: 'bar'}));
         });
         it('should receive the correct props and context when using contextProvider', function (done) {
             var Component = React.createClass({
@@ -69,7 +70,7 @@ describe('FluxibleContext', function () {
             });
             context = app.createContext();
 
-            React.renderToString(context.createElement({foo: 'bar'}));
+            React.renderToString(createElementWithContext(context, {foo: 'bar'}));
         });
         it('should receive the correct props and context if passed factory', function (done) {
             var Component = React.createClass({
@@ -91,7 +92,7 @@ describe('FluxibleContext', function () {
             });
             context = app.createContext();
 
-            React.renderToString(context.createElement({foo: 'bar'}));
+            React.renderToString(createElementWithContext(context, {foo: 'bar'}));
         });
     });
 
