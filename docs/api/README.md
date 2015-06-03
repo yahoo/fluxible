@@ -21,7 +21,7 @@ Occasionally you may find that you need to use [plugins](Plugins.md) to extend F
 
  * [`FluxibleAddons.BaseStore`](addons/BaseStore.md)
  * [`FluxibleAddons.connectToStores`](addons/connectToStores.md)
- * [`FluxibleAddons.createStore`](addons/CreateStore.md)
+ * [`FluxibleAddons.createStore`](addons/createStore.md)
  * [`FluxibleAddons.FluxibleComponent`](addons/FluxibleComponent.md)
  * [`FluxibleAddons.FluxibleMixin`](addons/FluxibleMixin.md)
  * [`FluxibleAddons.provideContext`](addons/provideContext.md)
