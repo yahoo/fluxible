@@ -301,7 +301,7 @@ var server = express();
 var Dispatcher = require('./lib/dispatcher');
 
 server.get('/', function (req, res, next) {
-    var dispatcher = new Dispatchr();
+    var dispatcher = new Dispatcher();
 
     // Now the action needs access to the dispatcher too
     showMessages(dispatcher, {}, function () {
