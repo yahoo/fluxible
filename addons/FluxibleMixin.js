@@ -117,7 +117,7 @@ var FluxibleMixin = {
         }
 
         if (!handler) {
-            throw new Error('storeListener attempted to add undefined handler. Make sure handlers are actually exist.');
+            throw new Error('storeListener attempted to add undefined handler. Make sure handlers actually exist.');
         }
 
         return handler;
