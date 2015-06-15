@@ -12,7 +12,7 @@ yo fluxible
 npm run dev
 ```
 
-`open http://localhost:30001`
+`open http://localhost:3000`
 
 This will generate a simple application that demonstrates the basics of using Fluxible: routing, store dehydration from server, and client rehydrating.
 
