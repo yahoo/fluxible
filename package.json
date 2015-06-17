@@ -18,7 +18,7 @@
     "es6-promise": "^2.0.1",
     "hoist-non-react-statics": "^1.0.0",
     "is-promise": "^2.0.0",
-    "object-assign": "^2.0.0",
+    "object-assign": "^3.0.0",
     "setimmediate": "^1.0.2"
   },
   "peerDependencies": {
