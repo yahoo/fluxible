@@ -95,6 +95,22 @@ describe('FluxibleContext', function () {
         });
     });
 
+    describe('getStore', function () {
+        it('should provide access to registered store instance', function () {
+            var store = createStore({
+                storeName: 'TestStore'
+            });
+
+            app.registerStore(store);
+
+            var context = app.createContext();
+
+            var storeInstance = context.getStore(store);
+            expect(storeInstance).to.be.an('object');
+            expect(storeInstance.constructor.storeName).to.equal(store.storeName);
+        });
+    });
+
     describe('actionContext', function () {
         var actionContext;
         var actionCalls;
