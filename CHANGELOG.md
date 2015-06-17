@@ -1,5 +1,15 @@
 # Change Log
 
+## 0.4.11
+
+### Bug Fixes
+
+ * [#195] Fixed undefined error with rehydrating with an empty state object
+ 
+### Features
+
+ * [#196] Added `getStore` method to `FluxibleContext` class
+
 ## 0.4.10
 
 ### Bug Fixes
