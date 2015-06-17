@@ -60,6 +60,22 @@ describe('Fluxible', function () {
         });
     });
 
+    describe('rehydrate', function () {
+        it('should rehydrate with empty object', function (done) {
+            var newApp = new Fluxible({
+                component: Component
+            });
+            newApp.rehydrate({}, function (err, newContext) {
+                if (err) {
+                    done(err);
+                    return;
+                }
+                expect(newContext).to.be.an('object');
+                done();
+            });
+        });
+    });
+
     describe('plugins', function () {
         var testPlugin = require('../../fixtures/plugins/TestApplicationPlugin'),
             testPluginSync = require('../../fixtures/plugins/TestApplicationPluginSync'),
