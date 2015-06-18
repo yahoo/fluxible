@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.4.12
+
+### Bug Fixes
+
+ * [#197] Fixed issue where plugins were called with undefined during rehydration
+
 ## 0.4.11
 
 ### Bug Fixes
