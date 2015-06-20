@@ -66,18 +66,10 @@ describe('connectToStores', function () {
                 );
             }
         });
-        var WrappedComponent = provideContext(connectToStores(Component, [FooStore, BarStore], {
-            FooStore: function (store, props) {
-                return {
-                    foo: store.getFoo()
-                }
-            },
-            BarStore: function (store, props) {
-                return {
-                    bar: store.getBar()
-                }
-            }
-        }));
+        var WrappedComponent = provideContext(connectToStores(Component, [FooStore, BarStore], (context) => ({
+            foo: context.getStore(FooStore).getFoo(),
+            bar: context.getStore(BarStore).getBar()
+        })));
 
         var container = document.createElement('div');
         var component = React.render(React.createElement(WrappedComponent, {
@@ -103,17 +95,11 @@ describe('connectToStores', function () {
     });
 
     it('should get the state from the stores using decorator pattern', function (done) {
-        @connectToStores([FooStore, BarStore], {
-            FooStore: function (store, props) {
-                return {
-                    foo: store.getFoo()
-                }
-            },
-            BarStore: function (store, props) {
-                return {
-                    bar: store.getBar()
-                }
-            }
+        @connectToStores([FooStore, BarStore], (context) => {
+            return {
+                foo: context.getStore(FooStore).getFoo(),
+                bar: context.getStore(BarStore).getBar()
+            };
         })
         class Component extends React.Component {
             static contextTypes = {
@@ -149,54 +135,6 @@ describe('connectToStores', function () {
 
         expect(domNode.querySelector('#foo').textContent).to.equal('barbar');
         expect(domNode.querySelector('#bar').textContent).to.equal('bazbaz');
-
-        expect(context.getStore(BarStore).listeners('change').length).to.equal(1);
-        expect(context.getStore(FooStore).listeners('change').length).to.equal(1);
-
-        React.unmountComponentAtNode(container);
-
-        expect(context.getStore(BarStore).listeners('change').length).to.equal(0);
-        expect(context.getStore(FooStore).listeners('change').length).to.equal(0);
-        done();
-    });
-
-    it('should allow using function that receives store hash', function (done) {
-        var Component = React.createClass({
-            contextTypes: {
-                executeAction: React.PropTypes.func.isRequired
-            },
-            onClick: function () {
-                this.context.executeAction(function (actionContext) {
-                    actionContext.dispatch('DOUBLE_UP');
-                });
-            },
-            render: function () {
-                return (
-                    <div>
-                        <span id="foobar">{this.props.foobar}</span>
-                        <button id="button" onClick={this.onClick} />
-                    </div>
-                );
-            }
-        });
-        var WrappedComponent = provideContext(connectToStores(Component, [FooStore, BarStore], function (stores, props) {
-            var foo = stores.FooStore.getFoo();
-            var bar = stores.BarStore.getBar();
-            return {
-                foobar: foo + bar
-            };
-        }));
-
-        var container = document.createElement('div');
-        var component = React.render(React.createElement(WrappedComponent, {
-            context: context
-        }), container);
-        var domNode = component.getDOMNode();
-        expect(domNode.querySelector('#foobar').textContent).to.equal('barbaz');
-
-        ReactTestUtils.Simulate.click(domNode.querySelector('#button'));
-
-        expect(domNode.querySelector('#foobar').textContent).to.equal('barbarbazbaz');
 
         expect(context.getStore(BarStore).listeners('change').length).to.equal(1);
         expect(context.getStore(FooStore).listeners('change').length).to.equal(1);
