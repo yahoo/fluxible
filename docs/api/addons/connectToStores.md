@@ -11,6 +11,7 @@ Takes the following parameters:
  * `Component` - the component that should receive the state as props, optional if using decorator pattern
  * `stores` - array of store constructors to listen for changes
  * `getStateFromStores` - function that receives all stores and should return the full state object. Receives `stores` hash and component `props` as arguments
+ * `customContextTypes` (*optional*) - additional `contextTypes` that could be access from your `getStateFromStores` function
 
 ## Example
 
@@ -28,12 +29,10 @@ class Component extends React.Component {
     }
 }
 
-Component = connectToStores(Component, [FooStore, BarStore], function (stores, props) {
-    return {
-        foo: stores.FooStore.getFoo(),
-        bar: stores.BarStore.getBar()
-    };
-});
+Component = connectToStores(Component, [FooStore, BarStore], (context, props) => ({
+    foo: context.getStore(FooStore).getFoo(),
+    bar: context.getStore(BarStore).getBar()
+}));
 
 export default Component;
 ```
@@ -43,12 +42,10 @@ export default Component;
 **available in 0.5**
 
 ```js
-@connectToStores([FooStore, BarStore], function (stores, props) {
-    return {
-        foo: stores.FooStore.getFoo(),
-        bar: stores.BarStore.getBar()
-    };
-})
+@connectToStores([FooStore, BarStore], (context, props) => ({
+    foo: context.getStore(FooStore).getFoo(),
+    bar: context.getStore(BarStore).getBar()
+}))
 class Component extends React.Component {
     render() {
         return <div/>;

@@ -9,15 +9,16 @@ var objectAssign = require('object-assign');
 var contextTypes = require('../lib/contextTypes');
 var hoistNonReactStatics = require('hoist-non-react-statics');
 
-function createComponent(Component, stores, getStateFromStores) {
+function createComponent(Component, stores, getStateFromStores, customContextTypes) {
     var componentName = Component.displayName || Component.name;
+    var componentContextTypes = objectAssign({
+        getStore: contextTypes.getStore
+    }, customContextTypes);
     var StoreConnector = React.createClass({
         displayName: componentName + 'StoreConnector',
-        contextTypes: {
-            getStore: contextTypes.getStore
-        },
+        contextTypes: componentContextTypes,
         getInitialState: function getInitialState() {
-            return this.getStateFromStores(this.props);
+            return this.getStateFromStores();
         },
         componentDidMount: function componentDidMount() {
             stores.forEach(function storesEach(Store) {
@@ -30,28 +31,7 @@ function createComponent(Component, stores, getStateFromStores) {
             }, this);
         },
         getStateFromStores: function () {
-            if ('function' !== typeof getStateFromStores) {
-                //@TODO remove this branch in next minor
-                if ('production' !== process.env.NODE_ENV) {
-                    console.warn('Using connectToStores with a state getter ' +
-                        'map has been deprecated. Please use the new API as ' +
-                        'documented at ' +
-                        'http://fluxible.io/api/addons/connectToStores.html');
-                }
-                var state = {};
-                Object.keys(getStateFromStores).forEach(function (storeName) {
-                    var stateGetter = getStateFromStores[storeName];
-                    var store = this.context.getStore(storeName);
-                    objectAssign(state, stateGetter(store, this.props));
-                }, this);
-                return state;
-            }
-            var storeInstances = {};
-            stores.forEach(function (store) {
-                var storeName = store.storeName || store.name || store;
-                storeInstances[storeName] = this.context.getStore(store);
-            }, this);
-            return getStateFromStores(storeInstances, this.props);
+            return getStateFromStores(this.context, this.props);
         },
         _onStoreChange: function onStoreChange() {
             if (this.isMounted()) {
