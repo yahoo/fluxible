@@ -1,3 +1,9 @@
 /artifacts/
 /docs/
 /tests/
+/.idea/
+.coveralls
+.jshintignore
+.jshintrc
+.npmignore
+.travis.yml
