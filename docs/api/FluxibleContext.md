@@ -27,6 +27,8 @@ Creates a new context instance with the following parameters:
 
 ### createElement(props)
 
+* This method is deprecated and has moved to the `fluxible-addons-react` package*
+
 Instantiates the app level React component (if provided in the constructor) with the given props with an additional `context` key containing a ComponentContext. This is the same as the following assuming `Component` is your top level React component:
 
 ```js
