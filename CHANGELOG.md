@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.5.0-alpha.1
+
+### Deprecations
+
+ * [#202] Addons were moved to a separate package ([fluxible-addons-react](https://github.com/yahoo/fluxible-addons-react)) to support other view libraries like React Native. A warning will be displayed when requiring the addons from this package. They will be removed in the next breaking change version.
+
 ## 0.4.12
 
 ### Bug Fixes
@@ -11,7 +17,7 @@
 ### Bug Fixes
 
  * [#195] Fixed undefined error with rehydrating with an empty state object
- 
+
 ### Features
 
  * [#196] Added `getStore` method to `FluxibleContext` class
@@ -28,7 +34,7 @@
 
 ### Features
 
- * [#165] Export `fluxible/utils/MockActionContext` and `fluxible/utils/MockComponentContext` classes 
+ * [#165] Export `fluxible/utils/MockActionContext` and `fluxible/utils/MockComponentContext` classes
  to make it easier to extend the classes for testing custom plugin functionality.
 
 ### Bug Fixes
