@@ -20,19 +20,36 @@ Occasionally you may find that you need to use [plugins](Plugins.md) to extend F
 `var FluxibleAddons = require('fluxible/addons')` also provides helper utilities for creating stores:
 
  * [`FluxibleAddons.BaseStore`](addons/BaseStore.md)
- * [`FluxibleAddons.connectToStores`](addons/connectToStores.md)
  * [`FluxibleAddons.createStore`](addons/createStore.md)
- * [`FluxibleAddons.FluxibleComponent`](addons/FluxibleComponent.md)
- * [`FluxibleAddons.FluxibleMixin`](addons/FluxibleMixin.md)
- * [`FluxibleAddons.provideContext`](addons/provideContext.md)
 
 or if you're using ES6:
 
 ```js
-import {BaseStore, connectToStores, createStore, FluxibleComponent, FluxibleMixin, provideContext} from 'fluxible/addons';
+import {BaseStore, createStore} from 'fluxible/addons';
 ```
 
-These libraries are not bundled with the main Fluxible export because stores are decoupled from Fluxible and React integration changes as React changes.
+These libraries are not bundled with the main Fluxible export because stores are decoupled from Fluxible.
+
+## React Addons
+
+`npm i --save fluxible-addons-react`
+
+`var ReactAddons = require('fluxible-addons-react');` provides helpers for 
+using Fluxible with React.
+
+ * [`FluxibleAddons.connectToStores`](https://github.com/yahoo/fluxible-addons-react/blob/master/docs/api/connectToStores.md)
+ * [`FluxibleAddons.FluxibleComponent`](https://github.com/yahoo/fluxible-addons-react/blob/master/docs/api/FluxibleComponent.md)
+ * [`FluxibleAddons.FluxibleMixin`](https://github.com/yahoo/fluxible-addons-react/blob/master/docs/api/FluxibleMixin.md)
+ * [`FluxibleAddons.provideContext`](https://github.com/yahoo/fluxible-addons-react/blob/master/docs/api/provideContext.md)
+
+or if you're using ES6:
+
+```js
+import connectToStores, FluxibleComponent, FluxibleMixin, provideContext} from 'fluxible-addons-react';
+```
+
+These libraries are not bundled with Fluxible to allow for Fluxible usage with 
+other view libraries such as React Native.
 
 ## Utils
 

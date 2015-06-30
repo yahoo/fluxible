@@ -3,13 +3,13 @@
 
 var expect = require('chai').expect;
 var Component = require('../../fixtures/applications/basic/components/Application.jsx');
-var provideContext = require('../../../addons/provideContext');
+var provideContext = require('fluxible-addons-react/provideContext');
 var Fluxible = require('../../../');
 var FluxibleContext = require('../../../lib/FluxibleContext');
 var isPromise = require('is-promise');
 var React = require('react');
 var createStore = require('dispatchr/addons/createStore');
-var createElementWithContext = require('../../../addons/createElementWithContext')
+var createElementWithContext = require('fluxible-addons-react/createElementWithContext')
 var domain = require('domain');
 
 // Fix for https://github.com/joyent/node/issues/8648

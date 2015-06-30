@@ -157,8 +157,8 @@ describe('TestComponent', function () {
             // React must be required after window is set
             React = require('react');
             ReactTestUtils = require('react/lib/ReactTestUtils');
-            provideContext = require('fluxible/addons/provideContext');
-            connectToStores = require('fluxible/addons/connectToStores');
+            provideContext = require('fluxible-addons-react/provideContext');
+            connectToStores = require('fluxible-addons-react/connectToStores');
 
             // The component being tested
             TestComponent = React.createClass({

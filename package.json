@@ -1,6 +1,6 @@
 {
   "name": "fluxible",
-  "version": "0.5.0-alpha1",
+  "version": "0.5.0-alpha.1",
   "description": "A pluggable container for isomorphic flux applications",
   "main": "index.js",
   "repository": {
@@ -16,13 +16,10 @@
     "debug": "^2.0.0",
     "dispatchr": "^0.3.1",
     "es6-promise": "^2.0.1",
-    "hoist-non-react-statics": "^1.0.0",
+    "fluxible-addons-react": "*",
     "is-promise": "^2.0.0",
     "object-assign": "^3.0.0",
     "setimmediate": "^1.0.2"
-  },
-  "peerDependencies": {
-    "react": "0.13.x"
   },
   "devDependencies": {
     "babel": "^5.0.2",
