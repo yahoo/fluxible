@@ -2,6 +2,10 @@
 
 ## 0.5.0
 
+### Features
+
+ * [#147] `connectToStores` and `provideContext` can now be used as decorators
+
 ### Deprecations
 
  * [#202] Addons were moved to a separate package ([fluxible-addons-react](https://github.com/yahoo/fluxible-addons-react)) to support other view libraries like React Native. A warning will be displayed when requiring the addons from this package. They will be removed in the next breaking change version.
