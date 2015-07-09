@@ -1,10 +1,11 @@
 # Change Log
 
-## 0.5.0-alpha.1
+## 0.5.0
 
 ### Deprecations
 
  * [#202] Addons were moved to a separate package ([fluxible-addons-react](https://github.com/yahoo/fluxible-addons-react)) to support other view libraries like React Native. A warning will be displayed when requiring the addons from this package. They will be removed in the next breaking change version.
+ * `connectToStores`'s `getStateFromStores` signature has changed to `(context, props)`.
 
 ## 0.4.12
 
