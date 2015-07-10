@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.5.1
+
+### Bug Fixes
+
+ * [#217] Fix warn message `createElement` to `createElementWithContext`
+
 ## 0.5.0
 
 ### Features
