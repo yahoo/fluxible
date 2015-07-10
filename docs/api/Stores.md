@@ -50,8 +50,8 @@ export default ApplicationStore;
 Fluxible provides a couple of helpers for building stores with some default
 behavior and convenience methods.
 
- * [BaseStore](https://github.com/yahoo/fluxible-addons-react/blob/master/docs/api/BaseStore.md) - Store class that can be extended
- * [createStore](https://github.com/yahoo/fluxible-addons-react/blob/master/docs/api/createStore.md) - function for creating a class that 
+ * [BaseStore](https://github.com/yahoo/fluxible/blob/master/docs/api/addons/BaseStore.md) - Store class that can be extended
+ * [createStore](https://github.com/yahoo/fluxible/blob/master/docs/api/addons/createStore.md) - function for creating a class that 
 extends `BaseStore`
 
 ## Interface
