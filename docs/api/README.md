@@ -45,7 +45,7 @@ using Fluxible with React.
 or if you're using ES6:
 
 ```js
-import connectToStores, FluxibleComponent, FluxibleMixin, provideContext} from 'fluxible-addons-react';
+import {connectToStores, FluxibleComponent, FluxibleMixin, provideContext} from 'fluxible-addons-react';
 ```
 
 These libraries are not bundled with Fluxible to allow for Fluxible usage with 
