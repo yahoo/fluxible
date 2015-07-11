@@ -1,14 +1,12 @@
 # Presentations
 
-## Future
+Take a look at talks and presentations we (Yahoo) and the community have done.
 
 ### Isomorphic Flux - ReactEurope 2015 - Michael Ridgway
 
-Michael Ridgway will be presenting "Isomorphic Flux" at the [ReactEurope](http://www.react-europe.org/) conference in July. 
+Michael Ridgway presented "Isomorphic Flux" at the [ReactEurope](http://www.react-europe.org/) conference 2015. 
 
-## Past
-
-Take a look at talks and presentations we (Yahoo) and the community have done.
+<iframe width="100%" height="315" src="https://www.youtube.com/embed/MrozpFEBEBE" frameborder="0" allowfullscreen></iframe>
 
 ### Flux Panel - ReactConf 2015 - Michael Ridgway
 
