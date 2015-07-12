@@ -1,7 +1,7 @@
 # BaseStore
 
 ```js
-import BaseStore from 'fluxible-addons-react/BaseStore';
+import BaseStore from 'fluxible/addons/BaseStore';
 ```
 
 A base class that you can extend to reduce boilerplate when creating stores.
