@@ -42,8 +42,13 @@ Join the #fluxible channel of the [Reactiflux](http://reactiflux.com) Slack comm
 
 ```js
 import Fluxible from 'fluxible';
+import {createStore} from 'fluxible/addons';
+import {
+    connectToStores,
+    createElementWithContext,
+    provideContext
+} from 'fluxible-addons-react';
 import React from 'react';
-import {connectToStores, createStore, provideContext} from 'fluxible/addons';
 
 // Action
 const action = (actionContext, payload) => {
@@ -56,13 +61,13 @@ const FooStore = createStore({
     handlers: {
         'FOO_ACTION': 'fooHandler'
     },
-    initialize: () => { // Set the initial state
+    initialize: function () { // Set the initial state
         this.foo = null;
     },
-    fooHandler: (payload) => {
+    fooHandler: function (payload) {
         this.foo = payload;
     },
-    getState: () => {
+    getState: function () {
         return {
             foo: this.foo
         }
@@ -76,8 +81,8 @@ class App extends React.Component {
     }
 }
 
-App = provideContext(connectToStores(App, [FooStore], (stores, props) => {
-    return stores.FooStore.getState();
+App = provideContext(connectToStores(App, [FooStore], (context, props) => {
+    return context.getStore(FooStore).getState();
 }));
 
 // App
@@ -89,7 +94,7 @@ const app = new Fluxible({
 // Bootstrap
 const context = app.createContext();
 context.executeAction(action, 'bar', (err) => {
-    console.log(React.renderToString(context.createElement()));
+    console.log(React.renderToString(createElementWithContext(context)));
 });
 ```
 
