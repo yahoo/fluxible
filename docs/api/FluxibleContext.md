@@ -45,6 +45,7 @@ Parameters:
 
  * `action`: A function that takes three parameters: `actionContext`, `payload`, `done`
  * `payload`: the action payload
+ * `payload.errorInfo`: when error happens, `errorInfo` will be appended to the error object as `error.info`
  * `done`: optional callback to call when the action has been completed. Receives error as the first parameter and result as the second.
 
 Returns:

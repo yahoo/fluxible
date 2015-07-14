@@ -210,8 +210,9 @@ describe('FluxibleContext', function () {
                 var action = function (context, payload, callback) {
                     callback(err);
                 };
-                actionContext.executeAction(action, {})
+                actionContext.executeAction(action, {errorInfo: {foo: 'bar'}})
                 .catch(function (callbackError) {
+                    expect(callbackError.info).to.eql({foo: 'bar'});
                     expect(callbackError).to.equal(err);
                     done();
                 });
@@ -266,11 +267,16 @@ describe('FluxibleContext', function () {
                     });
                     throw err;
                 };
-                var payload = {};
+                var payload = {
+                    errorInfo: {
+                        foo: 'bar'
+                    }
+                };
                 actionContext.executeAction(action, payload)
                 .catch(function (actionError) {
                         try {
                             expect(actionError).to.equal(err);
+                            expect(actionError.info).to.eql({foo: 'bar'});
                             expect(actionCalls.length).to.equal(1);
                             expect(actionCalls[0].context).to.equal(actionContext);
                             expect(actionCalls[0].payload).to.equal(payload);
@@ -600,5 +606,4 @@ describe('FluxibleContext', function () {
             expect(isPromise(rehydratePromise));
         });
     });
-
 });
