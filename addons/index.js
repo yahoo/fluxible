@@ -21,17 +21,23 @@ var movedMethods = {
 if (process.env.NODE_ENV === 'production') {
     objectAssign(module.exports, movedMethods);
 } else {
-    Object.keys(movedMethods).forEach(function (methodName) {
-        var warnedOnce = false;
-        Object.defineProperty(module.exports, methodName, {
-            get: function () {
-                if (!warnedOnce) {
-                    console.warn('`' + methodName + '` has moved to the ' +
-                        '`fluxible-addons-react` package.');
-                    warnedOnce = true;
+    try {
+        Object.keys(movedMethods).forEach(function (methodName) {
+            var warnedOnce = false;
+            Object.defineProperty(module.exports, methodName, {
+                get: function () {
+                    if (!warnedOnce) {
+                        console.warn('`' + methodName + '` has moved to the ' +
+                            '`fluxible-addons-react` package.');
+                        warnedOnce = true;
+                    }
+                    return movedMethods[methodName];
                 }
-                return movedMethods[methodName];
-            }
+            });
         });
-    });
+    } catch (e) {
+        // https://github.com/es-shims/es5-shim#may-fail
+        // Object.defineProperty will fail on IE8
+        objectAssign(module.exports, movedMethods);
+    }
 }
