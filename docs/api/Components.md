@@ -1,4 +1,4 @@
-# API: React Components
+# API: `React Components`
 
 React components need to be able to access the state of the application that is held within stores and also be able to execute actions that the stores can react to. Since we are not using singletons, we need to provide access to the current request's `ComponentContext`.
 
