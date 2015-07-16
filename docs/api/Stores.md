@@ -1,4 +1,4 @@
-# API: Stores
+# API: `Stores`
 
 Flux stores are where you keep your application's state and handle business 
 logic that reacts to data events. Stores in Fluxible are just classes that 
