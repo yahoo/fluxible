@@ -1,4 +1,4 @@
-# API: Plugins
+# API: `Plugins`
 
 Plugins allow you to extend the interface of each context type.
 
@@ -13,37 +13,68 @@ let app = new Fluxible();
 app.plug({
     // Required unique name property
     name: 'TestPlugin',
-    // Called after context creation to dynamically create a context plugin
-    plugContext: function (options) {
+    
+    /**
+     * Called after context creation to dynamically create a context plugin
+     * @method plugContext
+     * @param {Object} options Options passed into createContext
+     * @param {Object} context FluxibleContext instance
+     * @param {Object} app Fluxible instance
+     */
+    plugContext: function (options, context, app) {
         // `options` is the same as what is passed into `Fluxible.createContext(options)`
         let foo = options.foo;
+        
         // Returns a context plugin
         return {
-            // Method called to allow modification of the component context
-            plugComponentContext: function (componentContext) {
+            /**
+             * Method called to allow modification of the component context
+             * @method plugComponentContext
+             * @param {Object} componentContext Options passed into createContext
+             * @param {Object} context FluxibleContext instance
+             * @param {Object} app Fluxible instance
+             */
+            plugComponentContext: function (componentContext, context, app) {
                 componentContext.getFoo = function () {
                     return foo;
                 };
             },
-            //plugActionContext: function (actionContext) {}
-            //plugStoreContext: function (storeContext) {}
+            //plugActionContext: function (actionContext, context, app) {}
+            //plugStoreContext: function (storeContext, context, app) {}
 
-            // Allows context plugin settings to be persisted between server and client. Called on server
-            // to send data down to the client
+            /**
+             * Allows context plugin settings to be persisted between server and client. Called on server
+             * to send data down to the client
+             * @method dehydrate
+             */
             dehydrate: function () {
                 return {
                     foo: foo
                 };
             },
-            // Called on client to rehydrate the context plugin settings
+
+            /**
+             * Called on client to rehydrate the context plugin settings
+             * @method rehydrate
+             * @param {Object} state Object to rehydrate state
+             */
             rehydrate: function (state) {
                 foo = state.foo;
             }
         };
     },
-    // Allows dehydration of application plugin settings
+
+    /**
+     * Allows dehydration of application plugin settings
+     * @method dehydrate
+     */
     dehydrate: function () { return {}; },
-    // Allows rehydration of application plugin settings
+
+    /**
+     * Allows rehydration of application plugin settings
+     * @method rehydrate
+     * @param {Object} state Object to rehydrate state
+     */
     rehydrate: function (state) {}
 });
 
