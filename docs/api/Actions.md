@@ -1,4 +1,4 @@
-# API: Actions
+# API: `Actions`
 
 Actions (called "action creators" in Flux) in Fluxible are stateless functions that receive three parameters:
 
