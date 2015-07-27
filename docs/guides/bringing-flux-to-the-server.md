@@ -1,5 +1,9 @@
 # Bringing Flux to the Server
 
+***
+***This is from a talk and related blog post from November 2014. Some examples may be out of date relative to the current status of Fluxible.***
+***
+
 <div class="speakerdeck-container nested">
     <iframe class="speakerdeck-iframe" width="100%" height="350" frameborder="0" src="//speakerdeck.com/player/87ecaa3048750132f42542ffc18c6fcf?" allowFullScreen="true"></iframe>
 </div>
