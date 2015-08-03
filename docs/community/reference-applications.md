@@ -11,3 +11,5 @@ Want to add your application? Open a PR to get yours listed!
 - [quad-blog](https://github.com/cesarandreu/quad-blog/) ([live link](https://blog.cesarandreu.com/)) is a blog written with Fluxible. Another possible useful source of inspiration for solving problems encountered while developing an isomorphic application.
 
 - [Mailjet Passport](https://www.mailjet.com/passport) is an email builder app (WYSIWYG & HTML Editor), automagically generating responsive emails.
+
+- [DICE FM](https://dice.fm) is a music startup based in London that handpicks the best gigs in your city.
