@@ -1,19 +1,21 @@
-# Reference Applications
+# Applications in Production
 
 Want to add your application? Open a PR to get yours listed!
-- [Yahoo! Daily Fantasy](https://sports.yahoo.com/dailyfantasy) is a fantasy sports app where users can compete everyday with one-day or weeklong contests, setting lineups with simplified salary caps and easy access to news and scores from Yahoo’s Fantasy experts. 
-- [isomorphic500](https://github.com/gpbl/isomorphic500) is a Fluxible demo application showing photos from 500px. It uses the official Fluxible plugins, supports multiple language and includes a full-stack development environment. Useful as a source of inspiration to solve some common cases encountered while developing an isomorphic application. ([live example](https://isomorphic500.herokuapp.com/))  
-- [Yahoo Search SDK](https://developer.yahoo.com/search-sdk/apps/) is a software developer toolkit to integrate Yahoo Search into native apps.
 
-- [Docker Hub (Beta)](https://hub-beta.docker.com/) is a cloud-based platform service for distributed applications. It includes container image distribution and change management, user and team collaboration, and lifecycle workflow automation.
-- [Porch](https://porch.com/) is the home network, helping homeowners make informed decisions on home improvements and in selecting the right home professionals.
-
-- [quad-blog](https://github.com/cesarandreu/quad-blog/) ([live link](https://blog.cesarandreu.com/)) is a blog written with Fluxible. Another possible useful source of inspiration for solving problems encountered while developing an isomorphic application.
-
-- [Mailjet Passport](https://www.mailjet.com/passport) is an email builder app (WYSIWYG & HTML Editor), automagically generating responsive emails.
+## Applications
 
 - [DICE FM](https://dice.fm) is a music startup based in London that handpicks the best gigs in your city.
+- [Docker Hub (Beta)](https://hub-beta.docker.com/) is a cloud-based platform service for distributed applications. It includes container image distribution and change management, user and team collaboration, and lifecycle workflow automation.
+- [LD-R](http://ld-r.org) Linked Data-driven Web Components.
+- [Mailjet Passport](https://www.mailjet.com/passport) is an email builder app (WYSIWYG & HTML Editor), automagically generating responsive emails.
+- [Porch](https://porch.com/) is the home network, helping homeowners make informed decisions on home improvements and in selecting the right home professionals.
+- [Yahoo! Daily Fantasy](https://sports.yahoo.com/dailyfantasy) is a fantasy sports app where users can compete everyday with one-day or weeklong contests, setting lineups with simplified salary caps and easy access to news and scores from Yahoo’s Fantasy experts. 
+- [Yahoo Search SDK](https://developer.yahoo.com/search-sdk/apps/) is a software developer toolkit to integrate Yahoo Search into native apps. 
+
+ 
+## Reference examples
 
 - [Contactor](https://github.com/localnerve/flux-react-example) ([live example](http://flux-react-example.herokuapp.com)) is a data-driven Fluxible demo application. Uses [Fetchr](https://github.com/yahoo/fetchr), AMQP, and Github as a simple data service. Another possible useful source of inspiration for solving problems encountered while developing an isomorphic application.
-- 
-- [LD-R](http://ld-r.org) Linked Data-driven Web Components.
+- [Flux Examples](https://github.com/yahoo/flux-examples) - Various Flux examples built with Fluxible.
+- [isomorphic500](https://github.com/gpbl/isomorphic500) is a Fluxible demo application showing photos from 500px. It uses the official Fluxible plugins, supports multiple language and includes a full-stack development environment. Useful as a source of inspiration to solve some common cases encountered while developing an isomorphic application. ([live example](https://isomorphic500.herokuapp.com/))  
+- [quad-blog](https://github.com/cesarandreu/quad-blog/) ([live link](https://blog.cesarandreu.com/)) is a blog written with Fluxible. Another possible useful source of inspiration for solving problems encountered while developing an isomorphic application.
