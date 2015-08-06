@@ -15,3 +15,5 @@ Want to add your application? Open a PR to get yours listed!
 - [DICE FM](https://dice.fm) is a music startup based in London that handpicks the best gigs in your city.
 
 - [Contactor](https://github.com/localnerve/flux-react-example) ([live example](http://flux-react-example.herokuapp.com)) is a data-driven Fluxible demo application. Uses [Fetchr](https://github.com/yahoo/fetchr), AMQP, and Github as a simple data service. Another possible useful source of inspiration for solving problems encountered while developing an isomorphic application.
+- 
+- [LD-R](http://ld-r.org) Linked Data-driven Web Components.
