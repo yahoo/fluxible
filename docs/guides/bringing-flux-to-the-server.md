@@ -375,7 +375,7 @@ module.exports = MessageSection;
 
 ### Dehydration/Rehydration ([Full Diff](https://github.com/mridgway/isomorphic-chat/commit/cb21eed71b107741a0b263f3d46e0273797542dc))
 
-Ok, so now the entire application is rendered server side. But when we get to the client how do we re-initialize our React component over top of the server rendered DOM?
+Ok, so now the entire application is rendered server side. But when we get to the client how do we re-initialize our React component on top of the server rendered DOM?
 
 React supports rendering on top of existing DOM if you use `React.render()` using the same component and passing the DOM node that wrapped your server rendered markup. But we want to make sure that when it renders client side that it will render the same markup, otherwise you'll get a redraw and a jarring pop-in for the user.
 
