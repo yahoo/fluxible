@@ -21,6 +21,7 @@ Want to add your application? Open a PR to get yours listed!
 ## Reference examples
 
 - [Contactor](https://github.com/localnerve/flux-react-example) ([live example](http://flux-react-example.herokuapp.com)) is a data-driven Fluxible demo application. Uses [Fetchr](https://github.com/yahoo/fetchr), AMQP, and Github as a simple data service. Another possible useful source of inspiration for solving problems encountered while developing an isomorphic application.
-- [Flux Examples](https://github.com/yahoo/flux-examples) - Various Flux examples built with Fluxible.
+- [Flux Examples](https://github.com/yahoo/flux-examples) contains various Flux examples built with Fluxible.
+- [Fluxible.io](https://github.com/yahoo/fluxible.io) is this website! Showcases data fetching, routing, analytics, search and more. 
 - [isomorphic500](https://github.com/gpbl/isomorphic500) is a Fluxible demo application showing photos from 500px. It uses the official Fluxible plugins, supports multiple language and includes a full-stack development environment. Useful as a source of inspiration to solve some common cases encountered while developing an isomorphic application. ([live example](https://isomorphic500.herokuapp.com/))  
 - [quad-blog](https://github.com/cesarandreu/quad-blog/) ([live link](https://blog.cesarandreu.com/)) is a blog written with Fluxible. Another possible useful source of inspiration for solving problems encountered while developing an isomorphic application.
