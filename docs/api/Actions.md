@@ -108,7 +108,7 @@ When `executeAction` is called, it will push an object to the `executeActionCall
 `getStore` calls will be proxied to a dispatcher instance, which you can register stores to upon instantiation:
  
 ```js
-createMockActionContext({ stores: [MockStore] });`
+createMockActionContext({ stores: [MockStore] });
 ```
 
 ### Usage
