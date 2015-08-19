@@ -28,30 +28,30 @@ We recommend using React's context, since it will implicitly handle propagation 
 It is of course important that your component can access your store state. You can access the store instance via `this.context.getStore(StoreConstructor)`. You also need to make sure that any changes to the store are received by the component so that it can re-render itself. A component that listens to a store for changes without any helpers would look similar to this:
 
 ```js
-var FooStore = require('../stores/FooStore');
-var MyComponent = React.createClass({
-    contextTypes: {
+import FooStore from '../stores/FooStore';
+class MyComponent extends React.Component {
+    static contextTypes = {
         getStore: React.PropTypes.func.isRequired
-    },
-    getInitialState: function () {
+    }
+    getInitialState () {
         return this.getStoreState();
-    },
-    getStoreState: function () {
+    }
+    getStoreState () {
         return {
             foo: this.context.getStore(FooStore).getFoo()
         }
-    },
-    componentDidMount: function () {
+    }
+    componentDidMount () {
         this.context.getStore(FooStore).addChangeListener(this._onStoreChange);
-    },
-    componentWillUnmount: function () {
+    }
+    componentWillUnmount () {
         this.context.getStore(FooStore).removeChangeListener(this._onStoreChange);
-    },
-    _onStoreChange: function () {
+    }
+    _onStoreChange () {
         this.setState(this.getStoreState());
-    },
-    render: function () {...}
-});
+    }
+    render () {...}
+}
 ```
 
 To eliminate some of this boilerplate and eliminate potential developer error (for instance forgetting `componentWillUnmount`), Fluxible provides the following helpers for connecting your components to your stores:
@@ -64,18 +64,18 @@ To eliminate some of this boilerplate and eliminate potential developer error (f
 Executing actions from a component is as simple as requiring the action you want to execute and calling `executeAction` on the context:
 
 ```js
-var fooAction = require('../actions/fooAction');
-var MyComponent = React.createClass({
-    contextTypes: {
+import fooAction from '../actions/fooAction';
+class MyComponent extends React.Component {
+    static contextTypes = {
         executeAction: React.PropTypes.func.isRequired
-    },
-    onClick: function () {
+    }
+    onClick () {
         this.context.executeAction(fooAction, { /*payload*/ });
     },
-    render: function () {
+    render () {
         return <button onClick={this.onClick}>Click me</button>;
     }
-});
+}
 ```
 
 ## Testing
