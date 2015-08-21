@@ -8,6 +8,12 @@ The React addons have been broken out into a separate package called [fluxible-a
 
 Your application should depend on `fluxible-addons-react` directly and require the addons from that package.
 
+Note the new way to requre these with es6 uses curly braces:
+
+```js
+import {connectToStores} from 'fluxible-addons-react’;`
+```
+
 ### `connectToStores`'s `getStateFromStores` signature has changed to `(context, props)`
 
 Your `connectToStores` should change from:
