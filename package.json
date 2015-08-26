@@ -18,7 +18,7 @@
     "es6-promise": "^2.0.1",
     "fluxible-addons-react": "*",
     "is-promise": "^2.0.0",
-    "object-assign": "^3.0.0",
+    "object-assign": "^4.0.1",
     "setimmediate": "^1.0.2"
   },
   "devDependencies": {
