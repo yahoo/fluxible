@@ -15,7 +15,7 @@
   "dependencies": {
     "debug": "^2.0.0",
     "dispatchr": "^0.3.1",
-    "es6-promise": "^2.0.1",
+    "es6-promise": "^3.0.2",
     "fluxible-addons-react": "*",
     "is-promise": "^2.0.0",
     "object-assign": "^4.0.1",
@@ -23,9 +23,9 @@
   },
   "devDependencies": {
     "babel": "^5.0.2",
-    "chai": "^2.0.0",
+    "chai": "^3.2.0",
     "coveralls": "^2.11.1",
-    "eslint": "^0.21.2",
+    "eslint": "^1.2.1",
     "flux-router-component": "^0.6.0",
     "istanbul": "^0.3.2",
     "jsdom": "^3.1.2",
