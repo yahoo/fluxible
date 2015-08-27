@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.5.2
+
+### Bug Fixes
+
+ * [#249] Updated `es6-promise`, `chai`, and `eslint` dependencies
+ * [#248] Updated `object-assign` dependency
+
 ## 0.5.1
 
 ### Bug Fixes
