@@ -2,6 +2,7 @@
 'use strict';
 
 var expect = require('chai').expect;
+var async = require('async');
 var Fluxible = require('../../../');
 var FluxibleContext = require('../../../lib/FluxibleContext');
 var isPromise = require('is-promise');
@@ -80,11 +81,80 @@ describe('FluxibleContext', function () {
                 var payload = {};
                 var callback = function () {
                     expect(actionCalls.length).to.equal(1);
-                    expect(actionCalls[0].context).to.equal(actionContext);
+                    expect(actionCalls[0].context).to.contain.keys(Object.keys(actionContext));
                     expect(actionCalls[0].payload).to.equal(payload);
                     done();
                 };
                 actionContext.executeAction(action, payload, callback);
+            });
+
+            it('should trace executeAction calls and pass `id` along', function (done) {
+                var actionOne = function (context, payload, callback) {
+                    actionCalls.push({
+                        context: context,
+                        payload: payload
+                    });
+                    async.series([
+                        function (cb) {
+                            context.executeAction(actionTwo, payload, function actionOneFirstCallback () {
+                                context.executeAction(actionTwo, payload, function actionOneSecondCallback () {
+                                    cb();
+                                });
+                            });
+                        },
+                        function (cb) {
+                            context.executeAction(actionThree, payload, function actionOneThirdcallback () {
+                                cb();
+                            });
+                        }
+                    ], function (err) {
+                        callback(err)
+                    });
+                };
+                actionOne.displayName = 'One';
+                var actionTwo = function (context, payload, callback) {
+                    actionCalls.push({
+                        context: context,
+                        payload: payload
+                    });
+                    callback();
+                };
+                actionTwo.displayName = 'Two';
+                var actionThree = function (context, payload, callback) {
+                    actionCalls.push({
+                        context: context,
+                        payload: payload
+                    });
+                    callback();
+                };
+                actionThree.displayName = 'Three';
+                var payload = {};
+                var callback = function () {
+                    expect(actionCalls.length).to.equal(4);
+                    expect(actionCalls[0].context).to.contain.keys(Object.keys(actionContext));
+                    expect(actionCalls[0].context).to.contain.keys(['id','stack']);
+                    var firstId = actionCalls[0].context.id;
+                    expect(actionCalls[0].context.stack.join('.')).to.equal('Action.One');
+                    expect(actionCalls[0].payload).to.equal(payload);
+                    expect(actionCalls[1].context).to.contain.keys(Object.keys(actionContext));
+                    expect(actionCalls[1].context).to.contain.keys(['id','stack']);
+                    expect(actionCalls[1].context.id).to.equal(firstId);
+                    expect(actionCalls[1].context.stack.join('.')).to.equal('Action.One.Two');
+                    expect(actionCalls[1].payload).to.equal(payload);
+                    expect(actionCalls[2].context).to.contain.keys(Object.keys(actionContext));
+                    expect(actionCalls[2].context).to.contain.keys(['id','stack']);
+                    expect(actionCalls[2].context.id).to.equal(firstId);
+                    expect(actionCalls[2].context.stack.join('.')).to.equal('Action.One.Two');
+                    expect(actionCalls[2].payload).to.equal(payload);
+                    expect(actionCalls[3].context).to.contain.keys(Object.keys(actionContext));
+                    expect(actionCalls[3].context).to.contain.keys(['id','stack']);
+                    expect(actionCalls[3].context.id).to.equal(firstId);
+                    expect(actionCalls[3].context.stack.join('.')).to.equal('Action.One.Three');
+                    expect(actionCalls[3].payload).to.equal(payload);
+                    done();
+                };
+                actionContext = context.getActionContext();
+                actionContext.executeAction(actionOne, payload, callback);
             });
 
             it('should call executeAction callback with errors', function (done) {
@@ -204,7 +274,7 @@ describe('FluxibleContext', function () {
                         try {
                             expect(actionError).to.equal(err);
                             expect(actionCalls.length).to.equal(1);
-                            expect(actionCalls[0].context).to.equal(actionContext);
+                            expect(actionCalls[0].context).to.contain.keys(Object.keys(actionContext));
                             expect(actionCalls[0].payload).to.equal(payload);
                             done();
                         } catch (e) {
@@ -362,7 +432,7 @@ describe('FluxibleContext', function () {
                         throw new Error('This should not be called');
                     };
                     var action = function (actionContext, payload, cb) {
-                        expect(actionContext).to.equal(context.getActionContext());
+                        expect(actionContext).to.contain.keys(Object.keys(context.getActionContext()));
                         expect(payload).to.equal(payload);
                         expect(callback).to.not.equal(cb);
                         done();
@@ -372,6 +442,76 @@ describe('FluxibleContext', function () {
                 } finally {
                     console.warn = oldWarn;
                 }
+            });
+            it('should trace executeAction calls and pass `id` along', function (done) {
+                var actionContext = context.getActionContext();
+                var actionCalls = [];
+                var actionOne = function (context, payload, callback) {
+                    actionCalls.push({
+                        context: context,
+                        payload: payload
+                    });
+                    async.series([
+                        function (cb) {
+                            context.executeAction(actionTwo, payload, function actionOneFirstCallback () {
+                                context.executeAction(actionTwo, payload, function actionOneSecondCallback () {
+                                    cb();
+                                });
+                            });
+                        },
+                        function (cb) {
+                            context.executeAction(actionThree, payload, function actionOneThirdcallback () {
+                                cb();
+                            });
+                        }
+                    ], function (err) {
+                        if (err) {
+                            done(err);
+                        }
+
+                        expect(actionCalls.length).to.equal(4);
+                        expect(actionCalls[0].context).to.contain.keys(Object.keys(actionContext));
+                        expect(actionCalls[0].context).to.contain.keys(['id','stack']);
+                        var firstId = actionCalls[0].context.id;
+                        expect(actionCalls[0].context.stack.join('.')).to.equal('Action.One');
+                        expect(actionCalls[0].payload).to.equal(payload);
+                        expect(actionCalls[1].context).to.contain.keys(Object.keys(actionContext));
+                        expect(actionCalls[1].context).to.contain.keys(['id','stack']);
+                        expect(actionCalls[1].context.id).to.equal(firstId);
+                        expect(actionCalls[1].context.stack.join('.')).to.equal('Action.One.Two');
+                        expect(actionCalls[1].payload).to.equal(payload);
+                        expect(actionCalls[2].context).to.contain.keys(Object.keys(actionContext));
+                        expect(actionCalls[2].context).to.contain.keys(['id','stack']);
+                        expect(actionCalls[2].context.id).to.equal(firstId);
+                        expect(actionCalls[2].context.stack.join('.')).to.equal('Action.One.Two');
+                        expect(actionCalls[2].payload).to.equal(payload);
+                        expect(actionCalls[3].context).to.contain.keys(Object.keys(actionContext));
+                        expect(actionCalls[3].context).to.contain.keys(['id','stack']);
+                        expect(actionCalls[3].context.id).to.equal(firstId);
+                        expect(actionCalls[3].context.stack.join('.')).to.equal('Action.One.Three');
+                        expect(actionCalls[3].payload).to.equal(payload);
+                        done();
+                    });
+                };
+                actionOne.displayName = 'One';
+                var actionTwo = function (context, payload, callback) {
+                    actionCalls.push({
+                        context: context,
+                        payload: payload
+                    });
+                    callback();
+                };
+                actionTwo.displayName = 'Two';
+                var actionThree = function (context, payload, callback) {
+                    actionCalls.push({
+                        context: context,
+                        payload: payload
+                    });
+                    callback();
+                };
+                actionThree.displayName = 'Three';
+                var payload = {};
+                componentContext.executeAction(actionOne, payload);
             });
             it('should use the defined component action handler', function (done) {
                 var actionError = new Error('something went wrong');
