@@ -4,6 +4,7 @@ Want to add your application? Open a PR to get yours listed!
 
 ## Applications
 
+- [ShaderFrog](http://shaderfrog.com) is a WebGL, Three.js, Fluxible browser-based shader editor that can export GLSL shaders to multiple targets.
 - [CodePad](https://codepad.remoteinterview.io) is an All-in-one pair programming tool ideal for phone interviews. Supports and compiles 10+ languages and has full bash access too.
 - [DICE FM](https://dice.fm) is a music startup based in London that handpicks the best gigs in your city.
 - [Docker Hub (Beta)](https://hub-beta.docker.com/) is a cloud-based platform service for distributed applications. It includes container image distribution and change management, user and team collaboration, and lifecycle workflow automation.
