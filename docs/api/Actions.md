@@ -64,6 +64,7 @@ import myAction from './myAction';
 class MyComponent extends React.Component {
     constructor (props) {
         super(props);
+        this.onClick = this.onClick.bind(this);
     }
     onClick (e) {
         this.context.executeAction(myAction, {});
