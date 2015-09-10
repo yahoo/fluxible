@@ -1,5 +1,14 @@
 # Upgrade Guide
 
+## `1.0.0`
+
+### React addons removed from Fluxible
+
+All previously deprecated React integrations have been removed. See notes 
+from `0.5.0` on migration to `fluxible-addons-react`. Additionally, 
+`require('fluxible').contextTypes` has been removed and will be part of
+`fluxible-addons-react`.
+
 ## `0.5.0`
 
 ### React addons moved to fluxible-addons-react

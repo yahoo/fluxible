@@ -2,15 +2,14 @@
 'use strict';
 
 var expect = require('chai').expect;
-var Component = require('../../fixtures/applications/basic/components/Application.jsx');
-var provideContext = require('fluxible-addons-react/provideContext');
 var Fluxible = require('../../../');
 var FluxibleContext = require('../../../lib/FluxibleContext');
 var isPromise = require('is-promise');
-var React = require('react');
 var createStore = require('dispatchr/addons/createStore');
-var createElementWithContext = require('fluxible-addons-react/createElementWithContext')
 var domain = require('domain');
+
+var MockComponent = function () {};
+MockComponent.displayName = 'Application';
 
 // Fix for https://github.com/joyent/node/issues/8648
 FluxibleContext.Promise = require('es6-promise').Promise;
@@ -21,78 +20,14 @@ describe('FluxibleContext', function () {
 
     beforeEach(function () {
         app = new Fluxible({
-            component: Component
+            component: MockComponent
         });
         context = app.createContext();
     });
 
-    describe('createElement', function () {
-        it('should receive the correct props and context when using FluxibleComponent', function (done) {
-            var Component = React.createClass({
-                displayName: 'Component',
-                contextTypes: {
-                    getStore: React.PropTypes.func.isRequired,
-                    executeAction: React.PropTypes.func.isRequired
-                },
-                componentWillMount: function () {
-                    expect(this.props.foo).to.equal('bar');
-                    expect(this.context.getStore).to.be.a('function');
-                    expect(this.context.executeAction).to.be.a('function');
-                    done();
-                },
-                render: function () { return null; }
-            });
-            var app = new Fluxible({
-                component: Component
-            });
-            context = app.createContext();
-
-            React.renderToString(createElementWithContext(context, {foo: 'bar'}));
-        });
-        it('should receive the correct props and context when using contextProvider', function (done) {
-            var Component = React.createClass({
-                displayName: 'Component',
-                contextTypes: {
-                    getStore: React.PropTypes.func.isRequired,
-                    executeAction: React.PropTypes.func.isRequired
-                },
-                componentWillMount: function () {
-                    expect(this.props.foo).to.equal('bar');
-                    expect(this.context.getStore).to.be.a('function');
-                    expect(this.context.executeAction).to.be.a('function');
-                    done();
-                },
-                render: function () { return null; }
-            });
-            Component = provideContext(Component);
-            var app = new Fluxible({
-                component: Component
-            });
-            context = app.createContext();
-
-            React.renderToString(createElementWithContext(context, {foo: 'bar'}));
-        });
-        it('should receive the correct props and context if passed factory', function (done) {
-            var Component = React.createClass({
-                displayName: 'Component',
-                contextTypes: {
-                    getStore: React.PropTypes.func.isRequired,
-                    executeAction: React.PropTypes.func.isRequired
-                },
-                componentWillMount: function () {
-                    expect(this.props.foo).to.equal('bar');
-                    expect(this.context.getStore).to.be.a('function');
-                    expect(this.context.executeAction).to.be.a('function');
-                    done();
-                },
-                render: function () { return null; }
-            });
-            var app = new Fluxible({
-                component: Component
-            });
-            context = app.createContext();
-
-            React.renderToString(createElementWithContext(context, {foo: 'bar'}));
+    describe('getComponent', function () {
+        it('should return the app component', function () {
+            expect(context.getComponent()).to.equal(MockComponent);
         });
     });
 
@@ -449,7 +384,7 @@ describe('FluxibleContext', function () {
                     done();
                 };
                 var app2 = new Fluxible({
-                    component: Component,
+                    component: MockComponent,
                     componentActionHandler: myActionHandler
                 });
                 var context2 = app2.createContext();
@@ -499,7 +434,7 @@ describe('FluxibleContext', function () {
         it('should dehydrate and rehydrate with the same context', function (done) {
             var json = app.dehydrate(context);
             var newApp = new Fluxible({
-                component: Component
+                component: MockComponent
             });
             newApp.rehydrate(json, function (err, newContext) {
                 if (err) {

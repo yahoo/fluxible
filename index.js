@@ -4,6 +4,5 @@
  */
 var Fluxible = require('./lib/Fluxible');
 Fluxible.Fluxible = require('./lib/Fluxible');
-Fluxible.contextTypes = require('./lib/contextTypes');
 
 module.exports = Fluxible;
