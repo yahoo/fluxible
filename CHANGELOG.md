@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.0.0
+
+### API Changes
+
+ * [#257] All previously deprecated React APIs have been removed
+
 ## 0.5.2
 
 ### Bug Fixes

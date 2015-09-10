@@ -16,7 +16,6 @@
     "debug": "^2.0.0",
     "dispatchr": "^0.3.1",
     "es6-promise": "^3.0.2",
-    "fluxible-addons-react": "*",
     "is-promise": "^2.0.0",
     "object-assign": "^4.0.1",
     "setimmediate": "^1.0.2"
@@ -26,13 +25,10 @@
     "chai": "^3.2.0",
     "coveralls": "^2.11.1",
     "eslint": "^1.2.1",
-    "flux-router-component": "^0.6.0",
     "istanbul": "^0.3.2",
-    "jsdom": "^3.1.2",
     "mocha": "^2.0.1",
     "mockery": "^1.4.0",
-    "pre-commit": "^1.0.7",
-    "react": "0.13.x"
+    "pre-commit": "^1.0.7"
   },
   "author": "Michael Ridgway <mridgway@yahoo-inc.com>",
   "contributors": [],
