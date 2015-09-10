@@ -13,6 +13,13 @@ from `0.5.0` on migration to `fluxible-addons-react`. Additionally,
 
 This has been renamed to reflect that it is only called when an error occurs.
 
+### Promise library dependency removed
+
+In keeping up-to-date with ES2015, the dependency on `es6-promise` and
+`object-assign` libraries have been removed. Users should now add their 
+own polyfills to their application in browsers that do not support 
+these features yet. We recommend using [Babel](https://babeljs.io/).
+
 ## `0.5.0`
 
 ### React addons moved to fluxible-addons-react

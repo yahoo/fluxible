@@ -98,9 +98,18 @@ context.executeAction(action, 'bar', (err) => {
 });
 ```
 
+## Browser Compatibility
+
+Fluxible is written with ES2015 in mind and should be used along with polyfills
+for features like [`Promise`][Promise] and [`Object.assign`][objectAssign] 
+in order to support all browsers. We recommend using [Babel][babel].
+
 ## License
 
 This software is free to use under the Yahoo Inc. BSD license.
 See the [LICENSE file][] for license text and copyright information.
 
+[Promise]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
+[objectAssign]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
+[babel]: https://babeljs.io/
 [LICENSE file]: https://github.com/yahoo/fluxible/blob/master/LICENSE.md

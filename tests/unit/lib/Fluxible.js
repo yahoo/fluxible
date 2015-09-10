@@ -1,9 +1,6 @@
 /*globals describe,it,beforeEach */
 "use strict";
 
-// Fix for https://github.com/joyent/node/issues/8648
-global.Promise = require('es6-promise').Promise;
-
 var path = require('path');
 var expect = require('chai').expect;
 var Fluxible = require('../../../');

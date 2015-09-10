@@ -15,9 +15,7 @@
   "dependencies": {
     "debug": "^2.0.0",
     "dispatchr": "^0.3.1",
-    "es6-promise": "^3.0.2",
     "is-promise": "^2.0.0",
-    "object-assign": "^4.0.1",
     "setimmediate": "^1.0.2"
   },
   "devDependencies": {

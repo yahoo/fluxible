@@ -11,9 +11,6 @@ var domain = require('domain');
 var MockComponent = function () {};
 MockComponent.displayName = 'Application';
 
-// Fix for https://github.com/joyent/node/issues/8648
-FluxibleContext.Promise = require('es6-promise').Promise;
-
 describe('FluxibleContext', function () {
     var app;
     var context;

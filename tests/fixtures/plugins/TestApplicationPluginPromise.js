@@ -3,7 +3,6 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 'use strict';
-var PromiseLib = require('es6-promise').Promise;
 
 module.exports = function TestApplicationPlugin(initialFoo, initialBar) {
     var foo = initialFoo;
@@ -49,7 +48,7 @@ module.exports = function TestApplicationPlugin(initialFoo, initialBar) {
             };
         },
         rehydrate: function rehydrate(state) {
-            return new PromiseLib(function (resolve) {
+            return new Promise(function (resolve) {
                 foo = state.foo;
                 resolve();
             });
