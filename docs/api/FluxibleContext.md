@@ -93,7 +93,7 @@ This action context object is used every time an `executeAction` method is calle
 
 Returns the [Component Context](Components.md#Component Context) which provides access to only the functions that should be called from components. By default: `executeAction`, `getStore`. `executeAction` does not allow passing a callback from components so that it enforces actions to be send and forget.
 
-*Note: You may provide an app level `componentActionHandler` function when instantiating Fluxible. This allows you to catch errors (at a high level) spawning from components firing actions.*
+*Note: You may provide an app level `componentActionErrorHandler` function when instantiating Fluxible. This allows you to catch errors (at a high level) spawning from components firing actions.*
 
 This context interface should be passed in to your top level React component and then sent down to children as needed. These components will now have access to listen to store instances, execute actions, and access any methods added to the component context by plugins.
 

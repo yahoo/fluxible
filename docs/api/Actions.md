@@ -79,7 +79,7 @@ MyComponent.contextTypes = {
 export default MyComponent;
 ```
 
-It's important to note that `executeAction` does not allow passing a callback from the component nor does it return the promise. This enforces that the actions are fire-and-forget and that state changes should only be handled through the Flux flow. When actions are executed from components, the callback becomes the `componentActionHandler` function provided to the [Fluxible](Fluxible.md) constructor.
+It's important to note that `executeAction` does not allow passing a callback from the component nor does it return the promise. This enforces that the actions are fire-and-forget and that state changes should only be handled through the Flux flow. When actions are executed from components, the callback becomes the `componentActionErrorHandler` function provided to the [Fluxible](Fluxible.md) constructor.
 
 ## Action Context
 
