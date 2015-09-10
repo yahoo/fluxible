@@ -31,7 +31,7 @@ Creates a new application instance with the following parameters:
 
  * `options`: An object containing the application settings
  * `options.component` (optional): Stores your top level React component for access using `getComponent()`
- * `options.componentActionHandler` (optional): App level component action handler.
+ * `options.componentActionErrorHandler` (optional): App level component action handler.
 
 ### createContext(contextOptions)
 

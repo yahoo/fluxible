@@ -385,7 +385,7 @@ describe('FluxibleContext', function () {
                 };
                 var app2 = new Fluxible({
                     component: MockComponent,
-                    componentActionHandler: myActionHandler
+                    componentActionErrorHandler: myActionHandler
                 });
                 var context2 = app2.createContext();
                 var componentContext2 = context2.getComponentContext();
@@ -403,14 +403,14 @@ describe('FluxibleContext', function () {
                     done();
                 });
                 d.run(function () {
-                    var componentActionHandler = function (context, payload) {
+                    var componentActionErrorHandler = function (context, payload) {
                         throw payload.err;
                     };
                     var action = function () {
                         throw actionError;
                     };
                     var app2 = new Fluxible({
-                        componentActionHandler: componentActionHandler
+                        componentActionErrorHandler: componentActionErrorHandler
                     });
                     var context2 = app2.createContext();
                     var componentContext2 = context2.getComponentContext();

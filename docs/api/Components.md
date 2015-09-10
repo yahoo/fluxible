@@ -9,7 +9,7 @@ The component context receives limited access to the [FluxibleContext](FluxibleC
  * `executeAction(action, payload)`
  * `getStore(storeConstructor)`
 
-It's important to note that ***`executeAction` does not allow passing a callback from the component***. This enforces that the actions are fire-and-forget and that state changes should only be handled through the Flux flow. You may however provide an app level `componentActionHandler` function when instantiating Fluxible. This allows you to handle errors (at a high level) spawning from components firing actions.
+It's important to note that ***`executeAction` does not allow passing a callback from the component***. This enforces that the actions are fire-and-forget and that state changes should only be handled through the Flux flow. You may however provide an app level `componentActionErrorHandler` function when instantiating Fluxible. This allows you to handle errors (at a high level) spawning from components firing actions.
 
 ## Accessing the Context
 

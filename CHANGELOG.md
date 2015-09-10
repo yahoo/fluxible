@@ -5,6 +5,7 @@
 ### API Changes
 
  * [#257] All previously deprecated React APIs have been removed
+ * [#259] `componentActionHandler` renamed to `componentActionErrorHandler`
 
 ## 0.5.2
 

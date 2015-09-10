@@ -9,6 +9,10 @@ from `0.5.0` on migration to `fluxible-addons-react`. Additionally,
 `require('fluxible').contextTypes` has been removed and will be part of
 `fluxible-addons-react`.
 
+### `componentActionHandler` renamed to `componentActionErrorHandler`
+
+This has been renamed to reflect that it is only called when an error occurs.
+
 ## `0.5.0`
 
 ### React addons moved to fluxible-addons-react
