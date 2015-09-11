@@ -90,4 +90,4 @@ N.B. In order for component context plugins to be available to all components, i
 
 Example plugins:
  * [fluxible-plugin-fetchr](https://github.com/yahoo/fluxible-plugin-fetchr) - Polymorphic RESTful services
- * [fluxible-plugin-routr](https://github.com/yahoo/fluxible-plugin-routr) - Routing behavior
+ * [Search for more on npm](https://www.npmjs.com/search?q=fluxible+plugin)
