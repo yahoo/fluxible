@@ -86,6 +86,8 @@ context.getComponentContext().getFoo(); // returns 'bar'
 // or this.context.getFoo() from a React component
 ```
 
+N.B. In order for component context plugins to be available to all components, it is necessary to use a solution like [`provideContext`](http://fluxible.io/addons/provideContext.html). 
+
 Example plugins:
  * [fluxible-plugin-fetchr](https://github.com/yahoo/fluxible-plugin-fetchr) - Polymorphic RESTful services
  * [fluxible-plugin-routr](https://github.com/yahoo/fluxible-plugin-routr) - Routing behavior
