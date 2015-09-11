@@ -25,18 +25,6 @@ Creates a new context instance with the following parameters:
  * `options`: An object containing the context settings
  * `options.app`: Provides access to the application level functions and settings
 
-### createElement(props)
-
-* This method is deprecated and has moved to the `fluxible-addons-react` package*
-
-Instantiates the app level React component (if provided in the constructor) with the given props with an additional `context` key containing a ComponentContext. This is the same as the following assuming `Component` is your top level React component:
-
-```js
-<FluxibleComponent context={context.getComponentContext()}>
-    <Component ...props />
-</FluxibleComponent>
-```
-
 ### executeAction(action, payload, [done])
 
 This is the entry point into an application's execution. The initial action is what begins the flux flow: action dispatches events to stores and stores update their data structures. On the server, we wait for the initial action to finish and then we're ready to render using React. On the client, the components are already rendered and are waiting for store change events.
