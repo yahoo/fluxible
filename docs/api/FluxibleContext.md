@@ -14,7 +14,7 @@ Within a `FluxibleContext`, each component of your application receives a subset
 |---------------	|-----------------	|----------------	|-------------------	|---------------	|
 | dispatch      	|                 	|        ✓       	|                   	|               	|
 | executeAction 	|        ✓        	|        ✓       	|    no callback    	|               	|
-| getStore      	|                 	|        ✓       	|         ✓         	|         &nbsp;      	|
+| getStore      	|        ✓        	|        ✓       	|         ✓         	|         &nbsp;	|
 
 ## Methods
 

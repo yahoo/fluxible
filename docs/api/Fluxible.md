@@ -6,18 +6,21 @@ Instantiated once for your application, this holds settings and interfaces that 
 
 ```js
 import Fluxible from 'fluxible';
-let fluxibleApp = new Fluxible({
+const fluxibleApp = new Fluxible({
     component: require('./components/App.jsx')
-})
+});
 ```
 
 For each request:
 
 ```js
-let context = fluxibleApp.createContext();
+const context = fluxibleApp.createContext();
 context.executeAction(action, payload, function () {
-    let markup = React.renderToString(context.createElement());
-    let state = fluxibleApp.dehydrate(context);
+    const element = React.createElement(context.getComponent(), {
+        context: context.getComponentContext()
+    });
+    const markup = ReactDOM.renderToString(element);
+    const state = fluxibleApp.dehydrate(context);
 
     // ... send markup and state to the client ...
 });
@@ -32,6 +35,33 @@ Creates a new application instance with the following parameters:
  * `options`: An object containing the application settings
  * `options.component` (optional): Stores your top level React component for access using `getComponent()`
  * `options.componentActionErrorHandler` (optional): App level component action handler.
+ 
+#### `options.component`
+
+This is a convenience method that allows you to access your component via 
+`context.getComponent()`. This is useful for when you want to eventually
+render your application, you can pass the returned component to your render
+method.
+
+#### `options.componentActionErrorHandler`
+
+`componentActionErrorHandler` is an action that will be called in the event of
+an error being triggered from within an action that was called by a component's
+`executeAction`. This is important to handle since components are not able to 
+pass callbacks to `executeAction`. By default, the application will `throw` the
+error but you can override this:
+
+```js
+const fluxibleApp = new Fluxible({
+    component: require('./components/App.jsx'),
+    componentActionErrorHandler: function (context, payload, done) {
+        var err = payload.err;
+        // Handle error by setting error state
+        context.dispatch('APPLICATION_ERROR', err);
+        done();
+    }
+});
+```
 
 ### createContext(contextOptions)
 
