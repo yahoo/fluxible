@@ -89,7 +89,7 @@ context.getComponentContext().getFoo(); // returns 'bar'
 _When add to the component context, you will need to add the new properties to 
 `childContextTypes` so that it is made available to all children. 
 `provideContext` has an option for 
-[passing custom contextTypes](http://fluxible.io/addons/provideContext.html#plugins-and-custom-component-context). 
+[passing custom contextTypes](http://fluxible.io/addons/provideContext.html#plugins-and-custom-component-context)._
 
 Example plugins:
  * [fluxible-plugin-fetchr](https://github.com/yahoo/fluxible-plugin-fetchr) - Polymorphic RESTful services
