@@ -49,6 +49,7 @@ import {
     provideContext
 } from 'fluxible-addons-react';
 import React from 'react';
+import ReactDOM from 'react-dom/server';
 
 // Action
 const action = (actionContext, payload) => {
@@ -94,7 +95,7 @@ const app = new Fluxible({
 // Bootstrap
 const context = app.createContext();
 context.executeAction(action, 'bar', (err) => {
-    console.log(React.renderToString(createElementWithContext(context)));
+    console.log(ReactDOM.renderToString(createElementWithContext(context)));
 });
 ```
 
