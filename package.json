@@ -19,6 +19,7 @@
     "setimmediate": "^1.0.2"
   },
   "devDependencies": {
+    "async": "^1.4.2",
     "babel": "^5.0.2",
     "chai": "^3.2.0",
     "coveralls": "^2.11.1",
