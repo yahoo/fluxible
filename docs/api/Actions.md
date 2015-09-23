@@ -82,7 +82,7 @@ It's important to note that `executeAction` does not allow passing a callback fr
 
 ## Action Context
 
-Actions have the most access to the Flux context. The context contains the following methods:
+Actions have the most access to the Flux context. The context contains the following methods and properties:
 
 ### `dispatch(eventName, payload)`
 
@@ -96,6 +96,13 @@ Executes another action. Allows waiting for the returned promise to be resolved 
 
 Retrieve a store instance by constructor. Useful for reading from the store. Should never be used for modifying the store.
 
+### `rootId`
+
+An `rootId` is generated for each root level action that is executed. This `rootId` will be persisted to all subsequent actions that are called under the root action.
+
+### `stack`
+
+The `stack` is an array of action names that shows which actions were called above the current one. This is helpful for debugging but shouldn't be used for anything else.
 
 ## Testing
 
