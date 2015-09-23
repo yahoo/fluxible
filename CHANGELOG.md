@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.5.4
+
+### Bug Fixes
+
+ * [#269] Fixed binding of executeAction to actionContext
+
 ## 0.5.3
 
 ### Features
