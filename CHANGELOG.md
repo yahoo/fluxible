@@ -8,6 +8,12 @@
  * [#259] `componentActionHandler` renamed to `componentActionErrorHandler`
  * [#258] Removed dependency on `Promise` and `Object.assign` library, must be polyfilled
 
+## 0.5.3
+
+### Features
+
+ * [#263] Action tracing: added `actionContext.id` and `actionContext.stack`
+
 ## 0.5.2
 
 ### Bug Fixes
