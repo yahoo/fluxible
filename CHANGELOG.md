@@ -8,6 +8,12 @@
  * [#259] `componentActionHandler` renamed to `componentActionErrorHandler`
  * [#258] Removed dependency on `Promise` and `Object.assign` library, must be polyfilled
 
+## 0.5.4
+
+### Bug Fixes
+
+ * [#269] Fixed binding of executeAction to actionContext
+
 ## 0.5.3
 
 ### Features
