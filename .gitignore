@@ -1,4 +1,4 @@
-/node_modules
-/artifacts
+node_modules
+artifacts
 *.log
 .jshintrc
