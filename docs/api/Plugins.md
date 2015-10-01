@@ -78,18 +78,36 @@ app.plug({
     rehydrate: function (state) {}
 });
 
+// set a value for it
 let context = app.createContext({
     foo: 'bar'
 });
 
+// retrieve it from actions, stores or components
+context.getActionContext().getFoo(); // returns 'bar'
+context.getStoreContext().getFoo(); // returns 'bar'
 context.getComponentContext().getFoo(); // returns 'bar'
-// or this.context.getFoo() from a React component
+// or this.context.getFoo() from a React component, read the note below
 ```
 
-_When added to the component context, you will need to add the new properties to 
-`childContextTypes` so that it is made available to all children. 
-`provideContext` has an option for 
-[passing custom contextTypes](http://fluxible.io/addons/provideContext.html#plugins-and-custom-component-context)._
+### componentContext
+
+To leverage the new context value in componentContext, `provideContext` has an option for [passing custom contextTypes](http://fluxible.io/addons/provideContext.html#plugins-and-custom-component-context) which will ensure that it is made available to all children.
+
+```
+// create the React component as usual
+class Application extends React.Component {
+    render() {
+        ...
+    }
+}
+
+// pass in the "foo" context type to register it with React context
+Application = provideContext(Application, {
+    foo: React.PropTypes.string
+});
+
+```
 
 Example plugins:
  * [fluxible-plugin-fetchr](https://github.com/yahoo/fluxible-plugin-fetchr) - Polymorphic RESTful services
