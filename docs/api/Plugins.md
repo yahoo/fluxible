@@ -86,7 +86,7 @@ context.getComponentContext().getFoo(); // returns 'bar'
 // or this.context.getFoo() from a React component
 ```
 
-_When add to the component context, you will need to add the new properties to 
+_When added to the component context, you will need to add the new properties to 
 `childContextTypes` so that it is made available to all children. 
 `provideContext` has an option for 
 [passing custom contextTypes](http://fluxible.io/addons/provideContext.html#plugins-and-custom-component-context)._
