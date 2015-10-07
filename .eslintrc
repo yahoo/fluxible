@@ -1,6 +1,7 @@
 ---
 env:
   node: true
+parser: "babel-eslint"
 extend: "eslint:recommended"
 rules:
   indent: [2, 4]

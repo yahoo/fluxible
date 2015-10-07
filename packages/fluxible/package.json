@@ -1,0 +1,36 @@
+{
+  "name": "fluxible",
+  "version": "1.0.0",
+  "description": "A pluggable container for isomorphic flux applications",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yahoo/fluxible"
+  },
+  "scripts": {
+    "test": "mocha tests/unit/ --recursive --compilers js:babel/register --reporter spec",
+    "cover": "istanbul cover --dir artifacts -- _mocha tests/unit/ --recursive --compilers js:babel/register --reporter spec",
+    "lint": "eslint lib/ addons/"
+  },
+  "dependencies": {
+    "debug": "^2.0.0",
+    "dispatchr": "^0.3.1",
+    "is-promise": "^2.0.0",
+    "setimmediate": "^1.0.2"
+  },
+  "author": "Michael Ridgway <mridgway@yahoo-inc.com>",
+  "contributors": [],
+  "licenses": [
+    {
+      "type": "BSD",
+      "url": "https://github.com/yahoo/fluxible/blob/master/LICENSE.md"
+    }
+  ],
+  "keywords": [
+    "yahoo",
+    "flux",
+    "react",
+    "fluxible",
+    "isomorphic"
+  ]
+}
