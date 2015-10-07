@@ -4,7 +4,7 @@
 
 ### API Changes
 
- * [#257] All previously deprecated React APIs have been removed
+ * [#257] All previously deprecated React integration APIs have been removed
  * [#259] `componentActionHandler` renamed to `componentActionErrorHandler`
  * [#258] Removed dependency on `Promise` and `Object.assign` library, must be polyfilled
 
