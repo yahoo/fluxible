@@ -18,17 +18,17 @@ Join the #fluxible channel of the [Reactiflux](http://reactiflux.com) Slack comm
 
 ## Docs
 
- * [Quick Start](https://github.com/yahoo/fluxible/blob/master/docs/quick-start.md)
- * [API](https://github.com/yahoo/fluxible/blob/master/docs/api/README.md)
+ * [Quick Start](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/quick-start.md)
+ * [API](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/README.md)
 
 ## Features
 
  * Singleton-free for server rendering
- * [Store](https://github.com/yahoo/fluxible/blob/master/docs/api/Stores.md) dehydration for client bootstrapping
- * Stateless async [actions](https://github.com/yahoo/fluxible/blob/master/docs/api/Actions.md)
- * Higher order [components](https://github.com/yahoo/fluxible/blob/master/docs/api/Components.md) for easy integration
- * Enforcement of Flux flow - restricted access to the [Flux interface](https://github.com/yahoo/fluxible/blob/master/docs/api/FluxibleContext.md) from within components
- * [Pluggable](https://github.com/yahoo/fluxible/blob/master/docs/api/Plugins.md) - add your own interfaces to the Flux context
+ * [Store](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/Stores.md) dehydration for client bootstrapping
+ * Stateless async [actions](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/Actions.md)
+ * Higher order [components](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/Components.md) for easy integration
+ * Enforcement of Flux flow - restricted access to the [Flux interface](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/FluxibleContext.md) from within components
+ * [Pluggable](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/Plugins.md) - add your own interfaces to the Flux context
  * Updated for React 0.13
 
 ## Extras
