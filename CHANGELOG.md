@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.5.5
+
+### Bug Fixes
+
+ * [#276] Lock down fluxible-addons-react dependency for React 0.13
+
 ## 0.5.4
 
 ### Bug Fixes
