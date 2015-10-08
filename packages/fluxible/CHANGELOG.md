@@ -8,6 +8,12 @@
  * [#259] `componentActionHandler` renamed to `componentActionErrorHandler`
  * [#258] Removed dependency on `Promise` and `Object.assign` library, must be polyfilled
 
+## 0.5.5
+
+### Bug Fixes
+
+ * [#276] Lock down fluxible-addons-react dependency for React 0.13
+
 ## 0.5.4
 
 ### Bug Fixes
