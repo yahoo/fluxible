@@ -1,7 +1,7 @@
 {
-  "name": "fluxible",
-  "version": "1.0.0",
-  "description": "A pluggable container for isomorphic flux applications",
+  "name": "fluxible-reducer-store",
+  "version": "0.1.0",
+  "description": "Reducer store for Fluxible",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -10,13 +10,10 @@
   "scripts": {
     "test": "../../node_modules/.bin/mocha tests/unit/ --recursive --compilers js:babel/register --reporter spec",
     "cover": "../../node_modules/.bin/istanbul cover --dir artifacts -- ../../node_modules/.bin/_mocha tests/unit/ --recursive --compilers js:babel/register --reporter spec",
-    "lint": "../../node_modules/.bin/eslint lib/ addons/"
+    "lint": "../../node_modules/.bin/eslint *.js"
   },
   "dependencies": {
-    "debug": "^2.0.0",
-    "dispatchr": "^0.3.1",
-    "is-promise": "^2.0.0",
-    "setimmediate": "^1.0.2"
+    "fluxible": ">0.3.0"
   },
   "author": "Michael Ridgway <mridgway@yahoo-inc.com>",
   "contributors": [],
@@ -31,6 +28,7 @@
     "flux",
     "react",
     "fluxible",
-    "isomorphic"
+    "isomorphic",
+    "reducer"
   ]
 }
