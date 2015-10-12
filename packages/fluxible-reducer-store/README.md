@@ -16,7 +16,7 @@ $ npm install --save fluxible-reducer-store
 
 ## Docs
 
- * [API](https://github.com/yahoo/fluxible/blob/master/packages/fluxible-reducer-store/docs/api/fluxible-reducer-store.md)
+ * [API](https://github.com/yahoo/fluxible/blob/master/packages/fluxible-reducer-store/docs/api/createReducerStore.md)
 
 ## Browser Compatibility
 
