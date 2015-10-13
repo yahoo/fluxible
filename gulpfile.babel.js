@@ -30,12 +30,21 @@ gulp.task('install', () => {
 });
 
 gulp.task('version', () => {
-    let packageName = argv.pkg || argv.p;
+    // Try to derive package name from directory where this was run from
+    let pwd = process.env.PWD;
+    let pwdPackageName = Object.keys(packages).reduce((prev, name) => {
+        return packages[name] === pwd ? name : prev;
+    }, undefined);
+
+    // Check params
+    let packageName = argv.pkg || argv.p || pwdPackageName;
     let version = argv.version || argv.v;
     let message = argv.message || argv.m || packageName + '@%s';
     if (!packageName || !version) {
         throw new Error('Usage: gulp version -p <package> -v <version>');
     }
+
+    // Bump the version
     cd(packages[packageName]);
     exec('npm version ' + version + ' -m "' + message + '"');
 
