@@ -11,7 +11,7 @@
     "test": "../../node_modules/.bin/mocha tests/unit/ --recursive --compilers js:babel/register --reporter spec",
     "cover": "../../node_modules/.bin/istanbul cover --dir artifacts -- ../../node_modules/.bin/_mocha tests/unit/ --recursive --compilers js:babel/register --reporter spec",
     "lint": "../../node_modules/.bin/eslint lib/ addons/",
-    "postversion": "../../node_modules/.bin/gulp post-version"
+    "preversion": "echo \"Error: version should be called using gulp\" && exit 1"
   },
   "dependencies": {
     "debug": "^2.0.0",

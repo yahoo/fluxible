@@ -32,20 +32,16 @@ gulp.task('install', () => {
 gulp.task('version', () => {
     let packageName = argv.pkg || argv.p;
     let version = argv.version || argv.v;
+    let message = argv.message || argv.m || packageName + '@%s';
     if (!packageName || !version) {
         throw new Error('Usage: gulp version -p <package> -v <version>');
     }
     cd(packages[packageName]);
-    exec('npm version ' + version);
-});
-
-gulp.task('post-version', () => {
-    let packageName = process.env.npm_package_name;
-    let packageVersion = process.env.npm_package_version;
+    exec('npm version ' + version + ' -m "' + message + '"');
 
     // Rename tags to have package name prefix
-    let tagName = 'v' + packageVersion;
-    let newTagName = packageName + '-v' + packageVersion;
+    let tagName = 'v' + version;
+    let newTagName = packageName + '-v' + version;
     exec('git tag ' + newTagName + ' ' + tagName);
     exec('git tag -d ' + tagName);
 });

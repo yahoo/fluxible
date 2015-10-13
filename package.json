@@ -12,7 +12,7 @@
     "cover": "istanbul cover --dir artifacts -- _mocha packages/*/tests/unit/ --recursive --compilers js:babel/register --reporter spec",
     "lint": "eslint *.js",
     "postinstall": "gulp install",
-    "preversion": "echo \"Error: version should be called from a package directory or using gulp\" && exit 1"
+    "preversion": "echo \"Error: version should be called using gulp\" && exit 1"
   },
   "dependencies": {},
   "devDependencies": {
