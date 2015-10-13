@@ -33,7 +33,7 @@ gulp.task('version', () => {
     let packageName = argv.pkg || argv.p;
     let version = argv.version || argv.v;
     if (!packageName || !version) {
-        throw new Error('pkg and version required');
+        throw new Error('Usage: gulp version -p <package> -v <version>');
     }
     cd(packages[packageName]);
     exec('npm version ' + version);
