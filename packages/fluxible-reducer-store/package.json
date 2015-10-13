@@ -1,6 +1,6 @@
 {
   "name": "fluxible-reducer-store",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "Reducer store for Fluxible",
   "main": "index.js",
   "repository": {
@@ -10,7 +10,8 @@
   "scripts": {
     "test": "../../node_modules/.bin/mocha tests/unit/ --recursive --compilers js:babel/register --reporter spec",
     "cover": "../../node_modules/.bin/istanbul cover --dir artifacts -- ../../node_modules/.bin/_mocha tests/unit/ --recursive --compilers js:babel/register --reporter spec",
-    "lint": "../../node_modules/.bin/eslint *.js"
+    "lint": "../../node_modules/.bin/eslint *.js",
+    "postversion": "../../node_modules/.bin/gulp post-version"
   },
   "dependencies": {
     "fluxible": ">0.3.0"
