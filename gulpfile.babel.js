@@ -56,3 +56,21 @@ gulp.task('version', () => {
     exec('git tag ' + tagName);
 });
 
+gulp.task('publish', () => {
+    // Try to derive package name from directory where this was run from
+    let pwd = process.env.PWD;
+    let pwdPackageName = Object.keys(packages).reduce((prev, name) => {
+        return packages[name] === pwd ? name : prev;
+    }, undefined);
+
+    // Check params
+    let packageName = argv.pkg || argv.p || pwdPackageName;
+    if (!packageName) {
+        throw new Error('Usage: gulp publish -p <package>');
+    }
+
+    // Publish
+    cd(packages[packageName]);
+    exec('npm publish');
+});
+
