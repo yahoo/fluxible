@@ -1,6 +1,6 @@
 {
   "name": "fluxible-reducer-store",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Reducer store for Fluxible",
   "main": "index.js",
   "repository": {
