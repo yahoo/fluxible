@@ -39,19 +39,20 @@ gulp.task('version', () => {
     // Check params
     let packageName = argv.pkg || argv.p || pwdPackageName;
     let version = argv.version || argv.v;
-    let message = argv.message || argv.m || packageName + '@%s';
     if (!packageName || !version) {
         throw new Error('Usage: gulp version -p <package> -v <version>');
     }
 
     // Bump the version
     cd(packages[packageName]);
-    exec('npm version ' + version + ' -m "' + message + '"');
+    let execResult = exec('npm version ' + version);
+    let bumpedVersion = execResult.output.replace('\n', '').replace('v', '');
 
-    // Rename tags to have package name prefix
-    let tagName = 'v' + version;
-    let newTagName = packageName + '-v' + version;
-    exec('git tag ' + newTagName + ' ' + tagName);
-    exec('git tag -d ' + tagName);
+    // Commit and tag
+    exec('git add ' + packages[packageName] + '/package.json');
+    let message = packageName + '@' + bumpedVersion;
+    exec('git commit -m "' + message + '"');
+    let tagName = packageName + '-v' + bumpedVersion;
+    exec('git tag ' + tagName);
 });
 
