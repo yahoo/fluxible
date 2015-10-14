@@ -31,7 +31,7 @@ Your application should depend on `fluxible-addons-react` directly and require t
 Note the new way to requre these with es6 uses curly braces:
 
 ```js
-import {connectToStores} from 'fluxible-addons-react’;`
+import {connectToStores} from 'fluxible-addons-react';
 ```
 
 ### `connectToStores`'s `getStateFromStores` signature has changed to `(context, props)`
