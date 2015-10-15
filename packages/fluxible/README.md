@@ -103,7 +103,8 @@ context.executeAction(action, 'bar', (err) => {
 
 Fluxible is written with ES2015 in mind and should be used along with polyfills
 for features like [`Promise`][Promise] and [`Object.assign`][objectAssign] 
-in order to support all browsers. We recommend using [Babel][babel].
+in order to support all browsers. We recommend using [Babel][babel] along with
+its [polyfill][polyfill].
 
 ## License
 
@@ -113,4 +114,5 @@ See the [LICENSE file][] for license text and copyright information.
 [Promise]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
 [objectAssign]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
 [babel]: https://babeljs.io/
+[polyfill]: https://babeljs.io/docs/usage/polyfill/
 [LICENSE file]: https://github.com/yahoo/fluxible/blob/master/LICENSE.md
