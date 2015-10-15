@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import gulp from 'gulp';
-import {cd, exec} from 'shelljs';
+import {cd, exec, rm} from 'shelljs';
 import {argv} from 'yargs';
 
 const ROOT_PATH = path.resolve(__dirname);
@@ -15,14 +15,46 @@ const packages = fs.readdirSync(PACKAGES_PATH).filter((file) => {
     };
 }, {});
 
+const sharedDeps = [
+    'react',
+    'react-dom'
+];
 gulp.task('install', () => {
     return Promise.all(
+        // Link all packages to the root
         Object.keys(packages).map((packageName) => {
             return new Promise((resolve) => {
                 cd(packages[packageName]);
                 exec('npm link');
                 cd(ROOT_PATH);
                 exec('npm link ' + packageName);
+                resolve();
+            });
+        })
+    ).then(() => {
+        // Remove duplicated packages and shared dependencies so they are loaded
+        // from the top
+        return Promise.all(
+            Object.keys(packages).map((packageName) => {
+                return Promise.all(
+                    Object.keys(packages).concat(sharedDeps).map((dependencyName) => {
+                        return new Promise((resolve) => {
+                            rm('-rf', path.resolve(packages[packageName], 'node_modules', dependencyName));
+                            resolve();
+                        });
+                    })
+                );
+            })
+        );
+    });
+});
+
+gulp.task('clean', () => {
+    // Remove package node_modules
+    return Promise.all(
+        Object.keys(packages).map((packageName) => {
+            return new Promise((resolve) => {
+                rm('-rf', path.resolve(packages[packageName], 'node_modules'));
                 resolve();
             });
         })
