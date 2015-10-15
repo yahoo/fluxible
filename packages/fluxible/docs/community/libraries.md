@@ -24,6 +24,7 @@ Take a look at some of the libraries that our community has built. Edit this pag
 ## Actions
 
  * [fluxible-action-utils](https://github.com/yahoo/fluxible-action-utils) - utility methods to aid in writing [actions](http://fluxible.io/api/fluxible-context.html#executeaction-action-payload-callback-) for [fluxible](http://fluxible.io) based applications.
+ * [fluxible-plugin-actions](https://github.com/gingur/fluxible-plugin-actions) - component context utility to get actions by key instead of path, useful for cross library components.
 
 ## Immutable.js
 
