@@ -5,7 +5,7 @@
   "main": "start.js",
   "scripts": {
     "build": "webpack & webpack --config webpack.config.production.js",
-    "dev": "node webpack-dev-server.js & PORT=3001 nodemon start.js -e js,jsx",
+    "dev": "node webpack-dev-server.js",
     "lint": "eslint ./*.js ./**/*.js",
     "start": "node start.js"
   },
@@ -36,6 +36,7 @@
     "json-loader": "^0.5.1",
     "nodemon": "^1.2.1",
     "react-hot-loader": "^1.2.8",
+    "shelljs": "^0.5.3",
     "webpack": "^1.4.12",
     "webpack-dev-server": "^1.6.5"
   }
