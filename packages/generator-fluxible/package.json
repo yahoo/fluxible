@@ -14,7 +14,7 @@
   "scripts": {
     "cover": "../../node_modules/.bin/istanbul cover --dir artifacts -- ../../node_modules/.bin/_mocha test --recursive --reporter spec",
     "lint": "../../node_modules/.bin/eslint app/ test/",
-    "test": "../../node_modules/.bin/mocha test --recursive --reporter=spec"
+    "test": "../../node_modules/.bin/mocha tests/unit --recursive --reporter=spec"
   },
   "precommit": [
     "lint",
