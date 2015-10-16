@@ -10,6 +10,8 @@ node_js:
 env:
   - TEST_DIR=packages/fluxible
   - TEST_DIR=packages/fluxible-reducer-store
+  - TEST_DIR=packages/fluxible-addons-react
+  - TEST_DIR=packages/generator-fluxible
 script: cd $TEST_DIR && npm test
 after_success:
   - "npm run cover"
