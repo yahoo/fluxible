@@ -12,6 +12,8 @@ Take a look at some of the libraries that our community has built. Edit this pag
 
  * [fluxible-plugin-cookie](https://github.com/Hairfie/fluxible-plugin-cookie) - Fluxible plugin for writing and reading cookies.
  
+ * [fluxible-plugin-middleware](https://github.com/geekyme/fluxible-plugin-middleware) - Fluxible plugin for adding middlewares in Redux style!
+ 
 ## Data Services
 
  * [fluxible-plugin-fetchr](https://github.com/yahoo/fluxible-plugin-fetchr) - Isomorphic data fetching services.
