@@ -11,7 +11,7 @@ context via React's `childContextTypes` and `getChildContext`. This should be us
 
 ## Usage
 
-If you have a component that needs access to the [`ComponentContext`](https://github.com/yahoo/fluxible/blob/master/docs/api/Components.md#component-context) methods:
+If you have a component that needs access to the [`ComponentContext`](../../../packages/fluxible/docs/api/Components.md#component-context) methods:
 
  ```js
 class Component extends React.Component {

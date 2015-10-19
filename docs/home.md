@@ -2,19 +2,19 @@
 
 ## Singleton-free for server rendering
 
-[Stores](api/Stores.md) are classes that are instantiated per request or client session. This ensures that the stores are isolated and do not bleed information between requests.
+[Stores](../packages/fluxible/docs/api/Stores.md) are classes that are instantiated per request or client session. This ensures that the stores are isolated and do not bleed information between requests.
 
 ## Dehydration/Rehydration
 
-[Stores](api/Stores.md) can provide `dehydrate` and `rehydrate` so that you can propagate the initial server state to the client.
+[Stores](../packages/fluxible/docs/api/Stores.md) can provide `dehydrate` and `rehydrate` so that you can propagate the initial server state to the client.
 
 ## React Integration
 
-Helper utilities for integrating your Fluxible app into React [components](api/Components.md) with less boilerplate.
+Helper utilities for integrating your Fluxible app into React [components](../packages/fluxible/docs/api/Components.md) with less boilerplate.
 
 ## Flow Regulation
 
-[FluxibleContext](api/FluxibleContext.md) restricts access to your Flux methods so that you can't break out of the unidirectional flow.
+[FluxibleContext](../packages/fluxible/docs/api/FluxibleContext.md) restricts access to your Flux methods so that you can't break out of the unidirectional flow.
 
 ## Pluggable
 

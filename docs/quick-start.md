@@ -16,4 +16,4 @@ npm run dev
 
 This will generate a simple application that demonstrates the basics of using Fluxible: routing, store dehydration from server, and client rehydrating.
 
-From here, we recommend learning about [stores](api/Stores.md), [actions](api/Actions.md), and React integration with your [components](api/Components.md).
+From here, we recommend learning about [stores](../packages/fluxible/docs/api/Stores.md), [actions](../packages/fluxible/docs/api/Actions.md), and React integration with your [components](../packages/fluxible/docs/api/Components.md).

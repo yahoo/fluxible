@@ -37,10 +37,10 @@ These libraries are not bundled with the main Fluxible export because stores are
 `var ReactAddons = require('fluxible-addons-react');` provides helpers for 
 using Fluxible with React.
 
- * [`FluxibleAddons.connectToStores`](https://github.com/yahoo/fluxible-addons-react/blob/master/docs/api/connectToStores.md)
- * [`FluxibleAddons.FluxibleComponent`](https://github.com/yahoo/fluxible-addons-react/blob/master/docs/api/FluxibleComponent.md)
- * [`FluxibleAddons.FluxibleMixin`](https://github.com/yahoo/fluxible-addons-react/blob/master/docs/api/FluxibleMixin.md)
- * [`FluxibleAddons.provideContext`](https://github.com/yahoo/fluxible-addons-react/blob/master/docs/api/provideContext.md)
+ * [`FluxibleAddons.connectToStores`](../../../packages/fluxible-addons-react/docs/api/connectToStores.md)
+ * [`FluxibleAddons.FluxibleComponent`](../../../packages/fluxible-addons-react/docs/api/FluxibleComponent.md)
+ * [`FluxibleAddons.FluxibleMixin`](../../../packages/fluxible-addons-react/docs/api/FluxibleMixin.md)
+ * [`FluxibleAddons.provideContext`](../../../packages/fluxible-addons-react/docs/api/provideContext.md)
 
 or if you're using ES6:
 
