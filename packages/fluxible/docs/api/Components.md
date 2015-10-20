@@ -20,8 +20,8 @@ The [`ComponentContext`](#component-context) should be passed as a prop to the t
 
 We recommend using React's context, since it will implicitly handle propagation as long as the controller view registers its `contextTypes`. We provide a couple of helpers to make this easier:
 
- * [provideContext](../../../packages/fluxible-addons-react/docs/api/provideContext.md) ***(recommended)***- higher-order component that declares child context (declarative; supports custom `childContextTypes`)
- * [FluxibleComponent](../../../packages/fluxible-addons-react/docs/api/FluxibleComponent.md) - wrapper component that declares child context (imperative)
+ * [provideContext](../../../../packages/fluxible-addons-react/docs/api/provideContext.md) ***(recommended)***- higher-order component that declares child context (declarative; supports custom `childContextTypes`)
+ * [FluxibleComponent](../../../../packages/fluxible-addons-react/docs/api/FluxibleComponent.md) - wrapper component that declares child context (imperative)
 
 ## Accessing Stores
 
@@ -56,8 +56,8 @@ class MyComponent extends React.Component {
 
 To eliminate some of this boilerplate and eliminate potential developer error (for instance forgetting `componentWillUnmount`), Fluxible provides the following helpers for connecting your components to your stores:
 
- * [connectToStores](../../../packages/fluxible-addons-react/docs/api/connectToStores.md) ***(recommended)***
- * [FluxibleMixin](../../../packages/fluxible-addons-react/docs/api/FluxibleMixin.md) *(deprecated)*
+ * [connectToStores](../../../../packages/fluxible-addons-react/docs/api/connectToStores.md) ***(recommended)***
+ * [FluxibleMixin](../../../../packages/fluxible-addons-react/docs/api/FluxibleMixin.md) *(deprecated)*
 
 ## Executing Actions
 
