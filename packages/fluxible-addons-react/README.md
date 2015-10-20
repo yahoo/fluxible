@@ -14,7 +14,7 @@
 $ npm install --save fluxible-addons-react
 ```
 
-Join the #fluxible channel of the [Reactiflux](http://reactiflux.com) Slack community.
+Join the #fluxible channel of the [Reactiflux](http://reactiflux.com) Discord community.
 
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/yahoo/fluxible)
 
