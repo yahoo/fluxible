@@ -28,3 +28,4 @@ Want to add your application? Click edit above and open a PR!
 - [Yahoo NFL Stream](https://nflstream.yahoo.com/) is the live video streaming site for the NFL on Yahoo.
 - [Yahoo Search SDK](https://developer.yahoo.com/search-sdk/apps/) is a software developer toolkit to integrate Yahoo Search into native apps. 
 - [Yahoo Taiwan](https://tw.mobi.yahoo.com/) is the mobile frontpage for Yahoo Taiwan.
+- [SVT Sport](http://www.svt.se/sport/) is a isomorphic site providing sports coverage for Swedish Television
