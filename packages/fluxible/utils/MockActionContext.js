@@ -3,6 +3,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 'use strict';
+var callAction = require('./callAction');
 
 function MockActionContext (dispatcherContext) {
     this.dispatcherContext = dispatcherContext;
@@ -27,7 +28,7 @@ MockActionContext.prototype.executeAction = function (action, payload, callback)
         action: action,
         payload: payload
     });
-    return action(this, payload, callback);
+    return callAction(action, this, payload, callback);
 };
 
 module.exports = MockActionContext;
