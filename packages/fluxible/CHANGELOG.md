@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.0.1
+
+### Features
+
+ * [#295] Added support for Promises in MockActionContext
+
 ## 1.0.0
 
 ### API Changes
