@@ -4,11 +4,13 @@
  */
 'use strict';
 var callAction = require('./callAction');
+var generateUUID = require('./generateUUID');
 
 function MockActionContext (dispatcherContext) {
     this.dispatcherContext = dispatcherContext;
     this.executeActionCalls = [];
     this.dispatchCalls = [];
+    this.rootId = generateUUID();
 }
 
 MockActionContext.prototype.getStore = function (name) {
