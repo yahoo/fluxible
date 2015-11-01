@@ -28,6 +28,10 @@ describe('createMockActionContext', function () {
             expect(context).to.have.property('dispatcherContext').that.is.an('object');
         });
 
+        it('should have rootId property', function () {
+            expect(context).to.have.property('rootId').that.is.a('number');
+        });
+
         describe('#getStore', function () {
             it('should delegate to the dispatcher getStore method', function () {
                 expect(context).to.have.property('getStore');
