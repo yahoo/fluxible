@@ -33,8 +33,9 @@ class MyComponent extends React.Component {
     static contextTypes = {
         getStore: React.PropTypes.func.isRequired
     }
-    getInitialState () {
-        return this.getStoreState();
+    constructor(props) {
+        super(props);
+        this.state = this.getStoreState();
     }
     getStoreState () {
         return {
