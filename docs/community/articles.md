@@ -3,6 +3,7 @@
 Take a look at some of the articles that our community has written. Edit this 
 page on GitHub to list yours!
 
+ * 2015-10-31 - [Moving towards a Universal JavaScript application](http://engineering.carousell.com/universal-javascript/)
  * 2015-09-24 - [How to Migrate React to Isomorphic Rendering](https://medium.com/building-coursera/how-to-migrate-react-to-isomorphic-rendering-88347ba653a5)
  * 2015-08-27 - [Building a Site Using Isomorphic Flux with Fluxible](http://jacksoncmorgan.com/blog/fluxiblemaster)
  * 2015-06-10 - [yahoo/fluxible による SPA + Server Rendering の概観](http://havelog.ayumusato.com/develop/javascript/e675-spa_and_server_rendering_with_fluxible.html)
