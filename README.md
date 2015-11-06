@@ -8,7 +8,7 @@ Join the #fluxible channel of the [Reactiflux](http://reactiflux.com) Discord co
 
 Development is currently being done against Node 0.10.
 
-Releases can be done with the following command:
+Releases can be done with the following commands:
 
 ```js
 gulp version -p <packageName> -v <patch|minor|major>
