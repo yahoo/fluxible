@@ -13,6 +13,10 @@ var isPromise = require('is-promise');
  * otherwise, Promise invocation.
  */
 function callAction (action, context, payload, done) {
+  if (typeof action !== 'function') {
+    throw new Error('An action need to be a function');
+  }
+
   if (done) {
     return action(context, payload, done);
   }
