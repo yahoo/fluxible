@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.0.2
+
+### Bug Fixes
+
+ * [#308] Fix stack tracing for deep stacks
+
 ## 1.0.1
 
 ### Features
@@ -13,6 +19,12 @@
  * [#257] All previously deprecated React integration APIs have been removed
  * [#259] `componentActionHandler` renamed to `componentActionErrorHandler`
  * [#258] Removed dependency on `Promise` and `Object.assign` library, must be polyfilled
+
+## 0.5.6
+
+### Bug Fixes
+
+ * [#308] Fix stack tracing for deep stacks
 
 ## 0.5.5
 
