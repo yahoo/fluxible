@@ -134,12 +134,20 @@ describe('FluxibleContext', function () {
                         context: context,
                         payload: payload
                     });
-                    callback();
+                    context.executeAction(actionFive, payload, callback);
                 };
                 actionFour.displayName = 'Four';
+                var actionFive = function (context, payload, callback) {
+                    actionCalls.push({
+                        context: context,
+                        payload: payload
+                    });
+                    callback();
+                };
+                actionFive.displayName = 'Five';
                 var payload = {};
                 var callback = function () {
-                    expect(actionCalls.length).to.equal(5);
+                    expect(actionCalls.length).to.equal(6);
                     expect(actionCalls[0].context).to.contain.keys(Object.keys(actionContext));
                     expect(actionCalls[0].context).to.contain.keys(['rootId','stack']);
                     var firstId = actionCalls[0].context.rootId;
@@ -165,6 +173,11 @@ describe('FluxibleContext', function () {
                     expect(actionCalls[4].context.rootId).to.equal(firstId);
                     expect(actionCalls[4].context.stack.join('.')).to.equal('One.Four');
                     expect(actionCalls[4].payload).to.equal(payload);
+                    expect(actionCalls[5].context).to.contain.keys(Object.keys(actionContext));
+                    expect(actionCalls[5].context).to.contain.keys(['rootId','stack']);
+                    expect(actionCalls[5].context.rootId).to.equal(firstId);
+                    expect(actionCalls[5].context.stack.join('.')).to.equal('One.Four.Five');
+                    expect(actionCalls[5].payload).to.equal(payload);
                     done();
                 };
                 actionContext = context.getActionContext();
@@ -484,7 +497,7 @@ describe('FluxibleContext', function () {
                             done(err);
                         }
 
-                        expect(actionCalls.length).to.equal(4);
+                        expect(actionCalls.length).to.equal(5);
                         expect(actionCalls[0].context).to.contain.keys(Object.keys(actionContext));
                         expect(actionCalls[0].context).to.contain.keys(['rootId','stack']);
                         var firstId = actionCalls[0].context.rootId;
@@ -505,6 +518,11 @@ describe('FluxibleContext', function () {
                         expect(actionCalls[3].context.rootId).to.equal(firstId);
                         expect(actionCalls[3].context.stack.join('.')).to.equal('One.Three');
                         expect(actionCalls[3].payload).to.equal(payload);
+                        expect(actionCalls[4].context).to.contain.keys(Object.keys(actionContext));
+                        expect(actionCalls[4].context).to.contain.keys(['rootId','stack']);
+                        expect(actionCalls[4].context.rootId).to.equal(firstId);
+                        expect(actionCalls[4].context.stack.join('.')).to.equal('One.Three.Four');
+                        expect(actionCalls[4].payload).to.equal(payload);
                         done();
                     });
                 };
@@ -522,9 +540,17 @@ describe('FluxibleContext', function () {
                         context: context,
                         payload: payload
                     });
-                    callback();
+                    context.executeAction(actionFour, payload, callback);
                 };
                 actionThree.displayName = 'Three';
+                var actionFour = function (context, payload, callback) {
+                    actionCalls.push({
+                        context: context,
+                        payload: payload
+                    });
+                    callback();
+                };
+                actionFour.displayName = 'Four';
                 var payload = {};
                 componentContext.executeAction(actionOne, payload);
             });
