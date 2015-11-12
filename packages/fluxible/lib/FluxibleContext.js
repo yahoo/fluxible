@@ -143,24 +143,10 @@ function executeActionProxy(context, actionContext, action, payload, done) {
         }
     }
 
-    /*
-     * We store the action's stack array on the `stack` property
-     * of the actionContext interface.
-     * You can access this in your actions with `context.stack`.
-     * Use the `displayName` property on your actions for better
-     * action tracing when your code gets minified in prod.
-     * One action can execute multiple actions, so we need to create a shallow
-     * clone with a new stack & new id every time a newActionContext is created.
-     */
-    var newActionContext = Object.assign({}, actionContext, {
-        stack: (actionContext.stack || []).concat([displayName]),
-        rootId: (actionContext.rootId) || generateUUID()
-    });
-    newActionContext.executeAction = newActionContext.executeAction.bind(newActionContext);
     if (debug.enabled) {
-        debug('Executing action ' + newActionContext.stack.join('.') + ' with payload', payload);
+        debug('Executing action ' + actionContext.stack.join('.') + ' with payload', payload);
     }
-    var executeActionPromise = callAction(newActionContext, action, payload);
+    var executeActionPromise = callAction(actionContext, action, payload);
 
     if (done) {
         executeActionPromise
@@ -176,7 +162,6 @@ function executeActionProxy(context, actionContext, action, payload, done) {
     return executeActionPromise;
 }
 
-
 /**
  * Proxy function for executing an action.
  * @param {Function} action An action creator function that receives actionContext, payload,
@@ -186,7 +171,8 @@ function executeActionProxy(context, actionContext, action, payload, done) {
  * @return {Promise} executeActionPromise Resolved with action result or rejected with action error
  */
 FluxContext.prototype.executeAction = function executeAction(action, payload, done) {
-    return executeActionProxy(this, this.getActionContext(), action, payload, done);
+    var subActionContext = this._createSubActionContext(this.getActionContext(), action);
+    return executeActionProxy(this, subActionContext, action, payload, done);
 };
 
 /**
@@ -196,6 +182,35 @@ FluxContext.prototype.executeAction = function executeAction(action, payload, do
  */
 FluxContext.prototype._initializeDispatcher = function initializeDispatcher() {
     this._dispatcher = this._app.createDispatcherInstance(this.getStoreContext());
+};
+
+/**
+ * Creates a subActionContext with new stack and rootID based on the action
+ * that will be executed.
+ * @private
+ * @method _createSubActionContext
+ * @param {Object} parentActionContext The action context that the stack should
+ *      extend from
+ * @param {Function} action The action to be executed to get the name from
+ * @returns {Object}
+ */
+FluxContext.prototype._createSubActionContext = function createSubActionContext(parentActionContext, action) {
+    var displayName = action.displayName || action.name;
+    /*
+     * We store the action's stack array on the `stack` property
+     * of the actionContext interface.
+     * You can access this in your actions with `context.stack`.
+     * Use the `displayName` property on your actions for better
+     * action tracing when your code gets minified in prod.
+     * One action can execute multiple actions, so we need to create a shallow
+     * clone with a new stack & new id every time a newActionContext is created.
+     */
+    var newActionContext = Object.assign({}, this.getActionContext(), {
+        stack: (parentActionContext.stack || []).concat([displayName]),
+        rootId: (parentActionContext.rootId) || generateUUID()
+    });
+    newActionContext.executeAction = newActionContext.executeAction.bind(newActionContext);
+    return newActionContext;
 };
 
 /**
@@ -213,9 +228,10 @@ FluxContext.prototype.getActionContext = function getActionContext() {
 
         var actionContext = {
             dispatch: self._dispatcher.dispatch.bind(self._dispatcher),
-            executeAction: function actionExecuteAction (action, payload, callback) {
+            executeAction: function executeAction (action, payload, callback) {
                 // `this` will be the current action context
-                return executeActionProxy(self, this, action, payload, callback);
+                var subActionContext = self._createSubActionContext(this, action);
+                return executeActionProxy(self, subActionContext, action, payload, callback);
             },
             getStore: self._dispatcher.getStore.bind(self._dispatcher)
         };
