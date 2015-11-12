@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.5.6
+
+### Bug Fixes
+
+ * [#308] Fix stack tracing for deep stacks
+
 ## 0.5.5
 
 ### Bug Fixes
