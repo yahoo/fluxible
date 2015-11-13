@@ -37,7 +37,7 @@
     "nodemon": "^1.2.1",
     "react-hot-loader": "^1.2.8",
     "shelljs": "^0.5.3",
-    "webpack": "1.2.12",
+    "webpack": "^1.12.4",
     "webpack-dev-server": "^1.6.5"
   }
 }
