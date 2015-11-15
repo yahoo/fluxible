@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.5.7
+
+### Bug Fixes
+
+ * [#311] Remove Object.assign call which broke backwards compatibility
+
 ## 0.5.6
 
 ### Bug Fixes
