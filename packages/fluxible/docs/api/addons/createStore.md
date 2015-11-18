@@ -1,7 +1,7 @@
 # createStore
 
 ```js
-import createStore from 'fluxible-addons-react/createStore';
+import createStore from 'fluxible/addons/createStore';
 ```
 
 A helper method similar to `React.createClass` but for creating stores that extend [`BaseStore`](BaseStore.md). Also supports mixins.
