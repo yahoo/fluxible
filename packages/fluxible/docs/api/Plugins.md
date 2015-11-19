@@ -94,9 +94,13 @@ context.getComponentContext().getFoo(); // returns 'bar'
 
 To leverage the new context value in componentContext, `provideContext` has an option for [passing custom contextTypes](http://fluxible.io/addons/provideContext.html#plugins-and-custom-component-context) which will ensure that it is made available to all children.
 
-```
+```js
 // create the React component as usual
 class Application extends React.Component {
+    static contextTypes = {
+      getFoo: React.PropTypes.func
+    }
+    
     render() {
         ...
     }
@@ -104,7 +108,7 @@ class Application extends React.Component {
 
 // pass in the "foo" context type to register it with React context
 Application = provideContext(Application, {
-    foo: React.PropTypes.string
+    getFoo: React.PropTypes.func
 });
 
 ```
