@@ -1,0 +1,238 @@
+/**
+ * TODO: take care of these 4 rules
+ * Should belong to Atomic.css somehow
+ */
+#atomic .D(ib) {
+    *display: inline;
+    zoom: 1;
+}
+
+#atomic .Td-n\:h:hover,
+#atomic .Td-n\:h:focus {
+    text-decoration: none;
+}
+
+#atomic .C-logo\:h:hover,
+#atomic .C-logo\:h:focus {
+    color: #0280AE !important;
+}
+
+/**
+ * stands for inline-block box
+ * this rule styles elements with inline-block + vertical-align:top + IE7 patch
+ */
+.ib-box {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    vertical-align: top;
+}
+
+/* always-at-the-bottom-footer ====================================== */
+
+/**
+ * The wrapper is also styled with box-sizing:border box and a min-width of 100%
+ * such styling positions the footer right below the fold if the page is "too short"
+ * the padding make room for the footer and the negative margin moves it up inside said padding
+ */
+.wrapper {
+    padding-bottom: 60px;
+    margin-bottom: -60px;
+}
+
+/* mouseover effect on links inside HEADER ========================== */
+
+#header li a:before {
+    pointer-events: none;
+    transition: all .3s;
+    content: "";
+    left: 50%;
+    top: 50%;
+    width: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    margin-left: 0;
+    position: absolute;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);;
+    border-radius: 100%;
+    opacity: 0;
+}
+
+#header li a:hover:before,
+#header li a:focus:before {
+    opacity: 1;
+    width: 180%;
+    padding-bottom: 180%;
+    margin-top: -90%;
+    margin-left: -90%;
+}
+
+#header li.selected a:before {
+    width: 100%;
+    left: 0;
+    top: auto;
+    right: 0;
+    bottom: -15px;
+    height: 5px;
+    margin: 0;
+    padding: 0;
+    background: #FFF;
+    border-radius: 0;
+    opacity: 1;
+}
+
+#navigation form {
+    transition: width 0.2s ease-in;
+}
+
+/**
+ * .selected list item
+ */
+li.selected a {
+    cursor: text;
+}
+
+#aside,
+#aside li a {
+    position:relative;
+}
+
+#aside:after {
+    right: 50px; /* same as padding-right on #aside */
+    z-index: -1;
+}
+
+#aside li:hover a:after,
+#aside li.selected a:after,
+#aside:after {
+    content: "";
+    position: absolute;
+    width: 1px;
+    top: 0;
+    bottom: 0;
+    background: rgba(2, 128, 174, .3);
+}
+
+/**
+ * Position
+ */
+#aside li:hover a:after,
+#aside li.selected a:after {
+    right: 0;
+}
+
+/* Colors =========================================================== */
+
+/**
+ * Foreground
+ */
+#aside li.selected a {
+    font-weight: bold;
+    color: #0262AA !important;
+}
+
+#aside li.selected a:after {
+    background: #0280AE;
+}
+
+/**
+ * Background
+ */
+pre,
+input,
+textarea,
+.textarea,
+code,
+#footer {
+    background: rgba(2, 128, 174, .05);
+}
+
+pre code {
+    background: none;
+}
+
+/* info/warning/important/success boxes ============================= */
+
+.noteBox {
+    font-style: italic;
+    padding: 7px 20px;
+    border-radius: 2px;
+}
+
+.warning {
+    border-style: solid;
+    border-color: #ff8b00;
+    border-width: 0 7px;
+    background: #ffe8be;
+}
+
+.info {
+    border-style: solid;
+    border-color: #1d5cab;
+    border-width: 0 7px;
+    background: #D0E8FD;
+}
+
+.important {
+    border-style: solid;
+    border-color: #FF0061;
+    border-width: 0 7px;
+    background: #FFDDEA;
+}
+
+.success {
+    border-style: solid;
+    border-color: #5ed500;
+    border-width: 0 7px;
+    background: #E0F9C5;
+}
+
+/* markdown =============================================== */
+#main h1 {
+    margin-top: 0;
+}
+
+#main h2,
+#main h3 {
+    border: none;
+    padding-top: 0;
+    margin: 1em 0 0;
+}
+
+#main ul,
+#main ol {
+    list-style-type: disc;
+    padding-left: 2em;
+
+}
+
+a.hash-link {
+    display: none;
+}
+
+h1:hover a.hash-link,
+h2:hover a.hash-link,
+h3:hover a.hash-link,
+h4:hover a.hash-link,
+h5:hover a.hash-link,
+h6:hover a.hash-link,
+label:hover a.hash-link {
+    display: inline;
+}
+
+#main table {
+    width: 100%;
+
+}
+
+#main table td {
+    border-top: 1px solid rgba(2, 128, 174, 0.3);
+}
+
+#main table th,
+#main table td {
+    padding: 10px;
+}
+
+

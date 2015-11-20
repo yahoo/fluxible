@@ -1,0 +1,88 @@
+{
+  "name": "fluxible.io",
+  "private": true,
+  "version": "1.0.1",
+  "description": "fluxible.io site",
+  "main": "start.js",
+  "author": "Seth Bertalotto <sbertal@yahoo-inc.com>",
+  "scripts": {
+    "build": "grunt build",
+    "dev": "grunt dev",
+    "devtest": "mocha tests/unit --compilers js:babel/register --recursive --reporter spec",
+    "func": "grunt func",
+    "lint": "eslint ./*.js ./**/*.js ./**/*.jsx",
+    "start": "node start",
+    "test": "istanbul cover --dir ${COVERAGE_DIR:-artifacts} -- _mocha tests/unit/* --compilers js:babel/register --recursive --reporter xunit",
+    "test-only": "istanbul cover --dir ${COVERAGE_DIR:-artifacts} -- _mocha  --recursive --reporter xunit"
+  },
+  "precommit": [
+    "lint",
+    "devtest"
+  ],
+  "yahoo": {
+    "bugzilla": {
+      "component": "General",
+      "product": "General"
+    },
+    "custodian": {
+      "email": "fluxible@yahoo-inc.com"
+    },
+    "lint": "yhint",
+    "profile": "td-app",
+    "secrets": {
+      "kgp": [
+        "./secrets/fluxible.alpha.kgp",
+        "./secrets/fluxible.beta.kgp",
+        "./secrets/fluxible.prod.kgp"
+      ]
+    }
+  },
+  "dependencies": {
+    "async": "^1.0.0",
+    "babel": "^5.1.11",
+    "body-parser": "^1.6.4",
+    "classnames": "^2.1.3",
+    "cookie-parser": "^1.3.3",
+    "csurf": "^1.6.3",
+    "debug": "^2.0.0",
+    "express": "^4.12.3",
+    "express-state": "^1.2.0",
+    "fluxible": "^1.0.0",
+    "fluxible-addons-react": "^0.2.0",
+    "fluxible-plugin-fetchr": "^0.3.0",
+    "fluxible-router": "^0.4.0",
+    "highlight.js": "^8.4.0",
+    "lunr": "^0.5.9",
+    "marked": "^0.3.3",
+    "react": "^0.14.0",
+    "react-dom": "^0.14.0",
+    "react-i13n": "^0.2.0-rc1",
+    "react-i13n-ga": "^0.1.0",
+    "semver": "^4.3.6",
+    "serialize-javascript": "^1.0.0",
+    "serve-favicon": "^2.1.6",
+    "superagent": "^1.2.0"
+  },
+  "devDependencies": {
+    "babel-loader": "^5.0.0",
+    "bundle-loader": "^0.5.0",
+    "chai-as-promised": "^5.0.0",
+    "grunt": "^0.4.5",
+    "grunt-atomizer": "^3.0.1",
+    "grunt-cli": "^0.1.13",
+    "grunt-concurrent": "~1.0.0",
+    "grunt-contrib-clean": "~0.6.0",
+    "grunt-contrib-copy": "^0.8.0",
+    "grunt-contrib-cssmin": "^0.12.2",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-nodemon": "^0.4.0",
+    "grunt-protractor-runner": "^2.0.0",
+    "grunt-protractor-webdriver": "^0.2.0",
+    "grunt-webpack": "^1.0.8",
+    "json-loader": "^0.5.1",
+    "nodemon": "^1.2.1",
+    "protractor": "^2.0.0",
+    "webpack": "^1.7.3",
+    "webpack-dev-server": "^1.6.5"
+  }
+}

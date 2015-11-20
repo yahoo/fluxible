@@ -1,0 +1,2539 @@
+{
+    "docs": {
+        "/docs/home.md": {
+            "id": "/docs/home.md",
+            "title": "Fluxible | A Pluggable Container for Isomorphic Flux Applications",
+            "body": "<h1><a name=\"features\" class=\"anchor\"></a>Features <a href=\"#features\" class=\"hash-link\">#</a></h1><h2><a name=\"singleton-free-for-server-rendering\" class=\"anchor\"></a>Singleton-free for server rendering <a href=\"#singleton-free-for-server-rendering\" class=\"hash-link\">#</a></h2><p><a href=\"/api/stores.html\">Stores</a> are classes that are instantiated per request or client session. This ensures that the stores are isolated and do not bleed information between requests.</p>\n<h2><a name=\"dehydration-rehydration\" class=\"anchor\"></a>Dehydration/Rehydration <a href=\"#dehydration-rehydration\" class=\"hash-link\">#</a></h2><p><a href=\"/api/stores.html\">Stores</a> can provide <code>dehydrate</code> and <code>rehydrate</code> so that you can propagate the initial server state to the client.</p>\n<h2><a name=\"react-integration\" class=\"anchor\"></a>React Integration <a href=\"#react-integration\" class=\"hash-link\">#</a></h2><p>Helper utilities for integrating your Fluxible app into React <a href=\"/api/components.html\">components</a> with less boilerplate.</p>\n<h2><a name=\"flow-regulation\" class=\"anchor\"></a>Flow Regulation <a href=\"#flow-regulation\" class=\"hash-link\">#</a></h2><p><a href=\"/api/fluxible-context.html\">FluxibleContext</a> restricts access to your Flux methods so that you can&#39;t break out of the unidirectional flow.</p>\n<h2><a name=\"pluggable\" class=\"anchor\"></a>Pluggable <a href=\"#pluggable\" class=\"hash-link\">#</a></h2><p>Want to add your own interfaces to the Flux flow? <a href=\"/api/plugins.html\">Plugins</a> allow you to add methods to any of the contexts.</p>\n<h2><a name=\"updated-for-react-0-13\" class=\"anchor\"></a>Updated for React 0.13 <a href=\"#updated-for-react-0-13\" class=\"hash-link\">#</a></h2><p>Updated to follow React 0.13&#39;s changes and the deprecations coming in the next version of React.</p>\n",
+            "description": "A Pluggable Container for Isomorphic Flux Applications",
+            "permalink": "/"
+        }
+    },
+    "index": {
+        "version": "0.5.9",
+        "fields": [
+            {
+                "name": "title",
+                "boost": 10
+            },
+            {
+                "name": "description",
+                "boost": 5
+            },
+            {
+                "name": "body",
+                "boost": 1
+            },
+            {
+                "name": "permalink",
+                "boost": 1
+            }
+        ],
+        "ref": "id",
+        "documentStore": {
+            "store": {
+                "/docs/home.md": [
+                    "0",
+                    "0.13",
+                    "0.13&#39;",
+                    "13",
+                    "access",
+                    "add",
+                    "allow",
+                    "app",
+                    "applic",
+                    "between",
+                    "bleed",
+                    "boilerplate.</p",
+                    "break",
+                    "can&#39;t",
+                    "chang",
+                    "class",
+                    "class=\"anchor\"></a>dehydration/rehydr",
+                    "class=\"anchor\"></a>featur",
+                    "class=\"anchor\"></a>flow",
+                    "class=\"anchor\"></a>plugg",
+                    "class=\"anchor\"></a>react",
+                    "class=\"anchor\"></a>singleton",
+                    "class=\"anchor\"></a>upd",
+                    "class=\"hash",
+                    "client",
+                    "client.</p",
+                    "code>dehydrate</cod",
+                    "code>rehydrate</cod",
+                    "come",
+                    "contain",
+                    "context.html\">fluxiblecontext</a",
+                    "contexts.</p",
+                    "deprec",
+                    "ensur",
+                    "flow",
+                    "flow.</p",
+                    "flux",
+                    "fluxibl",
+                    "follow",
+                    "free",
+                    "h1><a",
+                    "h2><a",
+                    "href=\"#dehydr",
+                    "href=\"#featur",
+                    "href=\"#flow",
+                    "href=\"#plugg",
+                    "href=\"#react",
+                    "href=\"#singleton",
+                    "href=\"#upd",
+                    "href=\"/api/components.html\">components</a",
+                    "href=\"/api/flux",
+                    "href=\"/api/plugins.html\">plugins</a",
+                    "href=\"/api/stores.html\">stores</a",
+                    "inform",
+                    "initi",
+                    "instanti",
+                    "integr",
+                    "interfac",
+                    "isol",
+                    "isomorph",
+                    "less",
+                    "link\">#</a></h1><h2><a",
+                    "link\">#</a></h2><p><a",
+                    "link\">#</a></h2><p>help",
+                    "link\">#</a></h2><p>upd",
+                    "link\">#</a></h2><p>w",
+                    "method",
+                    "name=\"dehydr",
+                    "name=\"featur",
+                    "name=\"flow",
+                    "name=\"plugg",
+                    "name=\"react",
+                    "name=\"singleton",
+                    "name=\"upd",
+                    "next",
+                    "out",
+                    "per",
+                    "pluggabl",
+                    "propag",
+                    "provid",
+                    "react",
+                    "react.</p",
+                    "regul",
+                    "rehydr",
+                    "render",
+                    "request",
+                    "requests.</p",
+                    "restrict",
+                    "server",
+                    "session",
+                    "state",
+                    "store",
+                    "unidirect",
+                    "util",
+                    "version"
+                ]
+            },
+            "length": 1
+        },
+        "tokenStore": {
+            "root": {
+                "0": {
+                    "docs": {
+                        "/docs/home.md": {
+                            "ref": "/docs/home.md",
+                            "tf": 0.015873015873015872
+                        }
+                    },
+                    ".": {
+                        "1": {
+                            "3": {
+                                "docs": {
+                                    "/docs/home.md": {
+                                        "ref": "/docs/home.md",
+                                        "tf": 0.007936507936507936
+                                    }
+                                },
+                                "&": {
+                                    "docs": {},
+                                    "#": {
+                                        "3": {
+                                            "9": {
+                                                "docs": {},
+                                                ";": {
+                                                    "docs": {
+                                                        "/docs/home.md": {
+                                                            "ref": "/docs/home.md",
+                                                            "tf": 0.007936507936507936
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "docs": {}
+                                        },
+                                        "docs": {}
+                                    }
+                                }
+                            },
+                            "docs": {}
+                        },
+                        "docs": {}
+                    }
+                },
+                "1": {
+                    "3": {
+                        "docs": {
+                            "/docs/home.md": {
+                                "ref": "/docs/home.md",
+                                "tf": 0.015873015873015872
+                            }
+                        }
+                    },
+                    "docs": {}
+                },
+                "docs": {},
+                "a": {
+                    "docs": {},
+                    "c": {
+                        "docs": {},
+                        "c": {
+                            "docs": {},
+                            "e": {
+                                "docs": {},
+                                "s": {
+                                    "docs": {},
+                                    "s": {
+                                        "docs": {
+                                            "/docs/home.md": {
+                                                "ref": "/docs/home.md",
+                                                "tf": 0.007936507936507936
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "d": {
+                        "docs": {},
+                        "d": {
+                            "docs": {
+                                "/docs/home.md": {
+                                    "ref": "/docs/home.md",
+                                    "tf": 0.015873015873015872
+                                }
+                            }
+                        }
+                    },
+                    "l": {
+                        "docs": {},
+                        "l": {
+                            "docs": {},
+                            "o": {
+                                "docs": {},
+                                "w": {
+                                    "docs": {
+                                        "/docs/home.md": {
+                                            "ref": "/docs/home.md",
+                                            "tf": 0.007936507936507936
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "p": {
+                        "docs": {},
+                        "p": {
+                            "docs": {
+                                "/docs/home.md": {
+                                    "ref": "/docs/home.md",
+                                    "tf": 0.007936507936507936
+                                }
+                            },
+                            "l": {
+                                "docs": {},
+                                "i": {
+                                    "docs": {},
+                                    "c": {
+                                        "docs": {
+                                            "/docs/home.md": {
+                                                "ref": "/docs/home.md",
+                                                "tf": 2.6666666666666665
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "b": {
+                    "docs": {},
+                    "e": {
+                        "docs": {},
+                        "t": {
+                            "docs": {},
+                            "w": {
+                                "docs": {},
+                                "e": {
+                                    "docs": {},
+                                    "e": {
+                                        "docs": {},
+                                        "n": {
+                                            "docs": {
+                                                "/docs/home.md": {
+                                                    "ref": "/docs/home.md",
+                                                    "tf": 0.007936507936507936
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "l": {
+                        "docs": {},
+                        "e": {
+                            "docs": {},
+                            "e": {
+                                "docs": {},
+                                "d": {
+                                    "docs": {
+                                        "/docs/home.md": {
+                                            "ref": "/docs/home.md",
+                                            "tf": 0.007936507936507936
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "o": {
+                        "docs": {},
+                        "i": {
+                            "docs": {},
+                            "l": {
+                                "docs": {},
+                                "e": {
+                                    "docs": {},
+                                    "r": {
+                                        "docs": {},
+                                        "p": {
+                                            "docs": {},
+                                            "l": {
+                                                "docs": {},
+                                                "a": {
+                                                    "docs": {},
+                                                    "t": {
+                                                        "docs": {},
+                                                        "e": {
+                                                            "docs": {},
+                                                            ".": {
+                                                                "docs": {},
+                                                                "<": {
+                                                                    "docs": {},
+                                                                    "/": {
+                                                                        "docs": {},
+                                                                        "p": {
+                                                                            "docs": {
+                                                                                "/docs/home.md": {
+                                                                                    "ref": "/docs/home.md",
+                                                                                    "tf": 0.007936507936507936
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "r": {
+                        "docs": {},
+                        "e": {
+                            "docs": {},
+                            "a": {
+                                "docs": {},
+                                "k": {
+                                    "docs": {
+                                        "/docs/home.md": {
+                                            "ref": "/docs/home.md",
+                                            "tf": 0.007936507936507936
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "c": {
+                    "docs": {},
+                    "a": {
+                        "docs": {},
+                        "n": {
+                            "docs": {},
+                            "&": {
+                                "docs": {},
+                                "#": {
+                                    "3": {
+                                        "9": {
+                                            "docs": {},
+                                            ";": {
+                                                "docs": {},
+                                                "t": {
+                                                    "docs": {
+                                                        "/docs/home.md": {
+                                                            "ref": "/docs/home.md",
+                                                            "tf": 0.007936507936507936
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "docs": {}
+                                    },
+                                    "docs": {}
+                                }
+                            }
+                        }
+                    },
+                    "h": {
+                        "docs": {},
+                        "a": {
+                            "docs": {},
+                            "n": {
+                                "docs": {},
+                                "g": {
+                                    "docs": {
+                                        "/docs/home.md": {
+                                            "ref": "/docs/home.md",
+                                            "tf": 0.007936507936507936
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "l": {
+                        "docs": {},
+                        "a": {
+                            "docs": {},
+                            "s": {
+                                "docs": {},
+                                "s": {
+                                    "docs": {
+                                        "/docs/home.md": {
+                                            "ref": "/docs/home.md",
+                                            "tf": 0.007936507936507936
+                                        }
+                                    },
+                                    "=": {
+                                        "docs": {},
+                                        "\"": {
+                                            "docs": {},
+                                            "a": {
+                                                "docs": {},
+                                                "n": {
+                                                    "docs": {},
+                                                    "c": {
+                                                        "docs": {},
+                                                        "h": {
+                                                            "docs": {},
+                                                            "o": {
+                                                                "docs": {},
+                                                                "r": {
+                                                                    "docs": {},
+                                                                    "\"": {
+                                                                        "docs": {},
+                                                                        ">": {
+                                                                            "docs": {},
+                                                                            "<": {
+                                                                                "docs": {},
+                                                                                "/": {
+                                                                                    "docs": {},
+                                                                                    "a": {
+                                                                                        "docs": {},
+                                                                                        ">": {
+                                                                                            "docs": {},
+                                                                                            "d": {
+                                                                                                "docs": {},
+                                                                                                "e": {
+                                                                                                    "docs": {},
+                                                                                                    "h": {
+                                                                                                        "docs": {},
+                                                                                                        "y": {
+                                                                                                            "docs": {},
+                                                                                                            "d": {
+                                                                                                                "docs": {},
+                                                                                                                "r": {
+                                                                                                                    "docs": {},
+                                                                                                                    "a": {
+                                                                                                                        "docs": {},
+                                                                                                                        "t": {
+                                                                                                                            "docs": {},
+                                                                                                                            "i": {
+                                                                                                                                "docs": {},
+                                                                                                                                "o": {
+                                                                                                                                    "docs": {},
+                                                                                                                                    "n": {
+                                                                                                                                        "docs": {},
+                                                                                                                                        "/": {
+                                                                                                                                            "docs": {},
+                                                                                                                                            "r": {
+                                                                                                                                                "docs": {},
+                                                                                                                                                "e": {
+                                                                                                                                                    "docs": {},
+                                                                                                                                                    "h": {
+                                                                                                                                                        "docs": {},
+                                                                                                                                                        "y": {
+                                                                                                                                                            "docs": {},
+                                                                                                                                                            "d": {
+                                                                                                                                                                "docs": {},
+                                                                                                                                                                "r": {
+                                                                                                                                                                    "docs": {
+                                                                                                                                                                        "/docs/home.md": {
+                                                                                                                                                                            "ref": "/docs/home.md",
+                                                                                                                                                                            "tf": 0.007936507936507936
+                                                                                                                                                                        }
+                                                                                                                                                                    }
+                                                                                                                                                                }
+                                                                                                                                                            }
+                                                                                                                                                        }
+                                                                                                                                                    }
+                                                                                                                                                }
+                                                                                                                                            }
+                                                                                                                                        }
+                                                                                                                                    }
+                                                                                                                                }
+                                                                                                                            }
+                                                                                                                        }
+                                                                                                                    }
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            },
+                                                                                            "f": {
+                                                                                                "docs": {},
+                                                                                                "e": {
+                                                                                                    "docs": {},
+                                                                                                    "a": {
+                                                                                                        "docs": {},
+                                                                                                        "t": {
+                                                                                                            "docs": {},
+                                                                                                            "u": {
+                                                                                                                "docs": {},
+                                                                                                                "r": {
+                                                                                                                    "docs": {
+                                                                                                                        "/docs/home.md": {
+                                                                                                                            "ref": "/docs/home.md",
+                                                                                                                            "tf": 0.007936507936507936
+                                                                                                                        }
+                                                                                                                    }
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                },
+                                                                                                "l": {
+                                                                                                    "docs": {},
+                                                                                                    "o": {
+                                                                                                        "docs": {},
+                                                                                                        "w": {
+                                                                                                            "docs": {
+                                                                                                                "/docs/home.md": {
+                                                                                                                    "ref": "/docs/home.md",
+                                                                                                                    "tf": 0.007936507936507936
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            },
+                                                                                            "p": {
+                                                                                                "docs": {},
+                                                                                                "l": {
+                                                                                                    "docs": {},
+                                                                                                    "u": {
+                                                                                                        "docs": {},
+                                                                                                        "g": {
+                                                                                                            "docs": {},
+                                                                                                            "g": {
+                                                                                                                "docs": {
+                                                                                                                    "/docs/home.md": {
+                                                                                                                        "ref": "/docs/home.md",
+                                                                                                                        "tf": 0.007936507936507936
+                                                                                                                    }
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            },
+                                                                                            "r": {
+                                                                                                "docs": {},
+                                                                                                "e": {
+                                                                                                    "docs": {},
+                                                                                                    "a": {
+                                                                                                        "docs": {},
+                                                                                                        "c": {
+                                                                                                            "docs": {},
+                                                                                                            "t": {
+                                                                                                                "docs": {
+                                                                                                                    "/docs/home.md": {
+                                                                                                                        "ref": "/docs/home.md",
+                                                                                                                        "tf": 0.007936507936507936
+                                                                                                                    }
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            },
+                                                                                            "s": {
+                                                                                                "docs": {},
+                                                                                                "i": {
+                                                                                                    "docs": {},
+                                                                                                    "n": {
+                                                                                                        "docs": {},
+                                                                                                        "g": {
+                                                                                                            "docs": {},
+                                                                                                            "l": {
+                                                                                                                "docs": {},
+                                                                                                                "e": {
+                                                                                                                    "docs": {},
+                                                                                                                    "t": {
+                                                                                                                        "docs": {},
+                                                                                                                        "o": {
+                                                                                                                            "docs": {},
+                                                                                                                            "n": {
+                                                                                                                                "docs": {
+                                                                                                                                    "/docs/home.md": {
+                                                                                                                                        "ref": "/docs/home.md",
+                                                                                                                                        "tf": 0.007936507936507936
+                                                                                                                                    }
+                                                                                                                                }
+                                                                                                                            }
+                                                                                                                        }
+                                                                                                                    }
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            },
+                                                                                            "u": {
+                                                                                                "docs": {},
+                                                                                                "p": {
+                                                                                                    "docs": {},
+                                                                                                    "d": {
+                                                                                                        "docs": {
+                                                                                                            "/docs/home.md": {
+                                                                                                                "ref": "/docs/home.md",
+                                                                                                                "tf": 0.007936507936507936
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "h": {
+                                                "docs": {},
+                                                "a": {
+                                                    "docs": {},
+                                                    "s": {
+                                                        "docs": {},
+                                                        "h": {
+                                                            "docs": {
+                                                                "/docs/home.md": {
+                                                                    "ref": "/docs/home.md",
+                                                                    "tf": 0.05555555555555555
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "i": {
+                            "docs": {},
+                            "e": {
+                                "docs": {},
+                                "n": {
+                                    "docs": {},
+                                    "t": {
+                                        "docs": {
+                                            "/docs/home.md": {
+                                                "ref": "/docs/home.md",
+                                                "tf": 0.007936507936507936
+                                            }
+                                        },
+                                        ".": {
+                                            "docs": {},
+                                            "<": {
+                                                "docs": {},
+                                                "/": {
+                                                    "docs": {},
+                                                    "p": {
+                                                        "docs": {
+                                                            "/docs/home.md": {
+                                                                "ref": "/docs/home.md",
+                                                                "tf": 0.007936507936507936
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "o": {
+                        "docs": {},
+                        "d": {
+                            "docs": {},
+                            "e": {
+                                "docs": {},
+                                ">": {
+                                    "docs": {},
+                                    "d": {
+                                        "docs": {},
+                                        "e": {
+                                            "docs": {},
+                                            "h": {
+                                                "docs": {},
+                                                "y": {
+                                                    "docs": {},
+                                                    "d": {
+                                                        "docs": {},
+                                                        "r": {
+                                                            "docs": {},
+                                                            "a": {
+                                                                "docs": {},
+                                                                "t": {
+                                                                    "docs": {},
+                                                                    "e": {
+                                                                        "docs": {},
+                                                                        "<": {
+                                                                            "docs": {},
+                                                                            "/": {
+                                                                                "docs": {},
+                                                                                "c": {
+                                                                                    "docs": {},
+                                                                                    "o": {
+                                                                                        "docs": {},
+                                                                                        "d": {
+                                                                                            "docs": {
+                                                                                                "/docs/home.md": {
+                                                                                                    "ref": "/docs/home.md",
+                                                                                                    "tf": 0.007936507936507936
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "r": {
+                                        "docs": {},
+                                        "e": {
+                                            "docs": {},
+                                            "h": {
+                                                "docs": {},
+                                                "y": {
+                                                    "docs": {},
+                                                    "d": {
+                                                        "docs": {},
+                                                        "r": {
+                                                            "docs": {},
+                                                            "a": {
+                                                                "docs": {},
+                                                                "t": {
+                                                                    "docs": {},
+                                                                    "e": {
+                                                                        "docs": {},
+                                                                        "<": {
+                                                                            "docs": {},
+                                                                            "/": {
+                                                                                "docs": {},
+                                                                                "c": {
+                                                                                    "docs": {},
+                                                                                    "o": {
+                                                                                        "docs": {},
+                                                                                        "d": {
+                                                                                            "docs": {
+                                                                                                "/docs/home.md": {
+                                                                                                    "ref": "/docs/home.md",
+                                                                                                    "tf": 0.007936507936507936
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "m": {
+                            "docs": {},
+                            "e": {
+                                "docs": {
+                                    "/docs/home.md": {
+                                        "ref": "/docs/home.md",
+                                        "tf": 0.007936507936507936
+                                    }
+                                }
+                            }
+                        },
+                        "n": {
+                            "docs": {},
+                            "t": {
+                                "docs": {},
+                                "a": {
+                                    "docs": {},
+                                    "i": {
+                                        "docs": {},
+                                        "n": {
+                                            "docs": {
+                                                "/docs/home.md": {
+                                                    "ref": "/docs/home.md",
+                                                    "tf": 2.6666666666666665
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "e": {
+                                    "docs": {},
+                                    "x": {
+                                        "docs": {},
+                                        "t": {
+                                            "docs": {},
+                                            ".": {
+                                                "docs": {},
+                                                "h": {
+                                                    "docs": {},
+                                                    "t": {
+                                                        "docs": {},
+                                                        "m": {
+                                                            "docs": {},
+                                                            "l": {
+                                                                "docs": {},
+                                                                "\"": {
+                                                                    "docs": {},
+                                                                    ">": {
+                                                                        "docs": {},
+                                                                        "f": {
+                                                                            "docs": {},
+                                                                            "l": {
+                                                                                "docs": {},
+                                                                                "u": {
+                                                                                    "docs": {},
+                                                                                    "x": {
+                                                                                        "docs": {},
+                                                                                        "i": {
+                                                                                            "docs": {},
+                                                                                            "b": {
+                                                                                                "docs": {},
+                                                                                                "l": {
+                                                                                                    "docs": {},
+                                                                                                    "e": {
+                                                                                                        "docs": {},
+                                                                                                        "c": {
+                                                                                                            "docs": {},
+                                                                                                            "o": {
+                                                                                                                "docs": {},
+                                                                                                                "n": {
+                                                                                                                    "docs": {},
+                                                                                                                    "t": {
+                                                                                                                        "docs": {},
+                                                                                                                        "e": {
+                                                                                                                            "docs": {},
+                                                                                                                            "x": {
+                                                                                                                                "docs": {},
+                                                                                                                                "t": {
+                                                                                                                                    "docs": {},
+                                                                                                                                    "<": {
+                                                                                                                                        "docs": {},
+                                                                                                                                        "/": {
+                                                                                                                                            "docs": {},
+                                                                                                                                            "a": {
+                                                                                                                                                "docs": {
+                                                                                                                                                    "/docs/home.md": {
+                                                                                                                                                        "ref": "/docs/home.md",
+                                                                                                                                                        "tf": 0.007936507936507936
+                                                                                                                                                    }
+                                                                                                                                                }
+                                                                                                                                            }
+                                                                                                                                        }
+                                                                                                                                    }
+                                                                                                                                }
+                                                                                                                            }
+                                                                                                                        }
+                                                                                                                    }
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "s": {
+                                                "docs": {},
+                                                ".": {
+                                                    "docs": {},
+                                                    "<": {
+                                                        "docs": {},
+                                                        "/": {
+                                                            "docs": {},
+                                                            "p": {
+                                                                "docs": {
+                                                                    "/docs/home.md": {
+                                                                        "ref": "/docs/home.md",
+                                                                        "tf": 0.007936507936507936
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "d": {
+                    "docs": {},
+                    "e": {
+                        "docs": {},
+                        "p": {
+                            "docs": {},
+                            "r": {
+                                "docs": {},
+                                "e": {
+                                    "docs": {},
+                                    "c": {
+                                        "docs": {
+                                            "/docs/home.md": {
+                                                "ref": "/docs/home.md",
+                                                "tf": 0.007936507936507936
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "e": {
+                    "docs": {},
+                    "n": {
+                        "docs": {},
+                        "s": {
+                            "docs": {},
+                            "u": {
+                                "docs": {},
+                                "r": {
+                                    "docs": {
+                                        "/docs/home.md": {
+                                            "ref": "/docs/home.md",
+                                            "tf": 0.007936507936507936
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "f": {
+                    "docs": {},
+                    "l": {
+                        "docs": {},
+                        "o": {
+                            "docs": {},
+                            "w": {
+                                "docs": {
+                                    "/docs/home.md": {
+                                        "ref": "/docs/home.md",
+                                        "tf": 0.007936507936507936
+                                    }
+                                },
+                                ".": {
+                                    "docs": {},
+                                    "<": {
+                                        "docs": {},
+                                        "/": {
+                                            "docs": {},
+                                            "p": {
+                                                "docs": {
+                                                    "/docs/home.md": {
+                                                        "ref": "/docs/home.md",
+                                                        "tf": 0.007936507936507936
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "u": {
+                            "docs": {},
+                            "x": {
+                                "docs": {
+                                    "/docs/home.md": {
+                                        "ref": "/docs/home.md",
+                                        "tf": 2.6825396825396823
+                                    }
+                                },
+                                "i": {
+                                    "docs": {},
+                                    "b": {
+                                        "docs": {},
+                                        "l": {
+                                            "docs": {
+                                                "/docs/home.md": {
+                                                    "ref": "/docs/home.md",
+                                                    "tf": 1.6746031746031744
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "o": {
+                        "docs": {},
+                        "l": {
+                            "docs": {},
+                            "l": {
+                                "docs": {},
+                                "o": {
+                                    "docs": {},
+                                    "w": {
+                                        "docs": {
+                                            "/docs/home.md": {
+                                                "ref": "/docs/home.md",
+                                                "tf": 0.007936507936507936
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "r": {
+                        "docs": {},
+                        "e": {
+                            "docs": {},
+                            "e": {
+                                "docs": {
+                                    "/docs/home.md": {
+                                        "ref": "/docs/home.md",
+                                        "tf": 0.023809523809523808
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "h": {
+                    "1": {
+                        "docs": {},
+                        ">": {
+                            "docs": {},
+                            "<": {
+                                "docs": {},
+                                "a": {
+                                    "docs": {
+                                        "/docs/home.md": {
+                                            "ref": "/docs/home.md",
+                                            "tf": 0.007936507936507936
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "2": {
+                        "docs": {},
+                        ">": {
+                            "docs": {},
+                            "<": {
+                                "docs": {},
+                                "a": {
+                                    "docs": {
+                                        "/docs/home.md": {
+                                            "ref": "/docs/home.md",
+                                            "tf": 0.03968253968253968
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "docs": {},
+                    "r": {
+                        "docs": {},
+                        "e": {
+                            "docs": {},
+                            "f": {
+                                "docs": {},
+                                "=": {
+                                    "docs": {},
+                                    "\"": {
+                                        "docs": {},
+                                        "#": {
+                                            "docs": {},
+                                            "d": {
+                                                "docs": {},
+                                                "e": {
+                                                    "docs": {},
+                                                    "h": {
+                                                        "docs": {},
+                                                        "y": {
+                                                            "docs": {},
+                                                            "d": {
+                                                                "docs": {},
+                                                                "r": {
+                                                                    "docs": {
+                                                                        "/docs/home.md": {
+                                                                            "ref": "/docs/home.md",
+                                                                            "tf": 0.007936507936507936
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "f": {
+                                                "docs": {},
+                                                "e": {
+                                                    "docs": {},
+                                                    "a": {
+                                                        "docs": {},
+                                                        "t": {
+                                                            "docs": {},
+                                                            "u": {
+                                                                "docs": {},
+                                                                "r": {
+                                                                    "docs": {
+                                                                        "/docs/home.md": {
+                                                                            "ref": "/docs/home.md",
+                                                                            "tf": 0.007936507936507936
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                "l": {
+                                                    "docs": {},
+                                                    "o": {
+                                                        "docs": {},
+                                                        "w": {
+                                                            "docs": {
+                                                                "/docs/home.md": {
+                                                                    "ref": "/docs/home.md",
+                                                                    "tf": 0.007936507936507936
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "p": {
+                                                "docs": {},
+                                                "l": {
+                                                    "docs": {},
+                                                    "u": {
+                                                        "docs": {},
+                                                        "g": {
+                                                            "docs": {},
+                                                            "g": {
+                                                                "docs": {
+                                                                    "/docs/home.md": {
+                                                                        "ref": "/docs/home.md",
+                                                                        "tf": 0.007936507936507936
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "r": {
+                                                "docs": {},
+                                                "e": {
+                                                    "docs": {},
+                                                    "a": {
+                                                        "docs": {},
+                                                        "c": {
+                                                            "docs": {},
+                                                            "t": {
+                                                                "docs": {
+                                                                    "/docs/home.md": {
+                                                                        "ref": "/docs/home.md",
+                                                                        "tf": 0.007936507936507936
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "s": {
+                                                "docs": {},
+                                                "i": {
+                                                    "docs": {},
+                                                    "n": {
+                                                        "docs": {},
+                                                        "g": {
+                                                            "docs": {},
+                                                            "l": {
+                                                                "docs": {},
+                                                                "e": {
+                                                                    "docs": {},
+                                                                    "t": {
+                                                                        "docs": {},
+                                                                        "o": {
+                                                                            "docs": {},
+                                                                            "n": {
+                                                                                "docs": {
+                                                                                    "/docs/home.md": {
+                                                                                        "ref": "/docs/home.md",
+                                                                                        "tf": 0.007936507936507936
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "u": {
+                                                "docs": {},
+                                                "p": {
+                                                    "docs": {},
+                                                    "d": {
+                                                        "docs": {
+                                                            "/docs/home.md": {
+                                                                "ref": "/docs/home.md",
+                                                                "tf": 0.007936507936507936
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "/": {
+                                            "docs": {},
+                                            "a": {
+                                                "docs": {},
+                                                "p": {
+                                                    "docs": {},
+                                                    "i": {
+                                                        "docs": {},
+                                                        "/": {
+                                                            "docs": {},
+                                                            "c": {
+                                                                "docs": {},
+                                                                "o": {
+                                                                    "docs": {},
+                                                                    "m": {
+                                                                        "docs": {},
+                                                                        "p": {
+                                                                            "docs": {},
+                                                                            "o": {
+                                                                                "docs": {},
+                                                                                "n": {
+                                                                                    "docs": {},
+                                                                                    "e": {
+                                                                                        "docs": {},
+                                                                                        "n": {
+                                                                                            "docs": {},
+                                                                                            "t": {
+                                                                                                "docs": {},
+                                                                                                "s": {
+                                                                                                    "docs": {},
+                                                                                                    ".": {
+                                                                                                        "docs": {},
+                                                                                                        "h": {
+                                                                                                            "docs": {},
+                                                                                                            "t": {
+                                                                                                                "docs": {},
+                                                                                                                "m": {
+                                                                                                                    "docs": {},
+                                                                                                                    "l": {
+                                                                                                                        "docs": {},
+                                                                                                                        "\"": {
+                                                                                                                            "docs": {},
+                                                                                                                            ">": {
+                                                                                                                                "docs": {},
+                                                                                                                                "c": {
+                                                                                                                                    "docs": {},
+                                                                                                                                    "o": {
+                                                                                                                                        "docs": {},
+                                                                                                                                        "m": {
+                                                                                                                                            "docs": {},
+                                                                                                                                            "p": {
+                                                                                                                                                "docs": {},
+                                                                                                                                                "o": {
+                                                                                                                                                    "docs": {},
+                                                                                                                                                    "n": {
+                                                                                                                                                        "docs": {},
+                                                                                                                                                        "e": {
+                                                                                                                                                            "docs": {},
+                                                                                                                                                            "n": {
+                                                                                                                                                                "docs": {},
+                                                                                                                                                                "t": {
+                                                                                                                                                                    "docs": {},
+                                                                                                                                                                    "s": {
+                                                                                                                                                                        "docs": {},
+                                                                                                                                                                        "<": {
+                                                                                                                                                                            "docs": {},
+                                                                                                                                                                            "/": {
+                                                                                                                                                                                "docs": {},
+                                                                                                                                                                                "a": {
+                                                                                                                                                                                    "docs": {
+                                                                                                                                                                                        "/docs/home.md": {
+                                                                                                                                                                                            "ref": "/docs/home.md",
+                                                                                                                                                                                            "tf": 0.007936507936507936
+                                                                                                                                                                                        }
+                                                                                                                                                                                    }
+                                                                                                                                                                                }
+                                                                                                                                                                            }
+                                                                                                                                                                        }
+                                                                                                                                                                    }
+                                                                                                                                                                }
+                                                                                                                                                            }
+                                                                                                                                                        }
+                                                                                                                                                    }
+                                                                                                                                                }
+                                                                                                                                            }
+                                                                                                                                        }
+                                                                                                                                    }
+                                                                                                                                }
+                                                                                                                            }
+                                                                                                                        }
+                                                                                                                    }
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            },
+                                                            "f": {
+                                                                "docs": {},
+                                                                "l": {
+                                                                    "docs": {},
+                                                                    "u": {
+                                                                        "docs": {},
+                                                                        "x": {
+                                                                            "docs": {
+                                                                                "/docs/home.md": {
+                                                                                    "ref": "/docs/home.md",
+                                                                                    "tf": 0.007936507936507936
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            },
+                                                            "p": {
+                                                                "docs": {},
+                                                                "l": {
+                                                                    "docs": {},
+                                                                    "u": {
+                                                                        "docs": {},
+                                                                        "g": {
+                                                                            "docs": {},
+                                                                            "i": {
+                                                                                "docs": {},
+                                                                                "n": {
+                                                                                    "docs": {},
+                                                                                    "s": {
+                                                                                        "docs": {},
+                                                                                        ".": {
+                                                                                            "docs": {},
+                                                                                            "h": {
+                                                                                                "docs": {},
+                                                                                                "t": {
+                                                                                                    "docs": {},
+                                                                                                    "m": {
+                                                                                                        "docs": {},
+                                                                                                        "l": {
+                                                                                                            "docs": {},
+                                                                                                            "\"": {
+                                                                                                                "docs": {},
+                                                                                                                ">": {
+                                                                                                                    "docs": {},
+                                                                                                                    "p": {
+                                                                                                                        "docs": {},
+                                                                                                                        "l": {
+                                                                                                                            "docs": {},
+                                                                                                                            "u": {
+                                                                                                                                "docs": {},
+                                                                                                                                "g": {
+                                                                                                                                    "docs": {},
+                                                                                                                                    "i": {
+                                                                                                                                        "docs": {},
+                                                                                                                                        "n": {
+                                                                                                                                            "docs": {},
+                                                                                                                                            "s": {
+                                                                                                                                                "docs": {},
+                                                                                                                                                "<": {
+                                                                                                                                                    "docs": {},
+                                                                                                                                                    "/": {
+                                                                                                                                                        "docs": {},
+                                                                                                                                                        "a": {
+                                                                                                                                                            "docs": {
+                                                                                                                                                                "/docs/home.md": {
+                                                                                                                                                                    "ref": "/docs/home.md",
+                                                                                                                                                                    "tf": 0.007936507936507936
+                                                                                                                                                                }
+                                                                                                                                                            }
+                                                                                                                                                        }
+                                                                                                                                                    }
+                                                                                                                                                }
+                                                                                                                                            }
+                                                                                                                                        }
+                                                                                                                                    }
+                                                                                                                                }
+                                                                                                                            }
+                                                                                                                        }
+                                                                                                                    }
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            },
+                                                            "s": {
+                                                                "docs": {},
+                                                                "t": {
+                                                                    "docs": {},
+                                                                    "o": {
+                                                                        "docs": {},
+                                                                        "r": {
+                                                                            "docs": {},
+                                                                            "e": {
+                                                                                "docs": {},
+                                                                                "s": {
+                                                                                    "docs": {},
+                                                                                    ".": {
+                                                                                        "docs": {},
+                                                                                        "h": {
+                                                                                            "docs": {},
+                                                                                            "t": {
+                                                                                                "docs": {},
+                                                                                                "m": {
+                                                                                                    "docs": {},
+                                                                                                    "l": {
+                                                                                                        "docs": {},
+                                                                                                        "\"": {
+                                                                                                            "docs": {},
+                                                                                                            ">": {
+                                                                                                                "docs": {},
+                                                                                                                "s": {
+                                                                                                                    "docs": {},
+                                                                                                                    "t": {
+                                                                                                                        "docs": {},
+                                                                                                                        "o": {
+                                                                                                                            "docs": {},
+                                                                                                                            "r": {
+                                                                                                                                "docs": {},
+                                                                                                                                "e": {
+                                                                                                                                    "docs": {},
+                                                                                                                                    "s": {
+                                                                                                                                        "docs": {},
+                                                                                                                                        "<": {
+                                                                                                                                            "docs": {},
+                                                                                                                                            "/": {
+                                                                                                                                                "docs": {},
+                                                                                                                                                "a": {
+                                                                                                                                                    "docs": {
+                                                                                                                                                        "/docs/home.md": {
+                                                                                                                                                            "ref": "/docs/home.md",
+                                                                                                                                                            "tf": 0.015873015873015872
+                                                                                                                                                        }
+                                                                                                                                                    }
+                                                                                                                                                }
+                                                                                                                                            }
+                                                                                                                                        }
+                                                                                                                                    }
+                                                                                                                                }
+                                                                                                                            }
+                                                                                                                        }
+                                                                                                                    }
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "i": {
+                    "docs": {},
+                    "n": {
+                        "docs": {},
+                        "f": {
+                            "docs": {},
+                            "o": {
+                                "docs": {},
+                                "r": {
+                                    "docs": {},
+                                    "m": {
+                                        "docs": {
+                                            "/docs/home.md": {
+                                                "ref": "/docs/home.md",
+                                                "tf": 0.007936507936507936
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "i": {
+                            "docs": {},
+                            "t": {
+                                "docs": {},
+                                "i": {
+                                    "docs": {
+                                        "/docs/home.md": {
+                                            "ref": "/docs/home.md",
+                                            "tf": 0.007936507936507936
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "s": {
+                            "docs": {},
+                            "t": {
+                                "docs": {},
+                                "a": {
+                                    "docs": {},
+                                    "n": {
+                                        "docs": {},
+                                        "t": {
+                                            "docs": {},
+                                            "i": {
+                                                "docs": {
+                                                    "/docs/home.md": {
+                                                        "ref": "/docs/home.md",
+                                                        "tf": 0.007936507936507936
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "t": {
+                            "docs": {},
+                            "e": {
+                                "docs": {},
+                                "g": {
+                                    "docs": {},
+                                    "r": {
+                                        "docs": {
+                                            "/docs/home.md": {
+                                                "ref": "/docs/home.md",
+                                                "tf": 0.031746031746031744
+                                            }
+                                        }
+                                    }
+                                },
+                                "r": {
+                                    "docs": {},
+                                    "f": {
+                                        "docs": {},
+                                        "a": {
+                                            "docs": {},
+                                            "c": {
+                                                "docs": {
+                                                    "/docs/home.md": {
+                                                        "ref": "/docs/home.md",
+                                                        "tf": 0.007936507936507936
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "s": {
+                        "docs": {},
+                        "o": {
+                            "docs": {},
+                            "l": {
+                                "docs": {
+                                    "/docs/home.md": {
+                                        "ref": "/docs/home.md",
+                                        "tf": 0.007936507936507936
+                                    }
+                                }
+                            },
+                            "m": {
+                                "docs": {},
+                                "o": {
+                                    "docs": {},
+                                    "r": {
+                                        "docs": {},
+                                        "p": {
+                                            "docs": {},
+                                            "h": {
+                                                "docs": {
+                                                    "/docs/home.md": {
+                                                        "ref": "/docs/home.md",
+                                                        "tf": 2.6666666666666665
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "l": {
+                    "docs": {},
+                    "e": {
+                        "docs": {},
+                        "s": {
+                            "docs": {},
+                            "s": {
+                                "docs": {
+                                    "/docs/home.md": {
+                                        "ref": "/docs/home.md",
+                                        "tf": 0.007936507936507936
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "i": {
+                        "docs": {},
+                        "n": {
+                            "docs": {},
+                            "k": {
+                                "docs": {},
+                                "\"": {
+                                    "docs": {},
+                                    ">": {
+                                        "docs": {},
+                                        "#": {
+                                            "docs": {},
+                                            "<": {
+                                                "docs": {},
+                                                "/": {
+                                                    "docs": {},
+                                                    "a": {
+                                                        "docs": {},
+                                                        ">": {
+                                                            "docs": {},
+                                                            "<": {
+                                                                "docs": {},
+                                                                "/": {
+                                                                    "docs": {},
+                                                                    "h": {
+                                                                        "1": {
+                                                                            "docs": {},
+                                                                            ">": {
+                                                                                "docs": {},
+                                                                                "<": {
+                                                                                    "docs": {},
+                                                                                    "h": {
+                                                                                        "2": {
+                                                                                            "docs": {},
+                                                                                            ">": {
+                                                                                                "docs": {},
+                                                                                                "<": {
+                                                                                                    "docs": {},
+                                                                                                    "a": {
+                                                                                                        "docs": {
+                                                                                                            "/docs/home.md": {
+                                                                                                                "ref": "/docs/home.md",
+                                                                                                                "tf": 0.007936507936507936
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        "docs": {}
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        },
+                                                                        "2": {
+                                                                            "docs": {},
+                                                                            ">": {
+                                                                                "docs": {},
+                                                                                "<": {
+                                                                                    "docs": {},
+                                                                                    "p": {
+                                                                                        "docs": {},
+                                                                                        ">": {
+                                                                                            "docs": {},
+                                                                                            "<": {
+                                                                                                "docs": {},
+                                                                                                "a": {
+                                                                                                    "docs": {
+                                                                                                        "/docs/home.md": {
+                                                                                                            "ref": "/docs/home.md",
+                                                                                                            "tf": 0.023809523809523808
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            },
+                                                                                            "h": {
+                                                                                                "docs": {},
+                                                                                                "e": {
+                                                                                                    "docs": {},
+                                                                                                    "l": {
+                                                                                                        "docs": {},
+                                                                                                        "p": {
+                                                                                                            "docs": {
+                                                                                                                "/docs/home.md": {
+                                                                                                                    "ref": "/docs/home.md",
+                                                                                                                    "tf": 0.007936507936507936
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            },
+                                                                                            "u": {
+                                                                                                "docs": {},
+                                                                                                "p": {
+                                                                                                    "docs": {},
+                                                                                                    "d": {
+                                                                                                        "docs": {
+                                                                                                            "/docs/home.md": {
+                                                                                                                "ref": "/docs/home.md",
+                                                                                                                "tf": 0.007936507936507936
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            },
+                                                                                            "w": {
+                                                                                                "docs": {
+                                                                                                    "/docs/home.md": {
+                                                                                                        "ref": "/docs/home.md",
+                                                                                                        "tf": 0.007936507936507936
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        },
+                                                                        "docs": {}
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "m": {
+                    "docs": {},
+                    "e": {
+                        "docs": {},
+                        "t": {
+                            "docs": {},
+                            "h": {
+                                "docs": {},
+                                "o": {
+                                    "docs": {},
+                                    "d": {
+                                        "docs": {
+                                            "/docs/home.md": {
+                                                "ref": "/docs/home.md",
+                                                "tf": 0.015873015873015872
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "n": {
+                    "docs": {},
+                    "a": {
+                        "docs": {},
+                        "m": {
+                            "docs": {},
+                            "e": {
+                                "docs": {},
+                                "=": {
+                                    "docs": {},
+                                    "\"": {
+                                        "docs": {},
+                                        "d": {
+                                            "docs": {},
+                                            "e": {
+                                                "docs": {},
+                                                "h": {
+                                                    "docs": {},
+                                                    "y": {
+                                                        "docs": {},
+                                                        "d": {
+                                                            "docs": {},
+                                                            "r": {
+                                                                "docs": {
+                                                                    "/docs/home.md": {
+                                                                        "ref": "/docs/home.md",
+                                                                        "tf": 0.007936507936507936
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "f": {
+                                            "docs": {},
+                                            "e": {
+                                                "docs": {},
+                                                "a": {
+                                                    "docs": {},
+                                                    "t": {
+                                                        "docs": {},
+                                                        "u": {
+                                                            "docs": {},
+                                                            "r": {
+                                                                "docs": {
+                                                                    "/docs/home.md": {
+                                                                        "ref": "/docs/home.md",
+                                                                        "tf": 0.007936507936507936
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "l": {
+                                                "docs": {},
+                                                "o": {
+                                                    "docs": {},
+                                                    "w": {
+                                                        "docs": {
+                                                            "/docs/home.md": {
+                                                                "ref": "/docs/home.md",
+                                                                "tf": 0.007936507936507936
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "p": {
+                                            "docs": {},
+                                            "l": {
+                                                "docs": {},
+                                                "u": {
+                                                    "docs": {},
+                                                    "g": {
+                                                        "docs": {},
+                                                        "g": {
+                                                            "docs": {
+                                                                "/docs/home.md": {
+                                                                    "ref": "/docs/home.md",
+                                                                    "tf": 0.007936507936507936
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "r": {
+                                            "docs": {},
+                                            "e": {
+                                                "docs": {},
+                                                "a": {
+                                                    "docs": {},
+                                                    "c": {
+                                                        "docs": {},
+                                                        "t": {
+                                                            "docs": {
+                                                                "/docs/home.md": {
+                                                                    "ref": "/docs/home.md",
+                                                                    "tf": 0.007936507936507936
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "s": {
+                                            "docs": {},
+                                            "i": {
+                                                "docs": {},
+                                                "n": {
+                                                    "docs": {},
+                                                    "g": {
+                                                        "docs": {},
+                                                        "l": {
+                                                            "docs": {},
+                                                            "e": {
+                                                                "docs": {},
+                                                                "t": {
+                                                                    "docs": {},
+                                                                    "o": {
+                                                                        "docs": {},
+                                                                        "n": {
+                                                                            "docs": {
+                                                                                "/docs/home.md": {
+                                                                                    "ref": "/docs/home.md",
+                                                                                    "tf": 0.007936507936507936
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "u": {
+                                            "docs": {},
+                                            "p": {
+                                                "docs": {},
+                                                "d": {
+                                                    "docs": {
+                                                        "/docs/home.md": {
+                                                            "ref": "/docs/home.md",
+                                                            "tf": 0.007936507936507936
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "e": {
+                        "docs": {},
+                        "x": {
+                            "docs": {},
+                            "t": {
+                                "docs": {
+                                    "/docs/home.md": {
+                                        "ref": "/docs/home.md",
+                                        "tf": 0.007936507936507936
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "o": {
+                    "docs": {},
+                    "u": {
+                        "docs": {},
+                        "t": {
+                            "docs": {
+                                "/docs/home.md": {
+                                    "ref": "/docs/home.md",
+                                    "tf": 0.007936507936507936
+                                }
+                            }
+                        }
+                    }
+                },
+                "p": {
+                    "docs": {},
+                    "e": {
+                        "docs": {},
+                        "r": {
+                            "docs": {
+                                "/docs/home.md": {
+                                    "ref": "/docs/home.md",
+                                    "tf": 0.007936507936507936
+                                }
+                            }
+                        }
+                    },
+                    "l": {
+                        "docs": {},
+                        "u": {
+                            "docs": {},
+                            "g": {
+                                "docs": {},
+                                "g": {
+                                    "docs": {},
+                                    "a": {
+                                        "docs": {},
+                                        "b": {
+                                            "docs": {},
+                                            "l": {
+                                                "docs": {
+                                                    "/docs/home.md": {
+                                                        "ref": "/docs/home.md",
+                                                        "tf": 2.6666666666666665
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "r": {
+                        "docs": {},
+                        "o": {
+                            "docs": {},
+                            "p": {
+                                "docs": {},
+                                "a": {
+                                    "docs": {},
+                                    "g": {
+                                        "docs": {
+                                            "/docs/home.md": {
+                                                "ref": "/docs/home.md",
+                                                "tf": 0.007936507936507936
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "v": {
+                                "docs": {},
+                                "i": {
+                                    "docs": {},
+                                    "d": {
+                                        "docs": {
+                                            "/docs/home.md": {
+                                                "ref": "/docs/home.md",
+                                                "tf": 0.007936507936507936
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "r": {
+                    "docs": {},
+                    "e": {
+                        "docs": {},
+                        "a": {
+                            "docs": {},
+                            "c": {
+                                "docs": {},
+                                "t": {
+                                    "docs": {
+                                        "/docs/home.md": {
+                                            "ref": "/docs/home.md",
+                                            "tf": 0.03968253968253968
+                                        }
+                                    },
+                                    ".": {
+                                        "docs": {},
+                                        "<": {
+                                            "docs": {},
+                                            "/": {
+                                                "docs": {},
+                                                "p": {
+                                                    "docs": {
+                                                        "/docs/home.md": {
+                                                            "ref": "/docs/home.md",
+                                                            "tf": 0.007936507936507936
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "g": {
+                            "docs": {},
+                            "u": {
+                                "docs": {},
+                                "l": {
+                                    "docs": {
+                                        "/docs/home.md": {
+                                            "ref": "/docs/home.md",
+                                            "tf": 0.023809523809523808
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "h": {
+                            "docs": {},
+                            "y": {
+                                "docs": {},
+                                "d": {
+                                    "docs": {},
+                                    "r": {
+                                        "docs": {
+                                            "/docs/home.md": {
+                                                "ref": "/docs/home.md",
+                                                "tf": 0.015873015873015872
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "n": {
+                            "docs": {},
+                            "d": {
+                                "docs": {},
+                                "e": {
+                                    "docs": {},
+                                    "r": {
+                                        "docs": {
+                                            "/docs/home.md": {
+                                                "ref": "/docs/home.md",
+                                                "tf": 0.023809523809523808
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "q": {
+                            "docs": {},
+                            "u": {
+                                "docs": {},
+                                "e": {
+                                    "docs": {},
+                                    "s": {
+                                        "docs": {},
+                                        "t": {
+                                            "docs": {
+                                                "/docs/home.md": {
+                                                    "ref": "/docs/home.md",
+                                                    "tf": 0.007936507936507936
+                                                }
+                                            },
+                                            "s": {
+                                                "docs": {},
+                                                ".": {
+                                                    "docs": {},
+                                                    "<": {
+                                                        "docs": {},
+                                                        "/": {
+                                                            "docs": {},
+                                                            "p": {
+                                                                "docs": {
+                                                                    "/docs/home.md": {
+                                                                        "ref": "/docs/home.md",
+                                                                        "tf": 0.007936507936507936
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "s": {
+                            "docs": {},
+                            "t": {
+                                "docs": {},
+                                "r": {
+                                    "docs": {},
+                                    "i": {
+                                        "docs": {},
+                                        "c": {
+                                            "docs": {},
+                                            "t": {
+                                                "docs": {
+                                                    "/docs/home.md": {
+                                                        "ref": "/docs/home.md",
+                                                        "tf": 0.007936507936507936
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "s": {
+                    "docs": {},
+                    "e": {
+                        "docs": {},
+                        "r": {
+                            "docs": {},
+                            "v": {
+                                "docs": {},
+                                "e": {
+                                    "docs": {},
+                                    "r": {
+                                        "docs": {
+                                            "/docs/home.md": {
+                                                "ref": "/docs/home.md",
+                                                "tf": 0.031746031746031744
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "s": {
+                            "docs": {},
+                            "s": {
+                                "docs": {},
+                                "i": {
+                                    "docs": {},
+                                    "o": {
+                                        "docs": {},
+                                        "n": {
+                                            "docs": {
+                                                "/docs/home.md": {
+                                                    "ref": "/docs/home.md",
+                                                    "tf": 0.007936507936507936
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "t": {
+                        "docs": {},
+                        "a": {
+                            "docs": {},
+                            "t": {
+                                "docs": {},
+                                "e": {
+                                    "docs": {
+                                        "/docs/home.md": {
+                                            "ref": "/docs/home.md",
+                                            "tf": 0.007936507936507936
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "o": {
+                            "docs": {},
+                            "r": {
+                                "docs": {},
+                                "e": {
+                                    "docs": {
+                                        "/docs/home.md": {
+                                            "ref": "/docs/home.md",
+                                            "tf": 0.007936507936507936
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "u": {
+                    "docs": {},
+                    "n": {
+                        "docs": {},
+                        "i": {
+                            "docs": {},
+                            "d": {
+                                "docs": {},
+                                "i": {
+                                    "docs": {},
+                                    "r": {
+                                        "docs": {},
+                                        "e": {
+                                            "docs": {},
+                                            "c": {
+                                                "docs": {},
+                                                "t": {
+                                                    "docs": {
+                                                        "/docs/home.md": {
+                                                            "ref": "/docs/home.md",
+                                                            "tf": 0.007936507936507936
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "t": {
+                        "docs": {},
+                        "i": {
+                            "docs": {},
+                            "l": {
+                                "docs": {
+                                    "/docs/home.md": {
+                                        "ref": "/docs/home.md",
+                                        "tf": 0.007936507936507936
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "v": {
+                    "docs": {},
+                    "e": {
+                        "docs": {},
+                        "r": {
+                            "docs": {},
+                            "s": {
+                                "docs": {},
+                                "i": {
+                                    "docs": {},
+                                    "o": {
+                                        "docs": {},
+                                        "n": {
+                                            "docs": {
+                                                "/docs/home.md": {
+                                                    "ref": "/docs/home.md",
+                                                    "tf": 0.007936507936507936
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "length": 95
+        },
+        "corpusTokens": [
+            "0",
+            "0.13",
+            "0.13&#39;",
+            "13",
+            "access",
+            "add",
+            "allow",
+            "app",
+            "applic",
+            "between",
+            "bleed",
+            "boilerplate.</p",
+            "break",
+            "can&#39;t",
+            "chang",
+            "class",
+            "class=\"anchor\"></a>dehydration/rehydr",
+            "class=\"anchor\"></a>featur",
+            "class=\"anchor\"></a>flow",
+            "class=\"anchor\"></a>plugg",
+            "class=\"anchor\"></a>react",
+            "class=\"anchor\"></a>singleton",
+            "class=\"anchor\"></a>upd",
+            "class=\"hash",
+            "client",
+            "client.</p",
+            "code>dehydrate</cod",
+            "code>rehydrate</cod",
+            "come",
+            "contain",
+            "context.html\">fluxiblecontext</a",
+            "contexts.</p",
+            "deprec",
+            "ensur",
+            "flow",
+            "flow.</p",
+            "flux",
+            "fluxibl",
+            "follow",
+            "free",
+            "h1><a",
+            "h2><a",
+            "href=\"#dehydr",
+            "href=\"#featur",
+            "href=\"#flow",
+            "href=\"#plugg",
+            "href=\"#react",
+            "href=\"#singleton",
+            "href=\"#upd",
+            "href=\"/api/components.html\">components</a",
+            "href=\"/api/flux",
+            "href=\"/api/plugins.html\">plugins</a",
+            "href=\"/api/stores.html\">stores</a",
+            "inform",
+            "initi",
+            "instanti",
+            "integr",
+            "interfac",
+            "isol",
+            "isomorph",
+            "less",
+            "link\">#</a></h1><h2><a",
+            "link\">#</a></h2><p><a",
+            "link\">#</a></h2><p>help",
+            "link\">#</a></h2><p>upd",
+            "link\">#</a></h2><p>w",
+            "method",
+            "name=\"dehydr",
+            "name=\"featur",
+            "name=\"flow",
+            "name=\"plugg",
+            "name=\"react",
+            "name=\"singleton",
+            "name=\"upd",
+            "next",
+            "out",
+            "per",
+            "pluggabl",
+            "propag",
+            "provid",
+            "react",
+            "react.</p",
+            "regul",
+            "rehydr",
+            "render",
+            "request",
+            "requests.</p",
+            "restrict",
+            "server",
+            "session",
+            "state",
+            "store",
+            "unidirect",
+            "util",
+            "version"
+        ],
+        "pipeline": [
+            "trimmer",
+            "stopWordFilter",
+            "stemmer"
+        ]
+    }
+}

@@ -1,0 +1,140 @@
+@media screen and (max-width: 700px) {
+
+    /**
+     * SPLASH (home page)
+     */
+    #splash {
+        background-size: 200% !important;
+    }
+
+    #splash h1 {
+        width: 100% !important;
+    }
+
+    #navigation .navLink,
+    .edit-github {
+        display: none;
+    }
+
+    #atomic #navigation form {
+        right: 40px;
+    }
+
+    #navigation .fa-search {
+        margin-right: 20px;
+        font-size: 23px;
+    }
+
+    /**
+     * menu (slider)
+     */
+    .menu-on #aside {
+        -webkit-animation: bounce .3s ease-out;
+        animation: bounce .5s ease-out;
+        box-shadow: 1px 0 9px 1px #555;
+        -webkit-transform:translateY(0);
+        -ms-transform:translateY(0);
+        transform:translateY(0);
+    }
+
+    .menu-on #overlay {
+        display: block;
+        background: rgba(0, 0, 0, .6);
+    }
+
+    /**
+     * for the footer to get this styling we'd need to move ".menu-on" higher up
+     */
+    .menu-on #main,
+    .menu-on #footer {
+        -webkit-filter: blur(2px);
+        filter: blur(2px);
+    }
+
+    #aside {
+        -webkit-transform: translateY(-100%);
+        -ms-transform: translateY(-100%);
+        transform: translateY(-100%);
+        will-change: transform;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        position: absolute;
+        margin-top: -20px;
+        background: #FFF;
+    }
+
+    @-webkit-keyframes bounce {
+        0% {
+            -webkit-transform:translateY(-100%);
+          filter: blur(5px);
+         }
+        40% {
+            -webkit-transform:translateY(0);
+        }
+        60% {
+            -webkit-transform:translateY(-20%);
+         }
+        100% {
+            -webkit-transform:translateY(0);
+         }
+    }
+
+    @keyframes bounce {
+        0% {
+            transform:translateY(-100%);
+          filter: blur(5px);
+         }
+        40% {
+            transform:translateY(0);
+        }
+        60% {
+            transform:translateY(-20%);
+         }
+        100% {
+            transform:translateY(0);
+         }
+
+    }
+
+    /**
+     * Remove the links from tabbing navigation
+     */
+    #aside a {
+        visibility: hidden;
+    }
+
+    .menu-on #aside a {
+        visibility: visible;
+    }
+
+    #toggleMenuButton {
+        width: 32px;
+        height: 32px;
+        margin-top: 20px;
+        font-size: 200%;
+        top: -17px;
+        color: #fff;
+    }
+
+    .menu-on #toggleMenuButton {
+        display: block;
+        background-position: 100% 0;
+    }
+
+    /**
+     * no fancy marker nor right border along the side of the menu
+     */
+    #aside:after,
+    #aside a:after {
+        display: None !important;
+    }
+
+}
+
+@media screen and (min-width:700px) {
+
+    #atomic .innerwrapper {
+        max-width: 1000px;
+    }
+
+}

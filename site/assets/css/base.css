@@ -1,0 +1,366 @@
+/*! normalize.css v3.0.1 | MIT License | git.io/normalize */
+
+/**
+ * ==============================================================================
+ * Normalize is used as a starting point. We don't include everything it contains
+ * and we add a lot of our own to create a *Design opinionated* base style sheet.
+ * ==============================================================================
+ */
+/**
+ * 1. Prevent iOS text size adjust after orientation change, without disabling
+ *    user zoom.
+ */
+html {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%; /* 1 */
+    height: 100%;
+    overflow-y: scroll;
+}
+
+body {
+    background: #fff;
+    color: #4c4c4c;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    height: 100%;
+}
+
+/**
+ * 1. Correct font properties not being inherited.
+ * 2. Remove default margin on body and address margins set differently in Firefox 4+, Safari, and Chrome.
+ */
+body,
+button,
+input,
+optgroup,
+select,
+textarea {
+    font: 300 16px/1.55 "Helvetica Neue", Helvetica, Arial, sans-serif; /* 1 */
+    margin: 0; /* 2 */
+}
+
+.spaceBetween > * {
+    line-height: 1.55; /* must match value from body (above) */
+}
+
+/**
+ * Margins
+ */
+blockquote,
+dd,
+dl,
+ol,
+ul,
+p,
+pre,
+table,
+ul {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+/* TODO: rtl version of this? */
+ul,
+ol,
+dd {
+    margin-left: 0;
+    padding-left: 0;
+}
+
+blockquote {
+    border-left: 7px solid rgba(2, 128, 174, 0.3);
+    font-size: 1.2em;
+    font-style: italic;
+    margin-left: 0;
+    padding: 1px 0 1px 2em;
+}
+
+/**
+ * 1. reset UA list-style
+ */
+ol,
+ul {
+    list-style-type: none;
+}
+
+/**
+ * 1. Correct `inline-block` display not defined in IE 8/9.
+ */
+video {
+    display: inline-block; /* 1 */
+}
+
+abbr[title] {
+    border-bottom: 1px dotted rgba(2, 128, 174, 0.3);
+    cursor: help;
+}
+
+/**
+ * Reset UA styling
+ */
+b {
+    font-weight: normal;
+}
+
+i {
+    font-style: normal;
+}
+
+/**
+ * Address inconsistent and variable font size in all browsers for small.
+ * Address odd "em"-unit font size rendering in all browsers for pre..
+ */
+pre,
+small {
+    font-size: 85%;
+}
+
+/**
+ * 1. Remove border when inside "a" element in IE 8/9/10.
+ * 2. Prevent image from sticking out of their container.
+ * 3. Prevent "mysterious gaps below images" (descender).
+ */
+img {
+    border: 0; /* 1 */
+    height: auto; /* 2 */
+    max-width: 100%; /* 2 */
+    vertical-align: bottom; /* 3 */
+}
+
+/**
+ * 1. Address `overflow` set to `hidden` in IE 8/9/10/11.
+ */
+button {
+    overflow: visible; /* 1 */
+}
+
+/**
+ * 1. Correct overflow not hidden in IE 9/10/11.
+ */
+svg:not(:root) {
+    overflow: hidden; /* 1 */
+}
+
+.textarea {
+    overflow-x: hidden;
+}
+
+pre,
+textarea {
+    overflow-x: auto;
+}
+
+/**
+ * 1 & 2. Address differences between Firefox and other browsers.
+ */
+hr {
+    box-sizing: content-box; /* 1/2 */
+    height: 0; /* 1/2 */
+    border: 0;
+    border-top: 4px solid rgba(2, 128, 174, .3);
+}
+
+code {
+    padding: .2em .2em .1em;
+}
+
+/**
+ * =============================================================================
+ * Headings
+ * =============================================================================
+ */
+
+h1 {
+    margin: .67em 0 0;
+}
+
+h2 {
+    margin: 2em 0 1em;
+}
+
+h3 {
+    margin: 2em 0 1em;
+    padding-top: 1.8em;
+    border-top: 1px solid rgba(2, 128, 174, .3);
+}
+
+h4 {
+    margin: 1.33em 0;
+}
+
+h1 *,
+h2 *,
+h3 *,
+h4 *,
+h5 *,
+h6 * {
+    font-size: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: Montserrat;
+}
+
+/**
+ * =============================================================================
+ * Links
+ * =============================================================================
+ */
+/**
+ * Remove the gray background *color* from active links in IE 10.
+ */
+a {
+    background-color: transparent;
+}
+
+/**
+ * Improve readability when focused and also mouse hovered in all browsers.
+ */
+a:active,
+a:hover {
+    outline: 0;
+}
+
+:link,
+:visited {
+    text-decoration: none;
+    color: #0280AE;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/**
+ * =============================================================================
+ * Form
+ * =============================================================================
+ */
+
+/**
+ * Known limitation: by default, Chrome and Safari on OS X allow very limited
+ * styling of `select`, unless a `border` property is set.
+ */
+/**
+ * 1. border-box for these controls.
+ */
+[role="button"],
+button,
+input,
+select,
+textarea {
+    box-sizing: border-box;
+}
+
+input,
+label,
+select,
+textarea {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/**
+ * Address Firefox 4+ setting "line-height" on "input" using "!important" in
+ * the UA stylesheet.
+ */
+button,
+input {
+    line-height: normal;
+}
+
+select[size],
+select[multiple] {
+    height: auto;
+}
+
+/**
+ * 1. Correct inability to style clickable `input` types in iOS.
+ */
+input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+    -webkit-appearance: button; /* 1 */
+}
+
+/**
+ * Remove inner padding and border in Firefox 4+.
+ */
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+input:focus,
+textarea:focus {
+    outline: 0;
+    border-color: rgba(82, 168, 236, 0.8);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6) !important;
+}
+
+/**
+ * It's recommended that you don't attempt to style these elements.
+ * Firefox's implementation doesn't respect box-sizing, padding, or width.
+ *
+ * 1. Address box sizing set to `content-box` in IE 8/9/10.
+ * 2. Remove excess padding in IE 8/9/10.
+ * 3. Help vertical centering of controls when they are next to each other.
+ */
+input[type="checkbox"],
+input[type="radio"] {
+    box-sizing: border-box; /* 1 */
+    padding: 0; /* 2 */
+    vertical-align: middle;
+}
+
+/**
+ * 1. Address `appearance` set to `searchfield` in Safari and Chrome.
+ * 2. Address `box-sizing` set to `border-box` in Safari and Chrome
+ *    (include `-moz` to future-proof).
+ */
+input[type="search"] {
+    -webkit-appearance: none; /* 1 */
+    box-sizing: border-box; /* 2 */
+}
+
+/**
+ * 1. Allow vertical resizing
+ */
+.textarea,
+textarea {
+    resize: vertical; /* 1 */
+}
+
+code,
+pre,
+textarea,
+.textarea,
+input[type=search] {
+    border-radius: 3px;
+    border: 0;
+}
+
+pre code {
+    box-shadow: none;
+}
+
+/**
+ * =============================================================================
+ * Table
+ * =============================================================================
+ */
+/**
+ * Remove spacing between table cells and allow border styling on cells
+ */
+table {
+    border-collapse: collapse;
+}

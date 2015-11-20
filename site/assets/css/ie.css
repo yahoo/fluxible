@@ -1,0 +1,81 @@
+/**
+ * "justify" fails so display both as floats (left/right)
+ */
+#atomic #header #home {
+    float: left;
+}
+
+#atomic #header ul {
+    float: right;
+}
+
+/**
+ * IE7 only
+ */
+#atomic #header li {
+    *margin-left: 15px;
+}
+
+/**
+ * IE8 bug (would not reveal the image because of max-width)
+ */
+#atomic #header li img {
+    max-width: none;
+}
+
+/**
+ * only relevant for small viewport
+ */
+#atomic #toggleMenuButton {
+    display: none;
+}
+
+#atomic .innerwrapper {
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/**
+ * IE7 only
+ */
+#atomic #aside,
+#atomic #main {
+    display: table-cell;
+    *display: inline !important;
+    *zoom: 1;
+}
+
+#atomic #aside {
+    padding-left: 0;
+    width: 150px !important;
+    padding-right: 50px;
+}
+
+#atomic #main {
+    padding-right: 0;
+    padding-left: 0;
+    width: 600px !important;
+    *width: 580px !important;
+}
+
+/**
+ * "justify" fails so display both lines as blocks
+ */
+#atomic #footer small {
+    display: block !important;
+}
+
+/**
+ * LOGO
+ */
+#splash  h1 {
+    width: 640px !important;
+    height: 92px;
+    background-image:url(../images/atomic-css-logo.png);
+}
+#logo {
+    display: none;
+}

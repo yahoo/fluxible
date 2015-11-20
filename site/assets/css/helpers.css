@@ -1,0 +1,127 @@
+/**
+ * Reset both padding/margin
+ */
+.reset {
+    padding: 0;
+    margin: 0;
+}
+
+/**
+ * Create a block-formatting context
+ * #2. does not rely on "overflow" but could potentially break a layout
+ */
+.bfc {
+    overflow: hidden;
+    zoom: 1;
+}
+/**
+ * #2
+ */
+.bfcHack {
+    display: table-cell;
+    width: 1600px;
+    *width: auto;
+    zoom: 1;
+}
+
+/**
+ * .Row: this style is meant to contain boxes on a row (from left to right of containing box)
+ * see: http://cssmojo.com/row_for_grids/
+ */
+.row {
+    clear: both;
+    display: inline-block;
+    vertical-align: top;
+    width: 100%;
+    box-sizing: border-box;
+    *display: block;
+    *width: auto;
+    zoom: 1;
+}
+
+/**
+ * Fancy lists
+ */
+.ul-list {
+    list-style-type: disc;
+    padding-left: 2em;
+}
+
+.dl-list dt {
+    font-weight: bold;
+}
+
+.dl-list dd {
+    padding-left: 2em;
+}
+
+/**
+ * Warning: this styling may create line-height issue as we are resetting the value to an "arbitrary" number
+ * Check: http://cssmojo.com/magic_boxes/#things-you-should-know-about
+ */
+.spaceBetween {
+    text-align: justify;
+    line-height: 0; /* kill extra white space below the container */
+}
+
+.spaceBetween:after {
+    content: "";
+    display: inline-block;
+    width: 100%;
+    vertical-align: middle;
+}
+
+.spaceBetween > * {
+    display: inline-block;
+    vertical-align: middle;
+    /* line-height is reset in base.css near <body> rule */
+}
+
+/**
+ * .resetButton removes the default styling of buttons
+ */
+.resetButton,
+.buttonLink {
+    background: none;
+    border: 0;
+}
+
+.linkColor,
+.buttonLink {
+    color: #08c !important;
+}
+
+.resetButton {
+    padding: 0;
+}
+
+/**
+ * Visually hidden (accessible to screen-readers)
+ */
+.hidden {
+    position: absolute !important;
+    clip: rect(1px 1px 1px 1px);
+    clip: rect(1px, 1px, 1px, 1px);
+    padding: 0 !important;
+    border: 0 !important;
+    height: 1px !important;
+    width: 1px !important;
+    overflow: hidden;
+}
+
+/**
+ * Default text color
+ */
+.noLinkColor,
+.noLinkColor a {
+    color: #555 !important;
+}
+
+/**
+ * TO COME LAST IN THIS STYLE SHEET
+ * this is because React plugs <span> all over the place and they get styled by rules using selectors like "> *"
+ */
+.atomic span {
+    display: inline;
+    float: none;
+}
