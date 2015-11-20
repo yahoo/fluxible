@@ -64,9 +64,14 @@
     "superagent": "^1.2.0"
   },
   "devDependencies": {
+    "babel-core": "^5.1.11",
+    "babel-eslint": "^4.1.5",
     "babel-loader": "^5.0.0",
     "bundle-loader": "^0.5.0",
+    "chai": "^3.0.0",
     "chai-as-promised": "^5.0.0",
+    "coveralls": "^2.11.2",
+    "eslint": "^1.9.0",
     "grunt": "^0.4.5",
     "grunt-atomizer": "^3.0.1",
     "grunt-cli": "^0.1.13",
@@ -79,8 +84,12 @@
     "grunt-protractor-runner": "^2.0.0",
     "grunt-protractor-webdriver": "^0.2.0",
     "grunt-webpack": "^1.0.8",
+    "istanbul": "~0.3.2",
     "json-loader": "^0.5.1",
+    "mocha": "^2.0.1",
+    "mockery": "^1.4.0",
     "nodemon": "^1.2.1",
+    "pre-commit": "^1.0.7",
     "protractor": "^2.0.0",
     "webpack": "^1.7.3",
     "webpack-dev-server": "^1.6.5"
