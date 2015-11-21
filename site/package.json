@@ -10,7 +10,7 @@
     "dev": "grunt dev",
     "devtest": "mocha tests/unit --compilers js:babel/register --recursive --reporter spec",
     "func": "grunt func",
-    "lint": "eslint ./*.js ./**/*.js ./**/*.jsx",
+    "lint": "eslint --ext .js,.jsx --ignore-pattern artifacts,build,node_modules .",
     "start": "node start",
     "test": "istanbul cover --dir ${COVERAGE_DIR:-artifacts} -- _mocha tests/unit/* --compilers js:babel/register --recursive --reporter xunit",
     "test-only": "istanbul cover --dir ${COVERAGE_DIR:-artifacts} -- _mocha  --recursive --reporter xunit"

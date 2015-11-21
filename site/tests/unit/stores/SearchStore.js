@@ -22,9 +22,9 @@ describe('site', () => {
 
         it('should instantiate correctly', function () {
             expect(storeInstance).to.be.an('object');
-            expect(storeInstance.docs).to.be.null;
-            expect(storeInstance.index).to.be.null;
-            expect(storeInstance.query).to.be.null;
+            expect(storeInstance.docs).to.be('null');
+            expect(storeInstance.index).to.be('null');
+            expect(storeInstance.query).to.be('null');
             expect(storeInstance.results).to.be.an('array');
         });
 
