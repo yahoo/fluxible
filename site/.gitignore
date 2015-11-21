@@ -1,6 +1,6 @@
 .sass-cache
 artifacts
-assets.js
+/assets.js
 build
 deploy.json
 grasshopper.json
