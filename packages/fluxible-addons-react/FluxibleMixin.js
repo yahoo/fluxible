@@ -113,7 +113,8 @@ var FluxibleMixin = {
      */
     getHandler: function (handler) {
         if ('string' === typeof handler) {
-            handler = this[handler];
+            var isAutoBound = (typeof this.autobind === 'undefined') ? 'false' : this.autobind;
+            handler = isAutoBound ? this[handler] : this[handler].bind(this);
         }
 
         if (!handler) {
