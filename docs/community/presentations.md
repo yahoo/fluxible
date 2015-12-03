@@ -2,6 +2,12 @@
 
 Take a look at talks and presentations we (Yahoo) and the community have done.
 
+### Universal React + Flux at Scale
+
+Rajiv Tirumalareddy talked about the challenges of scaling Fluxible at [Reactive](http://reactive2015.com) conference 2015. [Slides available](https://speakerdeck.com/vijar/universal-react-plus-flux-at-scale).
+
+<iframe width="100%" height="315" src="https://www.youtube.com/watch?v=M3suoQuDvH4" frameborder="0" allowfullscreen></iframe>
+
 ### Isomorphic Flux - ReactEurope 2015 - Michael Ridgway
 
 Michael Ridgway presented "Isomorphic Flux" at the [ReactEurope](http://www.react-europe.org/) conference 2015. 
