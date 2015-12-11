@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.2.1
+
+## Bug Fixes
+
+ * [#322] Renamed FluxibleMixin's internal property from `listeners` to `_listeners` to avoid naming collisions
+
 ## 0.2.0
 
 ### Breaking Changes
