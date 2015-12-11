@@ -49,7 +49,7 @@ var FluxibleMixin = {
      * @method componentDidMount
      */
     componentDidMount: function componentDidMount() {
-        this.listeners = [];
+        this._fluxible_listeners = [];
         var self = this;
 
         // Register static listeners
@@ -186,7 +186,7 @@ var FluxibleMixin = {
         }
 
         listener.store.addChangeListener(listener.handler);
-        this.listeners.push(listener);
+        this._fluxible_listeners.push(listener);
     },
 
     /**
@@ -194,10 +194,12 @@ var FluxibleMixin = {
      * @method componentWillUnmount
      */
     componentWillUnmount: function componentWillUnmount() {
-        this.listeners.forEach(function (listener) {
-            listener.store.removeChangeListener(listener.handler);
-        });
-        this.listeners = [];
+        if (Array.isArray(this._fluxible_listeners)) {
+            this._fluxible_listeners.forEach(function (listener) {
+                listener.store.removeChangeListener(listener.handler);
+            });
+        }
+        this._fluxible_listeners = [];
     }
 };
 

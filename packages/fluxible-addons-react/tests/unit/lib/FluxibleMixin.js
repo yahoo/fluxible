@@ -49,10 +49,10 @@ describe('fluxible-addons-react', function () {
 
         describe('componentDidMount', function () {
             it('should create an listeners array on start', function () {
-                expect(FluxibleMixin.listeners).to.not.exist;
+                expect(FluxibleMixin._fluxible_listeners).to.not.exist;
                 FluxibleMixin.componentDidMount();
-                expect(FluxibleMixin.listeners).to.exist;
-                expect(FluxibleMixin.listeners).to.be.empty;
+                expect(FluxibleMixin._fluxible_listeners).to.exist;
+                expect(FluxibleMixin._fluxible_listeners).to.be.empty;
             });
             it('should register static listener array', function (done) {
                 var Component = provideContext(React.createClass({
@@ -69,7 +69,7 @@ describe('fluxible-addons-react', function () {
                 }));
                 var component = ReactTestUtils.renderIntoDocument(<Component
                     context={context}/>);
-                expect(component.refs.wrappedElement.listeners).to.have.length(1);
+                expect(component.refs.wrappedElement._fluxible_listeners).to.have.length(1);
                 mockStore.emitChange();
             });
             it('should register static listener object', function (done) {
@@ -89,7 +89,7 @@ describe('fluxible-addons-react', function () {
                 }));
                 var component = ReactTestUtils.renderIntoDocument(<Component
                     context={context}/>);
-                expect(component.refs.wrappedElement.listeners).to.have.length(1);
+                expect(component.refs.wrappedElement._fluxible_listeners).to.have.length(1);
                 mockStore.emitChange();
             });
             it('should register static listener object with array', function (done) {
@@ -109,7 +109,7 @@ describe('fluxible-addons-react', function () {
                 }));
                 var component = ReactTestUtils.renderIntoDocument(<Component
                     context={context}/>);
-                expect(component.refs.wrappedElement.listeners).to.have.length(1);
+                expect(component.refs.wrappedElement._fluxible_listeners).to.have.length(1);
                 mockStore.emitChange();
             });
         });
@@ -177,20 +177,20 @@ describe('fluxible-addons-react', function () {
 
         describe('events', function () {
             it('should attach a change listener', function (done) {
-                expect(FluxibleMixin.listeners).to.have.length(0);
+                expect(FluxibleMixin._fluxible_listeners).to.have.length(0);
                 FluxibleMixin._attachStoreListener(FluxibleMixin.getListener(mockStore, function () {
                     done();
                 }));
-                expect(FluxibleMixin.listeners).to.have.length(1);
+                expect(FluxibleMixin._fluxible_listeners).to.have.length(1);
                 mockStore.emitChange();
             });
         });
 
         describe('componentWillUnmount', function () {
             it('should remove all change listeners', function () {
-                expect(FluxibleMixin.listeners).to.have.length(1);
+                expect(FluxibleMixin._fluxible_listeners).to.have.length(1);
                 FluxibleMixin.componentWillUnmount();
-                expect(FluxibleMixin.listeners).to.have.length(0);
+                expect(FluxibleMixin._fluxible_listeners).to.have.length(0);
             });
         });
 
