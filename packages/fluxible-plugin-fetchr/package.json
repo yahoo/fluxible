@@ -1,0 +1,35 @@
+{
+  "name": "fluxible-plugin-fetchr",
+  "version": "0.3.9",
+  "description": "A plugin for Fluxible applications to provide an isomorphic interface for RESTful services",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/yahoo/fluxible.git"
+  },
+  "scripts": {
+    "test": "../../node_modules/.bin/mocha tests/unit/ --recursive --compilers js:babel/register --reporter spec",
+    "cover": "../../node_modules/.bin/istanbul cover --dir artifacts -- ../../node_modules/.bin/_mocha tests/unit/ --recursive --compilers js:babel/register --reporter spec",
+    "lint": "../../node_modules/.bin/eslint lib/ tests/ utils/ index.js"
+  },
+  "dependencies": {
+    "debug": "^2.0.0",
+    "fetchr": "^0.5.18"
+  },
+  "author": "Michael Ridgway <mridgway@yahoo-inc.com>",
+  "contributors": [],
+  "licenses": [
+    {
+      "type": "BSD-3-Clause",
+      "url": "https://github.com/yahoo/fluxible/blob/master/LICENSE.md"
+    }
+  ],
+  "keywords": [
+    "yahoo",
+    "flux",
+    "react",
+    "fluxible",
+    "fetchr",
+    "rest"
+  ]
+}

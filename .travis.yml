@@ -9,6 +9,7 @@ node_js:
   - "0.10"
 env:
   - TEST_DIR=packages/fluxible
+  - TEST_DIR=packages/fluxible-plugin-fetchr
   - TEST_DIR=packages/fluxible-reducer-store
   - TEST_DIR=packages/fluxible-addons-react
   - TEST_DIR=packages/generator-fluxible
