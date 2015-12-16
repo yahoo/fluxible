@@ -24,6 +24,7 @@ function isModifiedEvent (e) {
  */
 module.exports = function createNavLinkComponent (overwriteSpec) {
     var NavLink = React.createClass(Object.assign({}, {
+        autobind: false,
         displayName: 'NavLink',
         contextTypes: {
             executeAction: React.PropTypes.func.isRequired,
@@ -43,6 +44,7 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
         },
         componentDidMount: function () {
             var routeStore = this.context.getStore(RouteStore);
+            this._onRouteStoreChange = this.constructor.prototype._onRouteStoreChange.bind(this);
             routeStore.addChangeListener(this._onRouteStoreChange);
         },
         componentWillUnmount: function () {
@@ -174,7 +176,7 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
             return React.createElement(
                 'a',
                 Object.assign({}, {
-                    onClick: this.clickHandler
+                    onClick: this.clickHandler.bind(this)
                 }, this.props, {
                     href: this.state.href,
                     className: this.state.className,

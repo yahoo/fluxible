@@ -5,18 +5,24 @@
 'use strict';
 
 var React = require('react');
+var inherits = require('inherits');
 
-var FluxibleComponent = React.createClass({
-    displayName: 'FluxibleComponent',
-    propTypes: {
-        context: React.PropTypes.object.isRequired
-    },
+function FluxibleComponent(props, context) {
+    React.Component.apply(this, arguments);
+}
 
-    childContextTypes: {
-        executeAction: React.PropTypes.func.isRequired,
-        getStore: React.PropTypes.func.isRequired
-    },
+inherits(FluxibleComponent, React.Component);
 
+FluxibleComponent.displayName = 'FluxibleComponent';
+FluxibleComponent.propTypes = {
+    context: React.PropTypes.object.isRequired
+};
+FluxibleComponent.childContextTypes = {
+    executeAction: React.PropTypes.func.isRequired,
+    getStore: React.PropTypes.func.isRequired
+};
+
+Object.assign(FluxibleComponent.prototype, {
     /**
      * Provides the current context as a child context
      * @method getChildContext
