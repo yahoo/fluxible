@@ -11,6 +11,7 @@ env:
   - TEST_DIR=packages/fluxible
   - TEST_DIR=packages/fluxible-reducer-store
   - TEST_DIR=packages/fluxible-addons-react
+  - TEST_DIR=packages/fluxible-router
   - TEST_DIR=packages/generator-fluxible
   - TEST_DIR=site
 script: cd $TEST_DIR && npm test
