@@ -8,6 +8,7 @@ node_js:
   - "0.12"
   - "0.10"
 env:
+  - TEST_DIR=packages/dispatchr
   - TEST_DIR=packages/fluxible
   - TEST_DIR=packages/fluxible-reducer-store
   - TEST_DIR=packages/fluxible-addons-react
