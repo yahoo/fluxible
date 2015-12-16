@@ -1,0 +1,6 @@
+#todo-list li.pending {
+    background-color: #ffedd0;
+}
+#todo-list li.failure {
+    background-color: #ffc9c4;
+}
