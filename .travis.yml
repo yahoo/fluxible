@@ -10,6 +10,7 @@ node_js:
 env:
   - TEST_DIR=packages/dispatchr
   - TEST_DIR=packages/fluxible
+  - TEST_DIR=packages/fluxible-plugin-fetchr
   - TEST_DIR=packages/fluxible-reducer-store
   - TEST_DIR=packages/fluxible-addons-react
   - TEST_DIR=packages/fluxible-router
