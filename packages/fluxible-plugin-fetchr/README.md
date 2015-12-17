@@ -1,10 +1,6 @@
 # Fetchr Plugin for Fluxible
 
 [![npm version](https://badge.fury.io/js/fluxible-plugin-fetchr.svg)](http://badge.fury.io/js/fluxible-plugin-fetchr)
-[![Build Status](https://travis-ci.org/yahoo/fluxible-plugin-fetchr.svg?branch=master)](https://travis-ci.org/yahoo/fluxible-plugin-fetchr)
-[![Dependency Status](https://david-dm.org/yahoo/fluxible-plugin-fetchr.svg)](https://david-dm.org/yahoo/fluxible-plugin-fetchr)
-[![devDependency Status](https://david-dm.org/yahoo/fluxible-plugin-fetchr/dev-status.svg)](https://david-dm.org/yahoo/fluxible-plugin-fetchr#info=devDependencies)
-[![Coverage Status](https://coveralls.io/repos/yahoo/fluxible-plugin-fetchr/badge.png?branch=master)](https://coveralls.io/r/yahoo/fluxible-plugin-fetchr?branch=master)
 
 Provides isomorphic RESTful service access to your [Fluxible](https://github.com/yahoo/fluxible) application using [fetchr](https://github.com/yahoo/fetchr).
 
@@ -46,7 +42,7 @@ Or if you need to do this from your application without direct access to the plu
 app.getPlugin('FetchrPlugin').registerService(yourService);
 ```
 
-For real examples, you can check out [the `server.js` file in our chat example](https://github.com/yahoo/flux-examples/blob/master/chat/server.js).
+For real examples, you can check out [the `server.js` file in our chat example](https://github.com/yahoo/fluxible/blob/master/examples/blob/master/chat/server.js).
 
 
 ### Exposing Your Services
@@ -61,7 +57,7 @@ server.use(bodyParser.json());
 server.use(pluginInstance.getXhrPath(), pluginInstance.getMiddleware());
 ```
 
-For real examples, you can check out [the `server.js` file in our chat example](https://github.com/yahoo/flux-examples/blob/master/chat/server.js).
+For real examples, you can check out [the `server.js` file in our chat example](https://github.com/yahoo/fluxible/blob/master/examples/blob/master/chat/server.js).
 
 
 ### Dynamic XHR Paths
@@ -101,11 +97,11 @@ By Default, fetchr appends all context values to the xhr url as query params. `c
 
 ## API
 
-- [fluxible-plugin-fetchr](https://github.com/yahoo/fluxible-plugin-fetchr/blob/master/docs/fluxible-plugin-fetchr.md)
+- [fluxible-plugin-fetchr](https://github.com/yahoo/fluxible/blob/master/packages/fluxible-plugin-fetchr/docs/fluxible-plugin-fetchr.md)
 
 ## License
 
 This software is free to use under the Yahoo! Inc. BSD license.
 See the [LICENSE file][] for license text and copyright information.
 
-[LICENSE file]: https://github.com/yahoo/fluxible-plugin-fetchr/blob/master/LICENSE.md
+[LICENSE file]: https://github.com/yahoo/fluxible/blob/master/LICENSE.md

@@ -18,7 +18,7 @@ There are multiple examples in this repo:
 Alternatively, for a fully featured application you can check out the 
 [fluxible.io][Fluxible] docs website repository for more integration examples:
 
-* https://github.com/yahoo/fluxible.io
+* https://github.com/yahoo/fluxible/tree/master/site
 
 
 Usage
@@ -41,10 +41,10 @@ debug output on the server.
 Unless otherwise specified, this software is free to use under the Yahoo! Inc. BSD license.
 See the [LICENSE file][] for license text and copyright information.
 
-[LICENSE file]: https://github.com/yahoo/flux-examples/blob/master/LICENSE.md
+[LICENSE file]: https://github.com/yahoo/fluxible/blob/master/LICENSE.md
 [Flux]: http://facebook.github.io/react/docs/flux-overview.html
 [Fluxible]: http://fluxible.io
-[fluxible-router]: https://github.com/yahoo/fluxible-router
-[fluxible-plugin-fetchr]: https://github.com/yahoo/fluxible-plugin-fetchr
+[fluxible-router]: https://github.com/yahoo/blob/master/packages/fluxible-router
+[fluxible-plugin-fetchr]: https://github.com/yahoo/blob/master/packages/fluxible-plugin-fetchr
 [express-state]: https://github.com/yahoo/express-state
 [webpack]: https://github.com/webpack/webpack

@@ -114,5 +114,5 @@ Application = provideContext(Application, {
 ```
 
 Example plugins:
- * [fluxible-plugin-fetchr](https://github.com/yahoo/fluxible-plugin-fetchr) - Polymorphic RESTful services
+ * [fluxible-plugin-fetchr](https://github.com/yahoo/fluxible/blob/master/packages/fluxible-plugin-fetchr) - Polymorphic RESTful services
  * [Search for more on npm](https://www.npmjs.com/search?q=fluxible+plugin)

@@ -71,7 +71,7 @@ module.exports = function fetchrPlugin(options) {
                         create: service.create.bind(service),
                         read: service.read.bind(service),
                         update: service.update.bind(service),
-                        'delete': service.delete.bind(service),
+                        'delete': service['delete'].bind(service),
                         constructGetXhrUri: function constructGetXhrUri(resource, params, config) {
                             config = config || {};
                             uri = config.cors ? corsPath : xhrPath;

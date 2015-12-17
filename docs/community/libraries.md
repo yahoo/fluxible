@@ -16,11 +16,11 @@ Take a look at some of the libraries that our community has built. Edit this pag
  
 ## Data Services
 
- * [fluxible-plugin-fetchr](https://github.com/yahoo/fluxible-plugin-fetchr) - Isomorphic data fetching services.
+ * [fluxible-plugin-fetchr](https://github.com/yahoo/fluxible/blob/master/packages/fluxible-plugin-fetchr) - Isomorphic data fetching services.
  
 ## Routing
 
- * [fluxible-router](https://github.com/yahoo/fluxible-router) - Flux-based routing using Fluxible.
+ * [fluxible-router](https://github.com/yahoo/blob/master/packages/fluxible-router) - Flux-based routing using Fluxible.
  * [react-router](https://github.com/rackt/react-router) - React-centric routing.
 
 ## Actions

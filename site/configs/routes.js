@@ -216,8 +216,8 @@ export default {
         path: '/extensions/data-services.html',
         method: 'GET',
         handler: Docs,
-        githubPath: '/README.md',
-        githubRepo: 'yahoo/fluxible-plugin-fetchr',
+        githubPath: '/packages/fluxible-plugin-fetchr/README.md',
+        githubRepo: 'yahoo/fluxible',
         action: showDoc,
         pageTitlePrefix: 'Data Services',
         pageDescription: 'Services are where you define your CRUD operations for a' +
@@ -227,8 +227,8 @@ export default {
         path: '/extensions/routing.html',
         method: 'GET',
         handler: Docs,
-        githubPath: '/README.md',
-        githubRepo: 'yahoo/fluxible-router',
+        githubPath: '/packages/fluxible-router/README.md',
+        githubRepo: 'yahoo/fluxible',
         action: showDoc,
         pageTitlePrefix: 'Routing',
         pageDescription: 'Routing in the Flux flow'

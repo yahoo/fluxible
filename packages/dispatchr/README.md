@@ -1,16 +1,12 @@
 # Dispatchr 
 
 [![npm version](https://badge.fury.io/js/dispatchr.svg)](http://badge.fury.io/js/dispatchr)
-[![Build Status](https://travis-ci.org/yahoo/dispatchr.svg?branch=master)](https://travis-ci.org/yahoo/dispatchr)
-[![Dependency Status](https://david-dm.org/yahoo/dispatchr.svg)](https://david-dm.org/yahoo/dispatchr)
-[![devDependency Status](https://david-dm.org/yahoo/dispatchr/dev-status.svg)](https://david-dm.org/yahoo/dispatchr#info=devDependencies)
-[![Coverage Status](https://coveralls.io/repos/yahoo/dispatchr/badge.png?branch=master)](https://coveralls.io/r/yahoo/dispatchr?branch=master)
 
-A [Flux](http://facebook.github.io/flux/docs/overview.html) dispatcher for applications that run on the server and the client.
+A [Flux][] dispatcher for applications that run on the server and the client.
 
 ## Usage
 
-For a more detailed example, see our [example application](https://github.com/yahoo/flux-example).
+For a more detailed example, see our [example applications](../../examples).
 
 ```js
 var ExampleStore = require('./stores/ExampleStore.js');
@@ -27,21 +23,37 @@ dispatcherContext.dispatch('NAVIGATE', {});
 
 ## Differences from [Facebook's Flux Dispatcher](https://github.com/facebook/flux/blob/master/src/Dispatcher.js)
 
-Dispatchr's main goal is to facilitate server-side rendering of Flux applications while also working on the client-side to encourage code reuse. In order to isolate stores between requests on the server-side, we have opted to instantiate the dispatcher and stores classes per request.
+Dispatchr's main goal is to facilitate server-side rendering of Flux 
+applications while also working on the client-side to encourage code reuse. In 
+order to isolate stores between requests on the server-side, we have opted to 
+instantiate the dispatcher and stores classes per request.
 
-In addition, action registration is done by stores as a unit rather than individual callbacks. This allows us to lazily instantiate stores as the events that they handle are dispatched. Since instantiation of stores is handled by the dispatcher, we can keep track of the stores that were used during a request and dehydrate their state to the client when the server has completed its execution.
+In addition, action registration is done by stores as a unit rather than 
+individual callbacks. This allows us to lazily instantiate stores as the events 
+that they handle are dispatched. Since instantiation of stores is handled by the 
+dispatcher, we can keep track of the stores that were used during a request and 
+dehydrate their state to the client when the server has completed its execution.
 
-Lastly, we are able to enforce the Flux flow by restricting access to the dispatcher from stores. Instead of stores directly requiring a singleton dispatcher, we pass a dispatcher interface to the constructor of the stores to provide access to only the functions that should be available to it: `waitFor` and `getStore`. This prevents the stores from dispatching an entirely new action, which should only be done by action creators to enforce the unidirectional flow that is Flux.
-
-
+Lastly, we are able to enforce the Flux flow by restricting access to the 
+dispatcher from stores. Instead of stores directly requiring a singleton 
+dispatcher, we pass a dispatcher interface to the constructor of the stores to 
+provide access to only the functions that should be available to it: `waitFor` 
+and `getStore`. This prevents the stores from dispatching an entirely new 
+action, which should only be done by action creators to enforce the 
+unidirectional flow that is Flux.
 
 ## Helper Utilities
 
-These utilities make creating stores less verbose and provide some `change` related functions that are common amongst all store implementations. These store helpers also implement a basic `shouldDehydrate` function that returns true if `emitChange` has been called by the store and false otherwise.
+These utilities make creating stores less verbose and provide some `change` 
+related functions that are common amongst all store implementations. These 
+store helpers also implement a basic `shouldDehydrate` function that returns 
+true if `emitChange` has been called by the store and false otherwise.
 
 ### BaseStore
 
-`require('dispatchr/addons/BaseStore')` provides a base store class for extending. Provides `getContext`, `emitChange`, `addChangeListener`, and `removeChangeListener` functions. Example:
+`require('dispatchr/addons/BaseStore')` provides a base store class for 
+extending. Provides `getContext`, `emitChange`, `addChangeListener`, and 
+`removeChangeListener` functions. Example:
 
 ```js
 var inherits = require('inherits');
@@ -61,7 +73,9 @@ module.exports = MyStore;
 
 ### createStore
 
-`require('dispatchr/addons/createStore')` provides a helper function for creating stores similar to React's `createClass` function. The created store class will extend BaseStore and have the same built-in functions. Example:
+`require('dispatchr/addons/createStore')` provides a helper function for 
+creating stores similar to React's `createClass` function. The created store 
+class will extend BaseStore and have the same built-in functions. Example:
 
 ```js
 var createStore = require('dispatchr/addons/createStore');
@@ -79,8 +93,8 @@ module.exports = MyStore;
 
 ## APIs
 
-- [Dispatchr](https://github.com/yahoo/dispatchr/blob/master/docs/dispatchr.md)
-- [Store](https://github.com/yahoo/dispatchr/blob/master/docs/store.md)
+- [Dispatchr](https://github.com/yahoo/fluxible/blob/master/packages/dispatchr/docs/dispatchr.md)
+- [Store](https://github.com/yahoo/fluxible/blob/master/packages/dispatchr/docs/store.md)
 
 
 
@@ -89,4 +103,5 @@ module.exports = MyStore;
 This software is free to use under the Yahoo! Inc. BSD license.
 See the [LICENSE file][] for license text and copyright information.
 
-[LICENSE file]: https://github.com/yahoo/dispatchr/blob/master/LICENSE.md
+[LICENSE file]: https://github.com/yahoo/fluxible/blob/master/LICENSE.md
+[Flux]: http://facebook.github.io/flux/docs/overview.html

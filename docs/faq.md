@@ -43,7 +43,7 @@ Right now, it is not possible. This will require some thought on how to ensure t
 
 ### What does the error message "invalid csrf token" from Fetchr mean?
 
-This is caused by the csrf middleware. You need to make sure you pass the `csrf` token to the `createContext` method on the server. Check the server.js of [chat](https://github.com/yahoo/flux-examples/blob/master/chat/server.js#L37) or [todo](https://github.com/yahoo/flux-examples/blob/master/todo/server.js#L41) examples.
+This is caused by the csrf middleware. You need to make sure you pass the `csrf` token to the `createContext` method on the server. Check the server.js of [chat](https://github.com/yahoo/fluxible/blob/master/examples/chat/server.js#L37) or [todo](https://github.com/yahoo/fluxible/blob/master/examples/todo/server.js#L41) examples.
 
 
 

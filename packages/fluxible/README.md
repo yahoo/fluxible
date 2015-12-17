@@ -35,10 +35,10 @@ Join the #fluxible channel of the [Reactiflux](http://reactiflux.com) Discord co
 
 ## Extras
 
- * [Yeoman generator](https://github.com/yahoo/generator-fluxible)
- * [Example Applications](https://github.com/yahoo/flux-examples)
- * [Fluxible Routing](https://github.com/yahoo/fluxible-router)
- * [Isomorphic Data Services](https://github.com/yahoo/fluxible-plugin-fetchr)
+ * [Yeoman generator](https://github.com/yahoo/fluxible/blob/master/packages/generator-fluxible)
+ * [Example Applications](https://github.com/yahoo/fluxible/blob/master/examples)
+ * [Fluxible Routing](https://github.com/yahoo/fluxible/blob/master/packages/fluxible-router)
+ * [Isomorphic Data Services](https://github.com/yahoo/fluxible/blob/master/packages/fluxible-plugin-fetchr)
 
 ## Usage
 
