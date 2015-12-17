@@ -1,0 +1,18 @@
+{
+  "name": "flux-example-routing",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Example application",
+  "main": "server.js",
+  "author": "Michael Ridgway <mridgway@yahoo-inc.com>",
+  "scripts": {
+    "dev": "node webpack-dev-server.js & PORT=3001 nodemon server.js -e js,jsx",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "fluxible": "^0.5.0",
+    "fluxible-addons-react": "^0.1.6",
+    "react": "^0.13.0",
+    "react-router": "^0.13.1"
+  }
+}

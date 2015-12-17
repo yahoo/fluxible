@@ -15,6 +15,7 @@ const packages = fs.readdirSync(PACKAGES_PATH).filter((file) => {
     };
 }, {});
 packages['fluxible.io'] = path.resolve(PACKAGES_PATH, '..', 'site');
+packages['fluxible-examples'] = path.resolve(PACKAGES_PATH, '..', 'examples');
 
 const sharedDeps = [
     'react',
