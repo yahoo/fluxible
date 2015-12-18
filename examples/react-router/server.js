@@ -16,7 +16,6 @@ var createElement = require('fluxible-addons-react/createElementWithContext');
 var Router = require('react-router');
 
 var server = express();
-server.use(favicon(__dirname + '/../favicon.ico'));
 server.use('/public', express['static'](__dirname + '/build'));
 
 server.use(function (req, res, next) {

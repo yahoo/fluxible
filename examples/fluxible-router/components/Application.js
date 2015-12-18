@@ -32,7 +32,7 @@ class Application extends React.Component {
         document.title = newProps.ApplicationStore.pageTitle;
     }
     render() {
-        var Handler = this.props.currentRoute.get('handler');
+        var Handler = this.props.currentRoute.handler;
         //render content
         return (
             <div>

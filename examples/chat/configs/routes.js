@@ -13,7 +13,7 @@ module.exports = {
         path: '/thread/:id',
         method: 'get',
         action: function (context, payload, done) {
-            var threadID = payload.get('params').get('id');
+            var threadID = payload.params.id;
             context.executeAction(showChat, { threadID: threadID }, function() {
                 context.executeAction(openThread, { threadID: threadID }, function() {
                     done();

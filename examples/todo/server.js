@@ -19,7 +19,6 @@ var createElement = require('fluxible-addons-react/createElementWithContext');
 
 var server = express();
 server.set('state namespace', 'App');
-server.use(favicon(__dirname + '/../favicon.ico'));
 server.use('/public', express['static'](__dirname + '/build'));
 server.use('/assets', express['static'](__dirname + '/assets'));
 server.use(cookieParser());

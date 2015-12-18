@@ -24,7 +24,7 @@ export default {
         method: 'get',
         handler: require('../components/Page'),
         action: (context, payload, done) => {
-            var pageId = payload.get('params').get('id');
+            var pageId = payload.params.id;
             context.dispatch('LOAD_PAGE', { id: pageId });
             context.dispatch('UPDATE_PAGE_TITLE', { pageTitle: pageId + ' [Dynamic Page] | flux-examples | routing' });
             done();

@@ -19,7 +19,6 @@ import {createElementWithContext} from 'fluxible-addons-react';
 const debug = debugLib('Example');
 const server = express();
 
-server.use(favicon(__dirname + '/../favicon.ico'));
 server.use('/public', express['static'](__dirname + '/build'));
 server.use((req, res, next) => {
     const context = app.createContext();
