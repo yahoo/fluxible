@@ -20,6 +20,8 @@ Alternatively, for a fully featured application you can check out the
 
 * https://github.com/yahoo/fluxible/tree/master/site
 
+Want more examples? Check out our [community reference applications](https://github.com/yahoo/fluxible/blob/master/docs/community/reference-applications.md).
+
 
 Usage
 -----
