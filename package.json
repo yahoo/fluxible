@@ -10,7 +10,7 @@
   "scripts": {
     "test": "mocha {**,**/**}/tests/unit/ --recursive --compilers js:babel/register --reporter spec",
     "cover": "istanbul cover --dir artifacts -- _mocha {**,**/**}/tests/unit/ --recursive --compilers js:babel/register --reporter spec",
-    "lint": "eslint *.js",
+    "lint": "eslint .",
     "postinstall": "gulp install",
     "preversion": "echo \"Error: version should be called using gulp\" && exit 1"
   },

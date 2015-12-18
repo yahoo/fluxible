@@ -1,5 +1,5 @@
 /*globals describe,it */
-"use strict";
+'use strict';
 
 var expect = require('chai').expect;
 var BaseStore = require('../../../addons/BaseStore');
@@ -8,10 +8,10 @@ var contextMock = {
     dimensions: {}
 };
 var dispatcherMock = {
-        getContext: function () {
-            return contextMock;
-        }
-    };
+    getContext: function () {
+        return contextMock;
+    }
+};
 
 describe('BaseStore', function () {
     it('instantiates correctly', function () {

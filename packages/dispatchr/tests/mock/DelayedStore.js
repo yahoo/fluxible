@@ -24,7 +24,7 @@ module.exports = createStore({
     delay: function (payload) {
         this.called = true;
         this.state.page = 'delay';
-        this.state.final = true;
+        this.state['final'] = true;
         this.emitChange();
     },
     getState: function () {

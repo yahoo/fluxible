@@ -1,5 +1,5 @@
 /*globals describe,it,beforeEach */
-"use strict";
+'use strict';
 
 var path = require('path');
 var expect = require('chai').expect;
@@ -91,7 +91,7 @@ describe('Fluxible', function () {
         it('should throw if the plugin does not have a name', function () {
             expect(function () {
                 app.plug({});
-            }).to.throw();
+            }).to['throw']();
         });
         it('should not throw when plugContext does not return an object', function () {
             expect(function () {
@@ -100,7 +100,7 @@ describe('Fluxible', function () {
                     plugContext: function () {}
                 });
                 context = app.createContext();
-            }).not.to.throw();
+            }).not.to['throw']();
         });
         it('should provide access to the plugin instance', function () {
             expect(app.getPlugin(pluginInstance.name)).to.equal(pluginInstance);
