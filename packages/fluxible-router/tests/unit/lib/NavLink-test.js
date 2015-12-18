@@ -92,7 +92,7 @@ describe('NavLink', function () {
                         <NavLink navParams={navParams} />
                     </MockAppComponent>
                 );
-            }).to.throw();
+            }).to['throw']();
         });
         it('should set active state if href matches current route', function () {
             var navParams = {a: 1, b: 2};
@@ -313,7 +313,7 @@ describe('NavLink', function () {
                 } catch (e) {
                     throw e;
                 }
-            }).to.throw();
+            }).to['throw']();
         });
 
         describe('click type', function () {

@@ -1,5 +1,5 @@
 /*globals describe,it*/
-"use strict";
+'use strict';
 
 var expect = require('chai').expect,
     createStore = require('../../../addons/createStore');
@@ -84,6 +84,6 @@ describe('createStore', function () {
                 },
                 test: function() {}
             });
-        }).to.throw(Error);
+        }).to['throw'](Error);
     });
 });

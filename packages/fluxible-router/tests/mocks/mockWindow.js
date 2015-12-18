@@ -40,7 +40,7 @@ module.exports = function mockWindow(testResult) {
             history: {
                 pushState: function (state, title, url) {
                     if (arguments.length < 3) {
-                        throw new TypeError("Not enough arguments to History.pushState.");
+                        throw new TypeError('Not enough arguments to History.pushState.');
                     }
                     testResult.pushState = {
                         state: state,
@@ -50,7 +50,7 @@ module.exports = function mockWindow(testResult) {
                 },
                 replaceState: function (state, title, url) {
                     if (arguments.length < 3) {
-                        throw new TypeError("Not enough arguments to History.replaceState.");
+                        throw new TypeError('Not enough arguments to History.replaceState.');
                     }
                     testResult.pushState = {
                         state: state,

@@ -78,7 +78,7 @@ describe('createMockActionContext', function () {
 
                 context.executeAction(mockActionFailure, mockPayload).then(function() {
                     done(new Error('should not have resolved successfully'));
-                }).catch(function (error) {
+                })['catch'](function (error) {
                     expect(error).to.be.an('Error');
                     done();
                 });

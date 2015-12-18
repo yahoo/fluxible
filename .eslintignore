@@ -1,0 +1,6 @@
+artifacts
+build
+node_modules
+**/artifacts
+**/build
+**/node_modules

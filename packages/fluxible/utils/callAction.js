@@ -13,32 +13,32 @@ var isPromise = require('is-promise');
  * otherwise, Promise invocation.
  */
 function callAction (action, context, payload, done) {
-  if (typeof action !== 'function') {
-    throw new Error('An action need to be a function');
-  }
-
-  if (done) {
-    return action(context, payload, done);
-  }
-
-  return new Promise(function (resolve, reject) {
-    try {
-      var syncResult = action(context, payload, function (err, result) {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(result);
-        }
-      });
-      if (isPromise(syncResult)) {
-        syncResult.then(resolve, reject);
-      } else if (action.length < 3) {
-        resolve(syncResult);
-      }
-    } catch (e) {
-      reject(e);
+    if (typeof action !== 'function') {
+        throw new Error('An action need to be a function');
     }
-  });
+
+    if (done) {
+        return action(context, payload, done);
+    }
+
+    return new Promise(function (resolve, reject) {
+        try {
+            var syncResult = action(context, payload, function (err, result) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+            if (isPromise(syncResult)) {
+                syncResult.then(resolve, reject);
+            } else if (action.length < 3) {
+                resolve(syncResult);
+            }
+        } catch (e) {
+            reject(e);
+        }
+    });
 }
 
 module.exports = callAction;

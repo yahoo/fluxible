@@ -43,7 +43,7 @@ describe('Dispatchr', function () {
             NewStore.storeName = 'Store';
             expect(function () {
                 dispatcher.registerStore(NewStore);
-            }).to.throw(Error);
+            }).to['throw'](Error);
         });
 
         it('should not throw if store is registered twice (should silently do nothing)', function () {
@@ -55,7 +55,7 @@ describe('Dispatchr', function () {
         it('should throw if store is not a constructor', function () {
             expect(function () {
                 dispatcher.registerStore('store');
-            }).to.throw(Error);
+            }).to['throw'](Error);
         });
 
         it('should warn if registering store that relies on name property', function () {
@@ -108,7 +108,7 @@ describe('Dispatchr', function () {
 
             expect(function () {
                 dispatcherContext.getStore('Invalid');
-            }).to.throw(Error);
+            }).to['throw'](Error);
         });
     });
 
@@ -176,20 +176,20 @@ describe('Dispatchr', function () {
                 dispatcherContext = dispatcher.createContext(context);
             expect(function () {
                 dispatcherContext.dispatch('ERROR', {});
-            }).to.throw();
+            }).to['throw']();
             // Should still allow calling another dispatch
             dispatcherContext.dispatch('DELAY', {});
         });
 
         it('should throw if a dispatch called with falsy actionName parameter', function () {
-          var context = {test: 'test'},
-              dispatcherContext = dispatcher.createContext(context);
+            var context = {test: 'test'},
+                dispatcherContext = dispatcher.createContext(context);
 
             expect(function () {
                 dispatcherContext.dispatch(undefined, {
                     dispatcher: dispatcherContext
                 });
-            }).to.throw();
+            }).to['throw']();
         });
 
         it('should throw if a dispatch called within dispatch', function () {
@@ -200,7 +200,7 @@ describe('Dispatchr', function () {
                 dispatcherContext.dispatch('DISPATCH', {
                     dispatcher: dispatcherContext
                 });
-            }).to.throw();
+            }).to['throw']();
         });
     });
 

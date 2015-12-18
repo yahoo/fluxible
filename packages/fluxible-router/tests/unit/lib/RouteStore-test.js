@@ -115,8 +115,8 @@ describe('RouteStore', function () {
                 method: 'get'
             },
             bar: {
-              path: '/bar',
-              method: 'post'
+                path: '/bar',
+                method: 'post'
             }
         };
         beforeEach(function () {

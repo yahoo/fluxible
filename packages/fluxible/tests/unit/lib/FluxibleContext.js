@@ -54,7 +54,7 @@ describe('FluxibleContext', function () {
         });
         describe('#executeAction', function () {
             it('should return a promise', function (done) {
-                var promise = actionContext.executeAction(function () {}, {}).catch(done);
+                var promise = actionContext.executeAction(function () {}, {})['catch'](done);
                 expect(isPromise(promise)).to.equal(true);
                 done();
             });
@@ -67,7 +67,7 @@ describe('FluxibleContext', function () {
                 .then(function (result) {
                     expect(result).to.be.an('object');
                     done();
-                }).catch(done);
+                })['catch'](done);
             });
 
             it('should execute the action', function (done) {
@@ -241,7 +241,7 @@ describe('FluxibleContext', function () {
                     callback(err);
                 };
                 actionContext.executeAction(action, {})
-                .catch(function (callbackError) {
+                ['catch'](function (callbackError) {
                     expect(callbackError).to.equal(err);
                     done();
                 });
@@ -256,7 +256,7 @@ describe('FluxibleContext', function () {
                 .then(function (promiseResult) {
                     expect(promiseResult).to.equal(promiseResult);
                     done();
-                }).catch(done);
+                })['catch'](done);
             });
 
             it('should wait for returned promise', function (done) {
@@ -265,14 +265,14 @@ describe('FluxibleContext', function () {
                         setTimeout(function () {
                             resolve(payload);
                         }, 0);
-                    }).catch(done);
+                    })['catch'](done);
                 };
                 var payload = {};
                 actionContext.executeAction(action, payload)
                 .then(function (result) {
                     expect(result).to.equal(payload);
                     done();
-                }).catch(done);
+                })['catch'](done);
             });
 
             it('should resolve promise with returned non-promise value', function (done) {
@@ -284,7 +284,7 @@ describe('FluxibleContext', function () {
                 .then(function (promiseResult) {
                     expect(promiseResult).to.equal(payload);
                     done();
-                }).catch(done);
+                })['catch'](done);
             });
 
             it('should reject promise with thrown error', function (done) {
@@ -298,16 +298,16 @@ describe('FluxibleContext', function () {
                 };
                 var payload = {};
                 actionContext.executeAction(action, payload)
-                .catch(function (actionError) {
-                        try {
-                            expect(actionError).to.equal(err);
-                            expect(actionCalls.length).to.equal(1);
-                            expect(actionCalls[0].context).to.contain.keys(Object.keys(actionContext));
-                            expect(actionCalls[0].payload).to.equal(payload);
-                            done();
-                        } catch (e) {
-                            done(e);
-                        }
+                ['catch'](function (actionError) {
+                    try {
+                        expect(actionError).to.equal(err);
+                        expect(actionCalls.length).to.equal(1);
+                        expect(actionCalls[0].context).to.contain.keys(Object.keys(actionContext));
+                        expect(actionCalls[0].payload).to.equal(payload);
+                        done();
+                    } catch (e) {
+                        done(e);
+                    }
                 });
             });
 
@@ -638,7 +638,7 @@ describe('FluxibleContext', function () {
         it('should throw if the plugin does not have a name', function () {
             expect(function () {
                 context.plug({});
-            }).to.throw();
+            }).to['throw']();
         });
         it('should add the getDimensions function to the action context', function () {
             var actionContext = context.getActionContext();
