@@ -6,6 +6,7 @@
 
 var React = require('react');
 var hoistNonReactStatics = require('hoist-non-react-statics');
+var inherits = require('inherits');
 
 function createComponent(Component, customContextTypes) {
     var componentName = Component.displayName || Component.name;
@@ -14,15 +15,19 @@ function createComponent(Component, customContextTypes) {
         getStore: React.PropTypes.func.isRequired
     }, customContextTypes || {});
 
-    var ContextProvider = React.createClass({
-        displayName: componentName + 'ContextProvider',
+    function ContextProvider(props, context) {
+        React.Component.apply(this, arguments);
+    }
 
-        propTypes: {
-            context: React.PropTypes.object.isRequired
-        },
+    inherits(ContextProvider, React.Component);
 
-        childContextTypes: childContextTypes,
+    ContextProvider.displayName = componentName + 'ContextProvider';
+    ContextProvider.propTypes = {
+        context: React.PropTypes.object.isRequired
+    };
+    ContextProvider.childContextTypes = childContextTypes;
 
+    Object.assign(ContextProvider.prototype, {
         getChildContext: function () {
             var childContext = {
                 executeAction: this.props.context.executeAction,

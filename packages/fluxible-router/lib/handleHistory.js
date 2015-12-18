@@ -15,6 +15,7 @@ var TYPE_REPLACESTATE = 'replacestate';
 var TYPE_POPSTATE = 'popstate';
 var TYPE_DEFAULT = 'default'; // default value if navigation type is missing, for programmatic navigation
 var hoistNonReactStatics = require('hoist-non-react-statics');
+var inherits = require('inherits');
 
 var defaultOptions = {
     checkRouteOnPageLoad: false,
@@ -43,29 +44,38 @@ var historyCreated = false;
 function createComponent(Component, opts) {
     var options = Object.assign({}, defaultOptions, opts);
 
-    var HistoryHandler = React.createClass({
-        displayName: 'HistoryHandler',
-        contextTypes: {
-            executeAction: React.PropTypes.func.isRequired
-        },
+    function HistoryHandler(props, context) {
+        React.Component.apply(this, arguments);
+    }
 
-        propTypes: {
-            currentRoute: React.PropTypes.object,
-            currentNavigate: React.PropTypes.object
-        },
+    inherits(HistoryHandler, React.Component);
 
-        getDefaultProps: function () {
-            return {
-                currentRoute: null,
-                currentNavigate: null
-            };
-        },
+    HistoryHandler.displayName = 'HistoryHandler';
+    HistoryHandler.contextTypes = {
+        executeAction: React.PropTypes.func.isRequired
+    };
+    HistoryHandler.propTypes = {
+        currentRoute: React.PropTypes.object,
+        currentNavigate: React.PropTypes.object
+    };
+    HistoryHandler.defaultProps = {
+        currentRoute: null,
+        currentNavigate: null
+    };
+
+    Object.assign(HistoryHandler.prototype, {
 
         componentDidMount: function () {
             if (historyCreated) {
                 throw new Error('Only one history handler should be on the ' +
                 'page at a time.');
             }
+
+            // Bind the event listeners
+            this._onHistoryChange = this.constructor.prototype._onHistoryChange.bind(this);
+            this._onScroll = this.constructor.prototype._onScroll.bind(this);
+            this._saveScrollPosition = this.constructor.prototype._saveScrollPosition.bind(this);
+
             this._history = options.historyCreator();
             this._scrollTimer = null;
 

@@ -7,20 +7,27 @@
 var React = require('react');
 var connectToStores = require('fluxible-addons-react/connectToStores');
 var hoistNonReactStatics = require('hoist-non-react-statics');
+var inherits = require('inherits');
 
 function createComponent(Component) {
-    var RouteHandler = React.createClass({
-        displayName: 'RouteHandler',
-        contextTypes: {
-            getStore: React.PropTypes.func.isRequired
-        },
-        propTypes: {
-            currentRoute: React.PropTypes.object,
-            currentNavigate: React.PropTypes.object,
-            currentNavigateError: React.PropTypes.object,
-            isNavigateComplete: React.PropTypes.bool
-        },
+    function RouteHandler(props, context) {
+        React.Component.apply(this, arguments);
+    }
 
+    inherits(RouteHandler, React.Component);
+
+    RouteHandler.displayName = 'RouteHandler';
+    RouteHandler.contextTypes = {
+        getStore: React.PropTypes.func.isRequired
+    };
+    RouteHandler.propTypes = {
+        currentRoute: React.PropTypes.object,
+        currentNavigate: React.PropTypes.object,
+        currentNavigateError: React.PropTypes.object,
+        isNavigateComplete: React.PropTypes.bool
+    };
+
+    Object.assign(RouteHandler.prototype, {
         render: function () {
             var routeStore = this.context.getStore('RouteStore');
 

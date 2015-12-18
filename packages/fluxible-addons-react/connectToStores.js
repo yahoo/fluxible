@@ -5,6 +5,7 @@
 'use strict';
 
 var React = require('react');
+var inherits = require('inherits');
 var hoistNonReactStatics = require('hoist-non-react-statics');
 
 function createComponent(Component, stores, getStateFromStores, customContextTypes) {
@@ -12,18 +13,29 @@ function createComponent(Component, stores, getStateFromStores, customContextTyp
     var componentContextTypes = Object.assign({
         getStore: React.PropTypes.func.isRequired
     }, customContextTypes);
-    var StoreConnector = React.createClass({
-        displayName: componentName + 'StoreConnector',
-        contextTypes: componentContextTypes,
-        getInitialState: function getInitialState() {
-            return this.getStateFromStores();
-        },
+
+    function StoreConnector(props, context) {
+        React.Component.apply(this, arguments);
+        this.state = this.getStateFromStores();
+        this._onStoreChange = null;
+        this._isMounted = false;
+    }
+
+    inherits(StoreConnector, React.Component);
+
+    StoreConnector.displayName = componentName + 'StoreConnector';
+    StoreConnector.contextTypes = componentContextTypes;
+
+    Object.assign(StoreConnector.prototype, {
         componentDidMount: function componentDidMount() {
+            this._isMounted = true;
+            this._onStoreChange = this.constructor.prototype._onStoreChange.bind(this);
             stores.forEach(function storesEach(Store) {
                 this.context.getStore(Store).addChangeListener(this._onStoreChange);
             }, this);
         },
         componentWillUnmount: function componentWillUnmount() {
+            this._isMounted = false;
             stores.forEach(function storesEach(Store) {
                 this.context.getStore(Store).removeChangeListener(this._onStoreChange);
             }, this);
@@ -36,7 +48,7 @@ function createComponent(Component, stores, getStateFromStores, customContextTyp
             return getStateFromStores(this.context, props);
         },
         _onStoreChange: function onStoreChange() {
-            if (this.isMounted()) {
+            if (this._isMounted) {
                 this.setState(this.getStateFromStores());
             }
         },
