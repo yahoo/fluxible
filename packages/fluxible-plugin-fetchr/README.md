@@ -42,7 +42,7 @@ Or if you need to do this from your application without direct access to the plu
 app.getPlugin('FetchrPlugin').registerService(yourService);
 ```
 
-For real examples, you can check out [the `server.js` file in our chat example](https://github.com/yahoo/fluxible/blob/master/examples/blob/master/chat/server.js).
+For real examples, you can check out [the `server.js` file in our chat example](https://github.com/yahoo/fluxible/blob/master/examples/chat/server.js).
 
 
 ### Exposing Your Services
@@ -57,7 +57,7 @@ server.use(bodyParser.json());
 server.use(pluginInstance.getXhrPath(), pluginInstance.getMiddleware());
 ```
 
-For real examples, you can check out [the `server.js` file in our chat example](https://github.com/yahoo/fluxible/blob/master/examples/blob/master/chat/server.js).
+For real examples, you can check out [the `server.js` file in our chat example](https://github.com/yahoo/fluxible/blob/master/examples/chat/server.js).
 
 
 ### Dynamic XHR Paths
