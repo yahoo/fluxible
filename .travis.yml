@@ -3,6 +3,7 @@ language: node_js
 node_js:
   - "0.10"
 env:
+  - TEST_DIR=/
   - TEST_DIR=packages/dispatchr
   - TEST_DIR=packages/fluxible
   - TEST_DIR=packages/fluxible-plugin-fetchr
