@@ -1,10 +1,10 @@
 # API: `Actions`
 
-Actions (called "action creators" in Flux) in Fluxible are stateless functions that receive three parameters:
+Actions (called "action creators" in Flux) in Fluxible are stateless asynchronous functions that receive three parameters:
 
  * [`actionContext`](#action-context) - Provides access to Flux methods
  * `payload` - The action payload
- * `done` - A function to be called when the action has been completed
+ * `done` (optional when using promises) - A function to be called when the action has been completed
 
 If the action does not return a promise and takes three parameters, executeAction will wait for the done callback:
 
