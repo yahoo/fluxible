@@ -6,7 +6,7 @@
   "main": "server.js",
   "author": "Michael Ridgway <mridgway@yahoo-inc.com>",
   "scripts": {
-    "dev": "node webpack-dev-server.js & PORT=3001 nodemon server.js -e js,jsx",
+    "dev": "node webpack-dev-server.js & PORT=3001 ../node_modules/.bin/nodemon server.js -e js,jsx",
     "start": "node server.js"
   },
   "dependencies": {
