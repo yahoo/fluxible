@@ -1,7 +1,6 @@
 /*global document, window */
 
 import ReactDOM from 'react-dom';
-import React from 'react';
 import debug from 'debug';
 import { createElementWithContext } from 'fluxible-addons-react';
 import app from './app';
