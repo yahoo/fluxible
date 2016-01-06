@@ -170,6 +170,58 @@ describe('RouteStore', function () {
                 expect(newStore._routes).to.deep.equal(routes);
             });
         });
+
+        describe('getRoute', function () {
+            it('should handle GET routes', function () {
+                var route;
+                var expected = {
+                    path: '/foo',
+                    method: 'get',
+                    name: 'foo',
+                    url: '/foo',
+                    params: {},
+                    navigate: undefined,
+                    query: {}
+                };
+
+                route = routeStore.getRoute('/foo');
+                expect(route).to.deep.equal(expected);
+
+                route = routeStore.getRoute('/foo?test=1', { method: 'GET' });
+                expected.query.test = '1';
+                expected.url = '/foo?test=1';
+                expect(route).to.deep.equal(expected);
+
+                route = routeStore.getRoute('/foo', { method: 'POST' });
+                expect(route).to.equal(null);
+            });
+            it('should handle POST routes', function () {
+                var route;
+                var expected = {
+                    path: '/bar',
+                    method: 'post',
+                    name: 'bar',
+                    url: '/bar',
+                    params: {},
+                    navigate: undefined,
+                    query: {}
+                };
+
+                route = routeStore.getRoute('/bar');
+                expect(route).to.equal(null);
+
+                route = routeStore.getRoute('/bar', { method: 'GET' });
+                expect(route).to.equal(null);
+
+                route = routeStore.getRoute('/bar', { method: 'POST' });
+                expect(route).to.deep.equal(expected);
+
+                route = routeStore.getRoute('/bar?test=1', { method: 'POST' });
+                expected.query.test = '1';
+                expected.url = '/bar?test=1';
+                expect(route).to.deep.equal(expected);
+            });
+        });
     });
 
 });
