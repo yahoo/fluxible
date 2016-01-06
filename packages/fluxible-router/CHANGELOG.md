@@ -1,5 +1,14 @@
 # Change Log
 
+## 0.4.3
+
+### Features
+
+ * [#348] Added getRoute(url, options) to RouteStore (kfay)
+
+## 0.4.2
+Deprecated, published package was corrupted
+
 ## 0.4.1
 
 ### Features
