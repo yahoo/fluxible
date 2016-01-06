@@ -120,6 +120,9 @@ var RouteStore = createStore({
     isNavigateComplete: function () {
         return this._isNavigateComplete;
     },
+    getRoute: function (url, options) {
+        return this._matchRoute(url, options);
+    },
     getRoutes: function () {
         return this._routes;
     },
