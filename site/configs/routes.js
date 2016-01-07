@@ -247,6 +247,16 @@ export default {
     },
 
     // Community
+    articles: {
+        path: '/community/articles.html',
+        method: 'GET',
+        handler: Docs,
+        githubPath: '/docs/community/articles.md',
+        githubRepo: 'yahoo/fluxible',
+        action: showDoc,
+        pageTitlePrefix: 'Community Articles',
+        pageDescription: 'Take a look at some of the articles that our community has written.'
+    },
     libraries: {
         path: '/community/libraries.html',
         method: 'GET',
