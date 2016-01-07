@@ -91,6 +91,10 @@ export default [
         category: 'Community',
         children: [
             {
+                label: 'Articles',
+                routeName: 'articles'
+            },
+            {
                 label: 'Libraries',
                 routeName: 'libraries'
             },
