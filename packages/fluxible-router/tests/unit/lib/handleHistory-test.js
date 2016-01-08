@@ -160,6 +160,7 @@ describe('handleHistory', function () {
                 });
                 it('handle pre-emptive popstate events', function (done) {
                     var MockAppComponent = mockCreator();
+                    window.history.pushState({fluxible: true}, 'foo', '/foo');
                     window.dispatchEvent({_type: 'popstate', state: {params: {a: 1}}});
                     window.dispatchEvent({_type: 'popstate', state: {params: {a: 2}}});
                     window.dispatchEvent({_type: 'popstate', state: {params: {a: 3}}});
