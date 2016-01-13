@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.4.4
+
+### Bug Fix
+
+ * [#354] currentRoute is no longer immutable (gingur)
+
 ## 0.4.3
 
 ### Features
