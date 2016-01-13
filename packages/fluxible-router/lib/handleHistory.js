@@ -111,6 +111,13 @@ function createComponent(Component, opts) {
                     this._onHistoryChange.apply(this, lastPendingPopstateEvent);
                     lastPendingPopstateEvent = null;
                 }
+                else {
+                    this._history.replaceState(
+                        this._history.getState(),
+                        window.document.title,
+                        this._history.getUrl()
+                    );
+                }
             }
 
             window.addEventListener('scroll', this._onScroll);
@@ -122,6 +129,10 @@ function createComponent(Component, opts) {
             this._scrollTimer = window.setTimeout(this._saveScrollPosition, 150);
         },
         _onHistoryChange: function (e) {
+            if (!(e.state && e.state.fluxible)) {
+                // Not a fluxible state
+                return;
+            }
             var props = this.props;
             var url = this._history.getUrl();
             var currentRouteMap = props.currentRoute || {};

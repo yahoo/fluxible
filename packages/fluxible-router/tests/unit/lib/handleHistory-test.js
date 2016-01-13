@@ -151,7 +151,7 @@ describe('handleHistory', function () {
                     ReactTestUtils.renderIntoDocument(
                         <MockAppComponent context={mockContext} />
                     );
-                    window.dispatchEvent({_type: 'popstate', state: {params: {a: 1}}});
+                    window.dispatchEvent({_type: 'popstate', state: {fluxible: true, params: {a: 1}}});
                     expect(mockContext.executeActionCalls.length).to.equal(1);
                     expect(mockContext.executeActionCalls[0].action).to.be.a('function');
                     expect(mockContext.executeActionCalls[0].payload.type).to.equal('popstate');
@@ -173,6 +173,33 @@ describe('handleHistory', function () {
                         expect(mockContext.executeActionCalls[0].payload.url).to.equal(window.location.pathname);
                         expect(mockContext.executeActionCalls[0].payload.params).to.deep.equal({a: 3});
                         done();
+                    }, 10);
+                });
+                it('ignores non-fluxible pre-emptive popstate events', function(done) {
+                    var MockAppComponent = mockCreator();
+                    window.dispatchEvent({_type: 'popstate', state: {params: {a: 1}}});
+                    window.dispatchEvent({_type: 'popstate', state: {fluxible: false, params: {a: 2}}});
+                    setTimeout(function () {
+                        ReactTestUtils.renderIntoDocument(
+                            <MockAppComponent context={mockContext} />
+                        );
+                        expect(mockContext.executeActionCalls.length).to.equal(0);
+                        done();
+                    }, 10);
+                });
+                it('replaces state of page on initial page load', function(done) {
+                    var MockAppComponent = mockCreator({
+                        historyCreator: function () {
+                            return historyMock('/foo', {fluxible: true});
+                        }
+                    });
+                    ReactTestUtils.renderIntoDocument(
+                        <MockAppComponent context={mockContext} />
+                    );
+                    window.setTimeout(function () {
+                        expect(testResult.replaceState).to.eql({state: {fluxible: true}, title: '', url: '/foo'});
+                        done();
+
                     }, 10);
                 });
                 it('listen to scroll event', function (done) {
