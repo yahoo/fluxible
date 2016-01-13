@@ -88,7 +88,7 @@ function createComponent(Component, opts) {
                 //   for the route represented by the hash fragment.
 
                 var urlFromHistory = this._history.getUrl();
-                var urlFromState = this.props.currentRoute && this.props.currentRoute.get('url');
+                var urlFromState = this.props.currentRoute && this.props.currentRoute.url;
 
                 if ((urlFromHistory !== urlFromState)) {
                     debug('pageload navigate to actual route', urlFromHistory, urlFromState);
