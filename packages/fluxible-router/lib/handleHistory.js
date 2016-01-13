@@ -88,7 +88,7 @@ function createComponent(Component, opts) {
                 //   for the route represented by the hash fragment.
 
                 var urlFromHistory = this._history.getUrl();
-                var urlFromState = this.props.currentRoute && this.props.currentRoute.get('url');
+                var urlFromState = this.props.currentRoute && this.props.currentRoute.url;
 
                 if ((urlFromHistory !== urlFromState)) {
                     debug('pageload navigate to actual route', urlFromHistory, urlFromState);
@@ -121,14 +121,28 @@ function createComponent(Component, opts) {
         _onHistoryChange: function (e) {
             var props = this.props;
             var url = this._history.getUrl();
-            var currentRouteMap = props.currentRoute || {};
-            var currentUrl = currentRouteMap.url;
+            var currentRoute = props.currentRoute || {};
+            var nav = props.currentNavigate || {};
+
+            // Add currentNavigate.externalUrl checking for https://github.com/yahoo/fluxible/issues/349:
+            // "Safari popstate issue causing handleHistory.js to execute the navigateAction on page load".
+            // This needs app to dispatch "externalUrl" as part of the payload for the NAVIGATE_START event
+            // on server side, which contains the absolute url user sees in browser when the request is made.
+            // For client side navigation, "externalUrl" field is not needed and is not set by fluxible-router.
+            var externalUrl = nav.externalUrl;
+            if (externalUrl && externalUrl === window.location.href.split('#')[0]) {
+                // this is the initial page load, omit the popstate event erroneously fired by Safari browsers.
+                return;
+            }
+
+            var currentUrl = currentRoute.url;
+
             var onBeforeUnloadText = typeof window.onbeforeunload === 'function' ? window.onbeforeunload() : '';
             var confirmResult = onBeforeUnloadText ? window.confirm(onBeforeUnloadText) : true;
-            var nav = props.currentNavigate || {};
+
             var navParams = nav.params || {};
             var historyState = {
-                params: (nav.params || {}),
+                params: navParams,
                 scroll: {
                     x: window.scrollX,
                     y: window.scrollY
