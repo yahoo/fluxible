@@ -12,6 +12,7 @@ Releases can be done with the following commands:
 
 ```js
 gulp version -p <packageName> -v <patch|minor|major>
+manually update CHANGELOG.md in the <packageName>
 git push origin master
 git push origin <tag>
 gulp publish -p <packageName>
