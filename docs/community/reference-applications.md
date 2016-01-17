@@ -23,6 +23,7 @@ Want to add your application? Click edit above and open a PR!
 - [Porch](https://porch.com/) is the home network, helping homeowners make informed decisions on home improvements and in selecting the right home professionals.
 - [ShaderFrog](http://shaderfrog.com) is a WebGL, Three.js, Fluxible browser-based shader editor that can export GLSL shaders to multiple targets.
 - [SVT Sport](http://www.svt.se/sport/) is a isomorphic site providing sports coverage for Swedish Television.
+- [Vanity Fair](http://www.vanityfair.com/) is a magazine of popular culture, fashion, and current affairs published by Condé Nast.
 - [Yahoo Beauty](https://www.yahoo.com/beauty) is Yahoo's first digital magazine on Fluxible.
   - International Magazines:
     - [https://uk.style.yahoo.com/](https://uk.style.yahoo.com/)
