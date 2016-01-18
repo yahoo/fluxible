@@ -1,7 +1,7 @@
 Software License Agreement (BSD License)
 ========================================
 
-Copyright (c) 2015, Yahoo Inc. All rights reserved.
+Copyright (c) 2014-2016, Yahoo Inc. All rights reserved.
 ----------------------------------------------------
 
 Redistribution and use of this software in source and binary forms, with or
