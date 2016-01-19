@@ -185,7 +185,7 @@ var FluxibleMixin = {
             throw new Error('storeListener mixin called listen when component wasn\'t mounted.');
         }
 
-        listener.store.addChangeListener(listener.handler);
+        listener.store.on('change', listener.handler);
         this._fluxible_listeners.push(listener);
     },
 
@@ -196,7 +196,7 @@ var FluxibleMixin = {
     componentWillUnmount: function componentWillUnmount() {
         if (Array.isArray(this._fluxible_listeners)) {
             this._fluxible_listeners.forEach(function (listener) {
-                listener.store.removeChangeListener(listener.handler);
+                listener.store.removeListener('change', listener.handler);
             });
         }
         this._fluxible_listeners = [];

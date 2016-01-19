@@ -31,13 +31,13 @@ function createComponent(Component, stores, getStateFromStores, customContextTyp
             this._isMounted = true;
             this._onStoreChange = this.constructor.prototype._onStoreChange.bind(this);
             stores.forEach(function storesEach(Store) {
-                this.context.getStore(Store).addChangeListener(this._onStoreChange);
+                this.context.getStore(Store).on('change', this._onStoreChange);
             }, this);
         },
         componentWillUnmount: function componentWillUnmount() {
             this._isMounted = false;
             stores.forEach(function storesEach(Store) {
-                this.context.getStore(Store).removeChangeListener(this._onStoreChange);
+                this.context.getStore(Store).removeListener('change', this._onStoreChange);
             }, this);
         },
         componentWillReceiveProps: function componentWillReceiveProps(nextProps){
