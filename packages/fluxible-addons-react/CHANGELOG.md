@@ -1,5 +1,19 @@
 # Change Log
 
+## 0.2.3
+
+## Enhancements
+
+ * [#344] Convert createClass calls to React.Component classes where possible; Remove autobinding otherwise
+
+## Bug Fixes
+
+ * [#357] Consistently use the public API for `Store` in `connectToStores` and `FluxibleMixin`
+
+## 0.2.2
+
+This release was to fix a packaging issue in npm.
+
 ## 0.2.1
 
 ## Bug Fixes
