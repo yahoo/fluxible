@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.4.5
+
+### Features
+
+ * [#360] Allow navParams to be overwritten by overwriteSpec (snyamathi)
+
 ## 0.4.4
 
 ### Bug Fix
