@@ -6,6 +6,7 @@
 var React;
 var ReactDOM;
 var NavLink;
+var createNavLinkComponent;
 var ReactTestUtils;
 var jsdom = require('jsdom');
 var expect = require('chai').expect;
@@ -46,6 +47,7 @@ describe('NavLink', function () {
         });
         MockAppComponent = require('../../mocks/MockAppComponent');
         NavLink = require('../../../lib/NavLink');
+        createNavLinkComponent = require('../../../lib/createNavLinkComponent');
         testResult = {};
     });
 
@@ -157,6 +159,33 @@ describe('NavLink', function () {
                 expect(mockContext.executeActionCalls[0].payload.url).to.equal('/foo');
                 expect(mockContext.executeActionCalls[0].payload.preserveScrollPosition).to.equal(true);
                 expect(mockContext.executeActionCalls[0].payload.params).to.eql({a: 1, b: true});
+                done();
+            }, 10);
+        });
+        it ('should getNavParams from overwriteSpec if so configured', function (done) {
+            var navParams = {a: 1, b: true};
+            var params = {
+                href:'/foo',
+                preserveScrollPosition:true,
+                navParams: navParams
+            };
+            var navLink = React.createElement(createNavLinkComponent({
+                getNavParams: function () {
+                    return {a: 2, b: false};
+                }
+            }), params);
+            var link = ReactTestUtils.renderIntoDocument(
+                <MockAppComponent context={mockContext}>
+                    {navLink}
+                </MockAppComponent>
+            );
+            ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(link), {button: 0});
+            window.setTimeout(function () {
+                expect(mockContext.executeActionCalls[0].action).to.equal(navigateAction);
+                expect(mockContext.executeActionCalls[0].payload.type).to.equal('click');
+                expect(mockContext.executeActionCalls[0].payload.url).to.equal('/foo');
+                expect(mockContext.executeActionCalls[0].payload.preserveScrollPosition).to.equal(true);
+                expect(mockContext.executeActionCalls[0].payload.params).to.eql({a: 2, b: false});
                 done();
             }, 10);
         });

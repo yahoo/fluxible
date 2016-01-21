@@ -87,19 +87,24 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
             var href = props.href;
             var routeName = props.routeName;
             var routeStore = this.context.getStore(RouteStore);
+            var navParams = this.getNavParams(props);
             if (!href && routeName) {
-                href = routeStore.makePath(routeName, props.navParams);
+                href = routeStore.makePath(routeName, navParams);
             }
             if (!href) {
                 throw new Error('NavLink created without href or unresolvable ' +
                     'routeName \'' + routeName + '\' with params ' +
-                    JSON.stringify(props.navParams));
+                    JSON.stringify(navParams));
             }
             return href;
         },
+        getNavParams: function (props) {
+            return props.navParams;
+        },
         dispatchNavAction: function (e) {
+            var navParams = this.getNavParams(this.props);
             var navType = this.props.replaceState ? 'replacestate' : 'click';
-            debug('dispatchNavAction: action=NAVIGATE', this.props.href, this.props.followLink, this.props.navParams);
+            debug('dispatchNavAction: action=NAVIGATE', this.props.href, this.props.followLink, navParams);
 
             if (this.props.followLink) {
                 return;
@@ -150,7 +155,7 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
                     type: navType,
                     url: href,
                     preserveScrollPosition: this.props.preserveScrollPosition,
-                    params: this.props.navParams
+                    params: navParams
                 });
             }
         },
