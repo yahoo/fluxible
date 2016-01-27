@@ -80,8 +80,9 @@ class ExampleStore {
 }
 ```
 
-It is also recommended to extend an event emitter so that your store can emit 
-`change` events to the components.
+### Notifying clients of changes and subscribing to a store
+
+A fluxible store must implement the `EventEmitter` interface and use it to `.emit('change')` whenever the store contents change. Clients can subscribe to updates to the store by adding a listener using `on('change', handler)`.
 
 ```js
 class ExampleStore extends EventEmitter {
