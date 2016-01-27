@@ -7,7 +7,9 @@ import Nav from './Nav';
 import Timestamp from './Timestamp';
 import ApplicationStore from '../stores/ApplicationStore';
 import {connectToStores, provideContext} from 'fluxible-addons-react';
-import {RouteHandler} from 'react-router';
+import {RouteHandler, Router} from 'react-router';
+import routes from './Routes';
+import createBrowserHistory from 'history/lib/createBrowserHistory';
 
 @provideContext
 class Application extends React.Component {
@@ -32,3 +34,7 @@ class Application extends React.Component {
 }
 
 export default Application;
+
+if(typeof document !== 'undefined') {
+  render(<Router routes={routes} history={createBrowserHistory()}/>, document.getElementById('app'));
+}
