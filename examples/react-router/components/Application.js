@@ -11,7 +11,6 @@ import {RouteHandler, Router} from 'react-router';
 import routes from './Routes';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 
-@provideContext
 class Application extends React.Component {
 
     static contextTypes = {
@@ -26,7 +25,7 @@ class Application extends React.Component {
         return (
             <div>
                 <Nav />
-                <RouteHandler />
+                {this.props.children}
                 <Timestamp />
             </div>
         );
@@ -34,7 +33,3 @@ class Application extends React.Component {
 }
 
 export default Application;
-
-if(typeof document !== 'undefined') {
-  render(<Router routes={routes} history={createBrowserHistory()}/>, document.getElementById('app'));
-}

@@ -17,9 +17,9 @@ class HtmlComponent extends React.Component {
                 </head>
                 <body>
                     <div id="app" dangerouslySetInnerHTML={{__html: this.props.markup}}></div>
+                    <script dangerouslySetInnerHTML={{__html: this.props.state}}></script>
+                    <script src="/public/js/client.js" defer></script>
                 </body>
-                <script dangerouslySetInnerHTML={{__html: this.props.state}}></script>
-                <script src="/public/js/client.js" defer></script>
             </html>
         )
     }
