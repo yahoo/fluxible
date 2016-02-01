@@ -5,8 +5,9 @@
 Creates a new `fetchr` plugin instance with the following parameters:
 
  * `options`: An object containing the plugin settings
- * `options.xhrPath` (optional): Stores your xhr path prefix used by client side requests. DEFAULT: '/api'
  * `options.corsPath` (optional): Base CORS path in case CORS is enabled
+ * `options.xhrPath='/api'` (optional): Stores your xhr path prefix used by client side requests.
+ * `options.xhrTimeout=3000` (optional): Timeout in milliseconds for all XHR requests (can be overridden per request).
 
 ## Instance Methods
 
