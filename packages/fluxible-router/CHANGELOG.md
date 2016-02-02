@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.4.6
+
+### Bug Fix
+
+ * [#367] Always set _currentNavigate regardless if the routes match (gfranko)
+
 ## 0.4.5
 
 ### Features
