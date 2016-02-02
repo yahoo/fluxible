@@ -1,6 +1,6 @@
 {
   "name": "fluxible-router",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "Routing for Fluxible applications",
   "main": "index.js",
   "repository": {
