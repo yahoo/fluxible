@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.4.7
+
+### Bug Fix
+
+ * [#368] Always update currentRoute regardless if the routes match (kaesonho)
+
 ## 0.4.6
 
 ### Bug Fix
