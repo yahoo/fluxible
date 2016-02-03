@@ -8,6 +8,10 @@ var StaticRouteStore = RouteStore.withStaticRoutes({
     foo: {
         path: '/foo',
         method: 'get'
+    },
+    bar : {
+        path: '/bar',
+        method: 'get'
     }
 });
 
@@ -104,6 +108,22 @@ describe('RouteStore', function () {
                 message: 'Url /unknown does not match any routes'
             });
             expect(routeStore.isNavigateComplete()).to.equal(true);
+        });
+        it('should update transactionId', function () {
+            routeStore._handleNavigateStart({
+                transactionId: 'second',
+                url: '/bar',
+                method: 'get'
+            });
+            expect(routeStore.getCurrentRoute().navigate.transactionId).to.equal('second');
+        });
+        it('should update transactionId with same url navigation', function () {
+            routeStore._handleNavigateStart({
+                transactionId: 'second',
+                url: '/foo',
+                method: 'get'
+            });
+            expect(routeStore.getCurrentRoute().navigate.transactionId).to.equal('second');
         });
     });
 

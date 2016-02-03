@@ -33,10 +33,7 @@ var RouteStore = createStore({
             method: navigate.method
         });
 
-        if (!this._areEqual(matchedRoute, this._currentRoute)) {
-            this._currentRoute = matchedRoute;
-        }
-
+        this._currentRoute = matchedRoute;
         this._currentNavigate = navigate;
         this._currentNavigateError = null;
         this._isNavigateComplete = false;
