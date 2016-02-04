@@ -1,8 +1,8 @@
 # FluxibleMixin
 
 ***FluxibleMixin will be deprecated since React mixin support will eventually
-be removed. It is highly recommended to use [provideContext](provideContext.md)
-instead.***
+be removed. It is highly recommended to use [provideContext](provideContext.md) 
+and [connectToStores](connectToStores.md) instead.***
 
 ```js
 var FluxibleMixin = require('fluxible-addons-react/FluxibleMixin');
