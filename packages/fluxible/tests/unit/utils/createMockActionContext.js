@@ -84,12 +84,16 @@ describe('createMockActionContext', function () {
                 });
             });
 
-            it('should execute the action and infer to NOT return a Promise', function () {
+            it('should execute the action and return a Promise', function (done) {
                 var returnValue = 'mock';
-                var result = context.executeAction(mockAction, mockPayload, cbResult(function () {
-                    return returnValue;
-                }));
-                expect(result).to.equal(returnValue);
+                var result = context.executeAction(function (context, payload, fn) {
+                    fn(null, returnValue);
+                }, mockPayload);
+                expect(result.then).to.be.a('function');
+                result.then(function (r) {
+                    expect(r).to.equal(returnValue);
+                    done();
+                })['catch'](done);
             });
         });
 

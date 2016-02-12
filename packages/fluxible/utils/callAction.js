@@ -12,33 +12,40 @@ var isPromise = require('is-promise');
  * If done callback supplied, that indicates non-Promise invocation expectation,
  * otherwise, Promise invocation.
  */
-function callAction (action, context, payload, done) {
-    if (typeof action !== 'function') {
-        throw new Error('An action need to be a function');
-    }
+function callAction (actionContext, action, payload, done) {
+    var executeActionPromise = new Promise(function (resolve, reject) {
+        setImmediate(function () {
+            try {
+                var syncResult = action(actionContext, payload, function (err, result) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(result);
+                    }
+                });
+                if (isPromise(syncResult)) {
+                    syncResult.then(resolve, reject);
+                } else if (action.length < 3) {
+                    resolve(syncResult);
+                }
+            } catch (e) {
+                reject(e);
+            }
+        });
+    });
 
     if (done) {
-        return action(context, payload, done);
+        executeActionPromise
+            .then(function(result) {
+                // Ensures that errors in callback are not swallowed by promise
+                setImmediate(done, null, result);
+            }, function (err) {
+                // Ensures that errors in callback are not swallowed by promise
+                setImmediate(done, err);
+            });
     }
 
-    return new Promise(function (resolve, reject) {
-        try {
-            var syncResult = action(context, payload, function (err, result) {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(result);
-                }
-            });
-            if (isPromise(syncResult)) {
-                syncResult.then(resolve, reject);
-            } else if (action.length < 3) {
-                resolve(syncResult);
-            }
-        } catch (e) {
-            reject(e);
-        }
-    });
+    return executeActionPromise;
 }
 
 module.exports = callAction;
