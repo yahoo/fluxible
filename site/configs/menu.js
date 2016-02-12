@@ -65,6 +65,10 @@ export default [
                 routeName: 'createStore'
             },
             {
+                label: 'createReducerStore',
+                routeName: 'createReducerStore'
+            },
+            {
                 label: 'provideContext',
                 routeName: 'provideContext'
             },

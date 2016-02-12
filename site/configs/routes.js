@@ -189,6 +189,16 @@ export default {
         pageDescription: 'A helper method similar to React.createClass but for creating stores that' +
             ' extend BaseStore. Also supports mixins.'
     },
+    createReducerStore: {
+        path: '/addons/createReducerStore.html',
+        method: 'GET',
+        handler: Docs,
+        githubPath: '/packages/fluxible-reducer-store/docs/api/createReducerStore.md',
+        githubRepo: 'yahoo/fluxible',
+        action: showDoc,
+        pageTitlePrefix: 'API: addons/createReducerStore',
+        pageDescription: 'A helper method for creating reducer stores for Fluxible.'
+    },
     provideContext: {
         path: '/addons/provideContext.html',
         method: 'GET',
