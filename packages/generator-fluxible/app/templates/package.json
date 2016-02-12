@@ -22,7 +22,7 @@
     "fluxible": "^1.0.0",
     "fluxible-addons-react": "^0.2.0",
     "fluxible-plugin-fetchr": "^0.3.0",
-    "fluxible-router": "^0.3.0",
+    "fluxible-router": "^0.4.0",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
     "serialize-javascript": "^1.0.0",
