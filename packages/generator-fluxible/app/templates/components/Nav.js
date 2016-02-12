@@ -10,7 +10,7 @@ class Nav extends React.Component {
             var className = '';
             var link = links[name];
 
-            if (selected && selected.get('name') === name) {
+            if (selected && selected.name === name) {
                 className = 'pure-menu-selected';
             }
 

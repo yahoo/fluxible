@@ -8,8 +8,8 @@ class ApplicationStore extends BaseStore {
     }
     handlePageTitle(currentRoute) {
         this.dispatcher.waitFor(RouteStore, () => {
-            if (currentRoute && currentRoute.get('title')) {
-                this.pageTitle = currentRoute.get('title');
+            if (currentRoute && currentRoute.title) {
+                this.pageTitle = currentRoute.title;
                 this.emitChange();
             }
         });

@@ -9,7 +9,7 @@ import pages from '../configs/routes';
 
 class Application extends React.Component {
     render() {
-        var Handler = this.props.currentRoute.get('handler');
+        var Handler = this.props.currentRoute.handler;
 
         return (
             <div>
