@@ -4,7 +4,7 @@ The `navigateAction` is a Fluxible action that dispatches `NAVIGATE_*` events th
 
 `navigateAction` will load a new route and update the URL of your application. You can call this action directly to update the URL of your application. It is also invoked indirectly when a user clicks on a [`NavLink`](NavLink.md).
 
-`navigateAction` expects a `{method, url}` object as a payload, where `method` is the HTTP method used to retrieve the URL (e.g. 'get'.). It also can accept a `{method, routeName, params}, if you want to let the router do the url composing.
+`navigateAction` expects a `{method, url}` object as a payload, where `method` is the HTTP method used to retrieve the URL (e.g. 'get'.). It also can accept a `{method, routeName, params}`, if you want to let the router do the url composing.
 
 If no matching route is found, `navigateAction` will call the callback with an error where `err.statusCode` is set to 404.
 
