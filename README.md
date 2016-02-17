@@ -1,6 +1,6 @@
 # Fluxible
 
-This repository is the home of Fluxible and related libraries.
+This repository is the home of [Fluxible](http://fluxible.io/) and related libraries.
 
 Join the #fluxible channel of the [Reactiflux](http://reactiflux.com) Discord community.
 
