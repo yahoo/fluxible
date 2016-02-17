@@ -23,3 +23,4 @@ If a route is successfully matched, `navigateAction` will first dispatch a `NAVI
 | query      | Query parameters parsed from the URL. Note that if a query parameter occurs multiple times, the value in this hash will be an array. |
 | config     | The configuration for the route.         |
 | navigate   | The payload passed to `navigateAction`. |
+| type       | A value of `replacestate` will enable the replaceState functionality of the History API instead of `pushState`. |
