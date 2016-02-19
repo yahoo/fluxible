@@ -88,7 +88,7 @@ class Search extends React.Component {
         let classes = cx({
             'D(ib) Mstart(3px) Ov(h) Va(m) Pos(a) End(20px)': true,
             'W(0)': this.state.visible === false,
-            'W(200px) Ov(h)': this.state.visible
+            'W(200px)': this.state.visible
         });
         return (
             <div className="D(ib)">
