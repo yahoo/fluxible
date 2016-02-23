@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.4.8
+
+### Bug Fixes
+
+ * [#378] Allow stateless functional components to be wrapped with higher-order components
+
 ## 0.4.7
 
 ### Bug Fix
