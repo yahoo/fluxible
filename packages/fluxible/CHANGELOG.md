@@ -1,5 +1,12 @@
 # Change Log
 
+## 1.0.4
+
+### Bug Fixes
+
+ * [#374] Fixed inconsistent `MockActionContext.executeAction` behavior. Tests that incorrectly depend on synchronous 
+ execution may break. See https://gist.github.com/mridgway/4d66eb1d3277d8b442f2 for more details.
+
 ## 1.0.3
 
 ### Bug Fixes
