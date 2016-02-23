@@ -7,6 +7,7 @@
 var debug = require('debug')('Fluxible:Context');
 var isPromise = require('is-promise');
 var generateUUID = require('../utils/generateUUID');
+var callAction = require('../utils/callAction');
 
 var __DEV__ = process.env.NODE_ENV !== 'production';
 require('setimmediate');
@@ -79,38 +80,6 @@ FluxContext.prototype.plug = function (plugin) {
 };
 
 /**
- * Executes an action, and calls either resolve or reject based on the callback result
- * This is extracted from FluxContext.prototype.executeAction to prevent this method de-optimising
- * due to the try/catch
- * @param {Object} actionContext FluxContext object
- * @param {Function} action Action to call
- * @param {Object} payload Payload for the action
- * @private
- */
-function callAction(actionContext, action, payload) {
-    return new Promise(function (resolve, reject) {
-        setImmediate(function () {
-            try {
-                var syncResult = action(actionContext, payload, function (err, result) {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(result);
-                    }
-                });
-                if (isPromise(syncResult)) {
-                    syncResult.then(resolve, reject);
-                } else if (action.length < 3) {
-                    resolve(syncResult);
-                }
-            } catch (e) {
-                reject(e);
-            }
-        });
-    });
-}
-
-/**
  * Executes an action passing an action interface to as the first parameter
  * If a promise is returned by the action, it will wait for its resolution or rejection
  * If the action has less than three parameters, the returned promise
@@ -125,13 +94,15 @@ function callAction(actionContext, action, payload) {
  * @return {Promise} executeActionPromise Resolved with action result or rejected with action error
  */
 function executeActionProxy(context, actionContext, action, payload, done) {
-    var displayName = action.displayName || action.name;
-    payload = (undefined !== payload) ? payload : {};
     if (__DEV__) {
         if (!action) {
             throw new Error('executeAction called with an invalid action. Action ' +
                 'must be a function.');
         }
+    }
+    var displayName = action.displayName || action.name;
+    payload = (undefined !== payload) ? payload : {};
+    if (__DEV__) {
         if (context._dispatcher && context._dispatcher.currentAction) {
             var currentActionDisplayName = context._dispatcher.currentAction.displayName ||
                 context._dispatcher.currentAction.name;
@@ -146,20 +117,7 @@ function executeActionProxy(context, actionContext, action, payload, done) {
     if (debug.enabled) {
         debug('Executing action ' + actionContext.stack.join('.') + ' with payload', payload);
     }
-    var executeActionPromise = callAction(actionContext, action, payload);
-
-    if (done) {
-        executeActionPromise
-            .then(function(result) {
-                // Ensures that errors in callback are not swallowed by promise
-                setImmediate(done, null, result);
-            }, function (err) {
-                // Ensures that errors in callback are not swallowed by promise
-                setImmediate(done, err);
-            });
-    }
-
-    return executeActionPromise;
+    return callAction(actionContext, action, payload, done);
 }
 
 /**
