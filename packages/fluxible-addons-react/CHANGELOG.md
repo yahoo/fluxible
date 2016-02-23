@@ -1,12 +1,18 @@
 # Change Log
 
+## 0.2.4
+
+### Bug Fixes
+
+ * [#378] Allow stateless functional components to be wrapped with higher-order components
+
 ## 0.2.3
 
-## Enhancements
+### Enhancements
 
  * [#344] Convert createClass calls to React.Component classes where possible; Remove autobinding otherwise
 
-## Bug Fixes
+### Bug Fixes
 
  * [#357] Consistently use the public API for `Store` in `connectToStores` and `FluxibleMixin`
 
@@ -16,11 +22,11 @@ This release was to fix a packaging issue in npm.
 
 ## 0.2.1
 
-## Bug Fixes
+### Bug Fixes
 
  * [#322] Renamed FluxibleMixin's internal property from `listeners` to `_listeners` to avoid naming collisions
 
-## 0.2.0
+### 0.2.0
 
 ### Breaking Changes
 
