@@ -152,6 +152,29 @@ describe('fluxible-addons-react', function () {
             done();
         });
 
+        it('should add a ref to class components', function () {
+            class Component extends React.Component {
+                render() {
+                    return <noscript/>;
+                }
+            }
+            var WrappedComponent = provideContext(connectToStores(Component, [], () => ({})));
+
+            var container = document.createElement('div');
+            var component = ReactDOM.render(<WrappedComponent
+                context={appContext}/>, container);
+            expect(component.refs.wrappedElement.refs).to.include.keys('wrappedElement');
+        });
+
+        it('should not add a ref to pure function components', function () {
+            var WrappedComponent = provideContext(connectToStores(() => <noscript/>, [], () => ({})));
+
+            var container = document.createElement('div');
+            var component = ReactDOM.render(<WrappedComponent
+                context={appContext}/>, container);
+            expect(component.refs.wrappedElement.refs).to.not.include.keys('wrappedElement');
+        });
+
         it('should hoist non-react statics to higher order component', function () {
             var Component = React.createClass({
                 displayName: 'Component',

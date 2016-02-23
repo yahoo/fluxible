@@ -213,7 +213,8 @@ function createComponent(Component, opts) {
         },
 
         render: function () {
-            return React.createElement(Component, Object.assign({}, this.props, {ref: 'wrappedElement'}));
+            var props = Component.prototype && Component.prototype.isReactComponent ? {ref: 'wrappedElement'} : null;
+            return React.createElement(Component, Object.assign({}, this.props, props));
         }
     });
 

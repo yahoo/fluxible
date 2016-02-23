@@ -112,6 +112,27 @@ describe('handleHistory', function () {
         });
     });
 
+    describe('refs', function () {
+        it('should add a ref to class components', function () {
+            class Component extends React.Component {
+                render() {
+                    return <noscript/>;
+                }
+            }
+            var WrappedComponent = provideContext(handleHistory(Component));
+
+            var component = ReactTestUtils.renderIntoDocument(<WrappedComponent context={mockContext}/>);
+            expect(component.refs.wrappedElement.refs.wrappedElement.refs.wrappedElement.refs).to.include.keys('wrappedElement');
+        });
+
+        it('should not add a ref to pure function components', function () {
+            var WrappedComponent = provideContext(handleHistory(() => <noscript/>));
+
+            var component = ReactTestUtils.renderIntoDocument(<WrappedComponent context={mockContext}/>);
+            expect(component.refs.wrappedElement.refs.wrappedElement.refs.wrappedElement.refs).to.not.include.keys('wrappedElement');
+        });
+    });
+
     Object.keys(mockCreators).forEach(function (testType) {
         describe(testType, function () {
             var mockCreator;
