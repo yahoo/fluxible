@@ -7,6 +7,8 @@
 var debug = require('debug')('Fluxible:Context');
 var isPromise = require('is-promise');
 var generateUUID = require('../utils/generateUUID');
+var EventEmitter = require('eventemitter3');
+var inherits = require('inherits');
 
 var __DEV__ = process.env.NODE_ENV !== 'production';
 require('setimmediate');
@@ -31,6 +33,8 @@ function FluxContext(app) {
     this._componentContext = null;
     this._storeContext = null;
 }
+
+inherits(FluxContext, EventEmitter);
 
 var warnedOnce = false;
 
@@ -146,7 +150,25 @@ function executeActionProxy(context, actionContext, action, payload, done) {
     if (debug.enabled) {
         debug('Executing action ' + actionContext.stack.join('.') + ' with payload', payload);
     }
-    var executeActionPromise = callAction(actionContext, action, payload);
+
+    var emitPayload = {
+        name: displayName,
+        rootId: actionContext.rootId,
+        stack: actionContext.stack
+    };
+    context.emit('executeAction.start', emitPayload);
+    function emitEnd() {
+        context.emit('executeAction.end', emitPayload);
+    }
+    var executeActionPromise = callAction(actionContext, action, payload).then(
+        function (v) {
+            emitEnd();
+            return v;
+        },
+        function (e) {
+            emitEnd();
+            throw e;
+        });
 
     if (done) {
         executeActionPromise

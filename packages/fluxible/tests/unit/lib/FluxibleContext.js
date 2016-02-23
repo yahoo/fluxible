@@ -443,6 +443,33 @@ describe('FluxibleContext', function () {
 
                 });
             });
+            it('should emit start and end events', (done) => {
+                var events = [];
+                var onStart = context.on('executeAction.start', (params) => {
+                    events.push({ name: 'executeAction.start', params });
+                });
+                var onEnd = context.on('executeAction.end', (params) => {
+                    events.push({ name: 'executeAction.end', params });
+                });
+                var action = function fooAction(context, payload, callback) {
+                    callback();
+                };
+                var callback = function () {
+                    context.removeListener('executeAction.start', onStart);
+                    context.removeListener('executeAction.end', onEnd);
+                    expect(events.length).to.equal(2);
+                    expect(events[0].name).to.equal('executeAction.start');
+                    expect(events[0].params.name).to.equal(action.name);
+                    expect(events[0].params.rootId).to.not.equal(undefined);
+                    expect(events[0].params.stack.length).to.equal(1);
+                    expect(events[1].name).to.equal('executeAction.end');
+                    expect(events[1].params.name).to.equal(action.name);
+                    expect(events[1].params.rootId).to.not.equal(undefined);
+                    expect(events[1].params.stack.length).to.equal(1);
+                    done();
+                };
+                actionContext.executeAction(action, {}, callback);
+            });
         });
     });
 
@@ -578,6 +605,7 @@ describe('FluxibleContext', function () {
                 var d = domain.create();
                 d.on('error', function (e) {
                     expect(e).to.equal(actionError);
+                    d.dispose();
                     done();
                 });
                 d.run(function () {
@@ -594,6 +622,33 @@ describe('FluxibleContext', function () {
                     var componentContext2 = context2.getComponentContext();
                     componentContext2.executeAction(action, {});
                 });
+            });
+            it('should emit start and end events', (done) => {
+                var events = [];
+                var onStart = context.on('executeAction.start', (params) => {
+                    events.push({ name: 'executeAction.start', params });
+                });
+                var onEnd = context.on('executeAction.end', (params) => {
+                    events.push({ name: 'executeAction.end', params });
+                });
+                var action = function fooAction(context, payload, callback) {
+                    callback();
+                };
+                componentContext.executeAction(action, {});
+                setTimeout(function () {
+                    context.removeListener('executeAction.start', onStart);
+                    context.removeListener('executeAction.end', onEnd);
+                    expect(events.length).to.equal(2);
+                    expect(events[0].name).to.equal('executeAction.start');
+                    expect(events[0].params.name).to.equal(action.name);
+                    expect(events[0].params.rootId).to.not.equal(undefined);
+                    expect(events[0].params.stack.length).to.equal(1);
+                    expect(events[1].name).to.equal('executeAction.end');
+                    expect(events[1].params.name).to.equal(action.name);
+                    expect(events[1].params.rootId).to.not.equal(undefined);
+                    expect(events[1].params.stack.length).to.equal(1);
+                    done();
+                }, 10);
             });
         });
     });
