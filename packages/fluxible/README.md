@@ -20,7 +20,7 @@ Join the #fluxible channel of the [Reactiflux](http://reactiflux.com) Discord co
 
 ## Docs
 
- * [Quick Start](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/quick-start.md)
+ * [Quick Start](https://github.com/yahoo/fluxible/blob/master/docs/quick-start.md)
  * [API](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/README.md)
 
 ## Features
