@@ -101,11 +101,12 @@ function createComponent(Component, stores, getStateFromStores, customContextTyp
 module.exports = function connectToStores(Component, stores, getStateFromStores) {
 
     // support decorator pattern
-    if (arguments.length === 2) {
+    if (typeof Component !== 'function') {
         var _stores = Component;
         var _getStateFromStores = stores;
+        var _customContextTypes = getStateFromStores;
         return function connectToStoresDecorator(ComponentToDecorate) {
-            return createComponent(ComponentToDecorate, _stores, _getStateFromStores);
+            return createComponent(ComponentToDecorate, _stores, _getStateFromStores, _customContextTypes);
         };
     }
 

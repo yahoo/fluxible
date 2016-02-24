@@ -152,6 +152,38 @@ describe('fluxible-addons-react', function () {
             done();
         });
 
+        it('should take customContextTypes using decorator pattern', function (done) {
+            var customContextTypes = {
+                foo: React.PropTypes.func.isRequired
+            };
+            @connectToStores([], (context) => {
+                return {
+                    foo: context.foo()
+                };
+            }, customContextTypes) class Component extends React.Component {
+                render() {
+                    return (
+                        <div>
+                            <span id="foo">{this.props.foo}</span>
+                        </div>
+                    );
+                }
+            }
+
+            var WrappedComponent = provideContext(Component, customContextTypes);
+
+            var container = document.createElement('div');
+            var context = Object.assign({
+                foo() {
+                    return 'bar';
+                }
+            }, appContext);
+            var component = ReactDOM.render(<WrappedComponent context={context}/>, container);
+            var domNode = ReactDOM.findDOMNode(component);
+            expect(domNode.querySelector('#foo').textContent).to.equal('bar');
+            done();
+        });
+
         it('should add a ref to class components', function () {
             class Component extends React.Component {
                 render() {
