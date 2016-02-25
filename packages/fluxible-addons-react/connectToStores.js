@@ -96,9 +96,11 @@ function createComponent(Component, stores, getStateFromStores, customContextTyp
  * @param {array} stores List of stores to listen for changes
  * @param {function} getStateFromStores function that receives all stores and should return
  *      the full state object. Receives `stores` hash and component `props` as arguments
+ * @param {Object} [customContextTypes] additional `contextTypes` that could be accessed from your `getStateFromStores`
+ *      function
  * @returns {React.Component} or {Function} if using decorator pattern
  */
-module.exports = function connectToStores(Component, stores, getStateFromStores) {
+module.exports = function connectToStores(Component, stores, getStateFromStores, customContextTypes) {
 
     // support decorator pattern
     if (typeof Component !== 'function') {
