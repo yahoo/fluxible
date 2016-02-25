@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.2.5
+
+### Bug Fixes
+
+ * [#380] Allow `customContextTypes` to be passed to `connectToStores` when used as a decorator
+
 ## 0.2.4
 
 ### Bug Fixes
