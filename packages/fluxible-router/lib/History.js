@@ -102,7 +102,7 @@ History.prototype = {
             url = isUndefined(url) ? win.location.href : url;
 
             // remember the original url in state, so that it can be used by getUrl()
-            var _state = Object.assign({origUrl: url}, state);
+            var _state = Object.assign({origUrl: url, fluxible: true}, state);
             win.history.pushState(_state, title, url);
             this.setTitle(title);
         } else if (url) {
@@ -124,7 +124,7 @@ History.prototype = {
             url = isUndefined(url) ? win.location.href : url;
 
             // remember the original url in state, so that it can be used by getUrl()
-            var _state = Object.assign({origUrl: url}, state);
+            var _state = Object.assign({origUrl: url, fluxible: true}, state);
             win.history.replaceState(_state, title, url);
             this.setTitle(title);
         } else if (url) {
