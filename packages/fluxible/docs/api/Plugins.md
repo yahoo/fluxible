@@ -30,7 +30,7 @@ app.plug({
             /**
              * Method called to allow modification of the component context
              * @method plugComponentContext
-             * @param {Object} componentContext Options passed into createContext
+             * @param {Object} componentContext ComponentContext instance
              * @param {Object} context FluxibleContext instance
              * @param {Object} app Fluxible instance
              */
