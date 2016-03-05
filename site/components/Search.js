@@ -14,9 +14,6 @@ import debugLib from 'debug';
 const debug = debugLib('Search');
 const ENTER_KEY_CODE = 13;
 
-@connectToStores([ SearchStore ], (context) => ({
-    search: context.getStore(SearchStore).getState()
-}))
 class Search extends React.Component {
 
     static contextTypes = {
@@ -109,5 +106,9 @@ class Search extends React.Component {
         );
     }
 }
+
+Search = connectToStores(Search, [ SearchStore ], (context) => ({
+    search: context.getStore(SearchStore).getState()
+}));
 
 export default Search;

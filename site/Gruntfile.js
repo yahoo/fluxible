@@ -65,7 +65,7 @@ module.exports = function (grunt) {
         // .rebooted is written by the nodemon task, it's written to force a browser reload
         watch: {
             atomizer: {
-                files: ['configs/atomic.js', '.rebooted', './assets/css/*.css', './components/*.jsx'],
+                files: ['configs/atomic.js', '.rebooted', './assets/css/*.css', './components/*.js'],
                 tasks: ['atomizer', 'cssmin:dev'],
                 options: {
                     interrupt: true,
@@ -83,7 +83,7 @@ module.exports = function (grunt) {
                 },
                 files: [
                     {
-                        src: ['./components/*.jsx'],
+                        src: ['./components/*.js'],
                         dest: '<%= project.build %>/css/atomic.css'
                     }
                 ]
@@ -181,7 +181,7 @@ module.exports = function (grunt) {
                 module: {
                     loaders: [
                         { test: /\.css$/, loader: 'style!css' },
-                        { test: /\.jsx?$/, exclude: /node_modules/, loader: require.resolve('babel-loader') },
+                        { test: /\.js?$/, exclude: /node_modules/, loader: require.resolve('babel-loader') },
                         { test: /\.json$/, loader: 'json-loader'}
                     ]
                 },
@@ -215,7 +215,7 @@ module.exports = function (grunt) {
                 module: {
                     loaders: [
                         { test: /\.css$/, loader: 'style!css' },
-                        { test: /\.jsx?$/, exclude: /node_modules/, loader: require.resolve('babel-loader') },
+                        { test: /\.js?$/, exclude: /node_modules/, loader: require.resolve('babel-loader') },
                         { test: /\.json$/, loader: 'json-loader'}
                     ]
                 },

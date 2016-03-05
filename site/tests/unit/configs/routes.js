@@ -10,7 +10,6 @@ import MockService from 'fluxible-plugin-fetchr/utils/MockServiceManager';
 import DocStore from '../../../stores/DocStore';
 import routes from '../../../configs/routes.js';
 import docResponse from '../../fixtures/doc-response.js';
-import mockery from 'mockery';
 
 let MockContext = createMockActionContext({
     stores: [DocStore]
@@ -39,15 +38,6 @@ describe('site', () => {
 
                 callback(null, docResponse);
             });
-            mockery.enable({
-                useCleanCache: true,
-                warnOnUnregistered: false
-            });
-        });
-
-        afterEach(function () {
-            mockery.disable();
-            mockery.deregisterAll();
         });
 
         it('should execute the home action', function (done) {

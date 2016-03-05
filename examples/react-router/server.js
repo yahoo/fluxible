@@ -2,7 +2,9 @@
  * Copyright 2014, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-require('babel/register');
+
+import HtmlComponent from './components/Html';
+
 var express = require('express');
 var favicon = require('serve-favicon');
 var serialize = require('serialize-javascript');
@@ -12,7 +14,6 @@ var renderToString = require('react-dom/server').renderToString;
 var debug = require('debug')('Example');
 var React = require('react');
 var app = require('./app');
-var HtmlComponent = React.createFactory(require('./components/Html'));
 var FluxibleComponent = require('fluxible-addons-react/FluxibleComponent');
 var router = require('react-router');
 var match = router.match;
@@ -41,11 +42,13 @@ server.use(function (req, res, next) {
                         { context: context.getComponentContext() },
                         React.createElement(RoutingContext, renderProps)
                     );
-                var html = renderToStaticMarkup(HtmlComponent({
-                    context: context.getComponentContext(),
-                    state: exposed,
-                    markup: renderToString(markupElement)
-                }));
+                var html = renderToStaticMarkup(
+                    <HtmlComponent
+                        context={context.getComponentContext()}
+                        state={exposed}
+                        markup={renderToString(markupElement)}
+                    />
+                );
 
                 debug('Sending markup');
                 res.status(200).send(html);

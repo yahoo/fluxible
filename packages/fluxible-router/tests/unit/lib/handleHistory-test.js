@@ -3,7 +3,6 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 /*globals describe,it,before,beforeEach,afterEach,window,document,navigator */
-var mockery = require('mockery');
 var expect = require('chai').expect;
 var jsdom = require('jsdom');
 var React;
@@ -66,33 +65,40 @@ describe('handleHistory', function () {
     var provideContext;
     var handleHistory;
 
-    beforeEach(function () {
-        mockery.enable({
-            warnOnReplace: false,
-            warnOnUnregistered: false,
-            useCleanCache: true
+    beforeEach(function (done) {
+        jsdom.env('<html><body></body></html>', [], function (err, window) {
+            if (err) {
+                done(err);
+                return;
+            }
+            global.document = window.document;
+            global.window = window;
+            global.navigator = window.navigator;
+            global.window.scrollTo = scrollToMock;
+            global.Event = window.Event;
+
+            // Reset cache of handleHistory to allow pre-emptyive pushState testing
+            delete require.cache[require.resolve('../../../lib/handleHistory')];
+            delete require.cache[require.resolve('../../mocks/MockAppComponent')];
+
+            React = require('react');
+            ReactDOM = require('react-dom');
+            provideContext = require('fluxible-addons-react/provideContext');
+            handleHistory = require('../../../lib/handleHistory');
+            MockAppComponentLib = require('../../mocks/MockAppComponent');
+            ReactTestUtils = require('react-addons-test-utils');
+            mockContext = createMockComponentContext({
+                stores: [TestRouteStore]
+            });
+            testResult = {};
+            done();
         });
-        global.document = jsdom.jsdom('<html><body></body></html>');
-        global.window = global.document.parentWindow;
-        global.navigator = global.window.navigator;
-        global.window.scrollTo = scrollToMock;
-        React = require('react');
-        ReactDOM = require('react-dom');
-        provideContext = require('fluxible-addons-react/provideContext');
-        handleHistory = require('../../../').handleHistory;
-        MockAppComponentLib = require('../../mocks/MockAppComponent');
-        ReactTestUtils = require('react-addons-test-utils');
-        mockContext = createMockComponentContext({
-            stores: [TestRouteStore]
-        });
-        testResult = {};
     });
 
     afterEach(function () {
         delete global.window;
         delete global.document;
         delete global.navigator;
-        mockery.disable();
     });
 
     describe('statics', function () {
@@ -137,6 +143,14 @@ describe('handleHistory', function () {
         describe(testType, function () {
             var mockCreator;
 
+            before(function () {
+                // Decorators do not work in babel 6
+                if (testType === 'decoratedCreator') {
+                    this.skip();
+                    return;
+                }
+            });
+
             beforeEach(function () {
                 var methodName = mockCreators[testType];
                 mockCreator = MockAppComponentLib[methodName];
@@ -172,7 +186,7 @@ describe('handleHistory', function () {
                     ReactTestUtils.renderIntoDocument(
                         <MockAppComponent context={mockContext} />
                     );
-                    window.dispatchEvent({_type: 'popstate', state: {params: {a: 1}}});
+                    window.dispatchEvent(Object.assign(new Event('popstate'), {state: {params: {a: 1}}}));
                     expect(mockContext.executeActionCalls.length).to.equal(1);
                     expect(mockContext.executeActionCalls[0].action).to.be.a('function');
                     expect(mockContext.executeActionCalls[0].payload.type).to.equal('popstate');
@@ -181,9 +195,9 @@ describe('handleHistory', function () {
                 });
                 it('handle pre-emptive popstate events', function (done) {
                     var MockAppComponent = mockCreator();
-                    window.dispatchEvent({_type: 'popstate', state: {params: {a: 1}}});
-                    window.dispatchEvent({_type: 'popstate', state: {params: {a: 2}}});
-                    window.dispatchEvent({_type: 'popstate', state: {params: {a: 3}}});
+                    window.dispatchEvent(Object.assign(new Event('popstate'), {state: {params: {a: 1}}}));
+                    window.dispatchEvent(Object.assign(new Event('popstate'), {state: {params: {a: 2}}}));
+                    window.dispatchEvent(Object.assign(new Event('popstate'), {state: {params: {a: 3}}}));
                     setTimeout(function () {
                         ReactTestUtils.renderIntoDocument(
                             <MockAppComponent context={mockContext} />
@@ -207,8 +221,8 @@ describe('handleHistory', function () {
                     ReactTestUtils.renderIntoDocument(
                         <MockAppComponent context={mockContext} />
                     );
-                    window.dispatchEvent({_type: 'scroll'});
-                    window.dispatchEvent({_type: 'scroll'});
+                    window.dispatchEvent(new Event('scroll'));
+                    window.dispatchEvent(new Event('scroll'));
                     window.setTimeout(function() {
                         expect(testResult.replaceState).to.eql({state: {scroll: {x: 0, y: 0}}, title: undefined, url: undefined});
                         done();
@@ -290,7 +304,7 @@ describe('handleHistory', function () {
                         , div);
                     ReactDOM.unmountComponentAtNode(div);
                     expect(testResult.historyMockOn).to.equal(null);
-                    window.dispatchEvent({_type: 'popstate', state: {params: {a: 1}}});
+                    window.dispatchEvent(Object.assign(new Event('popstate'), {state: {params: {a: 1}}}));
                     expect(testResult.dispatch).to.equal(undefined);
                 });
             });

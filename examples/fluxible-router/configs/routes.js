@@ -1,8 +1,12 @@
+import Home from '../components/Home';
+import About from '../components/About';
+import Page from '../components/Page';
+
 export default {
     home: {
         path: '/',
         method: 'get',
-        handler: require('../components/Home'),
+        handler: Home,
         label: 'Home',
         action: (context, payload, done) => {
             context.dispatch('UPDATE_PAGE_TITLE', { pageTitle: 'Home | flux-examples | routing' });
@@ -12,7 +16,7 @@ export default {
     about: {
         path: '/about',
         method: 'get',
-        handler: require('../components/About'),
+        handler: About,
         label: 'About',
         action: (context, payload, done) => {
             context.dispatch('UPDATE_PAGE_TITLE', { pageTitle: 'About | flux-examples | routing' });
@@ -22,7 +26,7 @@ export default {
     dynamicpage: {
         path: '/page/:id',
         method: 'get',
-        handler: require('../components/Page'),
+        handler: Page,
         action: (context, payload, done) => {
             var pageId = payload.params.id;
             context.dispatch('LOAD_PAGE', { id: pageId });

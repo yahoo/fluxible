@@ -4,7 +4,6 @@
 'use strict';
 
 var expect = require('chai').expect;
-var mockery = require('mockery');
 var createMockActionContext = require('../../../utils').createMockActionContext;
 
 describe('createMockActionContext', function () {
@@ -99,10 +98,5 @@ describe('createMockActionContext', function () {
 
         describe.skip('#dispatch', function () {
         });
-    });
-
-    after(function() {
-        mockery.deregisterAll();
-        mockery.disable();
     });
 });

@@ -4,7 +4,6 @@
 'use strict';
 
 var expect = require('chai').expect;
-var mockery = require('mockery');
 var createMockComponentContext = require('../../../utils').createMockComponentContext;
 
 describe('createMockComponentContext', function () {
@@ -54,10 +53,5 @@ describe('createMockComponentContext', function () {
                 expect(call).to.have.property('payload', mockPayload);
             });
         });
-    });
-
-    after(function() {
-        mockery.deregisterAll();
-        mockery.disable();
     });
 });

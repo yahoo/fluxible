@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 'use strict';
-var MessageSection = require('./MessageSection.jsx');
+var MessageSection = require('./MessageSection');
 var React = require('react');
-var ThreadSection = require('./ThreadSection.jsx');
+var ThreadSection = require('./ThreadSection');
 var provideContext = require('fluxible-addons-react/provideContext');
 var handleHistory = require('fluxible-router').handleHistory;
 

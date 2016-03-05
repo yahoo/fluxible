@@ -4,9 +4,9 @@
  */
 
 import React from 'react';
-import NavLink from './NavLink.jsx';
+import NavLink from './NavLink';
 import { I13nAnchor, createI13nNode } from 'react-i13n';
-import Doc from './Doc.jsx';
+import Doc from './Doc';
 
 class Home extends React.Component {
     render() {

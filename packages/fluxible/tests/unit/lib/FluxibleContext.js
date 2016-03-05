@@ -8,6 +8,7 @@ var FluxibleContext = require('../../../lib/FluxibleContext');
 var isPromise = require('is-promise');
 var createStore = require('dispatchr/addons/createStore');
 var domain = require('domain');
+var es6Promise = require('es6-promise').Promise;
 
 var MockComponent = function () {};
 MockComponent.displayName = 'Application';
@@ -195,7 +196,13 @@ describe('FluxibleContext', function () {
                 });
             });
 
+            // Broken due to domain and Promise interaction in node 4+
             it('should not swallow callback errors', function (done) {
+                // Use polyfilled Promise due to issue with Promises and domains
+                // See https://github.com/nodejs/node-v0.x-archive/issues/8648
+                var oldPromise = global.Promise;
+                global.Promise = es6Promise;
+
                 // Error is expected, but will not be catchable. Crudely using domain.
                 var testError = new Error('test');
                 var d = domain.create();
@@ -203,6 +210,7 @@ describe('FluxibleContext', function () {
                     expect(e).to.equal(testError);
                     d.exit();
                     done();
+                    global.Promise = oldPromise;
                 });
                 d.run(function () {
                     var action = function (context, payload, callback) {
@@ -573,12 +581,19 @@ describe('FluxibleContext', function () {
 
                 componentContext2.executeAction(action, {});
             });
+
             it('throws if component action handler does not handle the error', function (done) {
+                // Use polyfilled Promise due to issue with Promises and domains
+                // See https://github.com/nodejs/node-v0.x-archive/issues/8648
+                var oldPromise = global.Promise;
+                global.Promise = es6Promise;
+
                 var actionError = new Error('action error');
                 var d = domain.create();
                 d.on('error', function (e) {
                     expect(e).to.equal(actionError);
                     done();
+                    global.Promise = oldPromise;
                 });
                 d.run(function () {
                     var componentActionErrorHandler = function (context, payload) {

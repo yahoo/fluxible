@@ -14,7 +14,7 @@ import csrf from 'csurf';
 import React from 'react';
 import { renderToString, renderToStaticMarkup } from 'react-dom/server';
 import app from './app';
-import HtmlComponent from './components/Html.jsx';
+import HtmlComponent from './components/Html';
 import assets from './utils/assets';
 import DocsService from './services/docs';
 import SearchService from './services/search';

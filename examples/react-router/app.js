@@ -6,9 +6,10 @@ import Fluxible from 'fluxible';
 import ApplicationStore from './stores/ApplicationStore';
 import TimeStore from './stores/TimeStore';
 import PageStore from './stores/PageStore';
+import Routes from './components/Routes';
 
 const app = new Fluxible({
-    component: require('./components/Routes'),
+    component: Routes,
     stores: [
         ApplicationStore,
         PageStore,

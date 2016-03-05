@@ -9,11 +9,6 @@ import ApplicationStore from '../stores/ApplicationStore';
 import {connectToStores, provideContext} from 'fluxible-addons-react';
 import {handleHistory} from 'fluxible-router';
 
-@provideContext
-@handleHistory({enableScroll: false})
-@connectToStores([ApplicationStore], (context) => ({
-    ApplicationStore: context.getStore(ApplicationStore).getState()
-}))
 class Application extends React.Component {
 
     static contextTypes = {
@@ -43,5 +38,16 @@ class Application extends React.Component {
         );
     }
 }
+
+Application = (
+    provideContext(
+        handleHistory(
+            connectToStores(Application, [ApplicationStore], (context) => ({
+                ApplicationStore: context.getStore(ApplicationStore).getState()
+            })),
+            {enableScroll: false}
+        )
+    )
+);
 
 export default Application;

@@ -3,7 +3,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 'use strict';
-require('babel/register');
+require('babel-register');
 
 import express from 'express';
 import favicon from 'serve-favicon';

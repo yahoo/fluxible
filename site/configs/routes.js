@@ -6,10 +6,10 @@
 import showDoc from '../actions/showDoc';
 import showSearch from '../actions/showSearch';
 import demoException from '../actions/demoException';
-import Home from '../components/Home.jsx';
-import Docs from '../components/Docs.jsx';
-import Status404 from '../components/Status404.jsx';
-import Status500 from '../components/Status500.jsx';
+import Home from '../components/Home';
+import Docs from '../components/Docs';
+import Status404 from '../components/Status404';
+import Status500 from '../components/Status500';
 
 export default {
     home: {

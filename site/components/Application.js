@@ -6,11 +6,11 @@
 
 import debugLib from 'debug';
 import React from 'react';
-import Home from './Home.jsx';
-import Docs from './Docs.jsx';
+import Home from './Home';
+import Docs from './Docs';
 import { provideContext, connectToStores } from 'fluxible-addons-react';
 import { handleHistory } from 'fluxible-router';
-import NavLink from './NavLink.jsx';
+import NavLink from './NavLink';
 import TopNav from './TopNav';
 import Status404 from './Status404';
 import Status500 from './Status500';
@@ -20,12 +20,6 @@ import ReactI13nGoogleAnalytics from 'react-i13n-ga';
 
 const debug = debugLib('MyApp');
 
-@provideContext
-@handleHistory
-@connectToStores(['DocStore'], (context) => ({
-    currentTitle: context.getStore('DocStore').getCurrentTitle() || '',
-    currentDoc: context.getStore('DocStore').getCurrent()
-}))
 class Application extends React.Component {
 
     componentDidMount() {
@@ -84,6 +78,16 @@ class Application extends React.Component {
         );
     }
 }
+
+
+Application = provideContext(
+    handleHistory(
+        connectToStores(Application, ['DocStore'], (context) => ({
+            currentTitle: context.getStore('DocStore').getCurrentTitle() || '',
+            currentDoc: context.getStore('DocStore').getCurrent()
+        }))
+    )
+);
 
 // setup i13n
 var reactI13nGoogleAnalytics = new ReactI13nGoogleAnalytics('UA-58912168-1');

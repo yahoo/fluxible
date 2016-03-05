@@ -16,7 +16,7 @@
 'use strict';
 var React = require('react');
 var MessageStore = require('../stores/MessageStore');
-var ThreadListItem = require('../components/ThreadListItem.jsx');
+var ThreadListItem = require('../components/ThreadListItem');
 var ThreadStore = require('../stores/ThreadStore');
 var UnreadThreadStore = require('../stores/UnreadThreadStore');
 var connectToStores = require('fluxible-addons-react/connectToStores');
@@ -27,7 +27,7 @@ var ThreadSection = React.createClass({
     render: function() {
         var threadListItems = this.props.threads.map(function(thread) {
             return (
-                <NavLink href={"/thread/" + thread.id} key={thread.id}>
+                <NavLink href={'/thread/' + thread.id} key={thread.id}>
                     <ThreadListItem
                         key={thread.id}
                         thread={thread}

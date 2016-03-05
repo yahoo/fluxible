@@ -4,22 +4,18 @@
  */
 
 import React from 'react';
-import Menu from './Menu.jsx';
-import Doc from './Doc.jsx';
-import SearchResults from './SearchResults.jsx';
+import Menu from './Menu';
+import Doc from './Doc';
+import SearchResults from './SearchResults';
 import cx from 'classnames';
 import { handleRoute } from 'fluxible-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import SearchStore from '../stores/SearchStore';
 
-@handleRoute
-@connectToStores([ SearchStore ], (context) => ({
-    search: context.getStore(SearchStore).getState()
-}))
 class Docs extends React.Component {
 
     static propTypes = {
-        currentDoc: React.PropTypes.object.isRequired,
+        currentDoc: React.PropTypes.object,
         currentRoute: React.PropTypes.object.isRequired
     };
 
@@ -74,5 +70,11 @@ class Docs extends React.Component {
         );
     }
 }
+
+Docs = handleRoute(
+    connectToStores(Docs, [ SearchStore ], (context) => ({
+        search: context.getStore(SearchStore).getState()
+    }))
+);
 
 export default Docs;

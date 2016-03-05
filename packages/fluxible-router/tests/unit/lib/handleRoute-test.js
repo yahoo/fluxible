@@ -3,7 +3,6 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 /*globals describe,it,before,beforeEach,afterEach,window,document,navigator */
-var mockery = require('mockery');
 var expect = require('chai').expect;
 var jsdom = require('jsdom');
 var React;
@@ -24,22 +23,25 @@ describe('handleRoute', function () {
     var handleRoute;
     var mockContext;
 
-    beforeEach(function () {
-        mockery.enable({
-            warnOnReplace: false,
-            warnOnUnregistered: false,
-            useCleanCache: true
-        });
-        global.document = jsdom.jsdom('<html><body></body></html>');
-        global.window = global.document.parentWindow;
-        global.navigator = global.window.navigator;
-        React = require('react');
-        ReactDOM = require('react-dom');
-        ReactTestUtils = require('react-addons-test-utils');
-        provideContext = require('fluxible-addons-react/provideContext');
-        handleRoute = require('../../../').handleRoute;
-        mockContext = createMockComponentContext({
-            stores: [TestRouteStore]
+    beforeEach(function (done) {
+        jsdom.env('<html><body></body></html>', [], function (err, window) {
+            if (err) {
+                done(err);
+                return;
+            }
+            global.document = window.document;
+            global.window = window;
+            global.navigator = window.navigator;
+
+            React = require('react');
+            ReactDOM = require('react-dom');
+            ReactTestUtils = require('react-addons-test-utils');
+            provideContext = require('fluxible-addons-react/provideContext');
+            handleRoute = require('../../../').handleRoute;
+            mockContext = createMockComponentContext({
+                stores: [TestRouteStore]
+            });
+            done();
         });
     });
 
@@ -47,7 +49,6 @@ describe('handleRoute', function () {
         delete global.window;
         delete global.document;
         delete global.navigator;
-        mockery.disable();
     });
 
     describe('refs', function () {
