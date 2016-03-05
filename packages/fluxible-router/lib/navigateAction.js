@@ -5,7 +5,7 @@
 
 var debug = require('debug')('navigateAction');
 
-module.exports = function navigateAction (context, payload, done) {
+function navigateAction (context, payload, done) {
     var routeStore = context.getStore('RouteStore');
 
     var navigate = Object.assign({
@@ -66,4 +66,8 @@ module.exports = function navigateAction (context, payload, done) {
             done();
         }
     });
-};
+}
+
+navigateAction.displayName = 'navigateAction';
+
+module.exports = navigateAction;

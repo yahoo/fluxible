@@ -16,7 +16,7 @@ var __DEV__ = process.env.NODE_ENV !== 'production';
  */
 function defaultComponentActionHandler(context, payload, done) {
     if (payload.err) {
-        debug('Action returned error', payload.err);
+        debug('Action returned error', payload.actionName, payload.err);
         throw payload.err;
     }
     done();

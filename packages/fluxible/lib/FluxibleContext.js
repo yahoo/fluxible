@@ -234,7 +234,10 @@ FluxContext.prototype.getComponentContext = function getComponentContext() {
             }
             self.executeAction(action, payload)
             ['catch'](function actionHandlerWrapper(err) {
-                return self.executeAction(self._app._componentActionErrorHandler, { err: err });
+                return self.executeAction(self._app._componentActionErrorHandler, {
+                    actionName: action.displayName || action.name,
+                    err: err
+                });
             })
             ['catch'](function unhandledError(err) {
                 setImmediate(function () {

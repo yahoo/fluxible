@@ -55,6 +55,8 @@ error but you can override this:
 const fluxibleApp = new Fluxible({
     component: require('./components/App.jsx'),
     componentActionErrorHandler: function (context, payload, done) {
+        // actionName can be used to help with debugging
+        var name = payload.actionName;
         var err = payload.err;
         // Handle error by setting error state
         context.dispatch('APPLICATION_ERROR', err);
