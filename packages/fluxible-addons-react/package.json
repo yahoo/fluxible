@@ -8,12 +8,12 @@
     "url": "https://github.com/yahoo/fluxible"
   },
   "scripts": {
-    "test": "../../node_modules/.bin/mocha tests/unit/ --recursive --compilers js:babel/register --reporter spec",
-    "cover": "../../node_modules/.bin/istanbul cover --dir artifacts -- ../../node_modules/.bin/_mocha tests/unit/ --recursive --compilers js:babel/register --reporter spec",
+    "test": "../../node_modules/.bin/mocha tests/unit/ --recursive --compilers js:babel-register --reporter spec",
+    "cover": "../../node_modules/.bin/istanbul cover --dir artifacts -- ../../node_modules/.bin/_mocha tests/unit/ --recursive --compilers js:babel-register --reporter spec",
     "lint": "../../node_modules/.bin/eslint *.js tests/"
   },
   "dependencies": {
-    "hoist-non-react-statics": "^1.0.0",
+    "hoist-non-react-statics": "^1.0.4",
     "inherits": "^2.0.1"
   },
   "peerDependencies": {

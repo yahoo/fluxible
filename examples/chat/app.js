@@ -8,7 +8,7 @@ var Fluxible = require('fluxible');
 var fetchrPlugin = require('fluxible-plugin-fetchr');
 
 var app = new Fluxible({
-    component: require('./components/ChatApp.jsx')
+    component: require('./components/ChatApp')
 });
 
 app.plug(fetchrPlugin({

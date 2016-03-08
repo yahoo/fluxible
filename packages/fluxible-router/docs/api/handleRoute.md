@@ -44,6 +44,17 @@ module.exports = MyComponent;
 
 ### Decorator Usage
 
+***Decorators are an evolving proposal and should be used with caution
+as the API may change at any point. Decorator support in
+fluxible-addons-react was built against Babel 5's implementation of
+decorators. As of Babel 6, support for decorators has been removed although
+third party transforms have been attempted with limited success.
+
+Decorators are also only proposed for classes and properties and therefore
+will not work with stateless functional components. See
+[decorator pattern](https://github.com/wycats/javascript-decorators) for
+more information on the proposal.***
+
 ```js
 // components/App.jsx
 import {provideContext} from 'fluxible-addons-react';

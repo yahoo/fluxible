@@ -5,7 +5,7 @@
 
 import React from 'react';
 import cx from 'classnames';
-import NavLink from './NavLink.jsx';
+import NavLink from './NavLink';
 import { createI13nNode } from 'react-i13n';
 import docsConfig from './../configs/menu';
 

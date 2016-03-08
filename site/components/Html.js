@@ -6,11 +6,6 @@
 import React from 'react';
 import { provideContext, connectToStores } from 'fluxible-addons-react';
 
-@provideContext
-@connectToStores(['DocStore'], (context) => ({
-    currentTitle: context.getStore('DocStore').getCurrentTitle() || '',
-    currentDoc: context.getStore('DocStore').getCurrent() || {}
-}))
 class Html extends React.Component {
     render() {
         return (
@@ -35,5 +30,12 @@ class Html extends React.Component {
         );
     }
 }
+
+Html = provideContext(
+    connectToStores(Html, ['DocStore'], (context) => ({
+        currentTitle: context.getStore('DocStore').getCurrentTitle() || '',
+        currentDoc: context.getStore('DocStore').getCurrent() || {}
+    }))
+);
 
 export default Html;

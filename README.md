@@ -6,7 +6,7 @@ Join the #fluxible channel of the [Reactiflux](http://reactiflux.com) Discord co
 
 ## Development
 
-Development is currently being done against Node 0.10.
+Development is currently being done against Node 4/5.
 
 Releases can be done with the following steps:
 

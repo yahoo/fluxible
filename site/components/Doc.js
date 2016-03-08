@@ -27,7 +27,7 @@ class Doc extends React.Component {
     };
 
     static propTypes = {
-        currentDoc: React.PropTypes.object.isRequired,
+        currentDoc: React.PropTypes.object,
         currentRoute: React.PropTypes.object.isRequired
     };
 

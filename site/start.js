@@ -14,6 +14,6 @@ if (process.env.manhattan_context__cache_dir) {
     process.env.BABEL_CACHE_PATH = process.env.manhattan_context__cache_dir + '/.babel.json';
 }
 
-require('babel/register');
+require('babel-register');
 
 module.exports = require('./server');

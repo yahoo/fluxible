@@ -8,8 +8,8 @@
     "url": "git://github.com/yahoo/fluxible.git"
   },
   "scripts": {
-    "test": "../../node_modules/.bin/mocha tests/unit/ --recursive --compilers js:babel/register --reporter spec",
-    "cover": "../../node_modules/.bin/istanbul cover --dir artifacts -- ../../node_modules/.bin/_mocha tests/unit/ --recursive --compilers js:babel/register --reporter spec",
+    "test": "../../node_modules/.bin/mocha tests/unit/ --recursive --compilers js:babel-register --reporter spec",
+    "cover": "../../node_modules/.bin/istanbul cover --dir artifacts -- ../../node_modules/.bin/_mocha tests/unit/ --recursive --compilers js:babel-register --reporter spec",
     "lint": "../../node_modules/.bin/eslint lib/ addons/ utils/ index.js"
   },
   "author": "Michael Ridgway <mridgway@yahoo-inc.com>",

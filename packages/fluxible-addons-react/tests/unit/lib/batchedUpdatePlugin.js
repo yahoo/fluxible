@@ -2,7 +2,6 @@
 'use strict';
 
 var expect = require('chai').expect;
-var mockery = require('mockery');
 var React;
 var ReactDOM;
 var ReactTestUtils;
@@ -21,16 +20,12 @@ describe('fluxible-addons-react', function () {
             jsdom.env('<html><body></body></html>', [], function (err, window) {
                 if (err) {
                     done(err);
+                    return;
                 }
                 global.window = window;
                 global.document = window.document;
                 global.navigator = window.navigator;
 
-                mockery.enable({
-                    warnOnReplace: false,
-                    warnOnUnregistered: false,
-                    useCleanCache: true
-                });
                 React = require('react');
                 ReactDOM = require('react-dom');
                 ReactTestUtils = require('react-addons-test-utils');
@@ -53,7 +48,6 @@ describe('fluxible-addons-react', function () {
             delete global.window;
             delete global.document;
             delete global.navigator;
-            mockery.disable();
         });
 
         it('should only call render once when two stores emit changes', function (done) {

@@ -7,7 +7,7 @@ import debugLib from 'debug';
 import Fluxible from 'fluxible';
 import fetchrPlugin from 'fluxible-plugin-fetchr';
 import routes from './configs/routes';
-import Application from './components/Application.jsx';
+import Application from './components/Application';
 import DocStore from './stores/DocStore';
 import SearchStore from './stores/SearchStore';
 import { RouteStore } from 'fluxible-router';

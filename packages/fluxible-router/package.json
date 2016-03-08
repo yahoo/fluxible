@@ -8,8 +8,8 @@
     "url": "git://github.com/yahoo/fluxible.git"
   },
   "scripts": {
-    "test": "../../node_modules/.bin/mocha tests/unit/ --recursive --compilers js:babel/register --reporter spec",
-    "cover": "../../node_modules/.bin/istanbul cover --dir artifacts -- ../../node_modules/.bin/_mocha tests/unit/ --recursive --compilers js:babel/register --reporter spec",
+    "test": "../../node_modules/.bin/mocha tests/unit/ --recursive --compilers js:babel-register --reporter spec",
+    "cover": "../../node_modules/.bin/istanbul cover --dir artifacts -- ../../node_modules/.bin/_mocha tests/unit/ --recursive --compilers js:babel-register --reporter spec",
     "lint": "../../node_modules/.bin/eslint *.js */*.js"
   },
   "author": "Lingyan Zhu <lingyan@yahoo-inc.com>",
@@ -22,7 +22,7 @@
   "dependencies": {
     "debug": "^2.0.0",
     "fluxible-addons-react": "^0.2.0",
-    "hoist-non-react-statics": "^1.0.0",
+    "hoist-non-react-statics": "^1.0.4",
     "inherits": "^2.0.1",
     "query-string": "^3.0.0",
     "routr": "^0.1.1"
@@ -32,20 +32,9 @@
     "react": "^0.14.0"
   },
   "devDependencies": {
-    "babel": "^5.0.7",
-    "babel-eslint": "^4.1.0",
-    "chai": "^3.2.0",
-    "coveralls": "^2.11.1",
-    "eslint": "^1.2.1",
     "fluxible": "^1.0.0",
-    "istanbul": "^0.3.2",
-    "jsdom": "^3.0.2",
     "lodash": "^3.2.0",
-    "mocha": "^2.0.1",
-    "mockery": "^1.4.0",
-    "pre-commit": "^1.1.1",
     "react": "^0.14.0",
-    "react-addons-test-utils": "^0.14.0",
     "react-dom": "^0.14.0"
   },
   "keywords": [

@@ -4,17 +4,17 @@
  */
 
 import React from 'react';
-import NavLink from './NavLink.jsx';
+import NavLink from './NavLink';
 
-class Status404 extends React.Component {
+class Status500 extends React.Component {
     render() {
         return (
-            <div id="404" className="D(tb) W(100%) Pos(r)">
+            <div id="500" className="D(tb) W(100%) Pos(r)">
                 <div className="D(tb)c Va(m) Bgz(cv) Ov(h) Pos(r) W(100%) Start(0)">
                     <div className="Mx(a) W(65%) Pos(r) Ov(h) Fw(300)">
-                        <h1>Not found</h1>
-                        <p>Sorry we could not find that resource.</p>
-                        <p><NavLink routeName="home" i13nModel={{category: '404'}}>Back to the home page.</NavLink></p>
+                        <h1>Error</h1>
+                        <p>Sorry there was an unexpected errror.</p>
+                        <p><NavLink routeName="home" i13nModel={{category: '500'}}>Back to the home page.</NavLink></p>
                     </div>
                 </div>
             </div>
@@ -22,4 +22,4 @@ class Status404 extends React.Component {
     }
 }
 
-export default Status404;
+export default Status500;

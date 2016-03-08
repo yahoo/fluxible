@@ -2,7 +2,6 @@
 'use strict';
 
 var expect = require('chai').expect;
-var mockery = require('mockery');
 var React;
 var ReactDOM;
 var ReactTestUtils;
@@ -22,6 +21,7 @@ describe('fluxible-addons-react', function () {
             jsdom.env('<html><body></body></html>', [], function (err, window) {
                 if (err) {
                     done(err);
+                    return;
                 }
                 global.window = window;
                 global.document = window.document;
@@ -31,11 +31,6 @@ describe('fluxible-addons-react', function () {
                     stores: [FooStore, BarStore]
                 });
 
-                mockery.enable({
-                    warnOnReplace: false,
-                    warnOnUnregistered: false,
-                    useCleanCache: true
-                });
                 React = require('react');
                 ReactDOM = require('react-dom');
                 ReactTestUtils = require('react-addons-test-utils');
@@ -51,7 +46,6 @@ describe('fluxible-addons-react', function () {
             delete global.window;
             delete global.document;
             delete global.navigator;
-            mockery.disable();
         });
 
         it('will not double render', function () {
@@ -67,9 +61,8 @@ describe('fluxible-addons-react', function () {
                     <Component>Some child</Component>
                 </FluxibleComponent>
             );
-            expect(ReactDOM.findDOMNode(element).outerHTML).to.equal(
-                '<div class="Component" data-reactid=".0">Some child</div>'
-            );
+            expect(ReactDOM.findDOMNode(element).className).to.equal('Component');
+            expect(ReactDOM.findDOMNode(element).textContent).to.equal('Some child');
         });
 
         it('should pass context prop to child', function (done) {

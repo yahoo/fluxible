@@ -9,7 +9,7 @@ var fetchrPlugin = require('fluxible-plugin-fetchr');
 
 
 var app = new Fluxible({
-    component: require('./components/TodoApp.jsx')
+    component: require('./components/TodoApp')
 });
 
 app.plug(fetchrPlugin({

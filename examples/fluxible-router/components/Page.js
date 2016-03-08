@@ -6,7 +6,6 @@ import React from 'react';
 import PageStore from '../stores/PageStore';
 import { connectToStores } from 'fluxible-addons-react';
 
-@connectToStores([PageStore], (context) => context.getStore(PageStore).getState())
 class Page extends React.Component {
     static contextTypes = {
         getStore: React.PropTypes.func,
@@ -21,5 +20,7 @@ class Page extends React.Component {
         );
     }
 }
+
+Page = connectToStores(Page, [PageStore], (context) => context.getStore(PageStore).getState());
 
 export default Page;

@@ -2,7 +2,7 @@
  * Copyright 2014, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-require('babel/register');
+require('babel-register');
 var express = require('express');
 var favicon = require('serve-favicon');
 var serialize = require('serialize-javascript');
@@ -13,7 +13,7 @@ var React = require('react');
 var ReactDOM = require('react-dom/server');
 var app = require('./app');
 var showTodos = require('./actions/showTodos');
-var HtmlComponent = React.createFactory(require('./components/Html.jsx'));
+var HtmlComponent = React.createFactory(require('./components/Html'));
 var createElement = require('fluxible-addons-react/createElementWithContext');
 
 

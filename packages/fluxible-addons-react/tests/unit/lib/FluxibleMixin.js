@@ -33,6 +33,7 @@ describe('fluxible-addons-react', function () {
             jsdom.env('<html><body></body></html>', [], function (err, window) {
                 if (err) {
                     done(err);
+                    return;
                 }
                 global.window = window;
                 global.document = window.document;

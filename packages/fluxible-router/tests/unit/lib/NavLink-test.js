@@ -31,24 +31,36 @@ onClickMock = function () {
 describe('NavLink', function () {
     var mockContext;
 
-    beforeEach(function () {
-        global.document = jsdom.jsdom('<html><body></body></html>');
-        global.window = global.document.parentWindow;
-        global.navigator = global.window.navigator;
-        React = require('react');
-        ReactDOM = require('react-dom');
-        ReactTestUtils = require('react-addons-test-utils');
-        mockContext = createMockComponentContext({
-            stores: [TestRouteStore]
+    beforeEach(function (done) {
+        jsdom.env({
+            url: 'http://yahoo.com',
+            html: '<html><body></body></html>',
+            done: function (err, window) {
+                if (err) {
+                    done(err);
+                    return;
+                }
+                global.document = window.document;
+                global.window = window;
+                global.navigator = window.navigator;
+
+                React = require('react');
+                ReactDOM = require('react-dom');
+                ReactTestUtils = require('react-addons-test-utils');
+                mockContext = createMockComponentContext({
+                    stores: [TestRouteStore]
+                });
+                mockContext.getStore('RouteStore')._handleNavigateStart({
+                    url: '/foo',
+                    method: 'GET'
+                });
+                MockAppComponent = require('../../mocks/MockAppComponent');
+                NavLink = require('../../../lib/NavLink');
+                createNavLinkComponent = require('../../../lib/createNavLinkComponent');
+                testResult = {};
+                done();
+            }
         });
-        mockContext.getStore('RouteStore')._handleNavigateStart({
-            url: '/foo',
-            method: 'GET'
-        });
-        MockAppComponent = require('../../mocks/MockAppComponent');
-        NavLink = require('../../../lib/NavLink');
-        createNavLinkComponent = require('../../../lib/createNavLinkComponent');
-        testResult = {};
     });
 
     afterEach(function () {
@@ -145,7 +157,7 @@ describe('NavLink', function () {
     });
 
     describe('dispatchNavAction()', function () {
-        it ('use react context', function (done) {
+        it('use react context', function (done) {
             var navParams = {a: 1, b: true};
             var link = ReactTestUtils.renderIntoDocument(
                 <MockAppComponent context={mockContext}>
@@ -162,7 +174,7 @@ describe('NavLink', function () {
                 done();
             }, 10);
         });
-        it ('should getNavParams from overwriteSpec if so configured', function (done) {
+        it('should getNavParams from overwriteSpec if so configured', function (done) {
             var navParams = {a: 1, b: true};
             var params = {
                 href:'/foo',
@@ -189,7 +201,7 @@ describe('NavLink', function () {
                 done();
             }, 10);
         });
-        it ('stopPropagation stops event propagation', function (done) {
+        it('stopPropagation stops event propagation', function (done) {
             var propagateFail = function(e) {
                 expect(e.isPropagationStopped()).to.eql(true);
             };
@@ -223,7 +235,7 @@ describe('NavLink', function () {
                 done();
             }, 10);
         });
-        it ('context.executeAction called for routeNames', function (done) {
+        it('context.executeAction called for routeNames', function (done) {
             var link = ReactTestUtils.renderIntoDocument(
                 <MockAppComponent context={mockContext}>
                     <NavLink routeName='foo' />
@@ -239,7 +251,7 @@ describe('NavLink', function () {
                 done();
             }, 10);
         });
-        it ('context.executeAction called for absolute urls from same origin', function (done) {
+        it('context.executeAction called for absolute urls from same origin', function (done) {
             var navParams = {a: 1, b: true};
             var origin = window.location.origin;
             var link = ReactTestUtils.renderIntoDocument(
@@ -319,7 +331,7 @@ describe('NavLink', function () {
                 };
             });
 
-            it ('should not call context.executeAction when a user does not confirm the onbeforeunload method', function (done) {
+            it('should not call context.executeAction when a user does not confirm the onbeforeunload method', function (done) {
                 var link = ReactTestUtils.renderIntoDocument(
                     <MockAppComponent context={mockContext}>
                         <NavLink href='/foo' followLink={false} />

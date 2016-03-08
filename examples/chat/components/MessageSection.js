@@ -15,8 +15,8 @@
  */
 'use strict';
 var React = require('react');
-var MessageComposer = require('./MessageComposer.jsx');
-var MessageListItem = require('./MessageListItem.jsx');
+var MessageComposer = require('./MessageComposer');
+var MessageListItem = require('./MessageListItem');
 var MessageStore = require('../stores/MessageStore');
 var ThreadStore = require('../stores/ThreadStore');
 var connectToStores = require('fluxible-addons-react/connectToStores');
