@@ -133,7 +133,7 @@ describe('NavLink', function () {
                 </MockAppComponent>
             );
             expect(ReactDOM.findDOMNode(link).getAttribute('class')).to.equal('bar');
-            expect(ReactDOM.findDOMNode(link).getAttribute('style')).to.equal('color:red;');
+            expect(ReactDOM.findDOMNode(link).getAttribute('style').replace(/ /g, '')).to.equal('color:red;');
         });
         it('should set the active state and keep the passed props', function () {
             var link = ReactTestUtils.renderIntoDocument(
@@ -143,7 +143,7 @@ describe('NavLink', function () {
                 </MockAppComponent>
             );
             expect(ReactDOM.findDOMNode(link).getAttribute('class')).to.equal('bar active2');
-            expect(ReactDOM.findDOMNode(link).getAttribute('style')).to.equal('background:blue;color:red;');
+            expect(ReactDOM.findDOMNode(link).getAttribute('style').replace(/ /g, '')).to.equal('background:blue;color:red;');
         });
         it('should not set active state if href does not match current route', function () {
             var navParams = {a: 1, b: 2};
