@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.4.9
+
+### Features
+
+ * [#387] Allow `followLink` functionality to be modified by `createNavLinkComponent` spec argument
+
 ## 0.4.8
 
 ### Bug Fixes
