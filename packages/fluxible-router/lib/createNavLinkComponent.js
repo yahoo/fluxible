@@ -101,12 +101,16 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
         getNavParams: function (props) {
             return props.navParams;
         },
+        shouldFollowLink: function(props) {
+            return props.followLink;
+        },
         dispatchNavAction: function (e) {
             var navParams = this.getNavParams(this.props);
             var navType = this.props.replaceState ? 'replacestate' : 'click';
-            debug('dispatchNavAction: action=NAVIGATE', this.props.href, this.props.followLink, navParams);
+            var shouldFollowLink = this.shouldFollowLink(this.props);
+            debug('dispatchNavAction: action=NAVIGATE', this.props.href, shouldFollowLink, navParams);
 
-            if (this.props.followLink) {
+            if (shouldFollowLink) {
                 return;
             }
 
