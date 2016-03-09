@@ -109,6 +109,10 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
             var navType = this.props.replaceState ? 'replacestate' : 'click';
             var shouldFollowLink = this.shouldFollowLink(this.props);
             debug('dispatchNavAction: action=NAVIGATE', this.props.href, shouldFollowLink, navParams);
+            
+            if (this.props.stopPropagation) {
+                e.stopPropagation();
+            }
 
             if (shouldFollowLink) {
                 return;
@@ -143,9 +147,6 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
             }
 
             e.preventDefault();
-            if (this.props.stopPropagation) {
-                e.stopPropagation();
-            }
 
             var context = this.props.context || this.context;
             var onBeforeUnloadText = typeof window.onbeforeunload === 'function' ? window.onbeforeunload() : '';
