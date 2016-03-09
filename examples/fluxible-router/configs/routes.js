@@ -23,6 +23,17 @@ export default {
             done();
         }
     },
+    internal: {
+        path: '/internalPage',
+        method: 'get',
+        handler: require('../components/Page'),
+        label: 'Internal',
+        action: (context, payload, done) => {
+            context.dispatch('LOAD_PAGE', { id: 'Internal Page' });
+            context.dispatch('UPDATE_PAGE_TITLE', { pageTitle: 'Internal Page | flux-examples | routing' });
+            done();
+        }
+    },
     dynamicpage: {
         path: '/page/:id',
         method: 'get',

@@ -20,6 +20,7 @@ var navigateAction = require('../../../').navigateAction;
 var TestRouteStore = RouteStore.withStaticRoutes({
     foo: { path: '/foo', method: 'get' },
     bar: { path: '/bar', method: 'get'},
+    int: { path: '/internal', method: 'get'},
     fooA: { path: '/foo/:a', method: 'get' },
     fooAB: { path: '/foo/:a/:b', method: 'get' }
 });
@@ -81,6 +82,7 @@ describe('NavLink', function () {
             expect(ReactDOM.findDOMNode(link).getAttribute('href')).to.equal('/foo');
             expect(ReactDOM.findDOMNode(link).textContent).to.equal('bar');
         });
+
         it('should prefer href over routeName', function () {
             var link = ReactTestUtils.renderIntoDocument(
                 <MockAppComponent context={mockContext}>
@@ -89,6 +91,7 @@ describe('NavLink', function () {
             );
             expect(ReactDOM.findDOMNode(link).getAttribute('href')).to.equal('/foo');
         });
+
         it('should create href from routeName and parameters', function () {
             var navParams = {a: 1, b: 2};
             var link = ReactTestUtils.renderIntoDocument(
@@ -98,6 +101,44 @@ describe('NavLink', function () {
             );
             expect(ReactDOM.findDOMNode(link).getAttribute('href')).to.equal('/foo/1/2');
         });
+
+        it('should have routeName mapped to the correct path', function () {
+            var link = ReactTestUtils.renderIntoDocument(
+                <MockAppComponent context={mockContext}>
+                    <NavLink routeName='int' />
+                </MockAppComponent>
+            );
+            expect(ReactDOM.findDOMNode(link).getAttribute('href')).to.equal('/internal');
+        });
+
+        it('should create href from attribute href when autoMatch is true', function () {
+            var link = ReactTestUtils.renderIntoDocument(
+                <MockAppComponent context={mockContext}>
+                    <NavLink autoMatch={true} href='int' />
+                </MockAppComponent>
+            );
+            expect(ReactDOM.findDOMNode(link).getAttribute('href')).to.equal('/internal');
+        });
+
+        it('should not have correct mapping from attribute href when autoMatch is false', function () {
+            var link = ReactTestUtils.renderIntoDocument(
+                <MockAppComponent context={mockContext}>
+                    <NavLink href='int' />
+                </MockAppComponent>
+            );
+            expect(ReactDOM.findDOMNode(link).getAttribute('href')).to.not.equal('/internal');
+        });
+
+        it('should create href from href and parameters when autoMatch is true', function () {
+            var navParams = {a: 1};
+            var link = ReactTestUtils.renderIntoDocument(
+                <MockAppComponent context={mockContext}>
+                    <NavLink autoMatch={true} href='fooA' navParams={navParams} />
+                </MockAppComponent>
+            );
+            expect(ReactDOM.findDOMNode(link).getAttribute('href')).to.equal('/foo/1');
+        });
+
         it('should throw if href and routeName undefined', function () {
             var navParams = {a: 1, b: 2};
             expect(function () {
@@ -108,6 +149,7 @@ describe('NavLink', function () {
                 );
             }).to['throw']();
         });
+
         it('should set active state if href matches current route', function () {
             var navParams = {a: 1, b: 2};
             var link = ReactTestUtils.renderIntoDocument(
@@ -117,6 +159,7 @@ describe('NavLink', function () {
             );
             expect(ReactDOM.findDOMNode(link).getAttribute('class')).to.equal('active');
         });
+
         it('should set active state by tag name if the optional activeElement property is set', function () {
             var navParams = {a: 1, b: 2};
             var link = ReactTestUtils.renderIntoDocument(
@@ -126,6 +169,7 @@ describe('NavLink', function () {
             );
             expect(ReactDOM.findDOMNode(link).nodeName.toLowerCase()).to.equal('span');
         });
+
         it('should set active state with custom class and style', function () {
             var link = ReactTestUtils.renderIntoDocument(
                 <MockAppComponent context={mockContext}>
@@ -135,6 +179,7 @@ describe('NavLink', function () {
             expect(ReactDOM.findDOMNode(link).getAttribute('class')).to.equal('bar');
             expect(ReactDOM.findDOMNode(link).getAttribute('style').replace(/ /g, '')).to.equal('color:red;');
         });
+
         it('should set the active state and keep the passed props', function () {
             var link = ReactTestUtils.renderIntoDocument(
                 <MockAppComponent context={mockContext}>
@@ -145,6 +190,7 @@ describe('NavLink', function () {
             expect(ReactDOM.findDOMNode(link).getAttribute('class')).to.equal('bar active2');
             expect(ReactDOM.findDOMNode(link).getAttribute('style').replace(/ /g, '')).to.equal('background:blue;color:red;');
         });
+
         it('should not set active state if href does not match current route', function () {
             var navParams = {a: 1, b: 2};
             var link = ReactTestUtils.renderIntoDocument(
@@ -218,6 +264,7 @@ describe('NavLink', function () {
                 done();
             }, 10);
         });
+
         it('context.executeAction called for relative urls', function (done) {
             var navParams = {a: 1, b: true};
             var link = ReactTestUtils.renderIntoDocument(
@@ -235,6 +282,51 @@ describe('NavLink', function () {
                 done();
             }, 10);
         });
+
+        it('context.executeAction called for href when autoMatch is true and href is registered', function (done) {
+            var navParams = {a: 1, b: true};
+            var link = ReactTestUtils.renderIntoDocument(
+                <MockAppComponent context={mockContext}>
+                    <NavLink autoMatch={true} href='int' navParams={navParams}/>
+                </MockAppComponent>
+            );
+            ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(link), {button: 0});
+            window.setTimeout(function () {
+                expect(mockContext.executeActionCalls.length).to.equal(1);
+                expect(mockContext.executeActionCalls[0].action).to.equal(navigateAction);
+                expect(mockContext.executeActionCalls[0].payload.type).to.equal('click');
+                expect(mockContext.executeActionCalls[0].payload.url).to.equal('/internal');
+                expect(mockContext.executeActionCalls[0].payload.params).to.eql({a: 1, b: true});
+                done();
+            }, 10);
+        });
+
+        it('context.executeAction not called for href when autoMatch is false', function (done) {
+            var link = ReactTestUtils.renderIntoDocument(
+                <MockAppComponent context={mockContext}>
+                    <NavLink href='int'/>
+                </MockAppComponent>
+            );
+            ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(link), {button: 0});
+            window.setTimeout(function () {
+                expect(testResult.dispatch).to.equal(undefined);
+                done();
+            }, 10);
+        });
+
+        it('context.executeAction not called for href when autoMatch is true but href is not registered', function (done) {
+            var link = ReactTestUtils.renderIntoDocument(
+                <MockAppComponent context={mockContext}>
+                    <NavLink autoMatch={true} href='notregister'/>
+                </MockAppComponent>
+            );
+            ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(link), {button: 0});
+            window.setTimeout(function () {
+                expect(testResult.dispatch).to.equal(undefined);
+                done();
+            }, 10);
+        });
+
         it('context.executeAction called for routeNames', function (done) {
             var link = ReactTestUtils.renderIntoDocument(
                 <MockAppComponent context={mockContext}>
@@ -251,6 +343,7 @@ describe('NavLink', function () {
                 done();
             }, 10);
         });
+
         it('context.executeAction called for absolute urls from same origin', function (done) {
             var navParams = {a: 1, b: true};
             var origin = window.location.origin;
@@ -269,6 +362,7 @@ describe('NavLink', function () {
                 done();
             }, 10);
         });
+
         it('context.executeAction not called for external urls', function (done) {
             var link = ReactTestUtils.renderIntoDocument(
                 <MockAppComponent context={mockContext}>
@@ -281,6 +375,20 @@ describe('NavLink', function () {
                 done();
             }, 10);
         });
+
+        it('context.executeAction not called for external urls when autoMatch is true', function (done) {
+            var link = ReactTestUtils.renderIntoDocument(
+                <MockAppComponent context={mockContext}>
+                    <NavLink autoMatch={true} href='http://domain.does.not.exist/foo' />
+                </MockAppComponent>
+            );
+            ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(link), {button: 0});
+            window.setTimeout(function () {
+                expect(testResult.dispatch).to.equal(undefined);
+                done();
+            }, 10);
+        });
+
         it('context.executeAction not called for # urls', function (done) {
             var link = ReactTestUtils.renderIntoDocument(
                 <MockAppComponent context={mockContext}>
@@ -307,6 +415,7 @@ describe('NavLink', function () {
                 done();
             }, 10);
         });
+
         it('context.executeAction called if followLink=false', function (done) {
             var link = ReactTestUtils.renderIntoDocument(
                 <MockAppComponent context={mockContext}>

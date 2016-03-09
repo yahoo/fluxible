@@ -37,7 +37,8 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
             navParams: React.PropTypes.object,
             followLink: React.PropTypes.bool,
             preserveScrollPosition: React.PropTypes.bool,
-            replaceState: React.PropTypes.bool
+            replaceState: React.PropTypes.bool,
+            autoMatch: React.PropTypes.bool
         },
         getInitialState: function () {
             return this._getState(this.props);
@@ -88,6 +89,9 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
             var routeName = props.routeName;
             var routeStore = this.context.getStore(RouteStore);
             var navParams = this.getNavParams(props);
+            if(props.autoMatch && href) {
+                href = routeStore.makePath(href, navParams) || href;
+            }
             if (!href && routeName) {
                 href = routeStore.makePath(routeName, navParams);
             }
@@ -108,6 +112,7 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
             var navParams = this.getNavParams(this.props);
             var navType = this.props.replaceState ? 'replacestate' : 'click';
             var shouldFollowLink = this.shouldFollowLink(this.props);
+            var routeStore = this.context.getStore(RouteStore);
             debug('dispatchNavAction: action=NAVIGATE', this.props.href, shouldFollowLink, navParams);
             
             if (this.props.stopPropagation) {
@@ -132,7 +137,7 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
                 return;
             }
 
-            if (href[0] !== '/') {
+            if (href[0] !== '/' || (this.props.autoMatch && !routeStore.getRoute(href))) {
                 // this is not a relative url. check for external urls.
                 var location = window.location;
                 var origin = location.origin || (location.protocol + '//' + location.host);
