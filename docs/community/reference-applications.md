@@ -13,7 +13,7 @@ Want to add your application? Click edit above and open a PR!
 
 ## Closed Source
 
-- [6play.fr (Beta)](http://beta.6play.fr) is the video site for the french television Channel "M6"
+- [6play.fr](http://www.6play.fr) is the video site for the french television Channel "M6"
 - [Carousell](https://carousell.com) is one of the world's largest and fastest growing online marketplaces.
 - [CodePad](https://codepad.remoteinterview.io) is an All-in-one pair programming tool ideal for phone interviews. Supports and compiles 10+ languages and has full bash access too.
 - [DICE FM](https://dice.fm) is a music startup based in London that handpicks the best gigs in your city.
