@@ -5,7 +5,7 @@
 /*global window */
 'use strict';
 var React = require('react');
-var debug = require('debug')('RoutingContainer');
+var debug = require('debug')('FluxibleRouter:handleHistory');
 var handleRoute = require('../lib/handleRoute');
 var navigateAction = require('../lib/navigateAction');
 var History = require('./History');
@@ -22,7 +22,8 @@ var defaultOptions = {
     enableScroll: true,
     historyCreator: function () {
         return new History();
-    }
+    },
+    ignorePopstateOnPageLoad: false
 };
 
 // Begin listening for popstate so they are not missed prior to instantiation
@@ -43,6 +44,14 @@ var historyCreated = false;
 
 function createComponent(Component, opts) {
     var options = Object.assign({}, defaultOptions, opts);
+
+    function shouldIgnorePopstateOnPageLoad() {
+        var ignore = options.ignorePopstateOnPageLoad;
+        if ('function' === typeof ignore) {
+            return ignore();
+        }
+        return !!ignore;
+    }
 
     function HistoryHandler(props, context) {
         React.Component.apply(this, arguments);
@@ -77,6 +86,18 @@ function createComponent(Component, opts) {
             this._saveScrollPosition = this.constructor.prototype._saveScrollPosition.bind(this);
 
             this._history = options.historyCreator();
+
+            this._ignorePageLoadPopstate = shouldIgnorePopstateOnPageLoad();
+            if (this._ignorePageLoadPopstate) {
+                // populate the state object, so that all pages loaded will have a non-null
+                // history.state object, which we can use later to distinguish pageload popstate
+                // event from regular popstate events
+                var historyState = this._history.getState();
+                if (!historyState) {
+                    this._history.replaceState({});
+                }
+            }
+
             this._scrollTimer = null;
 
             if (options.checkRouteOnPageLoad) {
@@ -119,21 +140,29 @@ function createComponent(Component, opts) {
             this._scrollTimer = window.setTimeout(this._saveScrollPosition, 150);
         },
         _onHistoryChange: function (e) {
+            debug('history listener invoked', e);
+            if (this._ignorePageLoadPopstate) {
+                // 1) e.state (null) and history.state (not null)
+                //    -- this is popstate triggered on pageload in Safari browser.
+                //       history.state is not null, because if _ignorePageLoadPopstate
+                //       is true, we replaceState in componentDidMount() to set state obj
+                // 2) e.state(not null) and history.state (not null)
+                //    -- regular popstate triggered by forward/back button click and history.go(n)
+                // 3) history.state (null)
+                //    -- this is not a valid scenario, as we update the state before
+                //       _onHistoryChange gets invoked in componentDidMount()
+                var stateFromHistory = this._history.getState();
+                var isPageloadPopstate = (e.state === null) && !!stateFromHistory;
+                debug('history listener detecting pageload popstate', e.state, stateFromHistory);
+                if (isPageloadPopstate) {
+                    debug('history listener skipped pageload popstate');
+                    return;
+                }
+            }
             var props = this.props;
             var url = this._history.getUrl();
             var currentRoute = props.currentRoute || {};
             var nav = props.currentNavigate || {};
-
-            // Add currentNavigate.externalUrl checking for https://github.com/yahoo/fluxible/issues/349:
-            // "Safari popstate issue causing handleHistory.js to execute the navigateAction on page load".
-            // This needs app to dispatch "externalUrl" as part of the payload for the NAVIGATE_START event
-            // on server side, which contains the absolute url user sees in browser when the request is made.
-            // For client side navigation, "externalUrl" field is not needed and is not set by fluxible-router.
-            var externalUrl = nav.externalUrl;
-            if (externalUrl && externalUrl === window.location.href.split('#')[0]) {
-                // this is the initial page load, omit the popstate event erroneously fired by Safari browsers.
-                return;
-            }
 
             var currentUrl = currentRoute.url;
 
@@ -151,7 +180,7 @@ function createComponent(Component, opts) {
 
             var pageTitle = navParams.pageTitle || null;
 
-            debug('history listener invoked', e, url, currentUrl);
+            debug('history listener url, currentUrl:', url, currentUrl, this.props);
 
             if (!confirmResult) {
                 // Pushes the previous history state back on top to set the correct url
@@ -249,6 +278,14 @@ function createComponent(Component, opts) {
  * @param {boolean} opts.enableScroll=true Scrolls to saved scroll position in history state;
  *                  scrolls to (0, 0) if there is no scroll position saved in history state.
  * @param {function} opts.historyCreator A factory for creating the history implementation
+ * @param {boolean|function} opts.ignorePopstateOnPageLoad=false A boolean value or a function that
+ *                  returns a boolean value. Browsers tend to handle the popstate event
+ *                  differently on page load. Chrome (prior to v34) and Safari always emit
+ *                  a popstate event on page load, but Firefox doesn't
+ *                  (https://developer.mozilla.org/en-US/docs/Web/Events/popstate)
+ *                  This flag is for ignoring popstate event triggered on page load
+ *                  if that causes issue for your application, as reported in
+ *                  https://github.com/yahoo/fluxible/issues/349.
  * @returns {React.Component}
  */
 module.exports = function handleHistory(Component, opts) {
