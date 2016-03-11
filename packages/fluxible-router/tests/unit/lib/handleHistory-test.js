@@ -264,6 +264,106 @@ describe('handleHistory', function () {
                         done();
                     }, 10);
                 });
+                describe('handle popstate event on page load', function () {
+                    it('execute navigation action when ignorePopstateOnPageLoad is false', function (done) {
+                        var routeStore = mockContext.getStore('RouteStore');
+                        routeStore._handleNavigateStart({url: '/foo', method: 'GET'});
+                        var MockAppComponent = mockCreator({
+                            checkRouteOnPageLoad: false,
+                            historyCreator: function () {
+                                return historyMock('/browserUrl', {a: 1});
+                            },
+                            ignorePopstateOnPageLoad: false
+                        });
+
+                        // simulate page load popstate
+                        window.dispatchEvent(Object.assign(new Event('popstate'), {state: null}));
+
+                        ReactTestUtils.renderIntoDocument(
+                            <MockAppComponent context={mockContext} />
+                        );
+
+                        setTimeout(function() {
+                            expect(mockContext.executeActionCalls.length).to.equal(1);
+                            expect(mockContext.executeActionCalls[0].action).to.be.a('function');
+                            expect(mockContext.executeActionCalls[0].payload.type).to.equal('popstate');
+                            expect(mockContext.executeActionCalls[0].payload.url).to.equal('/browserUrl');
+                            done();
+                        }, 150);
+                    });
+                    it('skip navigation action when ignorePopstateOnPageLoad is true', function (done) {
+                        var routeStore = mockContext.getStore('RouteStore');
+                        routeStore._handleNavigateStart({url: '/foo', method: 'GET'});
+                        var MockAppComponent = mockCreator({
+                            checkRouteOnPageLoad: false,
+                            historyCreator: function () {
+                                return historyMock('/browserUrl', {a: 1});
+                            },
+                            ignorePopstateOnPageLoad: true
+                        });
+
+                        // simulate page load popstate
+                        window.dispatchEvent(Object.assign(new Event('popstate'), {state: null}));
+
+                        ReactTestUtils.renderIntoDocument(
+                            <MockAppComponent context={mockContext} />
+                        );
+
+                        setTimeout(function() {
+                            expect(mockContext.executeActionCalls.length).to.equal(0);
+                            done();
+                        }, 150);
+                    });
+                    it('ignorePopstateOnPageLoad can be a function that returns false', function (done) {
+                        var routeStore = mockContext.getStore('RouteStore');
+                        routeStore._handleNavigateStart({url: '/foo', method: 'GET'});
+                        var MockAppComponent = mockCreator({
+                            checkRouteOnPageLoad: false,
+                            historyCreator: function () {
+                                return historyMock('/browserUrl', {a: 1});
+                            },
+                            ignorePopstateOnPageLoad: function () { return false; }
+                        });
+
+                        // simulate page load popstate
+                        window.dispatchEvent(Object.assign(new Event('popstate'), {state: null}));
+
+                        ReactTestUtils.renderIntoDocument(
+                            <MockAppComponent context={mockContext} />
+                        );
+
+                        setTimeout(function() {
+                            expect(mockContext.executeActionCalls.length).to.equal(1);
+                            expect(mockContext.executeActionCalls[0].action).to.be.a('function');
+                            expect(mockContext.executeActionCalls[0].payload.type).to.equal('popstate');
+                            expect(mockContext.executeActionCalls[0].payload.url).to.equal('/browserUrl');
+                            done();
+                        }, 150);
+                    });
+                    it('ignorePopstateOnPageLoad can be a function that returns true', function (done) {
+                        var routeStore = mockContext.getStore('RouteStore');
+                        routeStore._handleNavigateStart({url: '/foo', method: 'GET'});
+                        var MockAppComponent = mockCreator({
+                            checkRouteOnPageLoad: false,
+                            historyCreator: function () {
+                                return historyMock('/browserUrl', {a: 1});
+                            },
+                            ignorePopstateOnPageLoad: function () { return true; }
+                        });
+
+                        // simulate page load popstate
+                        window.dispatchEvent(Object.assign(new Event('popstate'), {state: null}));
+
+                        ReactTestUtils.renderIntoDocument(
+                            <MockAppComponent context={mockContext} />
+                        );
+
+                        setTimeout(function() {
+                            expect(mockContext.executeActionCalls.length).to.equal(0);
+                            done();
+                        }, 150);
+                    });
+                });
                 describe('window.onbeforeunload', function () {
                     beforeEach(function () {
                         global.window.confirm = function () { return false; };

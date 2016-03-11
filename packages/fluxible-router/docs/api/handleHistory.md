@@ -9,6 +9,7 @@ The `handleHistory` higher-order component handles the browser history state man
 | `checkRouteOnPageLoad` | `false` | Performs navigate on first page load |
 | `enableScroll` | `true` | Saves scroll position in history state |
 | `historyCreator` | [`History`](../../lib/History.js) | A factory for creating the history implementation |
+| `ignorePopstateOnPageLoad` | `false` | A boolean value or a function that returns a boolean value. [Browsers tend to handle the popstate event differently on page load. Chrome (prior to v34) and Safari always emit a popstate event on page load, but Firefox doesn't.](https://developer.mozilla.org/en-US/docs/Web/Events/popstate) This flag is for ignoring popstate event triggered on page load if that causes issue for your application, as reported in [issue #349](https://github.com/yahoo/fluxible/issues/349). |
 
 ## Example Usage
 
