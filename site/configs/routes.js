@@ -3,6 +3,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
+import showHome from '../actions/showHome';
 import showDoc from '../actions/showDoc';
 import showSearch from '../actions/showSearch';
 import demoException from '../actions/demoException';
@@ -16,9 +17,7 @@ export default {
         path: '/',
         method: 'GET',
         handler: Home,
-        githubPath: '/docs/home.md',
-        githubRepo: 'yahoo/fluxible',
-        action: showDoc,
+        action: showHome,
         pageTitle: 'Fluxible | A Pluggable Container for Isomorphic Flux Applications',
         pageDescription: 'A Pluggable Container for Isomorphic Flux Applications'
     },
