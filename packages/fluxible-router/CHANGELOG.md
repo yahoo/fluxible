@@ -1,5 +1,16 @@
 # Change Log
 
+## 0.4.10
+
+### Features
+
+ * [#390] Support for React 15
+ * [#394] Allow ignoring popstate event on page load
+ 
+### Bug Fixes
+
+ * [#392] Fix stopPropagation not working with modified key presses
+
 ## 0.4.9
 
 ### Features

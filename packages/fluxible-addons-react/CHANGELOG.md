@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.2.6
+
+### Features
+
+ * [#390] Support for React 15
+
 ## 0.2.5
 
 ### Bug Fixes
