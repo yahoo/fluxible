@@ -189,7 +189,7 @@ the `module.hot.accept` call, require the new spec, and call `Store.replaceSpec`
 to ensure that the reducer and getter definitions are correctly replaced.
 
 _Note: any file that requires your store spec 
-(e.g. `./stores/MessageStore') will have to implement `module.hot.accept`
+(e.g. `./stores/MessageStore`) will have to implement `module.hot.accept`
 including components or actions. You can either implement it in all of your
 files or remove the `require`s and call `getStore` with the `storeName` string
 instead of the spec/constructor: `context.getStore('MessageStore')`._
