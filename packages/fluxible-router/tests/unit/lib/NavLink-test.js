@@ -111,34 +111,6 @@ describe('NavLink', function () {
             expect(ReactDOM.findDOMNode(link).getAttribute('href')).to.equal('/internal');
         });
 
-        it('should create href from attribute href when autoMatch is true', function () {
-            var link = ReactTestUtils.renderIntoDocument(
-                <MockAppComponent context={mockContext}>
-                    <NavLink autoMatch={true} href='int' />
-                </MockAppComponent>
-            );
-            expect(ReactDOM.findDOMNode(link).getAttribute('href')).to.equal('/internal');
-        });
-
-        it('should not have correct mapping from attribute href when autoMatch is false', function () {
-            var link = ReactTestUtils.renderIntoDocument(
-                <MockAppComponent context={mockContext}>
-                    <NavLink href='int' />
-                </MockAppComponent>
-            );
-            expect(ReactDOM.findDOMNode(link).getAttribute('href')).to.not.equal('/internal');
-        });
-
-        it('should create href from href and parameters when autoMatch is true', function () {
-            var navParams = {a: 1};
-            var link = ReactTestUtils.renderIntoDocument(
-                <MockAppComponent context={mockContext}>
-                    <NavLink autoMatch={true} href='fooA' navParams={navParams} />
-                </MockAppComponent>
-            );
-            expect(ReactDOM.findDOMNode(link).getAttribute('href')).to.equal('/foo/1');
-        });
-
         it('should throw if href and routeName undefined', function () {
             var navParams = {a: 1, b: 2};
             expect(function () {
@@ -283,11 +255,11 @@ describe('NavLink', function () {
             }, 10);
         });
 
-        it('context.executeAction called for href when autoMatch is true and href is registered', function (done) {
+        it('context.executeAction called for href when validate is true and href is registered', function (done) {
             var navParams = {a: 1, b: true};
             var link = ReactTestUtils.renderIntoDocument(
                 <MockAppComponent context={mockContext}>
-                    <NavLink autoMatch={true} href='int' navParams={navParams}/>
+                    <NavLink validate={true} href='/internal' navParams={navParams}/>
                 </MockAppComponent>
             );
             ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(link), {button: 0});
@@ -301,10 +273,10 @@ describe('NavLink', function () {
             }, 10);
         });
 
-        it('context.executeAction not called for href when autoMatch is false', function (done) {
+        it('context.executeAction not called for external href when validate is true', function (done) {
             var link = ReactTestUtils.renderIntoDocument(
                 <MockAppComponent context={mockContext}>
-                    <NavLink href='int'/>
+                    <NavLink href='/external' validate={true}/>
                 </MockAppComponent>
             );
             ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(link), {button: 0});
@@ -314,10 +286,26 @@ describe('NavLink', function () {
             }, 10);
         });
 
-        it('context.executeAction not called for href when autoMatch is true but href is not registered', function (done) {
+        it('context.executeAction called for external href when validate is false', function (done) {
             var link = ReactTestUtils.renderIntoDocument(
                 <MockAppComponent context={mockContext}>
-                    <NavLink autoMatch={true} href='notregister'/>
+                    <NavLink href='/external'/>
+                </MockAppComponent>
+            );
+            ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(link), {button: 0});
+            window.setTimeout(function () {
+                expect(mockContext.executeActionCalls.length).to.equal(1);
+                expect(mockContext.executeActionCalls[0].action).to.equal(navigateAction);
+                expect(mockContext.executeActionCalls[0].payload.type).to.equal('click');
+                expect(mockContext.executeActionCalls[0].payload.url).to.equal('/external');
+                done();
+            }, 10);
+        });
+
+        it('context.executeAction not called for href when validate is true but href is not registered', function (done) {
+            var link = ReactTestUtils.renderIntoDocument(
+                <MockAppComponent context={mockContext}>
+                    <NavLink validate={true} href='notregister'/>
                 </MockAppComponent>
             );
             ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(link), {button: 0});
@@ -376,10 +364,10 @@ describe('NavLink', function () {
             }, 10);
         });
 
-        it('context.executeAction not called for external urls when autoMatch is true', function (done) {
+        it('context.executeAction not called for external urls when validate is true', function (done) {
             var link = ReactTestUtils.renderIntoDocument(
                 <MockAppComponent context={mockContext}>
-                    <NavLink autoMatch={true} href='http://domain.does.not.exist/foo' />
+                    <NavLink validate={true} href='http://domain.does.not.exist/foo' />
                 </MockAppComponent>
             );
             ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(link), {button: 0});

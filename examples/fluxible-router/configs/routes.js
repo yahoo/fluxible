@@ -26,7 +26,7 @@ export default {
     internal: {
         path: '/internalPage',
         method: 'get',
-        handler: require('../components/Page'),
+        handler: Page,
         label: 'Internal',
         action: (context, payload, done) => {
             context.dispatch('LOAD_PAGE', { id: 'Internal Page' });

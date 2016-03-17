@@ -11,8 +11,8 @@ function Nav () {
             <li><NavLink routeName="home" activeStyle={{backgroundColor: '#ccc'}}>Home</NavLink></li>
             <li><NavLink routeName="about" activeStyle={{backgroundColor: '#ccc'}}>About</NavLink></li>
             <li><NavLink href="/page/Relative" activeStyle={{backgroundColor: '#ccc'}}>Relative Href</NavLink></li>
-            <li><NavLink autoMatch={true} href="internal" activeStyle={{backgroundColor: '#ccc'}}>AutoMatch Href Internal</NavLink></li>
-            <li><NavLink autoMatch={true} href="//www.yahoo.com" activeStyle={{backgroundColor: '#ccc'}}>AutoMatch Href External</NavLink></li>
+            <li><NavLink validate={true} href="/internalPage" activeStyle={{backgroundColor: '#ccc'}}>Validate Href Internal</NavLink></li>
+            <li><NavLink validate={true} href="//www.yahoo.com" activeStyle={{backgroundColor: '#ccc'}}>Validate Href External</NavLink></li>
         </ul>
     );
 }
