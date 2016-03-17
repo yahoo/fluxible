@@ -5,10 +5,7 @@
 'use strict';
 var createStore = require('fluxible/addons/createStore');
 var Router = require('routr');
-var queryString = require('query-string');
 var inherits = require('inherits');
-
-var searchPattern = /\?([^\#]*)/;
 
 var RouteStore = createStore({
     storeName: 'RouteStore',
@@ -73,7 +70,12 @@ var RouteStore = createStore({
     },
     _matchRoute: function (url, options) {
         var self = this;
-        var route = self.getRouter().getRoute(url, options);
+        var indexOfHash = url.indexOf('#');
+        var hashlessUrl = url;
+        if (-1 !== indexOfHash) {
+            hashlessUrl = url.substr(0, indexOfHash);
+        }
+        var route = self.getRouter().getRoute(hashlessUrl, options);
         if (!route) {
             return null;
         }
@@ -83,7 +85,7 @@ var RouteStore = createStore({
             url: route.url,
             params: route.params,
             navigate: route.navigate,
-            query: self._parseQueryString(route.url)
+            query: route.query
         });
 
         return newRoute;
@@ -94,16 +96,8 @@ var RouteStore = createStore({
 
         return url1 === url2;
     },
-    _parseQueryString: function (url) {
-        var matches = url.match(searchPattern);
-        var search;
-        if (matches) {
-            search = matches[1];
-        }
-        return (search && queryString.parse(search)) || {};
-    },
-    makePath: function (routeName, params) {
-        return this.getRouter().makePath(routeName, params);
+    makePath: function (routeName, params, query) {
+        return this.getRouter().makePath(routeName, params, query);
     },
     getCurrentRoute: function () {
         return this._currentRoute;

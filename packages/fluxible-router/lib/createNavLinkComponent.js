@@ -35,6 +35,7 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
             stopPropagation: React.PropTypes.bool,
             routeName: React.PropTypes.string,
             navParams: React.PropTypes.object,
+            queryParams: React.PropTypes.object,
             followLink: React.PropTypes.bool,
             preserveScrollPosition: React.PropTypes.bool,
             replaceState: React.PropTypes.bool,
@@ -89,8 +90,9 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
             var routeName = props.routeName;
             var routeStore = this.context.getStore(RouteStore);
             var navParams = this.getNavParams(props);
+            var queryParams = this.getQueryParams(props);
             if (!href && routeName) {
-                href = routeStore.makePath(routeName, navParams);
+                href = routeStore.makePath(routeName, navParams, queryParams);
             }
             if (!href) {
                 throw new Error('NavLink created without href or unresolvable ' +
@@ -98,6 +100,9 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
                     JSON.stringify(navParams));
             }
             return href;
+        },
+        getQueryParams: function (props) {
+            return props.queryParams;
         },
         getNavParams: function (props) {
             return props.navParams;

@@ -88,7 +88,7 @@ describe('navigateAction', function () {
             expect(route.query).to.eql({foo: 'bar', a: ['b', 'c'], bool: null}, 'query added to route payload for NAVIGATE_START' + JSON.stringify(route));
             expect(mockContext.dispatchCalls[1].name).to.equal('NAVIGATE_SUCCESS');
             route = mockContext.dispatchCalls[1].payload;
-            expect(route.url).to.equal(url);
+            expect(route.url).to.equal(url.split('#')[0]);
             done();
         });
     });

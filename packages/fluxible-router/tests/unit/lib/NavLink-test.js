@@ -121,7 +121,15 @@ describe('NavLink', function () {
                 );
             }).to['throw']();
         });
-
+        it('should create href with query params', function () {
+            var queryParams = {a: 1, b: 2};
+            var link = ReactTestUtils.renderIntoDocument(
+                <MockAppComponent context={mockContext}>
+                    <NavLink routeName='foo' queryParams={queryParams} />
+                </MockAppComponent>
+            );
+            expect(ReactDOM.findDOMNode(link).getAttribute('href')).to.equal('/foo?a=1&b=2');
+        });
         it('should set active state if href matches current route', function () {
             var navParams = {a: 1, b: 2};
             var link = ReactTestUtils.renderIntoDocument(
