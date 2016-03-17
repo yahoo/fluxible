@@ -126,7 +126,7 @@ describe('NavLink', function () {
             var navParams = {a: 1, b: 2};
             var link = ReactTestUtils.renderIntoDocument(
                 <MockAppComponent context={mockContext}>
-                    <NavLink routeName='foo' />
+                    <NavLink routeName='foo' activeClass='active' />
                 </MockAppComponent>
             );
             expect(ReactDOM.findDOMNode(link).getAttribute('class')).to.equal('active');
@@ -167,7 +167,7 @@ describe('NavLink', function () {
             var navParams = {a: 1, b: 2};
             var link = ReactTestUtils.renderIntoDocument(
                 <MockAppComponent context={mockContext}>
-                    <NavLink routeName='fooAB' navParams={navParams} />
+                    <NavLink routeName='fooAB' navParams={navParams} activeClass='active' />
                 </MockAppComponent>
             );
             expect(ReactDOM.findDOMNode(link).getAttribute('class')).to.equal(null);
@@ -525,7 +525,7 @@ describe('NavLink', function () {
         it('should update active state', function (done) {
             var link = ReactTestUtils.renderIntoDocument(
                 <MockAppComponent context={mockContext}>
-                    <NavLink href='/foo'>
+                    <NavLink href='/foo' activeClass='active'>
                         bar
                     </NavLink>
                 </MockAppComponent>
@@ -547,12 +547,27 @@ describe('NavLink', function () {
         });
     });
 
+    describe('componentDidMount', function () {
+        it('should only listen if there is an active property', function () {
+            var div = document.createElement('div');
+            ReactDOM.render(
+                <MockAppComponent context={mockContext}>
+                    <NavLink href='/foo' />
+                </MockAppComponent>
+                , div);
+            var routeStore = mockContext.getStore('RouteStore');
+            expect(routeStore.listeners('change').length).to.equal(1);
+            ReactDOM.unmountComponentAtNode(div);
+            expect(routeStore.listeners('change').length).to.equal(0);
+        });
+    });
+
     describe('componentWillUnmount', function () {
         it('should remove the change listener', function () {
             var div = document.createElement('div');
             ReactDOM.render(
                 <MockAppComponent context={mockContext}>
-                    <NavLink href='/foo' />
+                    <NavLink href='/foo' activeClass='active' />
                 </MockAppComponent>
             , div);
             var routeStore = mockContext.getStore('RouteStore');
