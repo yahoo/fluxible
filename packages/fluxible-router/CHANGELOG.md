@@ -1,5 +1,15 @@
 # Change Log
 
+## 0.4.11
+
+### Features
+
+ * [#396] Add `navigate={true}` property that will check if a route matches before executing `navigateAction`. This
+ is useful if you are rendering a NavLink with an href that you are unsure of whether it is an internal or external
+ route. (thanks @hfter789)
+
+### Features
+
 ## 0.4.10
 
 ### Features
