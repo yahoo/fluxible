@@ -14,7 +14,12 @@ in navigation events.
 | replaceState | boolean, default to false | If set to true, replaceState is being used instead of pushState |
 | preserveScrollPosition | boolean, default to false | If set to true, the page will maintain its scroll position while change to new route.  This is useful for cases like on e-commerce site where user might want to change a product size.  The url will change, but the scroll position needs to remain the same. |
 | stopPropagation | boolean, default to false | If set to true, the click event will not be propagated beyond the NavLink |
+| activeClass | string | Class to add to `className` when link is active |
+| activeStyle | object | Inline styles to merge with `style` when link is active |
 | activeElement | string or React.Component| If specified, active NavLink components will use this component instead of 'a' tags |
+| validate | boolean, default to false | Useful when it is unknown whether a link matches a registered route, this 
+will validate the path before executing the navigation action. If the link does not match a registered route, it will 
+let the browser handle the navigation. |
 
 
 ## Example Usage

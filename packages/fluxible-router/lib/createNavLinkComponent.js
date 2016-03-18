@@ -37,7 +37,8 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
             navParams: React.PropTypes.object,
             followLink: React.PropTypes.bool,
             preserveScrollPosition: React.PropTypes.bool,
-            replaceState: React.PropTypes.bool
+            replaceState: React.PropTypes.bool,
+            validate: React.PropTypes.bool
         },
         getInitialState: function () {
             return this._getState(this.props);
@@ -108,8 +109,9 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
             var navParams = this.getNavParams(this.props);
             var navType = this.props.replaceState ? 'replacestate' : 'click';
             var shouldFollowLink = this.shouldFollowLink(this.props);
+            var routeStore = this.context.getStore(RouteStore);
             debug('dispatchNavAction: action=NAVIGATE', this.props.href, shouldFollowLink, navParams);
-            
+
             if (this.props.stopPropagation) {
                 e.stopPropagation();
             }
@@ -144,6 +146,10 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
                 }
 
                 href = href.substring(origin.length) || '/';
+            }
+
+            if (this.props.validate && !routeStore.getRoute(href)) {
+                return;
             }
 
             e.preventDefault();
