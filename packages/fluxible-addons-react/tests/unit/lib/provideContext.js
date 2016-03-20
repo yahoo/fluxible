@@ -37,7 +37,7 @@ describe('fluxible-addons-react', function () {
             });
 
             var WrappedComponent = provideContext(Component);
-            expect(WrappedComponent.displayName).to.equal('ComponentContextProvider');
+            expect(WrappedComponent.displayName).to.equal('contextProvider(Component)');
         });
 
         it('should use the childs displayName', function () {
@@ -49,7 +49,7 @@ describe('fluxible-addons-react', function () {
             });
 
             var WrappedComponent = provideContext(Component);
-            expect(WrappedComponent.displayName).to.equal('TestComponentContextProvider');
+            expect(WrappedComponent.displayName).to.equal('contextProvider(TestComponent)');
         });
 
         it('should provide the context with custom types to children', function () {

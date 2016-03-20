@@ -21,7 +21,7 @@ function createComponent(Component, customContextTypes) {
 
     inherits(ContextProvider, React.Component);
 
-    ContextProvider.displayName = componentName + 'ContextProvider';
+    ContextProvider.displayName = 'contextProvider(' + componentName + ')';
     ContextProvider.propTypes = {
         context: React.PropTypes.object.isRequired
     };
