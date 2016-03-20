@@ -23,7 +23,7 @@ function createComponent(Component, stores, getStateFromStores, customContextTyp
 
     inherits(StoreConnector, React.Component);
 
-    StoreConnector.displayName = componentName + 'StoreConnector';
+    StoreConnector.displayName = 'storeConnector(' + componentName + ')';
     StoreConnector.contextTypes = componentContextTypes;
 
     Object.assign(StoreConnector.prototype, {
