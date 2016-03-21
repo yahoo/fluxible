@@ -115,7 +115,7 @@ describe('RouteStore', function () {
                 url: '/bar',
                 method: 'get'
             });
-            expect(routeStore.getCurrentRoute().navigate.transactionId).to.equal('second');
+            expect(routeStore.getCurrentNavigate().transactionId).to.equal('second');
         });
         it('should update transactionId with same url navigation', function () {
             routeStore._handleNavigateStart({
@@ -123,7 +123,7 @@ describe('RouteStore', function () {
                 url: '/foo',
                 method: 'get'
             });
-            expect(routeStore.getCurrentRoute().navigate.transactionId).to.equal('second');
+            expect(routeStore.getCurrentNavigate().transactionId).to.equal('second');
         });
     });
 
