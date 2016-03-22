@@ -83,10 +83,12 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
             }
         },
         shouldComponentUpdate: function (nextProps, nextState) {
-            return (this.state.isActive !== nextState.isActive || this.receivedNewProps);
+            return (
+                nextProps !== this.props ||
+                this.state.currentRoute !== nextState.currentRoute
+            );
         },
         componentWillReceiveProps: function (nextProps) {
-            this.receivedNewProps = true;
             this.setState(this._getState(nextProps));
         },
         _onRouteStoreChange: function () {
@@ -96,10 +98,8 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
         },
         _getState: function (props) {
             var routeStore = this.context.getStore(RouteStore);
-            var href = this._getHrefFromProps(props);
             return {
-                href: href, // derived from props
-                isActive: routeStore.isActive(href) // derived from href and state
+                currentRoute: routeStore.getCurrentRoute()
             };
         },
         _getHrefFromProps: function (props) {
@@ -196,27 +196,29 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
             this.dispatchNavAction(e);
         },
         render: function () {
-            var routeStore = this.context.getStore(RouteStore);
-            var className = this.props.className;
+            var href = this._getHrefFromProps(this.props);
+
+            var isActive = false;
+            if (this.props.activeClass || this.props.activeStyle || this.props.activeElement) {
+                var routeStore = this.context.getStore(RouteStore);
+                isActive = routeStore.isActive(href);
+            }
+
             var style = {};
-            if (this.props.activeClass || this.props.activeStyle) {
-                var isActive = routeStore.isActive(this.state.href);
-                if (isActive) {
-                    if (this.props.activeClass) {
-                        className = className ? (className + ' ') : '';
-                        className += this.props.activeClass;
-                    }
-                    if (this.props.activeStyle) {
-                        Object.assign(style, this.props.style, this.props.activeStyle);
-                    }
+            var className = this.props.className;
+            if (isActive) {
+                if (this.props.activeClass) {
+                    className = className ? (className + ' ') : '';
+                    className += this.props.activeClass;
+                }
+                if (this.props.activeStyle) {
+                    Object.assign(style, this.props.style, this.props.activeStyle);
                 }
             }
-            this.receivedNewProps = false;
 
-            var childElement = this.state.isActive ? this.props.activeElement || 'a' : 'a';
             var childProps = {};
 
-            if (!(this.state.isActive && this.props.activeElement)) {
+            if (!(isActive && this.props.activeElement)) {
                 childProps.onClick = this.clickHandler.bind(this);
             }
 
@@ -225,9 +227,11 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
                 style: style
             });
 
-            if (!(this.state.isActive && this.props.activeElement)) {
-                childProps.href = this.state.href;
+            if (!(isActive && this.props.activeElement)) {
+                childProps.href = href;
             }
+
+            var childElement = isActive ? this.props.activeElement || 'a' : 'a';
 
             return React.createElement(
                 childElement,
