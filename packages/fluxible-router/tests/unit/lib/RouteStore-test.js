@@ -31,12 +31,10 @@ describe('RouteStore', function () {
             it('should dehydrate correctly', function () {
                 var state = routeStore.dehydrate();
                 expect(state).to.be.an('object');
-                expect(state.currentUrl).to.equal('/foo');
-                expect(state.currentNavigate).to.deep.equal({
-                    transactionId: 'first',
-                    url: '/foo',
-                    method: 'get'
-                });
+                expect(state.currentNavigate).to.be.an('object');
+                expect(state.currentNavigate.transactionId).to.equal('first');
+                expect(state.currentNavigate.url).to.equal('/foo');
+                expect(state.currentNavigate.method).to.equal('get');
                 expect(state.routes).to.equal(null);
             });
         });
@@ -49,11 +47,9 @@ describe('RouteStore', function () {
                     routes: null
                 });
                 expect(newStore.getCurrentRoute()).to.be.an('object');
-                expect(newStore.getCurrentNavigate()).to.deep.equal({
-                    transactionId: 'first',
-                    url: '/foo',
-                    method: 'get'
-                });
+                expect(newStore.getCurrentNavigate().transactionId).to.equal('first');
+                expect(newStore.getCurrentNavigate().url).to.equal('/foo');
+                expect(newStore.getCurrentNavigate().method).to.equal('get');
                 expect(newStore._routes).to.equal(null);
             });
         });
@@ -72,19 +68,19 @@ describe('RouteStore', function () {
             });
             expect(routeStore.isNavigateComplete()).to.equal(false);
             routeStore._handleNavigateSuccess({
-                navigate: {
-                    transactionId: 'first'
-                },
-                url: '/bar',
-                method: 'get'
+                transactionId: 'first',
+                route: {
+                    url: '/bar',
+                    method: 'get'
+                }
             });
             expect(routeStore.isNavigateComplete()).to.equal(false);
             routeStore._handleNavigateSuccess({
-                navigate: {
-                    transactionId: 'second'
-                },
-                url: '/bar',
-                method: 'get'
+                transactionId: 'second',
+                route: {
+                    url: '/bar',
+                    method: 'get'
+                }
             });
             expect(routeStore.isNavigateComplete()).to.equal(true);
         });
@@ -98,14 +94,18 @@ describe('RouteStore', function () {
             expect(routeStore.isNavigateComplete()).to.equal(false);
             routeStore._handleNavigateFailure({
                 transactionId: 'first',
-                statusCode: 404,
-                message: 'Url /unknown does not match any routes'
+                error: {
+                    statusCode: 404,
+                    message: 'Url /unknown does not match any routes'
+                }
             });
             expect(routeStore.isNavigateComplete()).to.equal(false);
             routeStore._handleNavigateFailure({
                 transactionId: 'second',
-                statusCode: 404,
-                message: 'Url /unknown does not match any routes'
+                error: {
+                    statusCode: 404,
+                    message: 'Url /unknown does not match any routes'
+                }
             });
             expect(routeStore.isNavigateComplete()).to.equal(true);
         });
@@ -151,11 +151,8 @@ describe('RouteStore', function () {
             it('should dehydrate correctly', function () {
                 var state = routeStore.dehydrate();
                 expect(state).to.be.an('object');
-                expect(state.currentUrl).to.equal('/foo');
-                expect(state.currentNavigate).to.deep.equal({
-                    url: '/foo',
-                    method: 'get'
-                });
+                expect(state.currentNavigate.url).to.equal('/foo');
+                expect(state.currentNavigate.method).to.equal('get');
                 expect(state.routes).to.deep.equal(routes);
             });
         });
@@ -168,25 +165,20 @@ describe('RouteStore', function () {
                     routes: routes
                 });
                 expect(newStore.getCurrentRoute()).to.be.an('object');
-                expect(newStore.getCurrentNavigate()).to.deep.equal({
-                    url: '/foo',
-                    method: 'get'
-                });
+                expect(newStore.getCurrentNavigate().url).to.equal('/foo');
+                expect(newStore.getCurrentNavigate().method).to.equal('get');
                 expect(newStore._routes).to.deep.equal(routes);
             });
 
             it('should rehydrate POST routes correctly', function() {
                 var newStore = new StaticRouteStore();
                 newStore.rehydrate({
-                    currentUrl: '/bar',
                     currentNavigate: { url: '/bar', method: 'post' },
                     routes: routes
                 });
                 expect(newStore.getCurrentRoute()).to.be.an('object');
-                expect(newStore.getCurrentNavigate()).to.deep.equal({
-                    url: '/bar',
-                    method: 'post'
-                });
+                expect(newStore.getCurrentNavigate().url).to.equal('/bar');
+                expect(newStore.getCurrentNavigate().method).to.equal('post');
                 expect(newStore._routes).to.deep.equal(routes);
             });
         });

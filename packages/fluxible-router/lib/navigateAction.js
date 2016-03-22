@@ -25,16 +25,19 @@ function navigateAction (context, payload, done) {
     }
 
     var route = routeStore.getCurrentRoute();
+    var completionPayload = Object.assign({}, navigate, {
+        err: null,
+        route: route
+    });
 
     if (!route) {
-        var error404 = {
-            transactionId: navigate.transactionId,
+        completionPayload.error = {
             statusCode: 404,
             message: 'Url \'' + payload.url + '\' does not match any routes'
         };
 
-        context.dispatch('NAVIGATE_FAILURE', error404);
-        done(Object.assign(new Error(), error404));
+        context.dispatch('NAVIGATE_FAILURE', completionPayload.error);
+        done(Object.assign(new Error(), completionPayload.error));
         return;
     }
 
@@ -45,7 +48,7 @@ function navigateAction (context, payload, done) {
 
     if (!action || 'function' !== typeof action) {
         debug('route has no action, dispatching without calling action');
-        context.dispatch('NAVIGATE_SUCCESS', route);
+        context.dispatch('NAVIGATE_SUCCESS', completionPayload);
         done();
         return;
     }
@@ -53,16 +56,15 @@ function navigateAction (context, payload, done) {
     debug('executing route action');
     context.executeAction(action, route, function (err) {
         if (err) {
-            var error500 = {
-                transactionId: navigate.transactionId,
+            completionPayload.error = {
                 statusCode: err.statusCode || 500,
                 message: err.message
             };
 
-            context.dispatch('NAVIGATE_FAILURE', error500);
-            done(Object.assign(err, error500));
+            context.dispatch('NAVIGATE_FAILURE', completionPayload.error);
+            done(Object.assign(err, completionPayload.error));
         } else {
-            context.dispatch('NAVIGATE_SUCCESS', route);
+            context.dispatch('NAVIGATE_SUCCESS', completionPayload);
             done();
         }
     });

@@ -87,32 +87,31 @@ describe('navigateAction', function () {
             var route = mockContext.getStore('RouteStore').getCurrentRoute();
             expect(route.query).to.eql({foo: 'bar', a: ['b', 'c'], bool: null}, 'query added to route payload for NAVIGATE_START' + JSON.stringify(route));
             expect(mockContext.dispatchCalls[1].name).to.equal('NAVIGATE_SUCCESS');
-            route = mockContext.dispatchCalls[1].payload;
-            expect(route.url).to.equal(url.split('#')[0]);
+            var navigateSuccessPayload = mockContext.dispatchCalls[1].payload;
+            expect(navigateSuccessPayload.route.url).to.equal(url.split('#')[0]);
             done();
         });
     });
 
     it('should include navigate object on route match', function (done) {
         var url = '/';
-        navigateAction(mockContext, {
+        var nav = {
             transactionId: 'foo',
             url: url,
             someKey1: 'someData',
             someKey2: {
                 someKey3: ['a', 'b']
             }
-        }, function (err) {
+        };
+        navigateAction(mockContext, nav, function (err) {
             expect(err).to.equal(undefined);
             expect(mockContext.dispatchCalls.length).to.equal(2);
             expect(mockContext.dispatchCalls[0].name).to.equal('NAVIGATE_START');
             var navigate = mockContext.getStore('RouteStore').getCurrentNavigate();
-            expect(navigate).to.eql({
-                transactionId: 'foo',
-                url: url,
-                someKey1: 'someData',
-                someKey2: {someKey3: ['a', 'b']}
-            }, 'navigate added to route payload for NAVIGATE_START' + JSON.stringify(navigate));
+            expect(navigate).to.be.an('object');
+            Object.keys(nav).forEach(function (navKey) {
+                expect(navigate[navKey]).to.eql(nav[navKey]);
+            });
             done();
         });
     });
