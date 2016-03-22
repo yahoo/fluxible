@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.2.7
+
+### Features
+
+ * [#399] HoC displayNames now use `wrapper(componentName)` format name instead of suffix for more clear component 
+ hierarchies
+
 ## 0.2.6
 
 ### Features
