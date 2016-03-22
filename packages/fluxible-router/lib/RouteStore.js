@@ -17,53 +17,64 @@ var RouteStore = createStore({
     },
     initialize: function () {
         this._routes = null;
-        this._currentUrl = null;
-        this._currentRoute = null;
-        this._currentNavigate = null;
-        this._currentNavigateError = null;
-        this._isNavigateComplete = null;
         this._router = null;
+        this._currentNavigate = null;
     },
     _handleNavigateStart: function (navigate) {
+        var currentRoute = this._currentNavigate && this._currentNavigate.route;
         var matchedRoute = this._matchRoute(navigate.url, {
             navigate: navigate,
             method: navigate.method
         });
 
-        this._currentRoute = matchedRoute;
-        this._currentNavigate = navigate;
-        this._currentNavigateError = null;
-        this._isNavigateComplete = false;
-        this._currentUrl = navigate.url;
+        // Check for equality and only update the route if it has changed
+        if (this._areEqual(matchedRoute, currentRoute)) {
+            matchedRoute = currentRoute;
+        }
+
+        this._currentNavigate = Object.assign({}, navigate, {
+            route: matchedRoute,
+            error: null,
+            isComplete: false
+        });
+
         this.emitChange();
     },
-    _handleNavigateSuccess: function (route) {
-        // Ignore successes from past navigations that have been superceded
-        if (
-            this._isNavigateComplete ||
-            (this._currentNavigate && route.navigate && route.navigate.transactionId !== this._currentNavigate.transactionId)
-        ) {
+    _handleNavigateSuccess: function (navigate) {
+        var curNav = this._currentNavigate;
+
+        // Ignore successes from past navigations that have been superseded
+        if (!curNav || curNav.isComplete) {
+            return;
+        }
+        if (curNav.transactionId != navigate.transactionId) {
             return;
         }
 
-        this._isNavigateComplete = true;
+        this._currentNavigate = Object.assign({}, curNav, {
+            isComplete: true
+        });
         this.emitChange();
     },
-    _handleNavigateFailure: function (error) {
-        // Ignore failures from past navigations that have been superceded
-        if (
-            this._isNavigateComplete ||
-            (this._currentNavigate && error.transactionId !== this._currentNavigate.transactionId)
-        ) {
+    _handleNavigateFailure: function (navigate) {
+        var curNav = this._currentNavigate;
+
+        // Ignore successes from past navigations that have been superseded
+        if (!curNav || curNav.isComplete) {
+            return;
+        }
+        if (curNav.transactionId != navigate.transactionId) {
             return;
         }
 
-        this._isNavigateComplete = true;
-        this._currentNavigateError = error;
+        this._currentNavigate = Object.assign({}, curNav, {
+            isComplete: true,
+            error: navigate.error
+        });
         this.emitChange();
     },
     _handleReceiveRoutes: function (payload) {
-        this._routes = Object.assign(this._routes || {}, payload);
+        this._routes = Object.assign({}, this._routes || {}, payload);
         // Reset the router so that it is recreated next time it's needed
         this._router = null;
         this.emitChange();
@@ -100,16 +111,16 @@ var RouteStore = createStore({
         return this.getRouter().makePath(routeName, params, query);
     },
     getCurrentRoute: function () {
-        return this._currentRoute;
+        return this._currentNavigate && this._currentNavigate.route;
     },
     getCurrentNavigate: function () {
         return this._currentNavigate;
     },
     getCurrentNavigateError: function () {
-        return this._currentNavigateError;
+        return this._currentNavigate && this._currentNavigate.error;
     },
     isNavigateComplete: function () {
-        return this._isNavigateComplete;
+        return this._currentNavigate && this._currentNavigate.isComplete;
     },
     getRoute: function (url, options) {
         return this._matchRoute(url, options);
@@ -124,14 +135,11 @@ var RouteStore = createStore({
         return this._router;
     },
     isActive: function (href) {
-        return this._currentUrl === href;
+        return this._currentNavigate && this._currentNavigate.url === href;
     },
     dehydrate: function () {
         return {
-            currentUrl: this._currentUrl,
             currentNavigate: this._currentNavigate,
-            currentNavigateError: this._currentNavigateError,
-            isNavigateComplete: this._isNavigateComplete,
             routes: this._routes
         };
     },
@@ -140,13 +148,10 @@ var RouteStore = createStore({
         if (this._routes) {
             this._router = null;
         }
-        this._currentUrl = state.currentUrl;
-        this._currentRoute = this._matchRoute(this._currentUrl, {
+        this._currentNavigate = state.currentNavigate;
+        this._currentNavigate.route = this._matchRoute(this._currentNavigate.url, {
             method: state.currentNavigate && state.currentNavigate.method || 'GET'
         });
-        this._currentNavigate = state.currentNavigate;
-        this._isNavigateComplete = state.isNavigateComplete;
-        this._currentNavigateError = state.currentNavigateError;
     }
 });
 
