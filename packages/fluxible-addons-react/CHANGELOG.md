@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.2.8
+
+### Bug Fixes
+
+ * [#400] createElementWithContext: Fixed automatic wrapping of top level component with `provideContext` if not
+ already wrapped
+
 ## 0.2.7
 
 ### Features
