@@ -20,7 +20,7 @@ module.exports = function createElement(fluxibleContext, props) {
         throw new Error('A top-level component was not passed to the Fluxible' +
             ' constructor.');
     }
-    if (Component.displayName && -1 !== Component.displayName.indexOf('ContextProvider')) {
+    if (Component.displayName && -1 !== Component.displayName.indexOf('contextProvider')) {
         return React.createElement(Component, Object.assign({}, {
             context: fluxibleContext.getComponentContext()
         }, props));
