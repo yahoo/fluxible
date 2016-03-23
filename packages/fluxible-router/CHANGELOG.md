@@ -1,5 +1,24 @@
 # Change Log
 
+## 1.0.0-alpha.1
+
+### Breaking Changes
+
+See the [upgrade guide](UPGRADE.md#04x-to-1x)
+
+ * Default `activeClass` prop has been removed
+ * `route` object no longer contains `navigate` key. `navigate` can be accessed via `routeStore.getCurrentNavigate()`
+ * `NAVIGATE_SUCCESS` and `NAVIGATE_FAILURE` payloads are now the `navigate` object which contains a `route` key to
+ access the current route.
+
+### Features
+
+ * Performance improvements:
+ ** `NavLink` will only listen to the `RouteStore` if an `active*` property is used.
+ ** `NavLink` will no longer compute active state on all prop/state changes, only when `currentRoute` or `prop` has 
+ changed.
+ * [#397] NavLink now supports query parameters via the `queryParams` property
+
 ## 0.4.11
 
 ### Features
