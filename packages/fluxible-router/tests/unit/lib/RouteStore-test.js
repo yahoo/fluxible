@@ -192,7 +192,6 @@ describe('RouteStore', function () {
                     name: 'foo',
                     url: '/foo',
                     params: {},
-                    navigate: undefined,
                     query: {}
                 };
 
@@ -215,7 +214,6 @@ describe('RouteStore', function () {
                     name: 'bar',
                     url: '/bar',
                     params: {},
-                    navigate: undefined,
                     query: {}
                 };
 
