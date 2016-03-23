@@ -4,7 +4,7 @@
 
 ### Bug Fixes
 
- * [#400] createElementWithContext: Fixed automatic wrapping of top level component with `provideContext` if not
+ * [#402] createElementWithContext: Fixed automatic wrapping of top level component with `provideContext` if not
  already wrapped
 
 ## 0.2.7
