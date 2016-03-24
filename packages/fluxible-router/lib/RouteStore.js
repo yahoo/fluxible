@@ -95,7 +95,6 @@ var RouteStore = createStore({
             name: route.name,
             url: route.url,
             params: route.params,
-            navigate: route.navigate,
             query: route.query
         });
 
