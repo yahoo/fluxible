@@ -65,11 +65,10 @@ BaseStore.prototype.shouldDehydrate = function shouldDehydrate() {
 /**
  * Emit a change event
  * @method emitChange
- * @param {*} param=this
  */
-BaseStore.prototype.emitChange = function emitChange(param) {
+BaseStore.prototype.emitChange = function emitChange() {
     this._hasChanged = true;
-    this.emit(CHANGE_EVENT, param || this);
+    this.emit(CHANGE_EVENT, this);
 };
 
 module.exports = BaseStore;

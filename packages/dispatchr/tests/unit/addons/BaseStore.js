@@ -22,13 +22,9 @@ describe('BaseStore', function () {
 
     it('allows listening for changes', function (done) {
         var store = new BaseStore(dispatcherMock);
-        var payloadMock = {
-            foo: 'bar'
-        };
-        store.addChangeListener(function (payload) {
-            expect(payload.foo).to.equal('bar');
+        store.addChangeListener(function () {
             done();
         });
-        store.emitChange(payloadMock);
+        store.emitChange();
     });
 });
