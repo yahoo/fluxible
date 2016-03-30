@@ -5,6 +5,7 @@
 /* global Promise */
 'use strict';
 var isPromise = require('is-promise');
+require('setimmediate');
 
 /**
  * Call an action supporting Promise expectations on invocation.
