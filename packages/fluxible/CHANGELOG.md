@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.0.5
+
+### Bug Fixes
+
+ * [#409] Fixed setImmediate polyfill not being installed before being used
+
 ## 1.0.4
 
 ### Bug Fixes
