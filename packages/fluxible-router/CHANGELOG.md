@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.0.0-alpha.2
+
+### Bug Fixes
+
+ * [#412] Fixed style property in NavLink when inactive
+
 ## 1.0.0-alpha.1
 
 ### Breaking Changes
