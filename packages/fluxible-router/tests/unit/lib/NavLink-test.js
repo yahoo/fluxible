@@ -130,6 +130,17 @@ describe('NavLink', function () {
             );
             expect(ReactDOM.findDOMNode(link).getAttribute('href')).to.equal('/foo?a=1&b=2');
         });
+        it('should set style and className properties', function () {
+            var link = ReactTestUtils.renderIntoDocument(
+                <MockAppComponent context={mockContext}>
+                    <NavLink routeName='foo' className='foo' style={{
+                        backgroundColor: '#000000'
+                    }} />
+                </MockAppComponent>
+            );
+            expect(ReactDOM.findDOMNode(link).getAttribute('class')).to.equal('foo');
+            expect(ReactDOM.findDOMNode(link).getAttribute('style')).to.contain('background-color');
+        });
         it('should set active state if href matches current route', function () {
             var navParams = {a: 1, b: 2};
             var link = ReactTestUtils.renderIntoDocument(

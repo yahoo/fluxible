@@ -204,7 +204,7 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
                 isActive = routeStore.isActive(href);
             }
 
-            var style = {};
+            var style = this.props.style;
             var className = this.props.className;
             if (isActive) {
                 if (this.props.activeClass) {
@@ -212,7 +212,7 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
                     className += this.props.activeClass;
                 }
                 if (this.props.activeStyle) {
-                    Object.assign(style, this.props.style, this.props.activeStyle);
+                    style = Object.assign({}, this.props.style, this.props.activeStyle);
                 }
             }
 
