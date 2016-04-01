@@ -59,7 +59,7 @@ function Fluxible(options) {
 Fluxible.prototype.createContext = function createContext(options) {
     var self = this;
     options = options || {};
-    var context = new FluxibleContext(self);
+    var context = new FluxibleContext(self, options);
 
     // Plug context with app plugins that implement plugContext method
     this._plugins.forEach(function eachPlugin(plugin) {

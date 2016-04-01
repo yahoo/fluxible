@@ -24,6 +24,18 @@ describe('FluxibleContext', function () {
         context = app.createContext();
     });
 
+    describe('options', function () {
+        it('should enable debug based on flag', function () {
+            var ctx;
+            ctx = app.createContext();
+            expect(ctx._enableDebug).to.equal(false);
+            ctx = app.createContext({debug: false});
+            expect(ctx._enableDebug).to.equal(false);
+            ctx = app.createContext({debug: true});
+            expect(ctx._enableDebug).to.equal(true);
+        });
+    });
+
     describe('getComponent', function () {
         it('should return the app component', function () {
             expect(context.getComponent()).to.equal(MockComponent);
@@ -90,6 +102,7 @@ describe('FluxibleContext', function () {
             });
 
             it('should trace executeAction calls and pass `id` along', function (done) {
+                context = app.createContext({debug: true});
                 var actionOne = function (context, payload, callback) {
                     actionCalls.push({
                         context: context,
@@ -210,6 +223,7 @@ describe('FluxibleContext', function () {
                     }
                     compareHeirarchy(expectedHeirarchy, heirarchy);
 
+                    context = app.createContext();
                     done();
                 };
                 actionContext = context.getActionContext();

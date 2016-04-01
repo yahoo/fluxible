@@ -16,9 +16,10 @@ require('setimmediate');
  * A request or browser-session context
  * @class FluxibleContext
  * @param {Fluxible} app The Fluxible instance used to create the context
+ * @param {Object} [options]
  * @constructor
  */
-function FluxContext(app) {
+function FluxContext(app, options) {
     this._app = app;
 
     // To be created on demand
@@ -33,6 +34,7 @@ function FluxContext(app) {
     this._storeContext = null;
 
     // Debug
+    this._enableDebug = typeof options.debug !== 'undefined' ? options.debug : false;
     this._actionHistory = {};
 }
 
@@ -120,7 +122,7 @@ function executeActionProxy(context, actionContext, action, payload, done) {
     if (debug.enabled) {
         debug('Executing action ' + actionContext.stack.join('.') + ' with payload', payload);
     }
-    return callAction(actionContext, action, payload, done);
+    return callAction(context, actionContext, action, payload, done);
 }
 
 /**
@@ -167,27 +169,29 @@ FluxContext.prototype._createSubActionContext = function createSubActionContext(
      * clone with a new stack & new id every time a newActionContext is created.
      */
     var rootId = parentActionContext.rootId || generateUUID();
-    var actionReference = {
-        rootId: rootId,
-        name: displayName,
-        payload: payload, //TODO: memory leaks and probable gc issues
-    };
-    if (!parentActionContext.__parentAction) {
-        // new top level action
-        actionReference.type = (typeof window === 'undefined') ? 'server' : 'client';
-        this._actionHistory[rootId] = actionReference;
-    } else {
-        // append child action
-        var parent = parentActionContext.__parentAction;
-        parent.children = parent.children || [];
-        parent.children.push(actionReference);
-    }
     var newActionContext = Object.assign({}, this.getActionContext(), {
         stack: (parentActionContext.stack || []).concat([displayName]),
         rootId: rootId
     });
     newActionContext.executeAction = newActionContext.executeAction.bind(newActionContext);
-    newActionContext.__parentAction = actionReference;
+    if (this._enableDebug) {
+        var actionReference = {
+            rootId: rootId,
+            name: displayName,
+            payload: payload, //TODO: memory leaks and probable gc issues
+        };
+        if (!parentActionContext.__parentAction) {
+            // new top level action
+            actionReference.type = (typeof window === 'undefined') ? 'server' : 'client';
+            this._actionHistory[rootId] = actionReference;
+        } else {
+            // append child action
+            var parent = parentActionContext.__parentAction;
+            parent.children = parent.children || [];
+            parent.children.push(actionReference);
+        }
+        newActionContext.__parentAction = actionReference;
+    }
     return newActionContext;
 };
 
@@ -315,7 +319,8 @@ FluxContext.prototype.dehydrate = function dehydrate() {
     var state = {
         dispatcher: (this._dispatcher && this._dispatcher.dehydrate()) || {},
         plugins: {},
-        actionHistory: this._actionHistory
+        actionHistory: this._actionHistory,
+        enableDebug: this._enableDebug
     };
 
     self._plugins.forEach(function pluginsEach(plugin) {
@@ -366,6 +371,7 @@ FluxContext.prototype.rehydrate = function rehydrate(obj) {
     });
 
     self._actionHistory = obj.actionHistory;
+    self._enableDebug = obj.enableDebug;
     return Promise.all(pluginTasks).then(function rehydratePluginTasks() {
         self._dispatcher = self._app.createDispatcherInstance(self.getStoreContext());
         self._dispatcher.rehydrate(obj.dispatcher || {});
