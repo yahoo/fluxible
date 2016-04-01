@@ -12,7 +12,7 @@ function navigateAction (context, payload, done) {
         transactionId: context.rootId
     }, payload);
     if (!payload.url && payload.routeName) {
-        navigate.url = routeStore.makePath(payload.routeName, payload.params);
+        navigate.url = routeStore.makePath(payload.routeName, payload.params, payload.query);
         navigate.routeName = null;
     }
 

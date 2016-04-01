@@ -170,7 +170,9 @@ function createComponent(Component, opts) {
             var confirmResult = onBeforeUnloadText ? window.confirm(onBeforeUnloadText) : true;
 
             var navParams = nav.params || {};
+            var navQuery = nav.query || {};
             var historyState = {
+                query: navQuery,
                 params: navParams,
                 scroll: {
                     x: window.scrollX,
@@ -193,7 +195,8 @@ function createComponent(Component, opts) {
                     this.context.executeAction(navigateAction, {
                         type: TYPE_POPSTATE,
                         url: url,
-                        params: (e.state && e.state.params)
+                        params: (e.state && e.state.params),
+                        query: (e.state && e.state.query),
                     });
                 }
             }
@@ -218,6 +221,7 @@ function createComponent(Component, opts) {
             var nav = this.props.currentNavigate || {};
             var navType = nav.type || TYPE_DEFAULT;
             var navParams = nav.params || {};
+            var navQuery = nav.query || {};
             var historyState;
 
             switch (navType) {
@@ -227,7 +231,7 @@ function createComponent(Component, opts) {
                     if (nav.url === this._history.getUrl()) {
                         return;
                     }
-                    historyState = {params: navParams};
+                    historyState = {params: navParams, query: navQuery};
                     if (nav.preserveScrollPosition) {
                         historyState.scroll = {x: window.scrollX, y: window.scrollY};
                     } else {
