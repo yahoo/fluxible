@@ -36,7 +36,7 @@ function navigateAction (context, payload, done) {
             message: 'Url \'' + payload.url + '\' does not match any routes'
         };
 
-        context.dispatch('NAVIGATE_FAILURE', completionPayload.error);
+        context.dispatch('NAVIGATE_FAILURE', completionPayload);
         done(Object.assign(new Error(), completionPayload.error));
         return;
     }
@@ -61,7 +61,7 @@ function navigateAction (context, payload, done) {
                 message: err.message
             };
 
-            context.dispatch('NAVIGATE_FAILURE', completionPayload.error);
+            context.dispatch('NAVIGATE_FAILURE', completionPayload);
             done(Object.assign(err, completionPayload.error));
         } else {
             context.dispatch('NAVIGATE_SUCCESS', completionPayload);
