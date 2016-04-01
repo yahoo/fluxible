@@ -14,6 +14,7 @@ require('setimmediate');
  * otherwise, Promise invocation.
  */
 function callAction (actionContext, action, payload, done) {
+    var displayName = action.displayName || action.name;
     var executeActionPromise = new Promise(function (resolve, reject) {
         setImmediate(function () {
             try {
@@ -34,6 +35,25 @@ function callAction (actionContext, action, payload, done) {
             }
         });
     });
+    var startTime = Date.now();
+    function actionEnd(failed) {
+        var endTime = Date.now();
+        var dur = endTime - startTime;
+        var parent = actionContext.__parentAction;
+        parent.startTime = startTime;
+        parent.endTime = endTime;
+        parent.duration = dur;
+        parent.failed = !!failed;
+    }
+    executeActionPromise.then(
+        function (v) {
+            actionEnd();
+            return v;
+        },
+        function (e) {
+            actionEnd(true);
+            throw e;
+        });
 
     if (done) {
         executeActionPromise

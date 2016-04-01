@@ -31,6 +31,9 @@ function FluxContext(app) {
     this._actionContext = null;
     this._componentContext = null;
     this._storeContext = null;
+
+    // Debug
+    this._actionHistory = {};
 }
 
 var warnedOnce = false;
@@ -129,7 +132,7 @@ function executeActionProxy(context, actionContext, action, payload, done) {
  * @return {Promise} executeActionPromise Resolved with action result or rejected with action error
  */
 FluxContext.prototype.executeAction = function executeAction(action, payload, done) {
-    var subActionContext = this._createSubActionContext(this.getActionContext(), action);
+    var subActionContext = this._createSubActionContext(this.getActionContext(), action, payload);
     return executeActionProxy(this, subActionContext, action, payload, done);
 };
 
@@ -152,7 +155,7 @@ FluxContext.prototype._initializeDispatcher = function initializeDispatcher() {
  * @param {Function} action The action to be executed to get the name from
  * @returns {Object}
  */
-FluxContext.prototype._createSubActionContext = function createSubActionContext(parentActionContext, action) {
+FluxContext.prototype._createSubActionContext = function createSubActionContext(parentActionContext, action, payload) {
     var displayName = action.displayName || action.name;
     /*
      * We store the action's stack array on the `stack` property
@@ -163,11 +166,28 @@ FluxContext.prototype._createSubActionContext = function createSubActionContext(
      * One action can execute multiple actions, so we need to create a shallow
      * clone with a new stack & new id every time a newActionContext is created.
      */
+    var rootId = parentActionContext.rootId || generateUUID();
+    var actionReference = {
+        rootId: rootId,
+        name: displayName,
+        payload: payload, //TODO: memory leaks and probable gc issues
+    };
+    if (!parentActionContext.__parentAction) {
+        // new top level action
+        actionReference.type = (typeof window === 'undefined') ? 'server' : 'client';
+        this._actionHistory[rootId] = actionReference;
+    } else {
+        // append child action
+        var parent = parentActionContext.__parentAction;
+        parent.children = parent.children || [];
+        parent.children.push(actionReference);
+    }
     var newActionContext = Object.assign({}, this.getActionContext(), {
         stack: (parentActionContext.stack || []).concat([displayName]),
-        rootId: (parentActionContext.rootId) || generateUUID()
+        rootId: rootId
     });
     newActionContext.executeAction = newActionContext.executeAction.bind(newActionContext);
+    newActionContext.__parentAction = actionReference;
     return newActionContext;
 };
 
@@ -188,7 +208,7 @@ FluxContext.prototype.getActionContext = function getActionContext() {
             dispatch: self._dispatcher.dispatch.bind(self._dispatcher),
             executeAction: function executeAction (action, payload, callback) {
                 // `this` will be the current action context
-                var subActionContext = self._createSubActionContext(this, action);
+                var subActionContext = self._createSubActionContext(this, action, payload);
                 return executeActionProxy(self, subActionContext, action, payload, callback);
             },
             getStore: self._dispatcher.getStore.bind(self._dispatcher)
@@ -281,6 +301,10 @@ FluxContext.prototype.getStoreContext = function getStoreContext() {
     return self._storeContext;
 };
 
+FluxContext.prototype.getActionHistory = function getActionHistory() {
+    return this._actionHistory;
+};
+
 /**
  * Returns a serializable context state
  * @method dehydrate
@@ -290,7 +314,8 @@ FluxContext.prototype.dehydrate = function dehydrate() {
     var self = this;
     var state = {
         dispatcher: (this._dispatcher && this._dispatcher.dehydrate()) || {},
-        plugins: {}
+        plugins: {},
+        actionHistory: this._actionHistory
     };
 
     self._plugins.forEach(function pluginsEach(plugin) {
@@ -340,6 +365,7 @@ FluxContext.prototype.rehydrate = function rehydrate(obj) {
         });
     });
 
+    self._actionHistory = obj.actionHistory;
     return Promise.all(pluginTasks).then(function rehydratePluginTasks() {
         self._dispatcher = self._app.createDispatcherInstance(self.getStoreContext());
         self._dispatcher.rehydrate(obj.dispatcher || {});

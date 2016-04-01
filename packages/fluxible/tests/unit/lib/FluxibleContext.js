@@ -179,6 +179,37 @@ describe('FluxibleContext', function () {
                     expect(actionCalls[5].context.rootId).to.equal(firstId);
                     expect(actionCalls[5].context.stack.join('.')).to.equal('One.Four.Five');
                     expect(actionCalls[5].payload).to.equal(payload);
+                    // action history
+                    var expectedHeirarchy = {
+                        name: 'One',
+                        children: [{
+                            name: 'Two'
+                        },{
+                            name: 'Two'
+                        },{
+                            name: 'Three'
+                        }, {
+                            name: 'Four',
+                            children: [{
+                                name: 'Five'
+                            }]
+                        }]
+                    };
+                    var actionHistory = context.getActionHistory();
+                    var heirarchy = actionHistory[Object.keys(actionHistory)[0]];
+                    function compareHeirarchy(expected, actual) {
+                        expect(actual).to.contain.keys(['name', 'startTime', 'endTime', 'duration', 'failed', 'rootId']);
+                        expect(expected.name).to.equal(actual.name);
+                        if (expected.children) {
+                            expect(actual).to.contain.keys(['children']);
+                            expect(expected.children.length).to.equal(actual.children.length);
+                            expected.children.forEach((a,index) => {
+                                compareHeirarchy(expected.children[index], actual.children[index]);
+                            });
+                        }
+                    }
+                    compareHeirarchy(expectedHeirarchy, heirarchy);
+
                     done();
                 };
                 actionContext = context.getActionContext();
