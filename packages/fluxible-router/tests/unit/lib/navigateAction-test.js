@@ -232,6 +232,22 @@ describe('navigateAction', function () {
         });
     });
 
+    it('should dispatch with query params', function (done) {
+        navigateAction(mockContext, {
+            routeName: 'withParams',
+            params: { id: 5 },
+            query: { foo: 'bar' }
+        }, function (err) {
+            expect(err).to.equal(undefined);
+            expect(mockContext.dispatchCalls.length).to.equal(2);
+            expect(mockContext.dispatchCalls[0].name).to.equal('NAVIGATE_START');
+            expect(mockContext.dispatchCalls[0].payload.url).to.equal('/withParams/5?foo=bar');
+            expect(mockContext.dispatchCalls[1].name).to.equal('NAVIGATE_SUCCESS');
+            expect(mockContext.dispatchCalls[1].payload.url).to.equal('/withParams/5?foo=bar');
+            done();
+        });
+    });
+
     it('should error if routeStore does not exist', function (done) {
         function BadRouteStore(){}
         BadRouteStore.storeName = 'RouteStore';
