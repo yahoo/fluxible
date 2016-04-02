@@ -162,7 +162,9 @@ describe('navigateAction', function () {
             expect(err).to.be['instanceof'](Error);
             expect(mockContext.dispatchCalls.length).to.equal(2);
             expect(mockContext.dispatchCalls[1].name).to.equal('NAVIGATE_FAILURE');
-            expect(mockContext.dispatchCalls[1].payload.message).to.equal(err.message);
+            expect(mockContext.dispatchCalls[1].payload.error).to.be.an('object');
+            expect(mockContext.dispatchCalls[1].payload.error.message).to.equal(err.message);
+            expect(mockContext.getStore(RouteStore).isNavigateComplete()).to.equal(true);
             done();
         });
     });
