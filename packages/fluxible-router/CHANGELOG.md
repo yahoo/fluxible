@@ -1,5 +1,12 @@
 # Change Log
 
+## 1.0.0-alpha.3
+
+### Bug Fixes
+
+ * [#414] Send correct payload to NAVIGATE_FAILURE
+ * [#413] Support query in navigateAction when not using full URL
+
 ## 1.0.0-alpha.2
 
 ### Bug Fixes
