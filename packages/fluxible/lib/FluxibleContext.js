@@ -17,7 +17,7 @@ require('setimmediate');
  * @class FluxibleContext
  * @param {Fluxible} app The Fluxible instance used to create the context
  * @param {Object} [options]
- * @param {Object} [options.debug] if true, fluxible will expose debugging information. See docs for details.
+ * @param {Boolean} [options.debug] if true, fluxible will expose debugging information. See docs for details.
  * @constructor
  */
 function FluxContext(app, options) {
@@ -308,11 +308,10 @@ FluxContext.prototype.getStoreContext = function getStoreContext() {
 };
 
 /**
- * Returns the metadata saved for each action in structure format.
- * Top level actions are actions that kick off the app(navigateAction) or
- * actions executed by components.
- * All other actions will be under the `children` property of parent actions.
- * This creates a tree like structure which allows us to trace the action history.
+ * Action history is preserved in a tree structure which maintains parent->child relationships.
+ * Top level actions are actions that kick off the app (i.e. navigateAction) or actions executed by components.
+ * All other actions will be under the `children` property of other actions.
+ * This action history tree allows us to trace and even visualize actions for debugging.
  * @method getActionHistory
  * @return {Object} Array of top level actions.
  */
