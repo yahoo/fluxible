@@ -208,8 +208,7 @@ describe('FluxibleContext', function () {
                             }]
                         }]
                     };
-                    var actionHistory = context.getActionHistory();
-                    var heirarchy = actionHistory[Object.keys(actionHistory)[0]];
+                    var heirarchy = context.getActionHistory()[0];
                     function compareHeirarchy(expected, actual) {
                         expect(actual).to.contain.keys(['name', 'startTime', 'endTime', 'duration', 'failed', 'rootId']);
                         expect(expected.name).to.equal(actual.name);

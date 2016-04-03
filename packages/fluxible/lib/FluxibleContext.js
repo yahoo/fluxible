@@ -17,6 +17,7 @@ require('setimmediate');
  * @class FluxibleContext
  * @param {Fluxible} app The Fluxible instance used to create the context
  * @param {Object} [options]
+ * @param {Object} [options.debug] if true, fluxible will expose debugging information. See docs for details.
  * @constructor
  */
 function FluxContext(app, options) {
@@ -35,7 +36,7 @@ function FluxContext(app, options) {
 
     // Debug
     this._enableDebug = typeof options.debug !== 'undefined' ? options.debug : false;
-    this._actionHistory = {};
+    this._actionHistory = [];
 }
 
 var warnedOnce = false;
@@ -155,6 +156,7 @@ FluxContext.prototype._initializeDispatcher = function initializeDispatcher() {
  * @param {Object} parentActionContext The action context that the stack should
  *      extend from
  * @param {Function} action The action to be executed to get the name from
+ * @param {Object} payload The action payload
  * @returns {Object}
  */
 FluxContext.prototype._createSubActionContext = function createSubActionContext(parentActionContext, action, payload) {
@@ -183,7 +185,7 @@ FluxContext.prototype._createSubActionContext = function createSubActionContext(
         if (!parentActionContext.__parentAction) {
             // new top level action
             actionReference.type = (typeof window === 'undefined') ? 'server' : 'client';
-            this._actionHistory[rootId] = actionReference;
+            this._actionHistory.push(actionReference);
         } else {
             // append child action
             var parent = parentActionContext.__parentAction;
@@ -305,6 +307,15 @@ FluxContext.prototype.getStoreContext = function getStoreContext() {
     return self._storeContext;
 };
 
+/**
+ * Returns the metadata saved for each action in structure format.
+ * Top level actions are actions that kick off the app(navigateAction) or
+ * actions executed by components.
+ * All other actions will be under the `children` property of parent actions.
+ * This creates a tree like structure which allows us to trace the action history.
+ * @method getActionHistory
+ * @return {Object} Array of top level actions.
+ */
 FluxContext.prototype.getActionHistory = function getActionHistory() {
     return this._actionHistory;
 };
