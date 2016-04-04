@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.0.0-alpha.4
+
+### Breaking Changes
+
+ * [#417] Updates to routr 2.0.0. `getRoute` will now `decodeURIComponent` route values, you might need to remove `decodeURIComponent` from your route actions if you were supporting extended characters manually in your routes.
+
 ## 1.0.0-alpha.3
 
 ### Bug Fixes
@@ -28,7 +34,7 @@ See the [upgrade guide](UPGRADE.md#04x-to-1x)
 
  * Performance improvements:
  ** `NavLink` will only listen to the `RouteStore` if an `active*` property is used.
- ** `NavLink` will no longer compute active state on all prop/state changes, only when `currentRoute` or `prop` has 
+ ** `NavLink` will no longer compute active state on all prop/state changes, only when `currentRoute` or `prop` has
  changed.
  * [#397] NavLink now supports query parameters via the `queryParams` property
 
@@ -48,7 +54,7 @@ See the [upgrade guide](UPGRADE.md#04x-to-1x)
 
  * [#390] Support for React 15
  * [#394] Allow ignoring popstate event on page load
- 
+
 ### Bug Fixes
 
  * [#392] Fix stopPropagation not working with modified key presses
@@ -130,7 +136,7 @@ Deprecated, published package was corrupted
 
  * Upgraded to React 0.14, breaking compatibility with older versions of React
  * Removed dependency on `Object.assign` library, must be polyfilled
- 
+
 ### Features
 
  * [#69] Add NavLink `activeElement` option to use another element type for active state

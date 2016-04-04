@@ -1,6 +1,6 @@
 {
   "name": "fluxible-router",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.4",
   "description": "Routing for Fluxible applications",
   "main": "index.js",
   "repository": {
@@ -24,7 +24,7 @@
     "fluxible-addons-react": "^0.2.0",
     "hoist-non-react-statics": "^1.0.4",
     "inherits": "^2.0.1",
-    "routr": "^1.0.0"
+    "routr": "^2.0.0"
   },
   "peerDependencies": {
     "fluxible": "^1.0.0",
