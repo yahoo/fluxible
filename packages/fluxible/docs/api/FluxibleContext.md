@@ -22,8 +22,9 @@ Within a `FluxibleContext`, each component of your application receives a subset
 
 Creates a new context instance with the following parameters:
 
+ * `app`: Provides access to the application level functions and settings
  * `options`: An object containing the context settings
- * `options.app`: Provides access to the application level functions and settings
+ * `options.debug`: if true, will enable debug mode and allow fluxible to collect metadata for debugging.
 
 ### executeAction(action, payload, [done])
 
@@ -88,6 +89,16 @@ This context interface should be passed in to your top level React component and
 ### getStoreContext()
 
 Returns the [Store Context](Stores.md#Store Context) which provides access to only the functions that should be called from stores. By default, this is empty, but it is modifiable by plugins.
+
+### getActionHistory()
+
+Action history is preserved in a tree like structure which maintains parent->child relationships.
+Top level actions are actions that kick off the app (i.e. navigateAction) or actions executed by components.
+All other actions will be under the `children` property of other actions.
+This action history tree allows us to trace and even visualize actions for debugging.
+
+Returns an array of top level actions, if you passed in the debug flag into the constructor. By default, this is an empty array.
+
 
 ### dehydrate()
 

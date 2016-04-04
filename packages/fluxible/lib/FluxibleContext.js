@@ -16,9 +16,11 @@ require('setimmediate');
  * A request or browser-session context
  * @class FluxibleContext
  * @param {Fluxible} app The Fluxible instance used to create the context
+ * @param {Object} [options]
+ * @param {Boolean} [options.debug] if true, fluxible will expose debugging information. See docs for details.
  * @constructor
  */
-function FluxContext(app) {
+function FluxContext(app, options) {
     this._app = app;
 
     // To be created on demand
@@ -31,6 +33,10 @@ function FluxContext(app) {
     this._actionContext = null;
     this._componentContext = null;
     this._storeContext = null;
+
+    // Debug
+    this._enableDebug = typeof options.debug !== 'undefined' ? options.debug : false;
+    this._actionHistory = [];
 }
 
 var warnedOnce = false;
@@ -117,7 +123,7 @@ function executeActionProxy(context, actionContext, action, payload, done) {
     if (debug.enabled) {
         debug('Executing action ' + actionContext.stack.join('.') + ' with payload', payload);
     }
-    return callAction(actionContext, action, payload, done);
+    return callAction(context, actionContext, action, payload, done);
 }
 
 /**
@@ -129,7 +135,7 @@ function executeActionProxy(context, actionContext, action, payload, done) {
  * @return {Promise} executeActionPromise Resolved with action result or rejected with action error
  */
 FluxContext.prototype.executeAction = function executeAction(action, payload, done) {
-    var subActionContext = this._createSubActionContext(this.getActionContext(), action);
+    var subActionContext = this._createSubActionContext(this.getActionContext(), action, payload);
     return executeActionProxy(this, subActionContext, action, payload, done);
 };
 
@@ -150,9 +156,10 @@ FluxContext.prototype._initializeDispatcher = function initializeDispatcher() {
  * @param {Object} parentActionContext The action context that the stack should
  *      extend from
  * @param {Function} action The action to be executed to get the name from
+ * @param {Object} payload The action payload
  * @returns {Object}
  */
-FluxContext.prototype._createSubActionContext = function createSubActionContext(parentActionContext, action) {
+FluxContext.prototype._createSubActionContext = function createSubActionContext(parentActionContext, action, payload) {
     var displayName = action.displayName || action.name;
     /*
      * We store the action's stack array on the `stack` property
@@ -163,11 +170,30 @@ FluxContext.prototype._createSubActionContext = function createSubActionContext(
      * One action can execute multiple actions, so we need to create a shallow
      * clone with a new stack & new id every time a newActionContext is created.
      */
+    var rootId = parentActionContext.rootId || generateUUID();
     var newActionContext = Object.assign({}, this.getActionContext(), {
         stack: (parentActionContext.stack || []).concat([displayName]),
-        rootId: (parentActionContext.rootId) || generateUUID()
+        rootId: rootId
     });
     newActionContext.executeAction = newActionContext.executeAction.bind(newActionContext);
+    if (this._enableDebug) {
+        var actionReference = {
+            rootId: rootId,
+            name: displayName,
+            payload: payload, //TODO: memory leaks and probable gc issues
+        };
+        if (!parentActionContext.__parentAction) {
+            // new top level action
+            actionReference.type = (typeof window === 'undefined') ? 'server' : 'client';
+            this._actionHistory.push(actionReference);
+        } else {
+            // append child action
+            var parent = parentActionContext.__parentAction;
+            parent.children = parent.children || [];
+            parent.children.push(actionReference);
+        }
+        newActionContext.__parentAction = actionReference;
+    }
     return newActionContext;
 };
 
@@ -188,7 +214,7 @@ FluxContext.prototype.getActionContext = function getActionContext() {
             dispatch: self._dispatcher.dispatch.bind(self._dispatcher),
             executeAction: function executeAction (action, payload, callback) {
                 // `this` will be the current action context
-                var subActionContext = self._createSubActionContext(this, action);
+                var subActionContext = self._createSubActionContext(this, action, payload);
                 return executeActionProxy(self, subActionContext, action, payload, callback);
             },
             getStore: self._dispatcher.getStore.bind(self._dispatcher)
@@ -282,6 +308,18 @@ FluxContext.prototype.getStoreContext = function getStoreContext() {
 };
 
 /**
+ * Action history is preserved in a tree structure which maintains parent->child relationships.
+ * Top level actions are actions that kick off the app (i.e. navigateAction) or actions executed by components.
+ * All other actions will be under the `children` property of other actions.
+ * This action history tree allows us to trace and even visualize actions for debugging.
+ * @method getActionHistory
+ * @return {Object} Array of top level actions.
+ */
+FluxContext.prototype.getActionHistory = function getActionHistory() {
+    return this._actionHistory;
+};
+
+/**
  * Returns a serializable context state
  * @method dehydrate
  * @return {Object} See rehydrate method for properties
@@ -290,7 +328,9 @@ FluxContext.prototype.dehydrate = function dehydrate() {
     var self = this;
     var state = {
         dispatcher: (this._dispatcher && this._dispatcher.dehydrate()) || {},
-        plugins: {}
+        plugins: {},
+        actionHistory: this._actionHistory,
+        enableDebug: this._enableDebug
     };
 
     self._plugins.forEach(function pluginsEach(plugin) {
@@ -340,6 +380,8 @@ FluxContext.prototype.rehydrate = function rehydrate(obj) {
         });
     });
 
+    self._actionHistory = obj.actionHistory;
+    self._enableDebug = obj.enableDebug;
     return Promise.all(pluginTasks).then(function rehydratePluginTasks() {
         self._dispatcher = self._app.createDispatcherInstance(self.getStoreContext());
         self._dispatcher.rehydrate(obj.dispatcher || {});

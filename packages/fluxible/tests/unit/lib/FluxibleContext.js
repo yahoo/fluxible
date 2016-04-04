@@ -24,6 +24,18 @@ describe('FluxibleContext', function () {
         context = app.createContext();
     });
 
+    describe('options', function () {
+        it('should enable debug based on flag', function () {
+            var ctx;
+            ctx = app.createContext();
+            expect(ctx._enableDebug).to.equal(false);
+            ctx = app.createContext({debug: false});
+            expect(ctx._enableDebug).to.equal(false);
+            ctx = app.createContext({debug: true});
+            expect(ctx._enableDebug).to.equal(true);
+        });
+    });
+
     describe('getComponent', function () {
         it('should return the app component', function () {
             expect(context.getComponent()).to.equal(MockComponent);
@@ -90,6 +102,7 @@ describe('FluxibleContext', function () {
             });
 
             it('should trace executeAction calls and pass `id` along', function (done) {
+                context = app.createContext({debug: true});
                 var actionOne = function (context, payload, callback) {
                     actionCalls.push({
                         context: context,
@@ -179,6 +192,37 @@ describe('FluxibleContext', function () {
                     expect(actionCalls[5].context.rootId).to.equal(firstId);
                     expect(actionCalls[5].context.stack.join('.')).to.equal('One.Four.Five');
                     expect(actionCalls[5].payload).to.equal(payload);
+                    // action history
+                    var expectedHeirarchy = {
+                        name: 'One',
+                        children: [{
+                            name: 'Two'
+                        },{
+                            name: 'Two'
+                        },{
+                            name: 'Three'
+                        }, {
+                            name: 'Four',
+                            children: [{
+                                name: 'Five'
+                            }]
+                        }]
+                    };
+                    var heirarchy = context.getActionHistory()[0];
+                    function compareHeirarchy(expected, actual) {
+                        expect(actual).to.contain.keys(['name', 'startTime', 'endTime', 'duration', 'failed', 'rootId']);
+                        expect(expected.name).to.equal(actual.name);
+                        if (expected.children) {
+                            expect(actual).to.contain.keys(['children']);
+                            expect(expected.children.length).to.equal(actual.children.length);
+                            expected.children.forEach((a,index) => {
+                                compareHeirarchy(expected.children[index], actual.children[index]);
+                            });
+                        }
+                    }
+                    compareHeirarchy(expectedHeirarchy, heirarchy);
+
+                    context = app.createContext();
                     done();
                 };
                 actionContext = context.getActionContext();

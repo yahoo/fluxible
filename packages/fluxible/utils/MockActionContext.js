@@ -30,7 +30,7 @@ MockActionContext.prototype.executeAction = function (action, payload, callback)
         action: action,
         payload: payload
     });
-    return callAction(this, action, payload, callback);
+    return callAction({}, this, action, payload, callback);
 };
 
 module.exports = MockActionContext;
