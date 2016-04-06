@@ -5,7 +5,7 @@
 
 import DocStore from '../stores/DocStore';
 
-export default function (context, route, done) {
+function showDoc (context, route, done) {
 
     if (!route.githubPath) {
         let err404 = new Error('Document not found');
@@ -48,3 +48,5 @@ export default function (context, route, done) {
         done();
     });
 }
+showDoc.displayName = 'showDoc';
+export default showDoc;

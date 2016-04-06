@@ -70,6 +70,7 @@ function renderApp(res, context) {
 server.use(function (req, res, next) {
     const context = app.createContext({
         req: req, // The fetchr plugin depends on this
+        debug: req.query.debug,
         xhrContext: {
             _csrf: req.csrfToken() // Make sure all XHR requests have the CSRF token
         }

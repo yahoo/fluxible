@@ -75,6 +75,10 @@ export default [
             {
                 label: 'batchedUpdatePlugin',
                 routeName: 'batchedUpdatePlugin'
+            },
+            {
+                label: 'devToolsPlugin',
+                routeName: 'devToolsPlugin'
             }
         ]
     },

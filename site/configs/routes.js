@@ -219,6 +219,16 @@ export default {
         pageTitlePrefix: 'API: addons/batchedUpdatePlugin',
         pageDescription: 'Batches React state changes for each dispatch.'
     },
+    devToolsPlugin: {
+        path: '/addons/devToolsPlugin.html',
+        method: 'GET',
+        handler: Docs,
+        githubPath: '/packages/fluxible-plugin-devtools/docs/fluxible-plugin-devtools.md',
+        githubRepo: 'yahoo/fluxible',
+        action: showDoc,
+        pageTitlePrefix: 'API: addons/devToolsPlugin',
+        pageDescription: 'Provides Dev Tools for debugging your app.'
+    },
 
     // Extensions
     dataServices: {

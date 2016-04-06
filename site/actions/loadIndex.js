@@ -6,7 +6,7 @@
 import debugLib from 'debug';
 const debug = debugLib('loadIndex');
 
-export default function loadIndex(context, payload, done) {
+function loadIndex(context, payload, done) {
     debug(payload);
 
     // Load from service
@@ -20,3 +20,5 @@ export default function loadIndex(context, payload, done) {
         done();
     });
 }
+loadIndex.displayName = 'loadIndex';
+export default loadIndex;

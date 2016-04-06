@@ -1,0 +1,38 @@
+{
+  "name": "fluxible-plugin-devtools",
+  "version": "0.1.0",
+  "description": "A plugin for Fluxible applications to provide debugging information",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/yahoo/fluxible.git"
+  },
+  "scripts": {
+    "pretest": "npm run dist",
+    "test": "../../node_modules/.bin/mocha tests/unit/ --recursive --compilers js:babel-register --reporter spec",
+    "precover": "npm run dist",
+    "cover": "../../node_modules/.bin/istanbul cover --dir artifacts -- ../../node_modules/.bin/_mocha tests/unit/ --recursive --compilers js:babel-register --reporter spec",
+    "lint": "../../node_modules/.bin/eslint src/ index.js",
+    "dist": "gulp dist -p fluxible-plugin-devtools",
+    "prepublish": "npm run dist"
+  },
+  "dependencies": {
+    "debug": "^2.0.0"
+  },
+  "author": "Rajiv Tirumalareddy <rajivtirum@yahoo-inc.com>",
+  "contributors": [],
+  "licenses": [
+    {
+      "type": "BSD-3-Clause",
+      "url": "https://github.com/yahoo/fluxible/blob/master/LICENSE.md"
+    }
+  ],
+  "keywords": [
+    "yahoo",
+    "flux",
+    "react",
+    "fluxible",
+    "performance",
+    "devtools"
+  ]
+}

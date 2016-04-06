@@ -3,6 +3,6 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-export default function (context, route, done) {
+export default function demoException(context, route, done) {
     done(new Error('Whoops!'));
 }
