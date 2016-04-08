@@ -38,6 +38,12 @@ See the [upgrade guide](UPGRADE.md#04x-to-1x)
  changed.
  * [#397] NavLink now supports query parameters via the `queryParams` property
 
+## 0.4.12
+
+### Bug Fixes
+
+ * [#421] Fix for scroll state in IE
+
 ## 0.4.11
 
 ### Features
