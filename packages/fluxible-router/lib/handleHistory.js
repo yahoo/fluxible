@@ -175,8 +175,8 @@ function createComponent(Component, opts) {
                 query: navQuery,
                 params: navParams,
                 scroll: {
-                    x: window.scrollX,
-                    y: window.scrollY
+                    x: window.scrollX || window.pageXOffset,
+                    y: window.scrollY || window.pageYOffset
                 }
             };
 
@@ -204,7 +204,10 @@ function createComponent(Component, opts) {
         },
         _saveScrollPosition: function (e) {
             var historyState = (this._history.getState && this._history.getState()) || {};
-            historyState.scroll = {x: window.scrollX, y: window.scrollY};
+            historyState.scroll = {
+                x: window.scrollX || window.pageXOffset,
+                y: window.scrollY || window.pageYOffset
+            };
             debug('remember scroll position', historyState.scroll);
             this._history.replaceState(historyState);
         },
@@ -233,7 +236,10 @@ function createComponent(Component, opts) {
                     }
                     historyState = {params: navParams, query: navQuery};
                     if (nav.preserveScrollPosition) {
-                        historyState.scroll = {x: window.scrollX, y: window.scrollY};
+                        historyState.scroll = {
+                            x: window.scrollX || window.pageXOffset,
+                            y: window.scrollY || window.pageYOffset
+                        };
                     } else {
                         if (options.enableScroll) {
                             window.scrollTo(0, 0);
