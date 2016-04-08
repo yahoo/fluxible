@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.4.12
+
+### Bug Fixes
+
+ * [#421] Fix for scroll state in IE
+
 ## 0.4.11
 
 ### Features
