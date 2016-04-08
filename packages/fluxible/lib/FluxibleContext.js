@@ -33,8 +33,6 @@ function FluxContext(app) {
     this._storeContext = null;
 }
 
-var warnedOnce = false;
-
 /**
  * Getter for the app's component. Pass through to the Fluxible instance.
  * @method getComponent
