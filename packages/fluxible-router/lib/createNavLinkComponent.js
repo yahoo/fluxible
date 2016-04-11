@@ -118,12 +118,38 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
             }
             return href;
         },
-        getQueryParams: function (props) {
-            return props.queryParams;
+        /**
+         * Default getDefaultChildProps function, return empty object
+         * @method getDefaultChildProps
+         * @return {Object} default child props
+         */
+        getDefaultChildProps: function () {
+            return {};
         },
+        /**
+         * Default getNavParams function, return props.navParams
+         * @method getNavParams
+         * @param {Object} props props object
+         * @return {Object} nav params
+         */
         getNavParams: function (props) {
             return props.navParams;
         },
+        /**
+         * Default getQueryParams function, return props.queryParams
+         * @method getQueryParams
+         * @param {Object} props props object
+         * @return {Object} query params
+         */
+        getQueryParams: function (props) {
+            return props.queryParams;
+        },
+        /**
+         * Default shouldFollowLink, return props.followLink
+         * @method shouldFollowLink
+         * @param {Object} props props object
+         * @return {Boolean} should follow link value
+         */
         shouldFollowLink: function(props) {
             return props.followLink;
         },
@@ -216,7 +242,7 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
                 }
             }
 
-            var childProps = {};
+            var childProps = this.getDefaultChildProps();
 
             if (!(isActive && this.props.activeElement)) {
                 childProps.onClick = this.clickHandler.bind(this);

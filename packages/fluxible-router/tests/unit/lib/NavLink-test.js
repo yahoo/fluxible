@@ -191,6 +191,21 @@ describe('NavLink', function () {
             );
             expect(ReactDOM.findDOMNode(link).getAttribute('class')).to.equal(null);
         });
+        
+        it('should able to get additional child props by dynamical getDefaultChildProps function', function () {
+            var navLink = React.createElement(createNavLinkComponent({
+                getDefaultChildProps: function () {
+                    return {'data-foo': 'foo', 'data-bar': 'bar'};
+                }
+            }), {routeName: 'foo'});
+            var link = ReactTestUtils.renderIntoDocument(
+                <MockAppComponent context={mockContext}>
+                    {navLink}
+                </MockAppComponent>
+            );
+            expect(ReactDOM.findDOMNode(link).getAttribute('data-foo')).to.equal('foo');
+            expect(ReactDOM.findDOMNode(link).getAttribute('data-bar')).to.equal('bar');
+        });
     });
 
     describe('dispatchNavAction()', function () {
