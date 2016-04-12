@@ -99,6 +99,9 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
             }
             return href;
         },
+        getDefaultChildProps: function () {
+            return {};
+        },
         getNavParams: function (props) {
             return props.navParams;
         },
@@ -180,7 +183,7 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
                 if (this.state.activeElement) {
                     return React.createElement(
                         this.state.activeElement,
-                        Object.assign({}, this.props, {
+                        Object.assign(this.getDefaultChildProps(), this.props, {
                             className: this.state.className,
                             style: this.state.style
                         }),
@@ -191,7 +194,7 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
 
             return React.createElement(
                 'a',
-                Object.assign({}, {
+                Object.assign(this.getDefaultChildProps(), {
                     onClick: this.clickHandler.bind(this)
                 }, this.props, {
                     href: this.state.href,
