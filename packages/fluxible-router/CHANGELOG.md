@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.4.13
+
+### Features
+
+ * [#423] Added overridable `getDefaultChildProps` method to `NavLink` spec
+
 ## 0.4.12
 
 ### Bug Fixes
