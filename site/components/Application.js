@@ -10,6 +10,8 @@ import Home from './Home';
 import Docs from './Docs';
 import { provideContext, connectToStores } from 'fluxible-addons-react';
 import { handleHistory } from 'fluxible-router';
+import { Actions } from 'fluxible-plugin-devtools';
+import Debug from './Debug';
 import NavLink from './NavLink';
 import TopNav from './TopNav';
 import Status404 from './Status404';
@@ -59,6 +61,7 @@ class Application extends React.Component {
 
         return (
             <div className="H(100%)">
+                <Debug />
                 <div className="wrapper Bxz(bb) Mih(100%)">
                     <div id="header" role="header" className="Px(10px) Py(13px) Ov(h) Z(7) Pos(r) Bgc(logo) optLegibility">
                         <div className="innerwrapper spaceBetween Mx(a)--sm W(90%)--sm">
@@ -86,7 +89,11 @@ Application = provideContext(
             currentTitle: context.getStore('DocStore').getCurrentTitle() || '',
             currentDoc: context.getStore('DocStore').getCurrent()
         }))
-    )
+    ),
+    {
+        query: React.PropTypes.object,
+        devtools: React.PropTypes.object
+    }
 );
 
 // setup i13n

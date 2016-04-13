@@ -6,6 +6,8 @@
 import debugLib from 'debug';
 import Fluxible from 'fluxible';
 import fetchrPlugin from 'fluxible-plugin-fetchr';
+import devToolsPlugin from 'fluxible-plugin-devtools';
+import queryPlugin from './plugins/queryPlugin';
 import routes from './configs/routes';
 import Application from './components/Application';
 import DocStore from './stores/DocStore';
@@ -33,7 +35,9 @@ const app = new Fluxible({
     }
 });
 
+app.plug(queryPlugin());
 app.plug(fetchrPlugin({ xhrPath: '/_api' }));
+app.plug(devToolsPlugin());
 
 app.registerStore(DocStore);
 app.registerStore(MyRouteStore);

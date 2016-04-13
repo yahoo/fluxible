@@ -27,6 +27,9 @@ function FluxContext(app) {
     // Plugins
     this._plugins = [];
 
+    // ExecuteAction Plugins
+    this._executeActionPlugins = [];
+
     // Set up contexts
     this._actionContext = null;
     this._componentContext = null;
@@ -75,6 +78,10 @@ FluxContext.prototype.plug = function (plugin) {
         throw new Error('Context plugin must have a name');
     }
     this._plugins.push(plugin);
+    var executeActionPlugin = plugin.plugExecuteAction;
+    if (executeActionPlugin) {
+        this._executeActionPlugins.push(executeActionPlugin);
+    }
 };
 
 /**
@@ -111,6 +118,19 @@ function executeActionProxy(context, actionContext, action, payload, done) {
                 '` will only start after `' + currentActionDisplayName + '` is complete.');
         }
     }
+
+    context._executeActionPlugins.forEach(function pluginsEach(executeActionPlugin) {
+        var pluggedExecuteAction = executeActionPlugin({
+            actionContext: actionContext,
+            action: action,
+            payload: payload,
+            done: done
+        });
+        actionContext = pluggedExecuteAction.actionContext;
+        action = pluggedExecuteAction.action;
+        payload = pluggedExecuteAction.payload;
+        done = pluggedExecuteAction.done;
+    });
 
     if (debug.enabled) {
         debug('Executing action ' + actionContext.stack.join('.') + ' with payload', payload);
@@ -151,7 +171,6 @@ FluxContext.prototype._initializeDispatcher = function initializeDispatcher() {
  * @returns {Object}
  */
 FluxContext.prototype._createSubActionContext = function createSubActionContext(parentActionContext, action) {
-    var displayName = action.displayName || action.name;
     /*
      * We store the action's stack array on the `stack` property
      * of the actionContext interface.
@@ -161,7 +180,9 @@ FluxContext.prototype._createSubActionContext = function createSubActionContext(
      * One action can execute multiple actions, so we need to create a shallow
      * clone with a new stack & new id every time a newActionContext is created.
      */
+    var displayName = action.displayName || action.name;
     var newActionContext = Object.assign({}, this.getActionContext(), {
+        displayName: displayName,
         stack: (parentActionContext.stack || []).concat([displayName]),
         rootId: (parentActionContext.rootId) || generateUUID()
     });

@@ -673,6 +673,64 @@ describe('FluxibleContext', function () {
             expect(storeContext.getDimensions).to.be.a('function');
             expect(storeContext.getDimensions()).to.deep.equal(dimensions);
         });
+        it('#plug should collect list of executeActionPlugins', function () {
+            var newContext = app.createContext();
+            expect(newContext._executeActionPlugins).to.have.lengthOf(0);
+            var plugin = {
+                name: 'plugin',
+                plugExecuteAction: function plugExecuteAction() {}
+            };
+            newContext.plug(plugin);
+            expect(newContext._executeActionPlugins).to.have.lengthOf(1);
+        });
+        it('should call executeActionPlugins', function (done) {
+            var newContext = app.createContext();
+            var modifiedActionCalled = false;
+            var modifiedCallbackCalled = false;
+            var plugin = {
+                name: 'plugin',
+                plugExecuteAction: function plugExecuteAction(args) {
+                    return {
+                        action: function modifiedAction(context, payload, callback) {
+                            modifiedActionCalled = true;
+                            args.action(context, payload, callback);
+                        },
+                        actionContext: Object.assign(args.actionContext, {modified: true}),
+                        payload: Object.assign(args.payload, {modified: true}),
+                        done: function modifedCallback(err) {
+                            modifiedCallbackCalled = true;
+                            args.done && args.done(err);
+                        }
+                    }
+                }
+            };
+            var contextModified = false;
+            var payloadModified = false;
+            newContext.plug(plugin);
+            var action = function (context, payload, callback) {
+                if (context && context.modified) {
+                    contextModified = true;
+                }
+                if (payload && payload.modified) {
+                    payloadModified = true;
+                }
+                callback();
+            };
+            newContext.executeAction(action, {}, function end () {
+                var err = null;
+                try {
+                    expect(modifiedActionCalled).to.equal(true);
+                    expect(contextModified).to.equal(true);
+                    expect(payloadModified).to.equal(true);
+                    expect(modifiedCallbackCalled).to.equal(true);
+                } catch (e) {
+                    err = e;
+                } finally {
+                    done(err);
+                }
+
+            });
+        })
         it('should dehydrate and rehydrate the async plugin correctly', function (done) {
             // Create a copy of the state
             var state = JSON.parse(JSON.stringify(context.dehydrate()));

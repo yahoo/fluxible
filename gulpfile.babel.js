@@ -3,6 +3,7 @@ import path from 'path';
 import gulp from 'gulp';
 import {cd, exec, rm} from 'shelljs';
 import {argv} from 'yargs';
+import babel from 'gulp-babel';
 
 const ROOT_PATH = path.resolve(__dirname);
 const PACKAGES_PATH = path.resolve(__dirname, './packages');
@@ -49,6 +50,27 @@ gulp.task('install', () => {
             })
         );
     });
+});
+
+gulp.task('dist', () => {
+    let pwd = process.env.PWD;
+    let pwdPackageName = Object.keys(packages).reduce((prev, name) => {
+        return packages[name] === pwd ? name : prev;
+    }, undefined);
+    let packageName = argv.pkg || argv.p || pwdPackageName;
+    if (!packageName) {
+        throw new Error('Usage: gulp dist -p <package>');
+    }
+    var src = packages[packageName] + '/src/**/*';
+    var dest = path.resolve(packages[packageName], 'dist')
+    rm('-rf', dest);
+    gulp.src(src)
+        .pipe(babel({
+            babelrc: false,
+            presets: ['es2015', 'react'],
+            plugins: ['transform-class-properties']
+        }))
+        .pipe(gulp.dest(dest))
 });
 
 gulp.task('clean', () => {
