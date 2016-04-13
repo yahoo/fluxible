@@ -112,7 +112,11 @@ class ActionTree extends React.Component {
 
             // Update the nodes…
             var node = svg.selectAll("g.node")
-                .data(nodes, d => {d.id = ++i});
+                .data(nodes, d => {
+                    var id = ++i;
+                    d.id = d.id || id;
+                    return d.id;
+                });
             var nodeEnter = node.enter().append("g")
                 .attr("class", "node")
                 .attr("transform", d => {

@@ -1,5 +1,6 @@
 artifacts
 docs
+src
 tests
 .idea
 *.log
