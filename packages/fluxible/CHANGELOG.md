@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.1.0
+
+### Features
+
+ * [#418] Added `plugExecuteAction` hook to plugin API to allow tracking of execute calls
+
 ## 1.0.5
 
 ### Bug Fixes
