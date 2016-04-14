@@ -33,7 +33,8 @@
       "kgp": [
         "./secrets/fluxible.alpha.kgp",
         "./secrets/fluxible.beta.kgp",
-        "./secrets/fluxible.prod.kgp"
+        "./secrets/fluxible.prod.kgp",
+        "./secrets/deptools.saucelabs-saucekey.kgp"
       ]
     }
   },
@@ -100,7 +101,7 @@
     "mockery": "^1.4.0",
     "nodemon": "^1.2.1",
     "pre-commit": "^1.0.7",
-    "protractor": "^3.0.0",
+    "protractor": "^2.5.1",
     "webpack": "^1.7.3",
     "webpack-dev-server": "^1.6.5"
   }
