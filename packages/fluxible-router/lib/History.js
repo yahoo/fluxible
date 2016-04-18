@@ -106,6 +106,8 @@ History.prototype = {
             try {
                 win.history.pushState(_state, title, url);
             } catch (_) {
+                // Handle errors by refreshing
+                // See https://bugs.webkit.org/show_bug.cgi?id=155901
                 win.location.href = url;
             }
             this.setTitle(title);
@@ -132,6 +134,8 @@ History.prototype = {
             try {
                 win.history.replaceState(_state, title, url);
             } catch(_) {
+                // Handle errors by refreshing
+                // See https://bugs.webkit.org/show_bug.cgi?id=155901
                 win.location.replace(url);
             }
             this.setTitle(title);
