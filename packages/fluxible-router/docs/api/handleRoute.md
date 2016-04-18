@@ -21,7 +21,7 @@ These props will be passed to your component when a `RouteStore` change is emitt
 
 ```js
 // components/MyComponent.jsx
-var handleRoute = require('fluxible-router').handleHistory;
+var handleRoute = require('fluxible-router').handleRoute;
 
 var MyComponent = React.createClass({
     render: function () {
