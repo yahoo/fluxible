@@ -103,7 +103,11 @@ History.prototype = {
 
             // remember the original url in state, so that it can be used by getUrl()
             var _state = Object.assign({origUrl: url}, state);
-            win.history.pushState(_state, title, url);
+            try {
+                win.history.pushState(_state, title, url);
+            } catch (_) {
+                win.location.href = url;
+            }
             this.setTitle(title);
         } else if (url) {
             win.location.href = url;
@@ -125,7 +129,11 @@ History.prototype = {
 
             // remember the original url in state, so that it can be used by getUrl()
             var _state = Object.assign({origUrl: url}, state);
-            win.history.replaceState(_state, title, url);
+            try {
+                win.history.replaceState(_state, title, url);
+            } catch(_) {
+                win.location.replace(url);
+            }
             this.setTitle(title);
         } else if (url) {
             win.location.replace(url);
