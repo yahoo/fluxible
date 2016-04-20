@@ -7,6 +7,8 @@
  */
 import React from 'react';
 const D3_CDN_URL = 'https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js';
+// only load d3 once, even though we might have multiple ActionTree components on the page.
+let d3Loaded = false;
 
 class ActionTree extends React.Component {
     constructor(props) {
@@ -217,8 +219,11 @@ class ActionTree extends React.Component {
 
     componentDidMount() {
         this.injectStyle();
-        if (!window.d3) {
-            this.loadScript(D3_CDN_URL, this.graph.bind(this));
+        if (!d3Loaded) {
+            this.loadScript(D3_CDN_URL, () => {
+                d3Loaded = true;
+                this.graph();
+            });
         } else {
             this.graph();
         }
