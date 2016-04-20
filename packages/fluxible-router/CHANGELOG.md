@@ -38,6 +38,12 @@ See the [upgrade guide](UPGRADE.md#04x-to-1x)
  changed.
  * [#397] NavLink now supports query parameters via the `queryParams` property
 
+## 0.4.14
+
+### Bug Fixes
+
+ * [#427] Fallback for pushState and replaceState exceptions
+
 ## 0.4.13
 
 ### Features
