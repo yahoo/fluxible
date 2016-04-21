@@ -4,6 +4,7 @@
  */
 'use strict';
 import debugLib from 'debug';
+import { ACTION, DISPATCH } from './CONSTANTS';
 const debug = debugLib('Fluxible:DevToolsPlugin');
 
 /**
@@ -41,7 +42,7 @@ export default function devToolsPlugin() {
                     /**
                     * Action history is preserved in a tree structure which maintains parent->child relationships.
                     * Top level actions are actions that kick off the app (i.e. navigateAction) or actions executed by components.
-                    * All other actions will be under the `children` property of other actions.
+                    * All other actions will be under the `actionCalls` property of other actions.
                     * This action history tree allows us to trace and even visualize actions for debugging.
                     * @method getActionHistory
                     * @return {Object} Array of top level actions.
@@ -72,17 +73,24 @@ export default function devToolsPlugin() {
                     let subActionContext = createSubActionContext(parentActionContext, action);
                     let actionReference = {
                         rootId: subActionContext.rootId,
-                        name: subActionContext.displayName
+                        name: subActionContext.displayName,
+                        type: ACTION
                     };
                     if (!parentActionContext.__actionReference) {
                         // new top level action
-                        actionReference.type = (typeof window === 'undefined') ? 'server' : 'client';
+                        actionReference.context = (typeof window === 'undefined') ? 'server' : 'client';
                         actionHistory.push(actionReference);
                     } else {
                         // append child action
                         const parentActionReference = parentActionContext.__actionReference;
-                        parentActionReference.children = parentActionReference.children || [];
-                        parentActionReference.children.push(actionReference);
+                        parentActionReference.actionCalls = parentActionReference.actionCalls || [];
+                        parentActionReference.actionCalls.push(actionReference);
+                        // TODO: perhaps also push to an parentActionReference.actions reference array.
+                        // This way we can still correctly detect leaf nodes. Actually are leaf nodes even useful?
+                        // If not, just color code the bars based on action vs dispatch calls.
+                        // Later, service calls.
+                        // Even later, arbitrary custom children.
+                        // No paths for dispatches? Or just show/hide dispatches
                     }
                     // for extablishing parent->child relationships
                     // and updating start/end times of the actionReference
@@ -115,6 +123,24 @@ export default function devToolsPlugin() {
 
                     function timedAction(ctx, payload, cb) {
                         actionReference.startTime = Date.now();
+                        actionReference.payload = JSON.stringify(payload);
+                        const dispatch = ctx.dispatch;
+                        ctx.dispatch = (actionName, payload) => {
+                            const dispatchRef = {
+                                name: actionName,
+                                payload: JSON.stringify(payload),
+                                type: DISPATCH
+                            };
+                            actionReference.dispatchCalls = actionReference.dispatchCalls || [];
+                            actionReference.dispatchCalls.push(dispatchRef);
+                            const startTime = Date.now();
+                            dispatchRef.startTime = startTime;
+                            dispatch(actionName, payload);
+                            const endTime = Date.now();
+                            const dur = endTime - startTime;
+                            dispatchRef.endTime = endTime;
+                            dispatchRef.duration = dur;
+                        };
                         return action(ctx, payload, cb);
                     }
 

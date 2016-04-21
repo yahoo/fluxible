@@ -140,7 +140,7 @@ describe('devToolsPlugin', function () {
             var cb = function () {
                 var expectedHeirarchy = {
                     name: 'One',
-                    children: [{
+                    actionCalls: [{
                         name: 'Two'
                     },{
                         name: 'Two'
@@ -148,7 +148,7 @@ describe('devToolsPlugin', function () {
                         name: 'Three'
                     }, {
                         name: 'Four',
-                        children: [{
+                        actionCalls: [{
                             name: 'Five'
                         }]
                     }]
@@ -157,11 +157,11 @@ describe('devToolsPlugin', function () {
                 function compareHeirarchy(expected, actual) {
                     expect(actual).to.contain.keys(['name', 'startTime', 'endTime', 'duration', 'failed', 'rootId']);
                     expect(expected.name).to.equal(actual.name);
-                    if (expected.children) {
-                        expect(actual).to.contain.keys(['children']);
-                        expect(expected.children.length).to.equal(actual.children.length);
-                        expected.children.forEach((a,index) => {
-                            compareHeirarchy(expected.children[index], actual.children[index]);
+                    if (expected.actionCalls) {
+                        expect(actual).to.contain.keys(['actionCalls']);
+                        expect(expected.actionCalls.length).to.equal(actual.actionCalls.length);
+                        expected.actionCalls.forEach((a,index) => {
+                            compareHeirarchy(expected.actionCalls[index], actual.actionCalls[index]);
                         });
                     }
                 }
@@ -173,6 +173,7 @@ describe('devToolsPlugin', function () {
         });
         it('#getActionHistory componentContext nested executeAction', function (done) {
             var actionOne = function (context, payload, callback) {
+                context.dispatch('ONE_START');
                 async.series([
                     function (cb) {
                         context.executeAction(actionTwo, payload, function actionOneFirstCallback () {
@@ -188,6 +189,7 @@ describe('devToolsPlugin', function () {
                     },
                     async.apply(context.executeAction, actionFour, payload)
                 ], function (err) {
+                    context.dispatch('ONE_STOP');
                     callback(err)
                 });
             };
@@ -205,13 +207,19 @@ describe('devToolsPlugin', function () {
             };
             actionFour.displayName = 'Four';
             var actionFive = function (context, payload, callback) {
+                context.dispatch('FIVE');
                 callback();
             };
             actionFive.displayName = 'Five';
             var cb = function () {
                 var expectedHeirarchy = {
                     name: 'One',
-                    children: [{
+                    dispatchCalls: [{
+                        name: 'ONE_START'
+                    }, {
+                        name: 'ONE_STOP'
+                    }],
+                    actionCalls: [{
                         name: 'Two'
                     },{
                         name: 'Two'
@@ -219,8 +227,11 @@ describe('devToolsPlugin', function () {
                         name: 'Three'
                     }, {
                         name: 'Four',
-                        children: [{
-                            name: 'Five'
+                        actionCalls: [{
+                            name: 'Five',
+                            dispatchCalls: [{
+                                name: 'FIVE'
+                            }]
                         }]
                     }]
                 };
@@ -228,11 +239,18 @@ describe('devToolsPlugin', function () {
                 function compareHeirarchy(expected, actual) {
                     expect(actual).to.contain.keys(['name', 'startTime', 'endTime', 'duration', 'failed', 'rootId']);
                     expect(expected.name).to.equal(actual.name);
-                    if (expected.children) {
-                        expect(actual).to.contain.keys(['children']);
-                        expect(expected.children.length).to.equal(actual.children.length);
-                        expected.children.forEach((a,index) => {
-                            compareHeirarchy(expected.children[index], actual.children[index]);
+                    if (expected.dispatchCalls) {
+                        expect(actual).to.contain.keys(['dispatchCalls']);
+                        expect(expected.dispatchCalls.length).to.equal(actual.dispatchCalls.length);
+                        expected.dispatchCalls.forEach((a,index) => {
+                            expect(expected.dispatchCalls[index].name).to.equal(actual.dispatchCalls[index].name);
+                        });
+                    }
+                    if (expected.actionCalls) {
+                        expect(actual).to.contain.keys(['actionCalls']);
+                        expect(expected.actionCalls.length).to.equal(actual.actionCalls.length);
+                        expected.actionCalls.forEach((a,index) => {
+                            compareHeirarchy(expected.actionCalls[index], actual.actionCalls[index]);
                         });
                     }
                 }
