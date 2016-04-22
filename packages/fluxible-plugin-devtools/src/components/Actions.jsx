@@ -13,6 +13,6 @@ export default class Actions extends React.Component {
     render() {
         var actions = this.context.devtools.getActionHistory()
             .map(action => <ActionTree {...this.props} action={action} key={action.rootId} />);
-        return <div>{actions}</div>;
+        return (<div>{actions}</div>);
     }
 };
