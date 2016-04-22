@@ -12,7 +12,7 @@ You have to plug your app with the devtools plugin, as well as pass in a `debug`
 var Fluxible = require('fluxible');
 var devToolsPlugin = require('fluxible-plugin-devtools');
 var app = new Fluxible();
-app.plug(fetchrPlugin());
+app.plug(devToolsPlugin());
 
 app.createContext({
     debug: true // needed to enable devtools
