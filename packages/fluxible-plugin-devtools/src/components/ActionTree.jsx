@@ -159,24 +159,8 @@ class ActionTree extends React.Component {
                 .style('fill', color)
                 .on('click', toggleCollapse)
                 .on('mouseover', showCurrentPath)
-                .on('mouseout', showAllPaths);
-
-            nodeEnter.append('rect')
-                .attr('class', 'log')
-                .attr('height', barHeight)
-                .attr('width', barHeight)
-                .attr('y', -barHeight/2)
-                .attr('x', d => d.x)
-                .on('click', log);
-            nodeEnter.append('text')
-                .attr('class', 'payload-label')
-                .attr('height', barHeight)
-                .attr('width', barHeight)
-                .attr('dy', '3.5')
-                .attr('dx', '1.5')
-                .attr('x', d => d.x)
-                .text('{...}')
-                .on('click', log);
+                .on('mouseout', showAllPaths)
+                .append('title').text(d => 'Click to collapse ' + d.name +'. Hover to see path to parent.');
             nodeEnter.append('text')
                 .attr('class', 'displayLabel')
                 .attr('dy', 3.5)
@@ -186,6 +170,23 @@ class ActionTree extends React.Component {
                 .on('click', toggleCollapse)
                 .on('mouseover', showCurrentPath)
                 .on('mouseout', showAllPaths);
+
+            nodeEnter.append('text')
+                .attr('class', 'payload-label')
+                .attr('height', barHeight)
+                .attr('width', barHeight)
+                .attr('dy', '3.5')
+                .attr('dx', '2')
+                .attr('x', d => d.x)
+                .text('{...}');
+            nodeEnter.append('rect')
+                .attr('class', 'log')
+                .attr('height', barHeight)
+                .attr('width', barHeight)
+                .attr('y', -barHeight/2)
+                .attr('x', d => d.x)
+                .on('click', log)
+                .append('title').text(d => 'Open your javascript console and click here to inspect the payload of ' + d.name);
 
             // Transition nodes to their new position.
             nodeEnter.transition()
