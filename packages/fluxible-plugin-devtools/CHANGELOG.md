@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.1.3
+
+ * [#432] Ability to inspect dispatch calls as well as action/dispatch payloads
+ * [#433] Fix Readme (@ali1k)
 ## 0.1.2
 
 ### Bug Fixes
