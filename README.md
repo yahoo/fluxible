@@ -2,7 +2,7 @@
 
 This repository is the home of [Fluxible](http://fluxible.io/) and related libraries.
 
-Join the #fluxible channel of the [Reactiflux](http://reactiflux.com) Discord community.
+Join the #flux channel of the [Reactiflux](https://discord.gg/0ZcbPKXt5bYedEbN) Discord community.
 
 ## Development
 
