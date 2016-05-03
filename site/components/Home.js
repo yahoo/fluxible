@@ -85,8 +85,7 @@ class Home extends React.Component {
                                 data-canonical-src="https://badges.gitter.im/gitterHQ/gitter.png"
                                 style={{maxWidth: '100%'}}
                                 className="Va(m)" />
-                        </I13nAnchor> or
-                        #fluxible channel of the <I13nAnchor href="http://reactiflux.com/">Reactiflux</I13nAnchor> Discord community.
+                        </I13nAnchor>
                     </p>
 
                     <div className="Ta(c)">
