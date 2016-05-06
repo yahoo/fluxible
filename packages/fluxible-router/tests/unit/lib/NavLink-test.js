@@ -191,7 +191,7 @@ describe('NavLink', function () {
             );
             expect(ReactDOM.findDOMNode(link).getAttribute('class')).to.equal(null);
         });
-        
+
         it('should able to get additional child props by dynamical getDefaultChildProps function', function () {
             var navLink = React.createElement(createNavLinkComponent({
                 getDefaultChildProps: function () {
@@ -252,6 +252,32 @@ describe('NavLink', function () {
                 expect(mockContext.executeActionCalls[0].payload.params).to.eql({a: 2, b: false});
                 done();
             }, 10);
+        });
+        it('should add noopener noreferrer to rel when target=_blank', function () {
+            var link = ReactTestUtils.renderIntoDocument(
+                <MockAppComponent context={mockContext}>
+                    <NavLink href="/foo" target="_blank">bar</NavLink>
+                </MockAppComponent>
+            );
+            expect(ReactDOM.findDOMNode(link).getAttribute('rel')).to.equal('noopener noreferrer');
+            link = ReactTestUtils.renderIntoDocument(
+                <MockAppComponent context={mockContext}>
+                    <NavLink href="/foo" target="_blank" rel="noreferrer">bar</NavLink>
+                </MockAppComponent>
+            );
+            expect(ReactDOM.findDOMNode(link).getAttribute('rel')).to.equal('noreferrer noopener');
+            link = ReactTestUtils.renderIntoDocument(
+                <MockAppComponent context={mockContext}>
+                    <NavLink href="/foo" target="_blank" rel="noopener">bar</NavLink>
+                </MockAppComponent>
+            );
+            expect(ReactDOM.findDOMNode(link).getAttribute('rel')).to.equal('noopener noreferrer');
+            link = ReactTestUtils.renderIntoDocument(
+                <MockAppComponent context={mockContext}>
+                    <NavLink href="/foo" target="_blank" rel="nofollow">bar</NavLink>
+                </MockAppComponent>
+            );
+            expect(ReactDOM.findDOMNode(link).getAttribute('rel')).to.equal('nofollow noopener noreferrer');
         });
         it('stopPropagation stops event propagation', function (done) {
             var propagateFail = function(e) {

@@ -257,6 +257,17 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
                 childProps.href = href;
             }
 
+            if (childProps.target === '_blank') {
+                var rel = childProps.rel || '';
+                if (rel.indexOf('noopener') === -1) {
+                    rel = (rel ? rel + ' ' : '') + 'noopener';
+                }
+                if (rel.indexOf('noreferrer') === -1) {
+                    rel += ' noreferrer';
+                }
+                childProps.rel = rel;
+            }
+
             var childElement = isActive ? this.props.activeElement || 'a' : 'a';
 
             return React.createElement(
