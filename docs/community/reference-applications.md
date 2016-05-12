@@ -10,6 +10,7 @@ Want to add your application? Click edit above and open a PR!
 - [Fluxible.io](https://github.com/yahoo/fluxible/blob/master/site) is this website! Showcases data fetching, routing, analytics, search and more. 
 - [isomorphic500](https://github.com/gpbl/isomorphic500) ([live link](https://isomorphic500.herokuapp.com/)) is a Fluxible demo application showing photos from 500px. It uses the official Fluxible plugins, supports multiple language and includes a full-stack development environment. Useful as a source of inspiration to solve some common cases encountered while developing an isomorphic application.   
 - [quad-blog](https://github.com/cesarandreu/quad-blog/) ([live link](https://blog.cesarandreu.com/)) is a blog written with Fluxible. Another possible useful source of inspiration for solving problems encountered while developing an isomorphic application.
+- [SlideWiki Platform](https://github.com/slidewiki/slidewiki-platform) is an OpenCourseWare authoring platform.
 
 ## Closed Source
 
