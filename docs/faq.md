@@ -58,3 +58,10 @@ This is caused by the csrf middleware. You need to make sure you pass the `csrf`
 ### In react-router, how do I get access to the Fluxible context from `willTransitionTo`?
 
 Since `willTransitionTo` is defined statically on the component, it will not have access to the Fluxible context. There is a [open issue](https://github.com/rackt/react-router/pull/590) from react-router to provide access but, as of this writing) it has yet to be resolved.
+
+
+### Why does routing execution order change based on first load vs routing via `navigateAction`?
+
+This is by design so that you could render loading states within your components while navigation is happening. Then you change the layout immediately and then fill sections of the page with data as it is loaded rather than having a wait followed by a full update.
+
+With that said, you should be able to get the behavior you want by implementing `shouldComponentUpdate` in your app component that returns false when `this.props.isNavigateComplete` is false. This would prevent rendering until the full navigation has finished.
