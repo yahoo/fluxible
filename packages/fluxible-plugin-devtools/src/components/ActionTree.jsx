@@ -79,6 +79,7 @@ class ActionTree extends React.Component {
         }
         const relativeWidth = this.props.relativeWidth;
         const showDispatchCalls = this.props.showDispatchCalls;
+        const showStartTime = this.props.showStartTime;
         const filters = ['actionCalls'];
         if (showDispatchCalls) {
             filters.push('dispatchCalls');
@@ -271,6 +272,9 @@ class ActionTree extends React.Component {
             }
             if (typeof d.duration !== 'undefined') {
                 name += ` (${d.duration.toFixed(2)} ms)`;
+            }
+            if (showStartTime && typeof d.startTime !== 'undefined') {
+                name += ` @${d.startTime}`;
             }
             return name;
         }
