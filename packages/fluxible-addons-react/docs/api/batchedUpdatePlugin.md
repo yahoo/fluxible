@@ -6,7 +6,7 @@ import batchedUpdatePlugin from 'fluxible-addons-react/batchedUpdatePlugin';
 
 `batchedUpdatePlugin` is a Fluxible plugin that will batch React `setState`
 calls together when they are part of the same `dispatch`. This can improve
-performance as there will be less re-renders for components that listen
+performance as there will be fewer re-renders for components that listen
 to multiple stores that react to the same dispatch command.
 
 ## Example
