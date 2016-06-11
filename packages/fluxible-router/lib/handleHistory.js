@@ -131,7 +131,7 @@ function createComponent(Component, opts) {
                 }
             }
 
-            if (oprions.enableScroll) {
+            if (options.enableScroll) {
                 window.addEventListener('scroll', this._onScroll);
             }
         },
@@ -178,7 +178,7 @@ function createComponent(Component, opts) {
                 params: navParams
             };
 
-            if (oprions.enableScroll) {
+            if (options.enableScroll) {
                 historyState.scroll = {
                     x: window.scrollX || window.pageXOffset,
                     y: window.scrollY || window.pageYOffset
@@ -219,7 +219,7 @@ function createComponent(Component, opts) {
         componentWillUnmount: function () {
             this._history.off(this._onHistoryChange);
 
-            if (oprions.enableScroll) {
+            if (options.enableScroll) {
                 window.removeEventListener('scroll', this._onScroll);
             }
 
@@ -242,7 +242,7 @@ function createComponent(Component, opts) {
                         return;
                     }
                     historyState = {params: navParams, query: navQuery};
-                    if (oprions.enableScroll) {
+                    if (options.enableScroll) {
                         if (nav.preserveScrollPosition) {
                             historyState.scroll = {
                                 x: window.scrollX || window.pageXOffset,
