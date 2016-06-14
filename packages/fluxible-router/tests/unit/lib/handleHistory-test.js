@@ -562,6 +562,21 @@ describe('handleHistory', function () {
                     expect(testResult.pushState).to.equal(undefined);
                     expect(testResult.scrollTo).to.eql(undefined);
                 });
+                it('do not save scroll position, saveScrollInState=false', function () {
+                    var routeStore = mockContext.getStore('RouteStore');
+                    routeStore._handleNavigateStart({url: '/foo', method: 'GET'});
+                    var MockAppComponent = mockCreator({
+                        saveScrollInState: false,
+                        historyCreator: function () {
+                            return historyMock('/foo#hash1');
+                        }
+                    });
+                    ReactTestUtils.renderIntoDocument(
+                        <MockAppComponent context={mockContext} />
+                    );
+                    routeStore._handleNavigateStart({url: '/bar', type: 'click', params: {foo: 'bar'}});
+                    expect(testResult.pushState.state.scroll).to.eql(undefined);
+                });
                 it('update with different route, navigate.type=click, with params', function () {
                     var routeStore = mockContext.getStore('RouteStore');
                     routeStore._handleNavigateStart({url: '/foo', method: 'GET'});
