@@ -38,6 +38,12 @@ See the [upgrade guide](UPGRADE.md#04x-to-1x)
  changed.
  * [#397] NavLink now supports query parameters via the `queryParams` property
 
+## 0.4.15
+
+### New Feature
+
+ * [#450] add saveScrollInState param, by @Diokuz
+
 ## 0.4.14
 
 ### Bug Fixes
