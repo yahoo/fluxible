@@ -1,5 +1,12 @@
 # Change Log
 
+## 1.2.0
+
+### Features
+
+ * Upgraded dispatchr dependency to 1.0.0. This version of dispatchr defers rehydration
+ to when a store is instantiated rather than immediately upon `rehydrate` call.
+
 ## 1.1.0
 
 ### Features
