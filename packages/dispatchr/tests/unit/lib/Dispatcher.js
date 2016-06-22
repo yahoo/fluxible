@@ -234,13 +234,12 @@ describe('Dispatchr', function () {
         it('should rehydrate correctly', function () {
             dispatcherContext.rehydrate(expectedState);
 
-            expect(dispatcherContext.storeInstances).to.be.an('object');
-            expect(dispatcherContext.storeInstances.Store).to.be.an('object');
-            var mockStore = dispatcherContext.storeInstances.Store;
-            expect(mockStore.dispatcher).to.be.an('object');
-            expect(mockStore.dispatcher.getStore).to.be.a('function');
-            expect(mockStore.dispatcher.waitFor).to.be.a('function');
-            var state = mockStore.getState();
+            var store = dispatcherContext.getStore(mockStore);
+            expect(store).to.be.an('object');
+            expect(store.dispatcher).to.be.an('object');
+            expect(store.dispatcher.getStore).to.be.a('function');
+            expect(store.dispatcher.waitFor).to.be.a('function');
+            var state = store.getState();
             expect(state.called).to.equal(true);
             expect(state.page).to.equal('delay');
         });

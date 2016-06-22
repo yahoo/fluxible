@@ -22,6 +22,7 @@ function DispatcherContext (dispatcher, context) {
         getStore: this.getStore.bind(this),
         waitFor: this.waitFor.bind(this)
     };
+    this.rehydratedStoreState = {};
 }
 
 /**
@@ -39,6 +40,13 @@ DispatcherContext.prototype.getStore = function getStore(name) {
             throw new Error('Store ' + storeName + ' was not registered.');
         }
         this.storeInstances[storeName] = new (this.dispatcher.stores[storeName])(this.dispatcherInterface);
+        if (this.rehydratedStoreState && this.rehydratedStoreState[storeName]) {
+            var state = this.rehydratedStoreState[storeName];
+            if (this.storeInstances[storeName].rehydrate) {
+                this.storeInstances[storeName].rehydrate(state);
+            }
+            this.rehydratedStoreState[storeName] = null;
+        }
     }
     return this.storeInstances[storeName];
 };
@@ -126,11 +134,7 @@ DispatcherContext.prototype.rehydrate = function rehydrate(dispatcherState) {
     var self = this;
     if (dispatcherState.stores) {
         Object.keys(dispatcherState.stores).forEach(function storeStateEach(storeName) {
-            var state = dispatcherState.stores[storeName],
-                store = self.getStore(storeName);
-            if (store.rehydrate) {
-                store.rehydrate(state);
-            }
+            self.rehydratedStoreState[storeName] = dispatcherState.stores[storeName];
         });
     }
 };
