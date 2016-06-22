@@ -102,7 +102,7 @@ gulp.task('version', () => {
     // Bump the version
     cd(packages[packageName]);
     let execResult = exec('npm version ' + version);
-    let bumpedVersion = execResult.output.replace('\n', '').replace('v', '');
+    let bumpedVersion = execResult.stdout.replace('\n', '').replace('v', '');
 
     // Commit and tag
     exec('git add ' + packages[packageName] + '/package.json');
