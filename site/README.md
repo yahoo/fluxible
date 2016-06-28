@@ -69,6 +69,12 @@ $ ./node_modules/.bin/webdriver-manager update --standalone
 Then run `npm run func` to run protractor to execute the functional tests.
 
 
+## Publishing
+
+The site is hosted on Heroku and requires simple setup to push to the staging server. Check out the gist:
+
+https://gist.github.com/redonkulus/a29fe3c85c3e5b4c2c78eb4c1ef61ef4
+
 
 ## Contributing
 If you want to update the documentation on the site, you can submit a pull request to the
