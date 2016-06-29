@@ -9,6 +9,8 @@ var expect = require('chai').expect;
 var fetchrPlugin = require('../../../lib/fetchr-plugin');
 var FluxibleApp = require('fluxible');
 var mockService = require('../../fixtures/services/test');
+var sinon = require('sinon');
+var mockery = require('mockery');
 
 describe('fetchrPlugin', function () {
     var app,
@@ -222,6 +224,47 @@ describe('fetchrPlugin', function () {
             });
 
             expect(contextPlug.dehydrate().xhrPath).to.equal('foo/api');
+        });
+    });
+
+    describe('statsCollector', function () {
+        var fetcherStub;
+        before(function () {
+            mockery.enable({
+                warnOnReplace: false,
+                warnOnUnregistered: false,
+                useCleanCache: true
+            });
+            fetcherStub = sinon.stub();
+            mockery.registerMock('fetchr', fetcherStub);
+        });
+
+        it('should use statsCollector', function () {
+            mockReq = {
+                site: 'foo'
+            };
+            app = new FluxibleApp();
+            var collectorStub = sinon.stub();
+            pluginInstance = require('../../../lib/fetchr-plugin')({
+                statsCollector: collectorStub
+            });
+            var contextPlug = pluginInstance.plugContext({
+                req: mockReq,
+                xhrContext: { device: 'tablet' }
+            });
+            var actionContext = {};
+            try {
+                contextPlug.plugActionContext(actionContext);
+            } catch (ignore) {}
+            var statsCollector = fetcherStub.getCall(0).args[0].statsCollector;
+            expect(statsCollector).to.be.a('function');
+            var stats = {foo: 'bar'};
+            statsCollector(stats);
+            expect(collectorStub.getCall(0).args[0]).to.equal(actionContext);
+            expect(collectorStub.getCall(0).args[1]).to.equal(stats);
+        });
+        after(function () {
+            mockery.disable();
         });
     });
 

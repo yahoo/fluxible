@@ -95,6 +95,34 @@ app.plug(fetchrPlugin({
 
 By Default, fetchr appends all context values to the xhr url as query params. `contextPicker` allows you to greater control over which context variables get sent as query params depending on the xhr method (GET or POST) [See Fetchr docs for more info](https://github.com/yahoo/fetchr/blob/master/README.md#context-variables)
 
+## Stats Monitoring & Analysis
+
+To collect fetcher service's success/failure/latency stats, you can configure `statsCollector` for `FetchrPlugin`.  The `statsCollector` function will be invoked with two arguments: `actionContext` and `stats`:
+
+* **actionContext:**  This is the [action context](http://fluxible.io/api/actions.html#action-context) object provided by [Fluxible](http://fluxible.io/).
+* **stats:**  This object contains all stats data for each service CRUD request. [See Fetchr docs for more info about provided stats data fields.](https://github.com/yahoo/fetchr/blob/master/README.md#stats-monitoring--analysis)
+
+Example for how to configure `statsCollector`:
+
+```js
+var Fluxible = require('fluxible');
+var fetchrPlugin = require('fluxible-plugin-fetchr');
+var app = new Fluxible();
+
+app.plug(fetchrPlugin({
+    corsPath: 'http://www.foo.com',
+    xhrPath: '/fooProxy',
+    statsCollector: function (actionContext, stats) {
+        // just console logging as a naive example.  there is a lot more you can do here,
+        // like aggregating stats or filtering out stats you don't want to monitor
+        console.log('Request for resource', stats.resource,
+            'with', stats.operation,
+            'returned statusCode:', stats.statusCode,
+            ' within', stats.time, 'ms');
+    }
+}));
+```
+
 ## API
 
 - [fluxible-plugin-fetchr](https://github.com/yahoo/fluxible/blob/master/packages/fluxible-plugin-fetchr/docs/fluxible-plugin-fetchr.md)

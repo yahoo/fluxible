@@ -16,6 +16,10 @@
     "debug": "^2.0.0",
     "fetchr": "^0.5.18"
   },
+  "devDependencies": {
+    "mockery": "^1.7.0",
+    "sinon": "^1.17.4"
+  },
   "author": "Michael Ridgway <mridgway@yahoo-inc.com>",
   "contributors": [],
   "licenses": [
