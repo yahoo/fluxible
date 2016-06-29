@@ -20,6 +20,10 @@ var defaultConstructGetUri = require('fetchr/libs/util/defaultConstructGetUri');
  *      lodash pick predicate function with three arguments (value, key, object)
  * @param {Function} [options.contextPicker.GET] GET context picker
  * @param {Function} [options.contextPicker.POST] POST context picker
+ * @param {Function} [options.statsCollector] The function will be invoked with 2 arguments:
+ *      the actionContext object, which is the action context provided by Fluxible;
+ *      the stats object, which contains resource, operation, params (request params),
+ *      statusCode, err, and time (elapsed time)
  * @returns {FetchrPlugin}
  */
 module.exports = function fetchrPlugin(options) {
@@ -59,14 +63,20 @@ module.exports = function fetchrPlugin(options) {
                 plugActionContext: function plugActionContext(actionContext) {
                     var uri;
 
-                    var service = new Fetchr({
+                    var fetchrOptions = {
                         req: contextOptions.req,
                         xhrPath: xhrPath,
                         xhrTimeout: xhrTimeout,
                         corsPath: corsPath,
                         context: xhrContext,
                         contextPicker: options.contextPicker
-                    });
+                    };
+                    if (typeof options.statsCollector === 'function') {
+                        fetchrOptions.statsCollector = function collectFetcherStats(stats) {
+                            options.statsCollector(actionContext, stats);
+                        };
+                    }
+                    var service = new Fetchr(fetchrOptions);
                     actionContext.service = {
                         create: service.create.bind(service),
                         read: service.read.bind(service),
