@@ -1,10 +1,15 @@
 # Change Log
 
-## 0.4.15
+## 0.4.16
 
 ### Bug Fixes
 
  * [#453] Fix warnings for unknown props in React 15.2
+
+## 0.4.15
+
+### Features
+ * [#450] Added `saveScrollInState` option to disable saving scroll state in history api
 
 ## 0.4.14
 
