@@ -9,6 +9,20 @@ var RouteStore = require('./RouteStore');
 var debug = require('debug')('NavLink');
 var navigateAction = require('./navigateAction');
 
+function objectWithoutProperties(obj, keys) {
+    var target = {};
+    for (var i in obj) {
+        if (keys.indexOf(i) >= 0) {
+            continue;
+        }
+        if (!Object.prototype.hasOwnProperty.call(obj, i)) {
+            continue;
+        }
+        target[i] = obj[i];
+    }
+    return target;
+}
+
 function isLeftClickEvent (e) {
     return e.button === 0;
 }
@@ -179,11 +193,26 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
         render: function () {
             this.receivedNewProps = false;
 
+            var childProps = objectWithoutProperties(this.props, [
+                'activeClass',
+                'activeElement',
+                'activeStyle',
+                'currentRoute',
+                'followLink',
+                'navParams',
+                'preserveScrollPosition',
+                'queryParams',
+                'replaceState',
+                'routeName',
+                'stopPropagation',
+                'validate'
+            ]);
+
             if (this.state.isActive) {
                 if (this.state.activeElement) {
                     return React.createElement(
                         this.state.activeElement,
-                        Object.assign(this.getDefaultChildProps(), this.props, {
+                        Object.assign(this.getDefaultChildProps(), childProps, {
                             className: this.state.className,
                             style: this.state.style
                         }),
@@ -196,7 +225,7 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
                 'a',
                 Object.assign(this.getDefaultChildProps(), {
                     onClick: this.clickHandler.bind(this)
-                }, this.props, {
+                }, childProps, {
                     href: this.state.href,
                     className: this.state.className,
                     style: this.state.style
