@@ -38,6 +38,12 @@ See the [upgrade guide](UPGRADE.md#04x-to-1x)
  changed.
  * [#397] NavLink now supports query parameters via the `queryParams` property
 
+## 0.4.16
+
+### Bug Fixes
+
+ * [#453] Fix warnings for unknown props in React 15.2
+ 
 ## 0.4.15
 
 ### New Feature
