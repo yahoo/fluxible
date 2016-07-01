@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.4.15
+
+### Bug Fixes
+
+ * [#453] Fix warnings for unknown props in React 15.2
+
 ## 0.4.14
 
 ### Bug Fixes
