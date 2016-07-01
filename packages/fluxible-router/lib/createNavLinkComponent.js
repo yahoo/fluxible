@@ -9,6 +9,20 @@ var RouteStore = require('./RouteStore');
 var debug = require('debug')('NavLink');
 var navigateAction = require('./navigateAction');
 
+function objectWithoutProperties(obj, keys) {
+    var target = {};
+    for (var i in obj) {
+        if (keys.indexOf(i) >= 0) {
+            continue;
+        }
+        if (!Object.prototype.hasOwnProperty.call(obj, i)) {
+            continue;
+        }
+        target[i] = obj[i];
+    }
+    return target;
+}
+
 function isLeftClickEvent (e) {
     return e.button === 0;
 }
@@ -223,9 +237,27 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
         },
         render: function () {
             var href = this._getHrefFromProps(this.props);
+            var activeClass = this.props.activeClass;
+            var activeStyle = this.props.activeStyle;
+            var activeElement = this.props.activeElement;
+
+            var childProps = objectWithoutProperties(this.props, [
+                'activeClass',
+                'activeElement',
+                'activeStyle',
+                'currentRoute',
+                'followLink',
+                'navParams',
+                'preserveScrollPosition',
+                'queryParams',
+                'replaceState',
+                'routeName',
+                'stopPropagation',
+                'validate'
+            ]);
 
             var isActive = false;
-            if (this.props.activeClass || this.props.activeStyle || this.props.activeElement) {
+            if (activeClass || activeStyle || activeElement) {
                 var routeStore = this.context.getStore(RouteStore);
                 isActive = routeStore.isActive(href);
             }
@@ -233,31 +265,31 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
             var style = this.props.style;
             var className = this.props.className;
             if (isActive) {
-                if (this.props.activeClass) {
+                if (activeClass) {
                     className = className ? (className + ' ') : '';
-                    className += this.props.activeClass;
+                    className += activeClass;
                 }
-                if (this.props.activeStyle) {
-                    style = Object.assign({}, this.props.style, this.props.activeStyle);
+                if (activeStyle) {
+                    style = Object.assign({}, this.props.style, activeStyle);
                 }
             }
 
-            var childProps = this.getDefaultChildProps();
+            var defaultProps = this.getDefaultChildProps();
 
-            if (!(isActive && this.props.activeElement)) {
+            if (!(isActive && activeElement) && !this.props.onClick) {
                 childProps.onClick = this.clickHandler.bind(this);
             }
 
-            Object.assign(childProps, this.props, {
+            childProps = Object.assign(defaultProps, childProps, {
                 className: className,
                 style: style
             });
 
-            if (!(isActive && this.props.activeElement)) {
+            if (!(isActive && activeElement)) {
                 childProps.href = href;
             }
 
-            var childElement = isActive ? this.props.activeElement || 'a' : 'a';
+            var childElement = isActive ? activeElement || 'a' : 'a';
 
             return React.createElement(
                 childElement,
