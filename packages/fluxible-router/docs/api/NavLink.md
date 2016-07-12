@@ -9,7 +9,8 @@ in navigation events.
 |-----------|-----------|-------------|
 | href | String | The url string |
 | routeName | String | Not used if `href` is specified. This is the name of the target route, which should be defined in your app's routes. |
-| navParams | Object | If `href` prop is not available, `navParams` object will be used together with `routeName` to generate the href for the link.  This object needs to contain route params the route path needs.  Eg. for a route path `/article/:id`, `navParams.id` will be the article ID. |
+| navParams | Object | If `href` prop is not available, `navParams` object will be used together with `routeName` and `queryParams` to generate the href for the link.  This object needs to contain route params the route path needs.  Eg. for a route path `/article/:id`, `navParams.id` will be the article ID. |
+| queryParams | Object | If `href` prop is not available, `queryParams` object will be used together with `routeName` and `navParams` to generate the href for the link.
 | followLink | boolean, default to false | If set to true, client side navigation will be disabled.  NavLink will just act like a regular anchor link. |
 | replaceState | boolean, default to false | If set to true, replaceState is being used instead of pushState |
 | preserveScrollPosition | boolean, default to false | If set to true, the page will maintain its scroll position while change to new route.  This is useful for cases like on e-commerce site where user might want to change a product size.  The url will change, but the scroll position needs to remain the same. |
