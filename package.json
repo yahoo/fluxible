@@ -16,7 +16,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "async": "^1.4.2",
+    "async": "^2.0.0",
     "babel": "^6.5.2",
     "babel-core": "^6.6.4",
     "babel-eslint": "^6.0.0",
