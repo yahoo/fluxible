@@ -30,6 +30,8 @@ Want to add your application? Click edit above and open a PR!
     - [https://uk.style.yahoo.com/](https://uk.style.yahoo.com/)
     - [https://fr.people.yahoo.com/](https://fr.people.yahoo.com/)
 - [Yahoo Daily Fantasy](https://sports.yahoo.com/dailyfantasy) is a fantasy sports app where users can compete everyday with one-day or weeklong contests, setting lineups with simplified salary caps and easy access to news and scores from Yahoo’s Fantasy experts. 
-- [Yahoo NFL Stream](https://nflstream.yahoo.com/) is the live video streaming site for the NFL on Yahoo.
+- [Yahoo Finance](https://finance.yahoo.com/) Finance site for Yahoo.
+- [Yahoo News](https://news.yahoo.com/) News site for Yahoo.
 - [Yahoo Search SDK](https://developer.yahoo.com/search-sdk/apps/) is a software developer toolkit to integrate Yahoo Search into native apps. 
+- [Yahoo Sports](https://sports.yahoo.com/) Sports site for Yahoo.
 - [Yahoo Taiwan](https://tw.mobi.yahoo.com/) is the mobile frontpage for Yahoo Taiwan.
