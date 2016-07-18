@@ -144,6 +144,10 @@ export default function devToolsPlugin() {
                         return action(ctx, payload, cb);
                     }
 
+                    function timedActionNoCallback(ctx, payload) {
+                        return timedAction(ctx, payload);
+                    }
+
                     function timedCallback(err, data) {
                         const endTime = Date.now();
                         const dur = endTime - actionReference.startTime;
@@ -155,7 +159,7 @@ export default function devToolsPlugin() {
 
                     return {
                         actionContext: actionContext,
-                        action: timedAction,
+                        action: (action.length < 3) ? timedActionNoCallback : timedAction,
                         payload: options.payload,
                         done: timedCallback
                     };
