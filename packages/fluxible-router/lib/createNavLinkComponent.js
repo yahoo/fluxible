@@ -31,6 +31,12 @@ function isModifiedEvent (e) {
     return !!(e.metaKey || e.altKey || e.ctrlKey || e.shiftKey);
 }
 
+// performant isFunction test
+// http://stackoverflow.com/questions/5999998/how-can-i-check-if-a-javascript-variable-is-function-type
+function isFunction(obj) {
+    return !!(obj && obj.constructor && obj.call && obj.apply);
+}
+
 /**
  * create NavLink component with custom options
  * @param {Object} overwriteSpec spec to overwrite the default spec to create NavLink
@@ -46,6 +52,7 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
         },
         propTypes: {
             href: React.PropTypes.string,
+            onClick: React.PropTypes.func,
             stopPropagation: React.PropTypes.bool,
             routeName: React.PropTypes.string,
             navParams: React.PropTypes.object,
@@ -188,6 +195,16 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
             }
         },
         clickHandler: function (e) {
+            // run onClick handler first (like a real <a> does)
+            if (isFunction(this.props.onClick)) {
+                this.props.onClick(e);
+            }
+
+            // check to see if default is already prevented -- don't navigate if true
+            if (e.defaultPrevented) {
+                return;
+            }
+
             this.dispatchNavAction(e);
         },
         render: function () {
@@ -223,9 +240,8 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
 
             return React.createElement(
                 'a',
-                Object.assign(this.getDefaultChildProps(), {
-                    onClick: this.clickHandler.bind(this)
-                }, childProps, {
+                Object.assign(this.getDefaultChildProps(), childProps, {
+                    onClick: this.clickHandler.bind(this),
                     href: this.state.href,
                     className: this.state.className,
                     style: this.state.style

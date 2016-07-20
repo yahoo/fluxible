@@ -16,6 +16,18 @@ function navigateAction (context, payload, done) {
         navigate.routeName = null;
     }
 
+    // Required for isomorphic navigation. If we are on the server and we are in the middle of a navigation (server.js
+    // kicks off the first navigateAction), additional navigation should 302 the user to the new location.
+    if (typeof window === 'undefined' && routeStore.isNavigateComplete() === false) {
+        done(Object.assign(new Error(), {
+            transactionId: navigate.transactionId,
+            statusCode: 302,
+            redirectUrl: navigate.url,
+            message: 'Redirecting to ' + navigate.url
+        }));
+        return;
+    }
+
     debug('dispatching NAVIGATE_START', navigate);
     context.dispatch('NAVIGATE_START', navigate);
 
@@ -37,6 +49,11 @@ function navigateAction (context, payload, done) {
         done(Object.assign(new Error(), error404));
         return;
     }
+
+    // Dispatch a page title update event (so other stores can hook into this state)
+    context.dispatch('UPDATE_PAGE_TITLE', {
+        title: route.title
+    });
 
     var action = route.action;
     if ('string' === typeof action && context.getAction) {
