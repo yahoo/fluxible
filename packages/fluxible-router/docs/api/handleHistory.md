@@ -43,7 +43,9 @@ var AppComponent = React.createClass({
 });
 
 // wrap with history handler
-AppComponent = handleHistory(AppComponent);
+AppComponent = handleHistory(AppComponent, {
+    enableScroll: false  // example to show how to specify options for handleHistory
+});
 
 // and wrap that with context
 AppComponent = provideContext(AppComponent);
