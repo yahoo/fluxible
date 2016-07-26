@@ -5,6 +5,8 @@
 /*global window */
 'use strict';
 
+var stateIds = require('./stateIds');
+
 var EVENT_POPSTATE = 'popstate';
 
 function isUndefined(v) {
@@ -102,7 +104,10 @@ History.prototype = {
             url = isUndefined(url) ? win.location.href : url;
 
             // remember the original url in state, so that it can be used by getUrl()
-            var _state = Object.assign({origUrl: url}, state);
+            var _state = Object.assign({
+                origUrl: url,
+                stateId: stateIds.next()
+            }, state);
             try {
                 win.history.pushState(_state, title, url);
             } catch (_) {
@@ -127,8 +132,18 @@ History.prototype = {
             title = isUndefined(title) ? win.document.title : title;
             url = isUndefined(url) ? win.location.href : url;
 
+            var newProps = {
+                origUrl: url
+            };
+
+            // We're replaceState()ing a fresh browser session (no
+            // pushState calls yet this session)
+            if (!state || !state.stateId) {
+                newProps.stateId = stateIds.next();
+            }
+
             // remember the original url in state, so that it can be used by getUrl()
-            var _state = Object.assign({origUrl: url}, state);
+            var _state = Object.assign(newProps, state);
             try {
                 win.history.replaceState(_state, title, url);
             } catch(_) {
