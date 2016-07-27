@@ -8,6 +8,7 @@ var React = require('react');
 var debug = require('debug')('FluxibleRouter:handleHistory');
 var handleRoute = require('../lib/handleRoute');
 var navigateAction = require('../lib/navigateAction');
+var stateIds = require('./stateIds');
 var History = require('./History');
 var TYPE_CLICK = 'click';
 var TYPE_PAGELOAD = 'pageload';
@@ -20,11 +21,14 @@ var inherits = require('inherits');
 var defaultOptions = {
     checkRouteOnPageLoad: false,
     enableScroll: true,
-    saveScrollInState: true,
+    // MD: default to false d/t History API limitations (see https://github.com/Massdrop/fluxible-router/pull/8);
+    // Also, modify this to only determine whether scrolling initiates a periodic history update,
+    // v.s. never updating scroll position on history update
+    saveScrollInState: false,
     historyCreator: function () {
         return new History();
     },
-    ignorePopstateOnPageLoad: false
+    ignorePopstateOnPageLoad: true // MD: default to true to avoid Safari popstate on page load (see https://github.com/Massdrop/fluxible-router/pull/4)
 };
 
 // Begin listening for popstate so they are not missed prior to instantiation
@@ -74,7 +78,9 @@ function createComponent(Component, opts) {
     };
 
     Object.assign(HistoryHandler.prototype, {
-
+        _safeGetState: function () {
+            return (this._history.getState && this._history.getState()) || {};
+        },
         componentDidMount: function () {
             if (historyCreated) {
                 throw new Error('Only one history handler should be on the ' +
@@ -87,6 +93,9 @@ function createComponent(Component, opts) {
             this._saveScrollPosition = this.constructor.prototype._saveScrollPosition.bind(this);
 
             this._history = options.historyCreator();
+            this._preserveScroll = null;
+
+            this._syncHistoryFields();
 
             this._ignorePageLoadPopstate = shouldIgnorePopstateOnPageLoad();
             if (this._ignorePageLoadPopstate) {
@@ -132,6 +141,16 @@ function createComponent(Component, opts) {
                 }
             }
 
+            if ('onpagehide' in window) {
+                window.addEventListener('pagehide', this._saveScrollPosition);
+            } else {
+                window.addEventListener('beforeunload', this._saveScrollPosition);
+            }
+
+            if (options.enableScroll) {
+                this._restoreScrollPosition();
+            }
+
             if (options.saveScrollInState) {
                 window.addEventListener('scroll', this._onScroll);
             }
@@ -141,6 +160,28 @@ function createComponent(Component, opts) {
                 window.clearTimeout(this._scrollTimer);
             }
             this._scrollTimer = window.setTimeout(this._saveScrollPosition, 150);
+        },
+        _syncHistoryFields: function () {
+            var curHistoryState = this._safeGetState();
+
+            // Scroll position is maintained via the current
+            // `history.state.scroll` value. However, for native browser
+            // back/forward navigations by the user, we only get notified via
+            // "popstate" events (_onHistoryChange), which are dispatched
+            // _after_ `history.state` already points to the new history
+            // state. To maintain the scroll position across these boundaries,
+            // we store it at the neighboring History states in the
+            // `history.state.{prev,next}Scroll` fields, which are synchronized
+            // to the this._{next,prev}Scroll fields so that they can be used to
+            // restore scroll position after the history state has been
+            // transitioned, but before we have re-synced the
+            // history.prev/nextScroll values and the this._prev/nextScroll
+            // values.
+            this._prevScroll = curHistoryState.prevScroll;
+            this._nextScroll = curHistoryState.nextScroll;
+
+            // Save current state id for comparison after "popsstate" events.
+            this._currentStateId = curHistoryState.stateId;
         },
         _onHistoryChange: function (e) {
             debug('history listener invoked', e);
@@ -173,20 +214,44 @@ function createComponent(Component, opts) {
             var confirmResult = onBeforeUnloadText ? window.confirm(onBeforeUnloadText) : true;
 
             var navParams = nav.params || {};
-            var historyState = {
-                params: navParams
-            };
-
-            if (options.saveScrollInState) {
-                historyState.scroll = {
-                    x: window.scrollX || window.pageXOffset,
-                    y: window.scrollY || window.pageYOffset
-                };
-            }
 
             var pageTitle = navParams.pageTitle || null;
 
-            debug('history listener url, currentUrl:', url, currentUrl, this.props);
+            // During a popstate navigation, it's possible for another entity to
+            // overwrite the history state. Save the scroll position that we will
+            // need to restore.
+            var historyState = this._safeGetState();
+            var prevStateId = this._currentStateId;
+            var newStateId = historyState.stateId;
+            var wentBackward = stateIds.isBefore(newStateId, prevStateId);
+            var scroll;
+
+            debug('history listener', e, url, currentUrl, historyState, wentBackward, this._nextScroll, this._prevScroll);
+
+            var curScroll = {
+                x: window.scrollX || window.pageXOffset,
+                y: window.scrollY || window.pageYOffset
+            };
+            debug('remember scroll position', historyState.scroll);
+            this._history.replaceState(historyState);
+
+            if (wentBackward) {
+                debug('native backward', this._prevScroll);
+                scroll = this._prevScroll || (historyState && historyState.scroll) || {x: 0, y: 0};
+
+                this._history.replaceState(Object.assign(historyState, { nextScroll: curScroll }));
+                this._nextScroll = curScroll;
+                this._prevScroll = null;
+            } else {
+                debug('native forward', this._nextScroll);
+                scroll = this._nextScroll || (historyState && historyState.scroll) || {x: 0, y: 0};
+
+                this._history.replaceState(Object.assign(historyState, { prevScroll: curScroll }));
+                this._prevScroll = curScroll;
+                this._nextScroll = null;
+            }
+
+            this._preserveScroll = scroll;
 
             if (!confirmResult) {
                 // Pushes the previous history state back on top to set the correct url
@@ -206,22 +271,56 @@ function createComponent(Component, opts) {
 
         },
         _saveScrollPosition: function (e) {
-            var historyState = (this._history.getState && this._history.getState()) || {};
-            historyState.scroll = {
+            var historyState = this._safeGetState();
+            var scrollPos = {
                 x: window.scrollX || window.pageXOffset,
                 y: window.scrollY || window.pageYOffset
             };
-            debug('remember scroll position', historyState.scroll);
+            debug('save scroll position', scrollPos);
+
+            historyState.scroll = scrollPos;
             this._history.replaceState(historyState);
+        },
+        _restoreScrollPosition: function () {
+            var scroll = {x: 0, y: 0};
+            if (this._preserveScroll) {
+                scroll = this._preserveScroll;
+            }
+
+            debug('restore scroll position to ', scroll, this._preserveScroll);
+            window.scrollTo(scroll.x, scroll.y);
+            this._preserveScroll = null;
         },
         componentWillUnmount: function () {
             this._history.off(this._onHistoryChange);
+
+            if ('onpagehide' in window) {
+                window.removeEventListener('pagehide', this._saveScrollPosition);
+            } else {
+                window.removeEventListener('beforeunload', this._saveScrollPosition);
+            }
 
             if (options.saveScrollInState) {
                 window.removeEventListener('scroll', this._onScroll);
             }
 
             historyCreated = false;
+        },
+        componentWillReceiveProps: function () {
+            // Save current page position when leaving the page (going
+            // FORWARD in history to another page of our app). Needs
+            // to be done here to be before any part of the page
+            // (including current scroll position) changes in response
+            // to the navigation.
+            var historyState = this._safeGetState();
+            var prevStateId = this._currentStateId;
+            var newStateId = historyState.stateId;
+            var wentForward = !stateIds.isBefore(newStateId, prevStateId);
+
+            if (wentForward && this.props.isNavigateComplete) {
+                debug('navigate forwards');
+                this._saveScrollPosition();
+            }
         },
         componentDidUpdate: function (prevProps, prevState) {
             debug('component did update', prevState, this.props);
@@ -240,16 +339,17 @@ function createComponent(Component, opts) {
                     }
                     historyState = {params: navParams};
                     if (nav.preserveScrollPosition) {
-                        if (options.saveScrollInState) {
-                            historyState.scroll = {
-                                x: window.scrollX || window.pageXOffset,
-                                y: window.scrollY || window.pageYOffset
-                            };
-                        }
+                        historyState.scroll = {
+                            x: window.scrollX || window.pageXOffset,
+                            y: window.scrollY || window.pageYOffset
+                        };
                     } else {
                         if (options.enableScroll) {
-                            window.scrollTo(0, 0);
+                            // -1 here to fix an iOS Safari issue when going from non-responsive page
+                            // (scrolled to the top) to a responsive page. Responsive page would load
+                            // scrolled down a bit.
                             debug('on click navigation, reset scroll position to (0, 0)');
+                            window.scrollTo(0, -1);
                         }
                         if (options.saveScrollInState) {
                             historyState.scroll = {x: 0, y: 0};
@@ -263,14 +363,13 @@ function createComponent(Component, opts) {
                     }
                     break;
                 case TYPE_POPSTATE:
-                    if (options.enableScroll) {
-                        historyState = (this._history.getState && this._history.getState()) || {};
-                        var scroll = (historyState && historyState.scroll) || {};
-                        debug('on popstate navigation, restore scroll position to ', scroll);
-                        window.scrollTo(scroll.x || 0, scroll.y || 0);
+                    if (options.enableScroll && this.props.isNavigateComplete) {
+                        this._restoreScrollPosition();
                     }
                     break;
             }
+
+            this._syncHistoryFields();
         },
 
         render: function () {

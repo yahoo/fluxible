@@ -1,5 +1,5 @@
 {
-  "name": "fluxible-router",
+  "name": "@massdrop/fluxible-router",
   "version": "0.4.16",
   "description": "Routing for Fluxible applications",
   "main": "index.js",
