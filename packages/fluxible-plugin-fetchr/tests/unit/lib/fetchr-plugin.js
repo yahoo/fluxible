@@ -207,6 +207,21 @@ describe('fetchrPlugin', function () {
     });
 
     describe('plugContext', function () {
+        it('should allow xhrPath as option', function () {
+            mockReq = {
+                site: 'foo'
+            };
+            app = new FluxibleApp();
+            pluginInstance = fetchrPlugin({
+                xhrPath: 'custom2/api'
+            });
+            var contextPlug = pluginInstance.plugContext({
+                req: mockReq,
+                xhrContext: { device: 'tablet' }
+            });
+
+            expect(contextPlug.dehydrate().xhrPath).to.equal('custom2/api');
+        });
         it('should allow dynamic xhrPath', function () {
             mockReq = {
                 site: 'foo'

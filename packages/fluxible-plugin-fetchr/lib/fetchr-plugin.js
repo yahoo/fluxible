@@ -13,6 +13,7 @@ var defaultConstructGetUri = require('fetchr/libs/util/defaultConstructGetUri');
  * Creates a new fetchr plugin instance with options
  * @param {Object} options configuration options
  * @param {String} [options.xhrPath] The path for XHR requests
+ * @param {Function} [options.getXhrPath] Function to dynamically generate xhr path
  * @param {Number} [options.xhrTimout] Timeout in milliseconds for all XHR requests
  * @param {Boolean} [options.corsPath] Base CORS path in case CORS is enabled
  * @param {Object} [options.xhrContext] The xhr context object
@@ -52,8 +53,9 @@ module.exports = function fetchrPlugin(options) {
          */
         plugContext: function plugContext(contextOptions) {
             var xhrContext = contextOptions.xhrContext;
+            var currentXhrPath = xhrPath;
             if (options.getXhrPath) {
-                xhrPath = options.getXhrPath(contextOptions);
+                currentXhrPath = options.getXhrPath(contextOptions);
             }
             return {
                 /**
@@ -65,7 +67,7 @@ module.exports = function fetchrPlugin(options) {
 
                     var fetchrOptions = {
                         req: contextOptions.req,
-                        xhrPath: xhrPath,
+                        xhrPath: currentXhrPath,
                         xhrTimeout: xhrTimeout,
                         corsPath: corsPath,
                         context: xhrContext,
@@ -84,12 +86,12 @@ module.exports = function fetchrPlugin(options) {
                         'delete': service['delete'].bind(service),
                         constructGetXhrUri: function constructGetXhrUri(resource, params, config) {
                             config = config || {};
-                            uri = config.cors ? corsPath : xhrPath;
+                            uri = config.cors ? corsPath : currentXhrPath;
                             var getUriFn = config.constructGetUri || defaultConstructGetUri;
                             return getUriFn.call(service, uri, resource, params, config, xhrContext);
                         },
                         updateOptions: function (options) {
-                            xhrPath = options.xhrPath ? options.xhrPath : xhrPath;
+                            currentXhrPath = options.xhrPath ? options.xhrPath : currentXhrPath;
                             xhrTimeout = options.xhrTimeout ? options.xhrTimeout : xhrTimeout;
                             corsPath = options.corsPath ? options.corsPath : corsPath;
                             service.updateOptions && service.updateOptions(options);
@@ -105,7 +107,7 @@ module.exports = function fetchrPlugin(options) {
                 dehydrate: function dehydrate() {
                     return {
                         xhrContext: contextOptions.xhrContext,
-                        xhrPath: xhrPath,
+                        xhrPath: currentXhrPath,
                         xhrTimeout: xhrTimeout,
                         corsPath: corsPath
                     };
@@ -117,7 +119,7 @@ module.exports = function fetchrPlugin(options) {
                  */
                 rehydrate: function rehydrate(state) {
                     xhrContext = state.xhrContext;
-                    xhrPath = state.xhrPath;
+                    currentXhrPath = state.xhrPath;
                     xhrTimeout = state.xhrTimeout;
                     corsPath = state.corsPath;
                 }
