@@ -79,9 +79,9 @@ function fetchGitHubReposApi(params, cb) {
     debug(githubUrl);
 
     request
-    .get(githubUrl)
-    .set('User-Agent', 'superagent')
-    .end(cb);
+        .get(githubUrl)
+        .set('User-Agent', 'superagent')
+        .end(cb);
 }
 
 /**
