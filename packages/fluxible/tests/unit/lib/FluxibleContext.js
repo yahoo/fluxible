@@ -65,10 +65,10 @@ describe('FluxibleContext', function () {
                     return payload;
                 };
                 actionContext.executeAction(action)
-                .then(function (result) {
-                    expect(result).to.be.an('object');
-                    done();
-                })['catch'](done);
+                    .then(function (result) {
+                        expect(result).to.be.an('object');
+                        done();
+                    })['catch'](done);
             });
 
             it('should execute the action', function (done) {
@@ -261,10 +261,10 @@ describe('FluxibleContext', function () {
                     callback(null, payload);
                 };
                 actionContext.executeAction(action, payload)
-                .then(function (promiseResult) {
-                    expect(promiseResult).to.equal(promiseResult);
-                    done();
-                })['catch'](done);
+                    .then(function (promiseResult) {
+                        expect(promiseResult).to.equal(promiseResult);
+                        done();
+                    })['catch'](done);
             });
 
             it('should wait for returned promise', function (done) {
@@ -277,10 +277,10 @@ describe('FluxibleContext', function () {
                 };
                 var payload = {};
                 actionContext.executeAction(action, payload)
-                .then(function (result) {
-                    expect(result).to.equal(payload);
-                    done();
-                })['catch'](done);
+                    .then(function (result) {
+                        expect(result).to.equal(payload);
+                        done();
+                    })['catch'](done);
             });
 
             it('should resolve promise with returned non-promise value', function (done) {
@@ -289,10 +289,10 @@ describe('FluxibleContext', function () {
                 };
                 var payload = {};
                 actionContext.executeAction(action, payload)
-                .then(function (promiseResult) {
-                    expect(promiseResult).to.equal(payload);
-                    done();
-                })['catch'](done);
+                    .then(function (promiseResult) {
+                        expect(promiseResult).to.equal(payload);
+                        done();
+                    })['catch'](done);
             });
 
             it('should reject promise with thrown error', function (done) {
