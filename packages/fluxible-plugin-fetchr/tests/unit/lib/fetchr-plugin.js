@@ -255,6 +255,7 @@ describe('fetchrPlugin', function () {
         });
 
         it('should use statsCollector', function () {
+            this.timeout(10000);
             mockReq = {
                 site: 'foo'
             };
