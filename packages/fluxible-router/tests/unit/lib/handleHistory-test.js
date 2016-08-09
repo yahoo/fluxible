@@ -143,15 +143,12 @@ describe('handleHistory', function () {
         describe(testType, function () {
             var mockCreator;
 
-            before(function () {
+            beforeEach(function () {
                 // Decorators do not work in babel 6
                 if (testType === 'decoratedCreator') {
                     this.skip();
                     return;
                 }
-            });
-
-            beforeEach(function () {
                 var methodName = mockCreators[testType];
                 mockCreator = MockAppComponentLib[methodName];
             });
