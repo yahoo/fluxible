@@ -4,7 +4,7 @@
  */
 var expect = require('chai').expect;
 var RouteStore = require('../../../').RouteStore;
-var StaticRouteStore = RouteStore.withStaticRoutes({
+var staticRoutes = {
     foo: {
         path: '/foo',
         method: 'get'
@@ -13,7 +13,8 @@ var StaticRouteStore = RouteStore.withStaticRoutes({
         path: '/bar',
         method: 'get'
     }
-});
+};
+var StaticRouteStore = RouteStore.withStaticRoutes(staticRoutes);
 
 describe('RouteStore', function () {
 
@@ -35,7 +36,7 @@ describe('RouteStore', function () {
                 expect(state.currentNavigate.transactionId).to.equal('first');
                 expect(state.currentNavigate.url).to.equal('/foo');
                 expect(state.currentNavigate.method).to.equal('get');
-                expect(state.routes).to.equal(null);
+                expect(state.routes).to.eql(staticRoutes);
             });
         });
         describe('rehydrate', function () {
