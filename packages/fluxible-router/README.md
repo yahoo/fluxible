@@ -20,7 +20,7 @@ $ npm install --save fluxible-router
  * Follows Flux flow
  * Higher order components for handling [history](https://github.com/yahoo/fluxible/blob/master/packages/fluxible-router/docs/api/handleHistory.md) and [routes](https://github.com/yahoo/fluxible/blob/master/packages/fluxible-router/docs/api/handleRoute.md)
  * [`navigateAction`](https://github.com/yahoo/fluxible/blob/master/packages/fluxible-router/docs/api/navigateAction.md) for changing routes
- * Updated for React 0.15
+ * Updated for React 15
 
 ## Required Polyfills
 
