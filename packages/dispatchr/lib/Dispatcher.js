@@ -53,7 +53,7 @@ Dispatcher.prototype.registerStore = function registerStore(store) {
             return;
         }
         throw new Error('Store with name `' + storeName + '` has already been registered. ' + 
-            'Make sure you do not have multiple versions of the store installed.');
+            'Make sure you do not have multiple copies of the store installed.');
     }
     this.stores[storeName] = store;
     if (store.handlers) {
