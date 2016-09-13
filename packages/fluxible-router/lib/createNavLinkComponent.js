@@ -39,6 +39,10 @@ function isModifiedEvent (e) {
  * @private
  */
 function getRelativeHref(href) {
+    if (typeof window === 'undefined') {
+        throw new Error('getRelativeHref() only supported on client side');
+    }
+
     if (href[0] === '/' || href[0] === '#') {
         return href;
     }
@@ -148,6 +152,7 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
          * Client side only. Evaluate navigation related states.
          * @method _getClientState
          * @return {Object} The state object
+         * @private
          */
         _getClientState: function () {
             if (this._clientState && this._clientState.href === this.state.href) {
