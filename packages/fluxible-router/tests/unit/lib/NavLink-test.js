@@ -399,7 +399,6 @@ describe('NavLink', function () {
                 </MockAppComponent>
             );
             ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(link), {button: 0});
-            ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(link), {button: 0});
             window.setTimeout(function () {
                 expect(testResult.dispatch).to.equal(undefined);
                 done();
@@ -431,6 +430,20 @@ describe('NavLink', function () {
                 expect(mockContext.executeActionCalls[0].action).to.equal(navigateAction);
                 expect(mockContext.executeActionCalls[0].payload.type).to.equal('click');
                 expect(mockContext.executeActionCalls[0].payload.url).to.equal('/foo');
+                done();
+            }, 10);
+        });
+
+        it('context.executeAction not called if validate=true and route is invalid', function (done) {
+            var link = ReactTestUtils.renderIntoDocument(
+                <MockAppComponent context={mockContext}>
+                    <NavLink href='/invalid' followLink={false} validate={true}/>
+                </MockAppComponent>
+            );
+            ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(link), {button: 0});
+            window.setTimeout(function () {
+                expect(testResult.dispatch).to.equal(undefined);
+                expect(mockContext.executeActionCalls.length).to.equal(0);
                 done();
             }, 10);
         });

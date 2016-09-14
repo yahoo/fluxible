@@ -32,6 +32,31 @@ function isModifiedEvent (e) {
 }
 
 /**
+ * Client only.
+ * @method getRelativeHref
+ * @param {String} href The url string, could be absolute url
+ * @return {String|Null} The relative url string; Null if the href is an external url.
+ * @private
+ */
+function getRelativeHref(href) {
+    if (typeof window === 'undefined') {
+        throw new Error('getRelativeHref() only supported on client side');
+    }
+
+    if (href[0] === '/' || href[0] === '#') {
+        return href;
+    }
+
+    var location = window.location;
+    var origin = location.origin || (location.protocol + '//' + location.host);
+    if (href.indexOf(origin) !== 0) {
+        return null;
+    }
+
+    return href.substring(origin.length) || '/';
+}
+
+/**
  * create NavLink component with custom options
  * @param {Object} overwriteSpec spec to overwrite the default spec to create NavLink
  * @returns {React.Component} NavLink component
@@ -120,58 +145,71 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
             return props.navParams;
         },
         shouldFollowLink: function(props) {
+            props = props || this.props;
             return props.followLink;
         },
-        dispatchNavAction: function (e) {
-            var navParams = this.getNavParams(this.props);
-            var navType = this.props.replaceState ? 'replacestate' : 'click';
-            var shouldFollowLink = this.shouldFollowLink(this.props);
-            var routeStore = this.context.getStore(RouteStore);
-            debug('dispatchNavAction: action=NAVIGATE', this.props.href, shouldFollowLink, navParams);
+        /**
+         * Client side only. Evaluate navigation related states.
+         * @method _getClientState
+         * @return {Object} The state object
+         * @private
+         */
+        _getClientState: function () {
+            if (this._clientState && this._clientState.href === this.state.href) {
+                // use cached state object
+                return this._clientState;
+            }
 
+            var href = this.state.href;
+            var relativeHref = getRelativeHref(href);
+
+            this._clientState = {
+                href: href,
+                relativeHref: relativeHref,
+                isHashHref: relativeHref && relativeHref[0] === '#',
+                isValidRoute: !!(relativeHref &&
+                    this.context.getStore(RouteStore).getRoute(relativeHref))
+            };
+            return this._clientState;
+        },
+        /**
+         * Client side only. Check whether the link represented by this NavLink component
+         * is client side route-able.
+         * @method isRoutable
+         * @return {Boolean} false if the link is a hash fragment of current url;
+         *      false if the link is an external link with different origin;
+         *      false if the NavLink component is configured to validate route
+         *      before client side nav and no matching route found;
+         *      true otherwise.
+         */
+        isRoutable: function () {
+            var clientState = this._getClientState();
+            if (clientState.isHashHref || !clientState.relativeHref) {
+                return false;
+            }
+            if (this.props.validate && !clientState.isValidRoute) {
+                return false;
+            }
+            return true;
+        },
+        dispatchNavAction: function (e) {
+            debug('dispatchNavAction: action=NAVIGATE', this.props.href);
             if (this.props.stopPropagation) {
                 e.stopPropagation();
             }
 
-            if (shouldFollowLink) {
-                return;
-            }
-
             if (isModifiedEvent(e) || !isLeftClickEvent(e)) {
-                // this is a click with a modifier or not a left-click
                 // let browser handle it natively
                 return;
             }
 
-            var href = this._getHrefFromProps(this.props);
-
-            if (href[0] === '#') {
-                // this is a hash link url for page's internal links.
-                // Do not trigger navigate action. Let browser handle it natively.
-                return;
-            }
-
-            if (href[0] !== '/') {
-                // this is not a relative url. check for external urls.
-                var location = window.location;
-                var origin = location.origin || (location.protocol + '//' + location.host);
-
-                if (href.indexOf(origin) !== 0) {
-                    // this is an external url, do not trigger navigate action.
-                    // let browser handle it natively.
-                    return;
-                }
-
-                href = href.substring(origin.length) || '/';
-            }
-
-            if (this.props.validate && !routeStore.getRoute(href)) {
+            if (this.shouldFollowLink() || !this.isRoutable()) {
+                // do not prevent default, let browser handle natively
                 return;
             }
 
             e.preventDefault();
 
-            var context = this.props.context || this.context;
             var onBeforeUnloadText = typeof window.onbeforeunload === 'function' ? window.onbeforeunload() : '';
             var confirmResult = onBeforeUnloadText ? window.confirm(onBeforeUnloadText) : true;
 
@@ -179,9 +217,16 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
                 // Removes the window.onbeforeunload method so that the next page will not be affected
                 window.onbeforeunload = null;
 
+                var clientState = this._getClientState();
+                var navParams = this.getNavParams(this.props);
+                var navType = this.props.replaceState ? 'replacestate' : 'click';
+                var context = this.props.context || this.context;
+
+                debug('dispatchNavAction: execute navigateAction', this.props.href, navType, navParams);
+
                 context.executeAction(navigateAction, {
                     type: navType,
-                    url: href,
+                    url: clientState.relativeHref,
                     preserveScrollPosition: this.props.preserveScrollPosition,
                     params: navParams
                 });
