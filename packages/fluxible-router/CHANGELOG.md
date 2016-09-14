@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.4.17
+
+### Refactor
+
+ * [#478] move href checking logic into isRoutable() to simplify dispatchNavAction()
+
 ## 0.4.16
 
 ### Bug Fixes
