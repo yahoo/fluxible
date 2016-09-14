@@ -17,6 +17,7 @@ var CHANGE_EVENT = 'change';
 function BaseStore(dispatcher) {
     this.dispatcher = dispatcher;
     this._hasChanged = false;
+    EventEmitter.call(this);
     if (this.initialize) {
         this.initialize();
     }
