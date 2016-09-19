@@ -8,6 +8,18 @@ If no matching route is found, `navigateAction` will call the callback with an e
 
 If a route is successfully matched, `navigateAction` will first dispatch a `NAVIGATE_START` event, with route data as the payload (see below).  `navigateAction` will then try to find an action associated with the route from the route config; this can either be an action function or the name of an action function (retrieved with `context.getAction(name)`.)  If an action is found, it is executed, with route data as the payload.  `navigateAction` finally will dispatch a `NAVIGATE_SUCCESS` event, or `NAVIGATE_FAILURE` event if the route's action returns an error.
 
+## Payload Data
+
+The following table covers the standard fields for `payload` object:
+
+| Field Name | Description                             |
+|------------|-----------------------------------------|
+| method     | The HTTP method used to retrieve the URL (e.g. 'get'.) |
+| url        | The actual URL that was matched.        |
+| type       | More important for client side navigation.  Could be `click` or `replacestate`.  This determines whether pushing a new window history state or replace current window history state, as navigation happens on client side. |
+
+You can also pass custom fields in the `payload` object.  All fields will be accessible in the navigate action returned by `RouteStore`'s `getCurrentNavigate()`.
+
 ## Route Data
 
 `navigateAction` passes a route data structure as the payload for all events and as the payload for any called actions.  This consists of:
