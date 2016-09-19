@@ -42,7 +42,7 @@
     "react-addons-test-utils": "^15.0.0",
     "react-dom": "^15.0.0",
     "shelljs": "^0.7.0",
-    "yargs": "^4.2.0"
+    "yargs": "^5.0.0"
   },
   "devEngines": {
     "node": "4.x || 5.x || 6.x",
