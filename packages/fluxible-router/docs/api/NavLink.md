@@ -18,8 +18,7 @@ in navigation events.
 | activeClass | string | Class to add to `className` when link is active |
 | activeStyle | object | Inline styles to merge with `style` when link is active |
 | activeElement | string or React.Component| If specified, active NavLink components will use this component instead of 'a' tags |
-| validate | boolean, default to false | Useful when it is unknown whether a link matches a registered route, this 
-will validate the path before executing the navigation action. If the link does not match a registered route, it will 
+| validate | boolean, default to false | Useful when it is unknown whether a link matches a registered route, this will validate the path before executing the navigation action. If the link does not match a registered route, it will 
 let the browser handle the navigation. |
 
 
