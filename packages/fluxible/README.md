@@ -31,7 +31,7 @@ Join the #fluxible channel of the [Reactiflux](http://reactiflux.com) Discord co
  * Higher order [components](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/Components.md) for easy integration
  * Enforcement of Flux flow - restricted access to the [Flux interface](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/FluxibleContext.md) from within components
  * [Pluggable](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/Plugins.md) - add your own interfaces to the Flux context
- * Updated for React 0.13
+ * Updated for React 15
 
 ## Extras
 
