@@ -34,6 +34,8 @@ var MessageStore = require('./stores/MessageStore');
 dispatcher.getStore(MessageStore);
 ```
 
+_NOTE: This will attempt to lazily register the store if not registered at initializtion time._
+
 #### waitFor(storeClasses, callback)
 
 Waits for another store's handler to finish before calling the callback. This is useful from within stores if they need to wait for other stores to finish first.
@@ -48,4 +50,3 @@ Returns a serializable object containing the state of the dispatcher context as 
 #### rehydrate(dispatcherState)
 
 Takes an object representing the state of the dispatcher context (usually retrieved from dehydrate) to rehydrate the instance as well as the store instance state.
-

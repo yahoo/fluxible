@@ -110,6 +110,19 @@ describe('Dispatchr', function () {
                 dispatcherContext.getStore('Invalid');
             }).to['throw'](Error);
         });
+        it('should register the store if not already registered with constructor is passed in', function () {
+            // create new dispatcher instance with no mockStore registered
+            var dispatcher = dispatchr.createDispatcher({
+                stores: [delayedStore, noDehydrateStore]
+            });
+
+            var dispatcherContext = dispatcher.createContext({}),
+                mockStoreInstance = dispatcherContext.getStore(mockStore);
+
+            expect(mockStoreInstance).to.be.an('object');
+
+            expect(dispatcherContext.getStore('Store')).to.equal(mockStoreInstance);
+        });
     });
 
     describe('#dispatch', function () {
