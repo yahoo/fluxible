@@ -14,6 +14,7 @@ var debug = require('debug')('Dispatchr:DispatcherContext');
  * @constructor
  */
 function DispatcherContext (dispatcher, context) {
+    this.context = context;
     this.dispatcher = dispatcher;
     this.storeInstances = {};
     this.currentAction = null;
