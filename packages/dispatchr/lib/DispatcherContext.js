@@ -37,7 +37,18 @@ DispatcherContext.prototype.getStore = function getStore(name) {
     if (!this.storeInstances[storeName]) {
         var Store = this.dispatcher.stores[storeName];
         if (!Store) {
-            throw new Error('Store ' + storeName + ' was not registered.');
+            var message = 'Store ' + storeName + ' was not registered.';
+            if (this.dispatcher.errorHandler) {
+                this.dispatcher.errorHandler(this.context, {
+                    type: 'STORE_UNREGISTERED',
+                    meta: {
+                        storeName: storeName,
+                        message: message
+                    }
+                });
+            } else {
+                throw new Error(message);
+            }
         }
         this.storeInstances[storeName] = new (this.dispatcher.stores[storeName])(this.dispatcherInterface);
         if (this.rehydratedStoreState && this.rehydratedStoreState[storeName]) {

@@ -11,6 +11,7 @@ var DispatcherContext = require('./DispatcherContext');
  * @class Dispatcher
  * @param {Object} options Dispatcher options
  * @param {Array} options.stores Array of stores to register
+ * @param {Function} options.errorHandler Called when an error occurrs. Allows user to handle/throw the error.
  * @constructor
  */
 function Dispatcher (options) {
@@ -19,6 +20,7 @@ function Dispatcher (options) {
     this.stores = {};
     this.handlers = {};
     this.handlers[DEFAULT] = [];
+    this.errorHandler = options.errorHandler;
     this.hasWarnedAboutNameProperty = false;
     options.stores.forEach(function (store) {
         this.registerStore(store);
@@ -52,7 +54,7 @@ Dispatcher.prototype.registerStore = function registerStore(store) {
             // Store is already registered, nothing to do
             return;
         }
-        throw new Error('Store with name `' + storeName + '` has already been registered. ' + 
+        throw new Error('Store with name `' + storeName + '` has already been registered. ' +
             'Make sure you do not have multiple copies of the store installed.');
     }
     this.stores[storeName] = store;
