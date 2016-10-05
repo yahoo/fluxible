@@ -43,19 +43,22 @@ Dispatcher.prototype.createContext = function createContext(context) {
  */
 Dispatcher.prototype.registerStore = function registerStore(store) {
     if ('function' !== typeof store) {
-        throw new Error('registerStore requires a constructor as first parameter');
+        var message = 'registerStore requires a constructor as first parameter';
+        return this._throwOrCallErrorHandler(message, 'REGISTER_STORE_NO_CONSTRUCTOR');
     }
     var storeName = this.getStoreName(store);
     if (!storeName) {
-        throw new Error('Store is required to have a `storeName` property.');
+        var message = 'Store is required to have a `storeName` property.';
+        return this._throwOrCallErrorHandler(message, 'REGISTER_STORE_NO_STORENAME');
     }
     if (this.stores[storeName]) {
         if (this.stores[storeName] === store) {
             // Store is already registered, nothing to do
             return;
         }
-        throw new Error('Store with name `' + storeName + '` has already been registered. ' +
-            'Make sure you do not have multiple copies of the store installed.');
+        var message = 'Store with name `' + storeName + '` has already been registered. ' +
+            'Make sure you do not have multiple copies of the store installed.';
+        return this._throwOrCallErrorHandler(message, 'REGISTER_STORE_DUPLICATE_REGISTERED');
     }
     this.stores[storeName] = store;
     if (store.handlers) {
@@ -136,6 +139,31 @@ Dispatcher.prototype._registerHandler = function registerHandler(action, name, h
         handler: handler
     });
     return this.handlers.length - 1;
+};
+
+/**
+ * Executes `errorHandler` if registered, otherwise will throw an error
+ * @method _throwOrCallErrorHandler
+ * @private
+ * @static
+ * @param {String} message Error message to use for throw
+ * @param {String} [type=DISPATCHER_ERROR] Type of error generated
+ * @param {Object} [context] DispatcherContext object
+ * @param {Object} [meta] Additional information to pass to the error handler. Message
+    will automatically be passed into the meta object.
+ * @throws {Error} if `errorHandler` is not defined
+ * @returns {void}
+ */
+Dispatcher.prototype._throwOrCallErrorHandler = function throwOrCallErrorHandler(message, type, context, meta) {
+    if (this.errorHandler) {
+        this.errorHandler(context, {
+            message: message,
+            type: type || 'DISPATCHER_ERROR',
+            meta: meta
+        });
+    } else {
+        throw new Error(message);
+    }
 };
 
 module.exports = {
