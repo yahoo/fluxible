@@ -156,11 +156,11 @@ Dispatcher.prototype._registerHandler = function registerHandler(action, name, h
  */
 Dispatcher.prototype._throwOrCallErrorHandler = function throwOrCallErrorHandler(message, type, context, meta) {
     if (this.errorHandler) {
-        this.errorHandler(context, {
+        this.errorHandler({
             message: message,
             type: type || 'DISPATCHER_ERROR',
             meta: meta
-        });
+        }, context);
     } else {
         throw new Error(message);
     }

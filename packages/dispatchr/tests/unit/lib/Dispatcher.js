@@ -259,7 +259,7 @@ describe('Dispatchr', function () {
     describe('#errorHandler', function () {
         it('should handle errors when passed in', function (done) {
             var dispatcher = dispatchr.createDispatcher({
-                errorHandler: function (context, info) {
+                errorHandler: function (info, context) {
                     expect(info).to.be.an('object');
                     expect(info.type).equal('REGISTER_STORE_NO_CONSTRUCTOR');
                     expect(info.message).equal('registerStore requires a constructor as first parameter');
@@ -271,7 +271,7 @@ describe('Dispatchr', function () {
 
         it('should throw an error', function () {
             var dispatcher = dispatchr.createDispatcher({
-                errorHandler: function (context, info) {
+                errorHandler: function (info, context) {
                     throw new Error(info.message);
                 }
             });
@@ -285,7 +285,7 @@ describe('Dispatchr', function () {
             NewStore.storeName = 'NewStore';
 
             var dispatcher = dispatchr.createDispatcher({
-                    errorHandler: function (context, info) {
+                    errorHandler: function (info, context) {
                         expect(context).to.be.an('object');
                         expect(context.test).equal('test');
                         expect(info).to.be.an('object');
