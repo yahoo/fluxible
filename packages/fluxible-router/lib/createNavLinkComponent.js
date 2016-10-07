@@ -137,7 +137,9 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
         },
         _getState: function (props) {
             var routeStore = this.context.getStore(RouteStore);
+            var href = this._getHrefFromProps(props);
             return {
+                href: href,
                 currentRoute: routeStore.getCurrentRoute()
             };
         },
