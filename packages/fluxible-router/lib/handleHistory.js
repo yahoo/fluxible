@@ -20,6 +20,7 @@ var inherits = require('inherits');
 var defaultOptions = {
     checkRouteOnPageLoad: false,
     enableScroll: true,
+    saveScrollInState: true,
     historyCreator: function () {
         return new History();
     },
@@ -131,7 +132,9 @@ function createComponent(Component, opts) {
                 }
             }
 
-            window.addEventListener('scroll', this._onScroll);
+            if (options.saveScrollInState) {
+                window.addEventListener('scroll', this._onScroll);
+            }
         },
         _onScroll: function (e) {
             if (this._scrollTimer) {
@@ -173,12 +176,15 @@ function createComponent(Component, opts) {
             var navQuery = nav.query || {};
             var historyState = {
                 query: navQuery,
-                params: navParams,
-                scroll: {
+                params: navParams
+            };
+
+            if (options.saveScrollInState) {
+                historyState.scroll = {
                     x: window.scrollX || window.pageXOffset,
                     y: window.scrollY || window.pageYOffset
-                }
-            };
+                };
+            }
 
             var pageTitle = navParams.pageTitle || null;
 
@@ -214,7 +220,9 @@ function createComponent(Component, opts) {
         componentWillUnmount: function () {
             this._history.off(this._onHistoryChange);
 
-            window.removeEventListener('scroll', this._onScroll);
+            if (options.saveScrollInState) {
+                window.removeEventListener('scroll', this._onScroll);
+            }
 
             historyCreated = false;
         },
@@ -236,16 +244,20 @@ function createComponent(Component, opts) {
                     }
                     historyState = {params: navParams, query: navQuery};
                     if (nav.preserveScrollPosition) {
-                        historyState.scroll = {
-                            x: window.scrollX || window.pageXOffset,
-                            y: window.scrollY || window.pageYOffset
-                        };
+                        if (options.saveScrollInState) {
+                            historyState.scroll = {
+                                x: window.scrollX || window.pageXOffset,
+                                y: window.scrollY || window.pageYOffset
+                            };
+                        }
                     } else {
                         if (options.enableScroll) {
                             window.scrollTo(0, 0);
                             debug('on click navigation, reset scroll position to (0, 0)');
                         }
-                        historyState.scroll = {x: 0, y: 0};
+                        if (options.saveScrollInState) {
+                            historyState.scroll = {x: 0, y: 0};
+                        }
                     }
                     var pageTitle = navParams.pageTitle || null;
                     if (navType === TYPE_REPLACESTATE) {
