@@ -1,5 +1,17 @@
 # Change Log
 
+## 1.0.0-alpha.6
+
+### Features
+
+ Backport 0.4.x features (#497)
+
+ * move href checking logic into isRoutable() to simplify dispatchNavAction() (#478)
+    (cherry picked from commit 5ae07b7feb1a2d92c82c47bcae3f80dcbb029359)
+ * add saveScrollInState param
+    (cherry picked from commit cd1a41902b89f2f71932317f9ee587006269fa25)
+ * add href to component state
+
 ## 1.0.0-alpha.5
 
 ### Bug Fixes
