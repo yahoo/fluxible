@@ -3,6 +3,7 @@
 Dispatchr has one main function that is exported: `createDispatcher(options)`. This returns a new [`Dispatcher`](#dispatcher-api) instance. `createDispatcher` takes the following `options`:
 
  * `options.stores`: An array of stores to register automatically
+ * `options.errorHandler`: Optional function to [handle errors](#error-handling), throws errors if undefined
 
 ## Dispatcher API
 
@@ -49,3 +50,31 @@ Returns a serializable object containing the state of the dispatcher context as 
 
 Takes an object representing the state of the dispatcher context (usually retrieved from dehydrate) to rehydrate the instance as well as the store instance state.
 
+## Error handling
+
+By default Dispatcher will `throw` errors encountered (i.e. `registerStore`, `getStore`, etc). If you want to handle this more gracefully, you can pass in an `errorHandler` function when you call `createDispatcher`. The `errorHandler` function takes the following parameters:
+
+ * `info`: An object with the following properties:
+   * `message`: The error message
+   * `type`: The type of error (e.g. `STORE_UNREGISTERED`), defaults to `DISPATCHER_ERROR`
+   * `meta`: Additional information passed by Dispatchr
+ * `context`: An optional Dispatchr context object that provides access to any custom plugins
+
+ Example:
+
+```js
+var dispatcher = dispatchr.createDispatcher({
+    errorHandler: function (info, context) {
+        switch(info.type) {
+            // handle a specific error type differently
+            case 'STORE_UNREGISTERED':
+                if (context && context.beacon) {
+                    context.beacon.fire(info); // collect error information for later use
+                }
+            // throw by default
+            default:
+                throw new Error(info.message);
+        }
+    }
+});
+```
