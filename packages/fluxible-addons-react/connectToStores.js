@@ -43,6 +43,12 @@ function createComponent(Component, stores, getStateFromStores, customContextTyp
         componentWillReceiveProps: function componentWillReceiveProps(nextProps){
             this.setState(this.getStateFromStores(nextProps));
         },
+        componentWillEnter: Component.prototype.componentWillEnter,
+        componentDidEnter: Component.prototype.componentDidEnter,
+        componentWillAppear: Component.prototype.componentWillAppear,
+        componentDidAppear: Component.prototype.componentDidAppear,
+        componentWillLeave: Component.prototype.componentWillLeave,
+        componentDidLeave: Component.prototype.componentDidLeave,
         getStateFromStores: function (props) {
             props = props || this.props;
             return getStateFromStores(this.context, props);
