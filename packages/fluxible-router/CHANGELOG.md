@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.4.18
+
+### Enhancement
+
+ * [#502] Allow custom props to be added to filtered ones
+
 ## 0.4.17
 
 ### Refactor
@@ -51,7 +57,7 @@
 
  * [#390] Support for React 15
  * [#394] Allow ignoring popstate event on page load
- 
+
 ### Bug Fixes
 
  * [#392] Fix stopPropagation not working with modified key presses
@@ -133,7 +139,7 @@ Deprecated, published package was corrupted
 
  * Upgraded to React 0.14, breaking compatibility with older versions of React
  * Removed dependency on `Object.assign` library, must be polyfilled
- 
+
 ### Features
 
  * [#69] Add NavLink `activeElement` option to use another element type for active state
