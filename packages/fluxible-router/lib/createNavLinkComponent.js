@@ -141,6 +141,15 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
         getDefaultChildProps: function () {
             return {};
         },
+        /**
+         * Allows consumer to add additional properties to filter from the node
+         * @see https://fb.me/react-unknown-prop
+         * @method getFilteredProps
+         * @returns {Array} filteredProps
+         */
+        getFilteredProps: function () {
+            return [];
+        },
         getNavParams: function (props) {
             return props.navParams;
         },
@@ -251,7 +260,7 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
                 'routeName',
                 'stopPropagation',
                 'validate'
-            ]);
+            ].concat(this.getFilteredProps()));
 
             if (this.state.isActive) {
                 if (this.state.activeElement) {
