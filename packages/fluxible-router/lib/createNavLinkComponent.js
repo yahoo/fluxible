@@ -72,7 +72,8 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
         displayName: 'NavLink',
         contextTypes: {
             executeAction: React.PropTypes.func.isRequired,
-            getStore: React.PropTypes.func.isRequired
+            getStore: React.PropTypes.func.isRequired,
+            logger: React.PropTypes.object
         },
         propTypes: {
             href: React.PropTypes.string,
@@ -295,7 +296,8 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
                     throw new Error('NavLink created with invalid href \'' + props.href +
                         '\'or unresolvable routeName \'' + props.routeName);
                 } else {
-                    console.error('Error: Invalid NavLink, skip rendering...', props);
+                    var logError = (this.context.logger && this.context.logger.error) || console.error;
+                    logError('Error: Invalid NavLink, skip rendering...', props);
                     return null;
                 }
             }
