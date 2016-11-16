@@ -48,7 +48,7 @@ function getRelativeHref(href) {
         throw new Error('getRelativeHref() only supported on client side');
     }
 
-    if (href[0] === '/' || href[0] === '#') {
+    if (!href || href[0] === '/' || href[0] === '#') {
         return href;
     }
 
@@ -293,12 +293,11 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
             var href = this._getHrefFromProps(props);
             if (!href) {
                 if (__DEV__) {
-                    throw new Error('NavLink created with invalid href \'' + props.href +
+                    throw new Error('NavLink created with empty or missing href \'' + props.href +
                         '\'or unresolvable routeName \'' + props.routeName);
                 } else {
                     var logError = (this.context.logger && this.context.logger.error) || console.error;
-                    logError('Error: Invalid NavLink, skip rendering...', props);
-                    return null;
+                    logError('Error: Render NavLink with empty or missing href', props);
                 }
             }
 

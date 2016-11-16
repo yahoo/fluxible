@@ -662,23 +662,46 @@ describe('NavLink NODE_ENV === development', function () {
 
 describe('NavLink NODE_ENV === production', function () {
     var mockContext;
+    var loggerError;
+    var logger = {
+        error: function () {
+            loggerError = arguments;
+        }
+    };
 
     beforeEach(function (done) {
+        loggerError = null;
         setup({nodeEnv: 'production'}, function (err, context) {
             mockContext = context;
+            mockContext.logger = logger;
             done(err);
         });
     });
     afterEach(tearDown);
-    it('should render null if href and routeName undefined', function () {
-        var navParams = {};
-        var div = document.createElement('div');
-        ReactDOM.render(
+    it('should render link with missing href with console error', function () {
+        var link = ReactTestUtils.renderIntoDocument(
             <MockAppComponent context={mockContext}>
-                <NavLink navParams={navParams} />
-            </MockAppComponent>,
-            div
+                <NavLink>
+                    bar
+                </NavLink>
+            </MockAppComponent>
         );
-        expect(div.innerHTML).to.equal('<!-- react-empty: 1 -->');
+        var linkNode = ReactDOM.findDOMNode(link);
+        expect(linkNode.getAttribute('href')).to.equal(null, linkNode.outerHTML);
+        expect(linkNode.textContent).to.equal('bar', linkNode.outerHTML);
+        expect(loggerError[0]).to.contain('Error: Render NavLink with empty or missing href');
+    });
+    it('should render link with empty href with console error', function () {
+        var link = ReactTestUtils.renderIntoDocument(
+            <MockAppComponent context={mockContext}>
+                <NavLink href=''>
+                    bar
+                </NavLink>
+            </MockAppComponent>
+        );
+        var linkNode = ReactDOM.findDOMNode(link);
+        expect(linkNode.getAttribute('href')).to.equal('', linkNode.outerHTML);
+        expect(linkNode.textContent).to.equal('bar', linkNode.outerHTML);
+        expect(loggerError[0]).to.contain('Error: Render NavLink with empty or missing href');
     });
 });
