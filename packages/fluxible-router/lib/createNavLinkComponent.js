@@ -1,13 +1,14 @@
 /**
- * Copyright 2015, Yahoo! Inc.
+ * Copyright 2015-Present, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-/*global window */
+/*global window,process */
 'use strict';
 var React = require('react');
 var RouteStore = require('./RouteStore');
 var debug = require('debug')('NavLink');
 var navigateAction = require('./navigateAction');
+var __DEV__ = process.env.NODE_ENV !== 'production';
 
 function objectWithoutProperties(obj, keys) {
     var target = {};
@@ -152,11 +153,6 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
             if (!href && routeName) {
                 href = routeStore.makePath(routeName, navParams, queryParams);
             }
-            if (!href) {
-                throw new Error('NavLink created without href or unresolvable ' +
-                    'routeName \'' + routeName + '\' with params ' +
-                    JSON.stringify(navParams));
-            }
             return href;
         },
         /**
@@ -292,12 +288,23 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
             this.dispatchNavAction(e);
         },
         render: function () {
-            var href = this._getHrefFromProps(this.props);
-            var activeClass = this.props.activeClass;
-            var activeStyle = this.props.activeStyle;
-            var activeElement = this.props.activeElement;
+            var props = this.props;
+            var href = this._getHrefFromProps(props);
+            if (!href) {
+                if (__DEV__) {
+                    throw new Error('NavLink created with invalid href \'' + props.href +
+                        '\'or unresolvable routeName \'' + props.routeName);
+                } else {
+                    console.error('Error: Invalid NavLink, skip rendering...', props);
+                    return null;
+                }
+            }
 
-            var childProps = objectWithoutProperties(this.props, [
+            var activeClass = props.activeClass;
+            var activeStyle = props.activeStyle;
+            var activeElement = props.activeElement;
+
+            var childProps = objectWithoutProperties(props, [
                 'activeClass',
                 'activeElement',
                 'activeStyle',
@@ -318,21 +325,21 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
                 isActive = routeStore.isActive(href);
             }
 
-            var style = this.props.style;
-            var className = this.props.className;
+            var style = props.style;
+            var className = props.className;
             if (isActive) {
                 if (activeClass) {
                     className = className ? (className + ' ') : '';
                     className += activeClass;
                 }
                 if (activeStyle) {
-                    style = Object.assign({}, this.props.style, activeStyle);
+                    style = Object.assign({}, props.style, activeStyle);
                 }
             }
 
             var defaultProps = this.getDefaultChildProps();
 
-            if (!(isActive && activeElement) && !this.props.onClick) {
+            if (!(isActive && activeElement) && !props.onClick) {
                 childProps.onClick = this.clickHandler.bind(this);
             }
 
@@ -350,7 +357,7 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
             return React.createElement(
                 childElement,
                 childProps,
-                this.props.children
+                props.children
             );
         }
     }, overwriteSpec));
