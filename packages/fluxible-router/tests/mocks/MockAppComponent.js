@@ -21,10 +21,14 @@ var MockAppComponent = React.createClass({
     }
 });
 
+var customContextTypes = {
+    logger: React.PropTypes.object
+};
+
 module.exports = provideContext(handleHistory(MockAppComponent, {
     checkRouteOnPageLoad: false,
     enableScroll: true
-}));
+}), customContextTypes);
 
 module.exports.createWrappedMockAppComponent = function createWrappedMockAppComponent(opts) {
     return provideContext(handleHistory(MockAppComponent, opts));
