@@ -28,6 +28,21 @@ function navigateAction (context, payload, done) {
         return;
     }
 
+    // Determine if we can navigate to this route
+    var nextRoute = routeStore.getRoute(navigate.url, {
+        navigate: navigate,
+        method: navigate.method
+    });
+    if (typeof context.canNavigateToRoute === 'function') {
+        var canNavigateResult = context.canNavigateToRoute(nextRoute);
+        if (canNavigateResult && canNavigateResult.statusCode !== 200) {
+            canNavigateResult.transactionId = navigate.transactionId;
+            context.dispatch('NAVIGATE_FAILURE', canNavigateResult);
+            done(Object.assign(new Error(), canNavigateResult));
+            return;
+        }
+    }
+
     debug('dispatching NAVIGATE_START', navigate);
     context.dispatch('NAVIGATE_START', navigate);
 
