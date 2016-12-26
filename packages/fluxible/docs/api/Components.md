@@ -157,7 +157,8 @@ describe('TestComponent', function () {
 
             // React must be required after window is set
             React = require('react');
-            ReactTestUtils = require('react/lib/ReactTestUtils');
+            ReactDOM = require('react-dom');
+            ReactTestUtils = require('react-addons-test-utils');
             provideContext = require('fluxible-addons-react/provideContext');
             connectToStores = require('fluxible-addons-react/connectToStores');
 
@@ -194,7 +195,7 @@ describe('TestComponent', function () {
         var component = ReactTestUtils.renderIntoDocument(
             <TestComponent context={componentContext} />
         );
-        var node = component.getDOMNode();
+        var node = ReactDOM.findDOMNode(component);
         assert.equal('foo', node.innerHTML);
         ReactTestUtils.Simulate.click(node);
         assert.equal('foobar', node.innerHTML);
