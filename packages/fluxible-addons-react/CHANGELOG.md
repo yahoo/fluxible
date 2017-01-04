@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.2.9
+
+### Features
+
+ * [#510] Expose WrappedComponent from StoreConnector
+
 ## 0.2.8
 
 ### Bug Fixes
@@ -11,7 +17,7 @@
 
 ### Features
 
- * [#399] HoC displayNames now use `wrapper(componentName)` format name instead of suffix for more clear component 
+ * [#399] HoC displayNames now use `wrapper(componentName)` format name instead of suffix for more clear component
  hierarchies
 
 ## 0.2.6
@@ -75,7 +81,7 @@ This release was to fix a packaging issue in npm.
 
  * [#22] Updated object-assign dependency
  * [#23] Updated dev dependencies
- 
+
 
 ## 0.1.6
 
