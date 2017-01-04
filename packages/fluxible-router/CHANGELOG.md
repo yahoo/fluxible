@@ -1,8 +1,14 @@
 # Change Log
 
+## 1.0.0-alpha.8
+
+### Features
+
+ * [#510] Expose WrappedComponent from StoreConnector
+
 ## 1.0.0-alpha.7
 
-### features
+### Features
 
  * [#503] Allow custom props to be added to filtered ones
 
