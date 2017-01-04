@@ -1,5 +1,17 @@
 # Change Log
 
+## 0.4.20
+
+### Features
+
+ * [#510] Expose WrappedComponent from StoreConnector
+
+## 0.4.19
+
+### Enhancement
+
+ * [#509] For invalid href and route name, only throw error in development env
+
 ## 0.4.18
 
 ### Enhancement
