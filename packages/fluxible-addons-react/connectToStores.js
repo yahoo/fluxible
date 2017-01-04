@@ -59,6 +59,7 @@ function createComponent(Component, stores, getStateFromStores, customContextTyp
     });
 
     hoistNonReactStatics(StoreConnector, Component);
+    StoreConnector.WrappedComponent = Component;
 
     return StoreConnector;
 }

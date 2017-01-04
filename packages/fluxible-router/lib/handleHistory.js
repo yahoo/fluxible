@@ -282,7 +282,7 @@ function createComponent(Component, opts) {
     // Copy statics to HistoryHandler
     hoistNonReactStatics(HistoryHandler, Component);
 
-    HistoryHandler.wrappedComponent = Component;
+    HistoryHandler.wrappedComponent = HistoryHandler.WrappedComponent = Component;
 
     return handleRoute(HistoryHandler);
 }
