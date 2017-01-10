@@ -67,6 +67,8 @@ FluxContext.prototype.getStore = function getStore(store) {
  *  dynamically modifying the action context
  * @param {Function} [plugin.plugComponentContext] Method called after component context is created to
  *  allow dynamically modifying the component context
+ * @param {Function} [plugin.plugExecuteAction] Method called before executeAction is called to allow
+ *  dynamically modifying the context and payload of an action call
  * @param {Function} [plugin.plugStoreContext] Method called after store context is created to allow
  *  dynamically modifying the store context
  * @param {Object} [plugin.dehydrate] Method called to serialize the plugin settings to be persisted
