@@ -207,9 +207,17 @@ function createComponent(Component, opts) {
         },
         _saveScrollPosition: function (e) {
             var historyState = (this._history.getState && this._history.getState()) || {};
+            var scrollX = window.scrollX || window.pageXOffset;
+            var scrollY = window.scrollY || window.pageYOffset;
+            // reduce unused replaceState
+            // also prevent IOS Safari reset scroll position to 0 with universal link bar showing
+            if (historyState.scroll && historyState.scroll.x === scrollX && historyState.scroll.y === scrollY) {
+                debug('skip updating scrolling position with same position', historyState.scroll);
+                return;
+            }
             historyState.scroll = {
-                x: window.scrollX || window.pageXOffset,
-                y: window.scrollY || window.pageYOffset
+                x: scrollX,
+                y: scrollY
             };
             debug('remember scroll position', historyState.scroll);
             this._history.replaceState(historyState);
