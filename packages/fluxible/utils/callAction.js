@@ -14,38 +14,43 @@ require('setimmediate');
  * otherwise, Promise invocation.
  */
 function callAction (actionContext, action, payload, done) {
-    var executeActionPromise = new Promise(function (resolve, reject) {
-        setImmediate(function () {
-            try {
-                var syncResult = action(actionContext, payload, function (err, result) {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(result);
-                    }
-                });
-                if (isPromise(syncResult)) {
-                    syncResult.then(resolve, reject);
-                } else if (action.length < 3) {
-                    resolve(syncResult);
+    // Use a promise to force the action to be called async
+    var executeActionPromise = Promise.resolve().then(function () {
+        // Assume the action returns a promise since it doesn't take a callback
+        if (action.length < 3) {
+            return action(actionContext, payload);
+        }
+
+        // Return a nested promise to wrap the action invocation so its result
+        // passed to its callback can be captured
+        return new Promise(function (resolve, reject) {
+            action(actionContext, payload, function (err, result) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
                 }
-            } catch (e) {
-                reject(e);
-            }
+            });
         });
     });
 
     if (done) {
+        // Once our promise (and any nested promises) fully settle, call the
+        // `done()` callback provided to us and pass either the result or error
         executeActionPromise
-            .then(function(result) {
-                // Ensures that errors in callback are not swallowed by promise
-                setImmediate(done, null, result);
-            }, function (err) {
-                // Ensures that errors in callback are not swallowed by promise
-                setImmediate(done, err);
+            .then(function (result) {
+                done(null, result);
+            }, done)
+            ['catch'](function (err) {
+                // Ensures that thrown errors in the `done()` callback above are
+                // not swallowed by promise
+                setImmediate(function () {
+                    throw err;
+                });
             });
     }
 
+    // Finally return our original promise with the result of calling the action 
     return executeActionPromise;
 }
 
