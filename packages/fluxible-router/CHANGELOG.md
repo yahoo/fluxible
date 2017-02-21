@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.0.0-alpha.9
+
+### Features
+
+* [#516] Skip updating scroll when it is not changed
+
 ## 1.0.0-alpha.8
 
 ### Features
