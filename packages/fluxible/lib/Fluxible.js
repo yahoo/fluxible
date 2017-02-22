@@ -214,6 +214,10 @@ Fluxible.prototype.rehydrate = function rehydrate(obj, callback) {
                 callback(null, contextValue);
             }, function (err) {
                 callback(err);
+            })['catch'](function (err) {
+                setImmediate(function () {
+                    throw err;
+                });
             });
     }
 
