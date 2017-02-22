@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.1.1
+
+### Bug Fix
+
+ * [#519] Throw correct 'store has no method' error by @ash14
+
 ## 1.1.0
 
 ### Enhancement
