@@ -6,7 +6,7 @@ For support, join our [gitter.im](https://gitter.im/yahoo/fluxible) channel.
 
 ## Development
 
-Development is currently being done against Node 4/5.
+Development is currently being done against Node 4/6.
 
 Releases can be done with the following steps:
 

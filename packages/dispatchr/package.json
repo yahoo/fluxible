@@ -1,6 +1,6 @@
 {
   "name": "dispatchr",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "A Flux dispatcher for applications that run on the server and the client.",
   "main": "index.js",
   "repository": {

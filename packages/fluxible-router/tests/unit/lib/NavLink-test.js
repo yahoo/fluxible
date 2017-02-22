@@ -3,19 +3,23 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 /*globals describe,it,before,beforeEach */
+
+var jsdom = require('jsdom');
+var expect = require('chai').expect;
+var fs = require('fs');
+var resolve = require('resolve');
+var createMockComponentContext = require('fluxible/utils/createMockComponentContext');
+var navigateAction = require('../../../').navigateAction;
+var RouteStore = require('../../../').RouteStore;
+var ORIG_NODE_ENV = process.env.NODE_ENV;
+
 var React;
 var ReactDOM;
 var NavLink;
 var createNavLinkComponent;
 var ReactTestUtils;
-var jsdom = require('jsdom');
-var expect = require('chai').expect;
-var onClickMock;
 var testResult;
 var MockAppComponent;
-var RouteStore = require('../../../').RouteStore;
-var createMockComponentContext = require('fluxible/utils/createMockComponentContext');
-var navigateAction = require('../../../').navigateAction;
 
 var TestRouteStore = RouteStore.withStaticRoutes({
     foo: { path: '/foo', method: 'get' },
@@ -25,50 +29,68 @@ var TestRouteStore = RouteStore.withStaticRoutes({
     fooAB: { path: '/foo/:a/:b', method: 'get' }
 });
 
-onClickMock = function () {
+function onClickMock() {
     testResult.onClickMockInvoked = true;
-};
+}
+
+function setup(options, done) {
+    if (options.nodeEnv) {
+        process.env.NODE_ENV = options.nodeEnv;
+    }
+    var path = fs.realpathSync(resolve.sync('../../../lib/createNavLinkComponent'));
+    delete require.cache[path];
+    path = fs.realpathSync(resolve.sync('../../../lib/NavLink'));
+    delete require.cache[path];
+
+    jsdom.env({
+        url: 'http://yahoo.com',
+        html: '<html><body></body></html>',
+        done: function (err, window) {
+            if (err) {
+                done(err);
+                return;
+            }
+            global.document = window.document;
+            global.window = window;
+            global.navigator = window.navigator;
+
+            React = require('react');
+            ReactDOM = require('react-dom');
+            ReactTestUtils = require('react-addons-test-utils');
+            var mockContext = createMockComponentContext({
+                stores: [TestRouteStore]
+            });
+            mockContext.getStore('RouteStore')._handleNavigateStart({
+                url: '/foo',
+                method: 'GET'
+            });
+            MockAppComponent = require('../../mocks/MockAppComponent');
+            NavLink = require('../../../lib/NavLink');
+            createNavLinkComponent = require('../../../lib/createNavLinkComponent');
+            testResult = {};
+            done(null, mockContext);
+        }
+    });
+}
+
+function tearDown() {
+    delete global.window;
+    delete global.document;
+    delete global.navigator;
+    process.env.NODE_ENV = ORIG_NODE_ENV;
+}
 
 describe('NavLink', function () {
     var mockContext;
 
     beforeEach(function (done) {
-        jsdom.env({
-            url: 'http://yahoo.com',
-            html: '<html><body></body></html>',
-            done: function (err, window) {
-                if (err) {
-                    done(err);
-                    return;
-                }
-                global.document = window.document;
-                global.window = window;
-                global.navigator = window.navigator;
-
-                React = require('react');
-                ReactDOM = require('react-dom');
-                ReactTestUtils = require('react-addons-test-utils');
-                mockContext = createMockComponentContext({
-                    stores: [TestRouteStore]
-                });
-                mockContext.getStore('RouteStore')._handleNavigateStart({
-                    url: '/foo',
-                    method: 'GET'
-                });
-                MockAppComponent = require('../../mocks/MockAppComponent');
-                NavLink = require('../../../lib/NavLink');
-                createNavLinkComponent = require('../../../lib/createNavLinkComponent');
-                testResult = {};
-                done();
-            }
+        setup({}, function (err, context) {
+            mockContext = context;
+            done(err);
         });
     });
 
-    afterEach(function () {
-        delete global.window;
-        delete global.document;
-        delete global.navigator;
-    });
+    afterEach(tearDown);
 
     describe('render()', function () {
         it('should set href correctly', function () {
@@ -111,16 +133,6 @@ describe('NavLink', function () {
             expect(ReactDOM.findDOMNode(link).getAttribute('href')).to.equal('/internal');
         });
 
-        it('should throw if href and routeName undefined', function () {
-            var navParams = {a: 1, b: 2};
-            expect(function () {
-                ReactTestUtils.renderIntoDocument(
-                    <MockAppComponent context={mockContext}>
-                        <NavLink navParams={navParams} />
-                    </MockAppComponent>
-                );
-            }).to['throw']();
-        });
         it('should create href with query params', function () {
             var queryParams = {a: 1, b: 2};
             var link = ReactTestUtils.renderIntoDocument(
@@ -130,6 +142,7 @@ describe('NavLink', function () {
             );
             expect(ReactDOM.findDOMNode(link).getAttribute('href')).to.equal('/foo?a=1&b=2');
         });
+
         it('should set style and className properties', function () {
             var link = ReactTestUtils.renderIntoDocument(
                 <MockAppComponent context={mockContext}>
@@ -141,6 +154,7 @@ describe('NavLink', function () {
             expect(ReactDOM.findDOMNode(link).getAttribute('class')).to.equal('foo');
             expect(ReactDOM.findDOMNode(link).getAttribute('style')).to.contain('background-color');
         });
+
         it('should set active state if href matches current route', function () {
             var navParams = {a: 1, b: 2};
             var link = ReactTestUtils.renderIntoDocument(
@@ -418,7 +432,6 @@ describe('NavLink', function () {
                 </MockAppComponent>
             );
             ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(link), {button: 0});
-            ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(link), {button: 0});
             window.setTimeout(function () {
                 expect(testResult.dispatch).to.equal(undefined);
                 done();
@@ -450,6 +463,20 @@ describe('NavLink', function () {
                 expect(mockContext.executeActionCalls[0].action).to.equal(navigateAction);
                 expect(mockContext.executeActionCalls[0].payload.type).to.equal('click');
                 expect(mockContext.executeActionCalls[0].payload.url).to.equal('/foo');
+                done();
+            }, 10);
+        });
+
+        it('context.executeAction not called if validate=true and route is invalid', function (done) {
+            var link = ReactTestUtils.renderIntoDocument(
+                <MockAppComponent context={mockContext}>
+                    <NavLink href='/invalid' followLink={false} validate={true}/>
+                </MockAppComponent>
+            );
+            ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(link), {button: 0});
+            window.setTimeout(function () {
+                expect(testResult.dispatch).to.equal(undefined);
+                expect(mockContext.executeActionCalls.length).to.equal(0);
                 done();
             }, 10);
         });
@@ -609,5 +636,72 @@ describe('NavLink', function () {
             ReactDOM.unmountComponentAtNode(div);
             expect(routeStore.listeners('change').length).to.equal(0);
         });
+    });
+});
+
+describe('NavLink NODE_ENV === development', function () {
+    var mockContext;
+    beforeEach(function (done) {
+        setup({nodeEnv: 'development'}, function (err, context) {
+            mockContext = context;
+            done(err);
+        });
+    });
+    afterEach(tearDown);
+    it('should throw if href and routeName undefined', function () {
+        var navParams = {};
+        expect(function () {
+            ReactTestUtils.renderIntoDocument(
+                <MockAppComponent context={mockContext}>
+                    <NavLink navParams={navParams} />
+                </MockAppComponent>
+            );
+        }).to['throw']();
+    });
+});
+
+describe('NavLink NODE_ENV === production', function () {
+    var mockContext;
+    var loggerError;
+    var logger = {
+        error: function () {
+            loggerError = arguments;
+        }
+    };
+
+    beforeEach(function (done) {
+        loggerError = null;
+        setup({nodeEnv: 'production'}, function (err, context) {
+            mockContext = context;
+            mockContext.logger = logger;
+            done(err);
+        });
+    });
+    afterEach(tearDown);
+    it('should render link with missing href with console error', function () {
+        var link = ReactTestUtils.renderIntoDocument(
+            <MockAppComponent context={mockContext}>
+                <NavLink>
+                    bar
+                </NavLink>
+            </MockAppComponent>
+        );
+        var linkNode = ReactDOM.findDOMNode(link);
+        expect(linkNode.getAttribute('href')).to.equal(null, linkNode.outerHTML);
+        expect(linkNode.textContent).to.equal('bar', linkNode.outerHTML);
+        expect(loggerError[0]).to.contain('Error: Render NavLink with empty or missing href');
+    });
+    it('should render link with empty href with console error', function () {
+        var link = ReactTestUtils.renderIntoDocument(
+            <MockAppComponent context={mockContext}>
+                <NavLink href=''>
+                    bar
+                </NavLink>
+            </MockAppComponent>
+        );
+        var linkNode = ReactDOM.findDOMNode(link);
+        expect(linkNode.getAttribute('href')).to.equal('', linkNode.outerHTML);
+        expect(linkNode.textContent).to.equal('bar', linkNode.outerHTML);
+        expect(loggerError[0]).to.contain('Error: Render NavLink with empty or missing href');
     });
 });

@@ -52,7 +52,7 @@ function createComponent(Component) {
     // Copy statics to RouteHandler
     hoistNonReactStatics(RouteHandler, Component);
 
-    RouteHandler.wrappedComponent = Component;
+    RouteHandler.wrappedComponent = RouteHandler.WrappedComponent = Component;
 
     return RouteHandler;
 }

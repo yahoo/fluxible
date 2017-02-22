@@ -30,7 +30,7 @@
     "coveralls": "^2.11.1",
     "es6-promise": "^4.0.2",
     "eslint": "^3.0.0",
-    "eslint-plugin-babel": "^3.1.0",
+    "eslint-plugin-babel": "^4.0.0",
     "eslint-plugin-react": "^6.0.0",
     "gulp": "^3.9.0",
     "gulp-babel": "^6.1.2",
@@ -42,7 +42,7 @@
     "react-addons-test-utils": "^15.0.0",
     "react-dom": "^15.0.0",
     "shelljs": "^0.7.0",
-    "yargs": "^5.0.0"
+    "yargs": "^6.1.1"
   },
   "devEngines": {
     "node": "4.x || 5.x || 6.x",

@@ -14,6 +14,7 @@ var debug = require('debug')('Dispatchr:DispatcherContext');
  * @constructor
  */
 function DispatcherContext (dispatcher, context) {
+    this.context = context;
     this.dispatcher = dispatcher;
     this.storeInstances = {};
     this.currentAction = null;
@@ -37,7 +38,11 @@ DispatcherContext.prototype.getStore = function getStore(name) {
     if (!this.storeInstances[storeName]) {
         var Store = this.dispatcher.stores[storeName];
         if (!Store) {
-            throw new Error('Store ' + storeName + ' was not registered.');
+            var message = 'Store ' + storeName + ' was not registered.';
+            var meta = {
+                storeName: storeName
+            };
+            return this.dispatcher._throwOrCallErrorHandler(message, 'STORE_UNREGISTERED', this.context, meta);
         }
         this.storeInstances[storeName] = new (this.dispatcher.stores[storeName])(this.dispatcherInterface);
         if (this.rehydratedStoreState && this.rehydratedStoreState[storeName]) {
@@ -60,10 +65,16 @@ DispatcherContext.prototype.getStore = function getStore(name) {
  */
 DispatcherContext.prototype.dispatch = function dispatch(actionName, payload) {
     if (!actionName) {
-        throw new Error('actionName parameter `' + actionName + '` is invalid.');
+        var message = 'actionName parameter `' + actionName + '` is invalid.';
+        return this.dispatcher._throwOrCallErrorHandler(message, 'DISPATCH_INVALID_ACTIONNAME', this.context);
     }
     if (this.currentAction) {
-        throw new Error('Cannot call dispatch while another dispatch is executing. Attempted to execute \'' + actionName + '\' but \'' + this.currentAction.name + '\' is already executing.');
+        var message = 'Cannot call dispatch while another dispatch is executing. Attempted to execute \'' + actionName + '\' but \'' + this.currentAction.name + '\' is already executing.';
+        var meta = {
+            actionName: actionName,
+            payload: payload
+        };
+        return this.dispatcher._throwOrCallErrorHandler(message, 'DISPATCH_EXECUTING', this.context, meta);
     }
     var actionHandlers = this.dispatcher.handlers[actionName] || [],
         defaultHandlers = this.dispatcher.handlers[DEFAULT] || [];
@@ -88,7 +99,11 @@ DispatcherContext.prototype.dispatch = function dispatch(actionName, payload) {
                 handlerFns[store.name] = store.handler.bind(storeInstance);
             } else {
                 if (!storeInstance[store.handler]) {
-                    throw new Error(store.name + ' does not have a method called ' + store.handler);
+                    var message = store.name + ' does not have a method called ' + store.handler;
+                    var meta = {
+                        store: store
+                    };
+                    return this.dispatcher._throwOrCallErrorHandler(message, 'DISPATCH_INVALID_STORE_METHOD', this.context, meta);
                 }
                 handlerFns[store.name] = storeInstance[store.handler].bind(storeInstance);
             }
@@ -149,7 +164,11 @@ DispatcherContext.prototype.rehydrate = function rehydrate(dispatcherState) {
  */
 DispatcherContext.prototype.waitFor = function waitFor(stores, callback) {
     if (!this.currentAction) {
-        throw new Error('waitFor called even though there is no action dispatching');
+        var message = 'waitFor called even though there is no action dispatching';
+        var meta = {
+            stores: stores
+        };
+        return this.dispatcher._throwOrCallErrorHandler(message, 'WAITFOR_NO_ACTION', this.context, meta);
     }
     this.currentAction.waitFor(stores, callback);
 };

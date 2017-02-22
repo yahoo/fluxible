@@ -1,5 +1,35 @@
 # Change Log
 
+## 1.0.0-alpha.9
+
+### Features
+
+* [#516] Skip updating scroll when it is not changed
+
+## 1.0.0-alpha.8
+
+### Features
+
+ * [#510] Expose WrappedComponent from StoreConnector
+
+## 1.0.0-alpha.7
+
+### Features
+
+ * [#503] Allow custom props to be added to filtered ones
+
+## 1.0.0-alpha.6
+
+### Features
+
+ [#497] Backport 0.4.x features
+
+ * [#478] move href checking logic into isRoutable() to simplify dispatchNavAction()
+    (cherry picked from commit 5ae07b7feb1a2d92c82c47bcae3f80dcbb029359)
+ * add saveScrollInState param
+    (cherry picked from commit cd1a41902b89f2f71932317f9ee587006269fa25)
+ * add href to component state
+
 ## 1.0.0-alpha.5
 
 ### Bug Fixes
@@ -49,7 +79,7 @@ See the [upgrade guide](UPGRADE.md#04x-to-1x)
 ### Bug Fixes
 
  * [#453] Fix warnings for unknown props in React 15.2
- 
+
 ## 0.4.15
 
 ### New Feature

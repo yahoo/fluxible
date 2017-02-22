@@ -107,7 +107,7 @@ gulp.task('version', () => {
     // Commit and tag
     exec('git add ' + packages[packageName] + '/package.json');
     let message = packageName + '@' + bumpedVersion;
-    exec('git commit -m "' + message + '"');
+    exec('git commit -m "' + message + '" --no-verify');
     let tagName = packageName + '-v' + bumpedVersion;
     exec('git tag ' + tagName);
 });
@@ -129,4 +129,3 @@ gulp.task('publish', () => {
     cd(packages[packageName]);
     exec('npm publish');
 });
-

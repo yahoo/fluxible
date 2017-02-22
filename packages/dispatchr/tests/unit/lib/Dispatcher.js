@@ -256,4 +256,50 @@ describe('Dispatchr', function () {
         });
     });
 
+    describe('#errorHandler', function () {
+        it('should handle errors when passed in', function (done) {
+            var dispatcher = dispatchr.createDispatcher({
+                errorHandler: function (info, context) {
+                    expect(info).to.be.an('object');
+                    expect(info.type).equal('REGISTER_STORE_NO_CONSTRUCTOR');
+                    expect(info.message).equal('registerStore requires a constructor as first parameter');
+                    done();
+                }
+            });
+            dispatcher.registerStore('DoesNotExist');
+        });
+
+        it('should throw an error', function () {
+            var dispatcher = dispatchr.createDispatcher({
+                errorHandler: function (info, context) {
+                    throw new Error(info.message);
+                }
+            });
+            expect(function () {
+                dispatcher.registerStore('DoesNotExist');
+            }).to['throw'](Error);
+        });
+
+        it('should expose context and handle additional meta data', function (done) {
+            var NewStore = function Store () {};
+            NewStore.storeName = 'NewStore';
+
+            var dispatcher = dispatchr.createDispatcher({
+                    errorHandler: function (info, context) {
+                        expect(context).to.be.an('object');
+                        expect(context.test).equal('test');
+                        expect(info).to.be.an('object');
+                        expect(info.type).equal('STORE_UNREGISTERED');
+                        expect(info.message).equal('Store NewStore was not registered.');
+                        expect(info.meta.storeName).equal('NewStore');
+                        done();
+                    }
+                }),
+                context = {test: 'test'},
+                dispatcherContext = dispatcher.createContext(context);
+
+            dispatcherContext.getStore(NewStore);
+        });
+    });
+
 });
