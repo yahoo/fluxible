@@ -176,7 +176,7 @@ describe('Dispatchr', function () {
                 dispatcherContext = dispatcher.createContext(context);
             expect(function () {
                 dispatcherContext.dispatch('ERROR', {});
-            }).to['throw']();
+            }).to['throw']('Store does not have a method called error');
             // Should still allow calling another dispatch
             dispatcherContext.dispatch('DELAY', {});
         });

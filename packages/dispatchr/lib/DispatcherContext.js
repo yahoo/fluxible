@@ -103,7 +103,7 @@ DispatcherContext.prototype.dispatch = function dispatch(actionName, payload) {
                     var meta = {
                         store: store
                     };
-                    return this.dispatcher._throwOrCallErrorHandler(message, 'DISPATCH_INVALID_STORE_METHOD', this.context, meta);
+                    return self.dispatcher._throwOrCallErrorHandler(message, 'DISPATCH_INVALID_STORE_METHOD', self.context, meta);
                 }
                 handlerFns[store.name] = storeInstance[store.handler].bind(storeInstance);
             }
