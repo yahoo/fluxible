@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.0.0
+
+### Features
+
+* Full release of v1.0.0. Please read the [upgrade guide](UPGRADE.md#04x-to-1x) for more information on the API changes.
+
 ## 1.0.0-alpha.9
 
 ### Features
