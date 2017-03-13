@@ -17,7 +17,7 @@ var app = require('./app');
 var FluxibleComponent = require('fluxible-addons-react/FluxibleComponent');
 var router = require('react-router');
 var match = router.match;
-var RoutingContext = router.RoutingContext;
+var RouterContext = router.RouterContext;
 
 var server = express();
 server.use('/public', express['static'](__dirname + '/build'));
@@ -40,7 +40,7 @@ server.use(function (req, res, next) {
                 var markupElement = React.createElement(
                         FluxibleComponent,
                         { context: context.getComponentContext() },
-                        React.createElement(RoutingContext, renderProps)
+                        React.createElement(RouterContext, renderProps)
                     );
                 var html = renderToStaticMarkup(
                     <HtmlComponent

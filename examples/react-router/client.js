@@ -6,7 +6,6 @@
 'use strict';
 var React = require('react');
 var ReactDOM = require('react-dom');
-var createBrowserHistory = require('history/lib/createBrowserHistory');
 var debug = require('debug');
 var bootstrapDebug = debug('Example');
 var app = require('./app');
@@ -26,7 +25,7 @@ function RenderApp(context){
             { context: context.getComponentContext() },
             React.createElement(ReactRouter.Router, {
                 routes: context.getComponent(),
-                history: createBrowserHistory()
+                history: ReactRouter.browserHistory
             })
         ),
         mountNode,
