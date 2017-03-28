@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.0.1
+
+### Enhancement
+
+* [#527] Skip document title update when it is not changed (@alexparish) 
+
 ## 1.0.0
 
 ### Features
