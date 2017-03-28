@@ -352,4 +352,37 @@ describe('History', function () {
         });
     });
 
+    describe('setTitle', function () {
+        it ('updates document title', function () {
+            var win = _.extend(windowMock.HTML5, {
+                'document': {
+                    title: 'current title'
+                },
+                location: {
+                    href: '/currentUrl'
+                }
+            });
+            var history = new History({win: win});
+            var updatedTitle = 'updated title';
+
+            history.pushState({foo: 'bar'}, updatedTitle);
+            expect(win.document.title).to.equal(updatedTitle);
+        });
+        it ('updates document title, Firefox', function () {
+            var win = _.extend(windowMock.Firefox, {
+                'document': {
+                    title: 'current title'
+                },
+                location: {
+                    href: '/currentUrl'
+                }
+            });
+            var history = new History({win: win});
+            var updatedTitle = 'updated title';
+
+            history.pushState({foo: 'bar'}, updatedTitle);
+            expect(win.document.title).to.equal(updatedTitle);
+        });
+    });
+
 });

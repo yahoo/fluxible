@@ -145,11 +145,11 @@ History.prototype = {
     },
 
     /**
-     * Sets document title. No-op if title is empty.
+     * Sets document title. No-op if title is empty or same as current document title.
      * @param {String} title  The title string.
      */
     setTitle: function (title) {
-        if (title) {
+        if (title && title !== this.win.document.title) {
             this.win.document.title = title;
         }
     }
