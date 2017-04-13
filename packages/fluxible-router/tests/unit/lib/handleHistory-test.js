@@ -7,6 +7,7 @@ var expect = require('chai').expect;
 var jsdom = require('jsdom');
 var React;
 var ReactDOM;
+var createReactClass;
 var mockCreators = {
     wrappedCreator: 'createWrappedMockAppComponent',
     decoratedCreator: 'createDecoratedMockAppComponent'
@@ -88,6 +89,7 @@ describe('handleHistory', function () {
 
             React = require('react');
             ReactDOM = require('react-dom');
+            createReactClass = require('create-react-class');
             provideContext = require('fluxible-addons-react/provideContext');
             handleHistory = require('../../../lib/handleHistory');
             MockAppComponentLib = require('../../mocks/MockAppComponent');
@@ -108,7 +110,7 @@ describe('handleHistory', function () {
 
     describe('statics', function () {
         it('should hoist non-react statics to wrapper', function () {
-            var App = React.createClass({
+            var App = createReactClass({
                 displayName: 'Child',
                 statics: {
                     initAction: function () {}
@@ -163,7 +165,7 @@ describe('handleHistory', function () {
                     var rendered = false;
                     var routeStore = mockContext.getStore('RouteStore');
                     routeStore._handleNavigateStart({url: '/foo', method: 'GET'});
-                    var Child = React.createClass({
+                    var Child = createReactClass({
                         displayName: 'Child',
                         render: function () {
                             rendered = true;

@@ -7,6 +7,7 @@ var ReactDOM;
 var ReactTestUtils;
 var connectToStores;
 var provideContext;
+var createReactClass;
 var FooStore = require('../../fixtures/stores/FooStore');
 var BarStore = require('../../fixtures/stores/BarStore');
 var createMockComponentContext = require('fluxible/utils/createMockComponentContext');
@@ -32,6 +33,7 @@ describe('fluxible-addons-react', function () {
 
                 React = require('react');
                 ReactDOM = require('react-dom');
+                createReactClass = require('create-react-class');
                 ReactTestUtils = require('react-addons-test-utils');
                 connectToStores = require('../../../').connectToStores;
                 provideContext = require('../../../').provideContext;
@@ -47,7 +49,7 @@ describe('fluxible-addons-react', function () {
         });
 
         it('should get the state from the stores', function (done) {
-            var Component = React.createClass({
+            var Component = createReactClass({
                 contextTypes: {
                     executeAction: React.PropTypes.func.isRequired
                 },
@@ -204,7 +206,7 @@ describe('fluxible-addons-react', function () {
         });
 
         it('should hoist non-react statics to higher order component', function () {
-            var Component = React.createClass({
+            var Component = createReactClass({
                 displayName: 'Component',
                 statics: {
                     initAction: function () {

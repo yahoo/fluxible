@@ -6,8 +6,9 @@
 var React = require('react');
 var provideContext = require('fluxible-addons-react/provideContext');
 var handleHistory = require('../../lib/handleHistory');
+var createReactClass = require('create-react-class');
 
-var MockAppComponent = React.createClass({
+var MockAppComponent = createReactClass({
     contextTypes: {
         getStore: React.PropTypes.func.isRequired
     },

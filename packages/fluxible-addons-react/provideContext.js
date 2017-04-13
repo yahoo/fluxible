@@ -9,7 +9,7 @@ var hoistNonReactStatics = require('hoist-non-react-statics');
 var inherits = require('inherits');
 
 function createComponent(Component, customContextTypes) {
-    var componentName = Component.displayName || Component.name;
+    var componentName = Component.displayName || Component.name || 'Component';
     var childContextTypes = Object.assign({
         executeAction: React.PropTypes.func.isRequired,
         getStore: React.PropTypes.func.isRequired

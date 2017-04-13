@@ -11,6 +11,7 @@ var FooStore = require('../../fixtures/stores/FooStore');
 var BarStore = require('../../fixtures/stores/BarStore');
 var Fluxible = require('fluxible');
 var jsdom = require('jsdom');
+var createReactClass = require('create-react-class');
 
 describe('fluxible-addons-react', function () {
     describe('connectToStores', function () {
@@ -52,7 +53,7 @@ describe('fluxible-addons-react', function () {
 
         it('should only call render once when two stores emit changes', function (done) {
             var i = 0;
-            var Component = React.createClass({
+            var Component = createReactClass({
                 componentDidUpdate: function () {
                     i++;
                 },

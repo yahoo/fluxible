@@ -14,7 +14,8 @@
   },
   "dependencies": {
     "hoist-non-react-statics": "^1.0.4",
-    "inherits": "^2.0.1"
+    "inherits": "^2.0.1",
+    "create-react-class": "^15.5.1"
   },
   "peerDependencies": {
     "fluxible": ">=1.0.0",

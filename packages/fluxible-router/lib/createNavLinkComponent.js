@@ -9,6 +9,7 @@ var RouteStore = require('./RouteStore');
 var debug = require('debug')('NavLink');
 var navigateAction = require('./navigateAction');
 var __DEV__ = process.env.NODE_ENV !== 'production';
+var createReactClass = require('create-react-class');
 
 function objectWithoutProperties(obj, keys) {
     var target = {};
@@ -67,7 +68,7 @@ function getRelativeHref(href) {
  * @returns {React.Component} NavLink component
  */
 module.exports = function createNavLinkComponent (overwriteSpec) {
-    var NavLink = React.createClass(Object.assign({}, {
+    var NavLink = createReactClass(Object.assign({}, {
         autobind: false,
         displayName: 'NavLink',
         contextTypes: {
