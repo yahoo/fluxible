@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.2.10
+
+### Features
+
+* [#530] Add create-react-class for React 15.5 support
+
 ## 0.2.9
 
 ### Features
