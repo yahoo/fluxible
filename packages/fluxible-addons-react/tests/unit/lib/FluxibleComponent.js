@@ -8,6 +8,7 @@ var ReactTestUtils;
 var connectToStores;
 var provideContext;
 var FluxibleComponent;
+var createReactClass;
 var FooStore = require('../../fixtures/stores/FooStore');
 var BarStore = require('../../fixtures/stores/BarStore');
 var createMockComponentContext = require('fluxible/utils/createMockComponentContext');
@@ -33,6 +34,7 @@ describe('fluxible-addons-react', function () {
 
                 React = require('react');
                 ReactDOM = require('react-dom');
+                createReactClass = require('create-react-class');
                 ReactTestUtils = require('react-addons-test-utils');
                 connectToStores = require('../../../').connectToStores;
                 provideContext = require('../../../').provideContext;
@@ -49,7 +51,7 @@ describe('fluxible-addons-react', function () {
         });
 
         it('will not double render', function () {
-            const Component = React.createClass({
+            const Component = createReactClass({
                 render: function () {
                     return (
                         <div className="Component">{this.props.children}</div>
@@ -66,7 +68,7 @@ describe('fluxible-addons-react', function () {
         });
 
         it('should pass context prop to child', function (done) {
-            const Component = React.createClass({
+            const Component = createReactClass({
                 render: function () {
                     expect(this.props.context).to.equal(context);
                     done();

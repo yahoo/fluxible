@@ -5,6 +5,7 @@ var expect = require('chai').expect;
 var React = require('react');
 var renderToString = require('react-dom/server').renderToString;
 var render = require('react-dom').render;
+var createReactClass = require('create-react-class');
 var provideContext = require('../../..').provideContext;
 var jsdom = require('jsdom');
 
@@ -30,7 +31,7 @@ describe('fluxible-addons-react', function () {
         });
 
         it('should use the childs name', function () {
-            var Component = React.createClass({
+            var Component = createReactClass({
                 render: function () {
                     return null;
                 }
@@ -41,7 +42,7 @@ describe('fluxible-addons-react', function () {
         });
 
         it('should use the childs displayName', function () {
-            var Component = React.createClass({
+            var Component = createReactClass({
                 displayName: 'TestComponent',
                 render: function () {
                     return null;
@@ -60,7 +61,7 @@ describe('fluxible-addons-react', function () {
                 getStore: function () {
                 }
             };
-            var Component = React.createClass({
+            var Component = createReactClass({
                 contextTypes: {
                     foo: React.PropTypes.string.isRequired,
                     executeAction: React.PropTypes.func.isRequired,
@@ -88,7 +89,7 @@ describe('fluxible-addons-react', function () {
                 getStore: function () {
                 }
             };
-            var Component = React.createClass({
+            var Component = createReactClass({
                 displayName: 'Component',
                 statics: {
                     initAction: function () {

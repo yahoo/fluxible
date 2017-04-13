@@ -3,8 +3,9 @@
 
 var expect = require('chai').expect,
     React = require('react'),
-    ReactDOM =require('react-dom/server'),
+    ReactDOM = require('react-dom/server'),
     ReactTestUtils = require('react-addons-test-utils'),
+    createReactClass = require('create-react-class'),
     provideContext = require('../../../provideContext'),
     FluxibleMixin = require('../../../').FluxibleMixin,
     createStore = require('fluxible/addons/createStore'),
@@ -56,7 +57,7 @@ describe('fluxible-addons-react', function () {
                 expect(FluxibleMixin._fluxible_listeners).to.be.empty;
             });
             it('should register static listener array', function (done) {
-                var Component = provideContext(React.createClass({
+                var Component = provideContext(createReactClass({
                     mixins: [FluxibleMixin],
                     statics: {
                         storeListeners: [MockStore]
@@ -74,7 +75,7 @@ describe('fluxible-addons-react', function () {
                 mockStore.emitChange();
             });
             it('should register static listener object', function (done) {
-                var Component = provideContext(React.createClass({
+                var Component = provideContext(createReactClass({
                     mixins: [FluxibleMixin],
                     statics: {
                         storeListeners: {
@@ -94,7 +95,7 @@ describe('fluxible-addons-react', function () {
                 mockStore.emitChange();
             });
             it('should register static listener object with array', function (done) {
-                var Component = provideContext(React.createClass({
+                var Component = provideContext(createReactClass({
                     mixins: [FluxibleMixin],
                     statics: {
                         storeListeners: {
@@ -117,7 +118,7 @@ describe('fluxible-addons-react', function () {
 
         describe('iterating over storeListeners', function () {
             it('should expose iterables for static listener array', function () {
-                var Component = provideContext(React.createClass({
+                var Component = provideContext(createReactClass({
                     mixins: [FluxibleMixin],
                     statics: {
                         storeListeners: [MockStore, MockStore2]
@@ -134,7 +135,7 @@ describe('fluxible-addons-react', function () {
                 expect(component.refs.wrappedElement.getListeners(), 'getListeners').to.have.length(2);
             });
             it('should expose iterables for static listener object', function () {
-                var Component = provideContext(React.createClass({
+                var Component = provideContext(createReactClass({
                     mixins: [FluxibleMixin],
                     statics: {
                         storeListeners: {
@@ -156,7 +157,7 @@ describe('fluxible-addons-react', function () {
                 expect(component.refs.wrappedElement.getListeners(), 'getListeners').to.have.length(2);
             });
             it('should expose iterables for static listener object with array', function () {
-                var Component = provideContext(React.createClass({
+                var Component = provideContext(createReactClass({
                     mixins: [FluxibleMixin],
                     statics: {
                         storeListeners: {
@@ -197,7 +198,7 @@ describe('fluxible-addons-react', function () {
 
         describe('executeAction', function () {
             it('should throw when no context provided', function () {
-                var Component = React.createClass({
+                var Component = createReactClass({
                     mixins: [FluxibleMixin],
                     getInitialState: function () {
                         this.executeAction(function () {
@@ -215,7 +216,7 @@ describe('fluxible-addons-react', function () {
                 }).to['throw']();
             });
             it('should call context executeAction when context provided', function (done) {
-                var Component = React.createClass({
+                var Component = createReactClass({
                     mixins: [FluxibleMixin],
                     componentDidMount: function () {
                         this.executeAction(function () {
@@ -233,7 +234,7 @@ describe('fluxible-addons-react', function () {
             });
             it('should call context executeAction when context provided via React context', function (done) {
                 var FluxibleComponent = require('../../../').FluxibleComponent;
-                var Component = React.createClass({
+                var Component = createReactClass({
                     displayName: 'Component',
                     contextTypes: {
                         executeAction: React.PropTypes.func.isRequired
