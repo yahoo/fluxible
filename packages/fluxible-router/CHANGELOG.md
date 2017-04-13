@@ -1,10 +1,16 @@
 # Change Log
 
+## 1.1.0
+
+### Features
+
+* [#530] Add create-react-class for React 15.5 support
+
 ## 1.0.1
 
 ### Enhancement
 
-* [#527] Skip document title update when it is not changed (@alexparish) 
+* [#527] Skip document title update when it is not changed (@alexparish)
 
 ## 1.0.0
 
