@@ -289,7 +289,9 @@ FluxContext.prototype.getStoreContext = function getStoreContext() {
         return this._storeContext;
     }
     var self = this;
-    var storeContext = {};
+    var storeContext = {
+        getStore: this._dispatcher.getStore.bind(this._dispatcher)
+    };
 
     self._plugins.forEach(function pluginsEach(plugin) {
         var storeContextPlugin = plugin.plugStoreContext;
