@@ -21,8 +21,8 @@ class Component extends React.Component {
     }
 }
 Component.contextTypes = {
-    getStore: React.PropTypes.func.isRequired,
-    executeAction: React.PropTypes.func.isRequired
+    getStore: PropTypes.func.isRequired,
+    executeAction: PropTypes.func.isRequired
 };
 ```
 

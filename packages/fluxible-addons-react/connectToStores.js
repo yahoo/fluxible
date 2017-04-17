@@ -5,13 +5,14 @@
 'use strict';
 
 var React = require('react');
+var PropTypes = require('prop-types');
 var inherits = require('inherits');
 var hoistNonReactStatics = require('hoist-non-react-statics');
 
 function createComponent(Component, stores, getStateFromStores, customContextTypes) {
     var componentName = Component.displayName || Component.name;
     var componentContextTypes = Object.assign({
-        getStore: React.PropTypes.func.isRequired
+        getStore: PropTypes.func.isRequired
     }, customContextTypes);
 
     function StoreConnector(props, context) {

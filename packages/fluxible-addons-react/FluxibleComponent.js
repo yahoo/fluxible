@@ -5,6 +5,7 @@
 'use strict';
 
 var React = require('react');
+var PropTypes = require('prop-types');
 var inherits = require('inherits');
 
 function FluxibleComponent(props, context) {
@@ -15,11 +16,11 @@ inherits(FluxibleComponent, React.Component);
 
 FluxibleComponent.displayName = 'FluxibleComponent';
 FluxibleComponent.propTypes = {
-    context: React.PropTypes.object.isRequired
+    context: PropTypes.object.isRequired
 };
 FluxibleComponent.childContextTypes = {
-    executeAction: React.PropTypes.func.isRequired,
-    getStore: React.PropTypes.func.isRequired
+    executeAction: PropTypes.func.isRequired,
+    getStore: PropTypes.func.isRequired
 };
 
 Object.assign(FluxibleComponent.prototype, {

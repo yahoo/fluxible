@@ -5,6 +5,7 @@
 /*global window,process */
 'use strict';
 var React = require('react');
+var PropTypes = require('prop-types');
 var RouteStore = require('./RouteStore');
 var debug = require('debug')('NavLink');
 var navigateAction = require('./navigateAction');
@@ -72,23 +73,23 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
         autobind: false,
         displayName: 'NavLink',
         contextTypes: {
-            executeAction: React.PropTypes.func.isRequired,
-            getStore: React.PropTypes.func.isRequired,
-            logger: React.PropTypes.object
+            executeAction: PropTypes.func.isRequired,
+            getStore: PropTypes.func.isRequired,
+            logger: PropTypes.object
         },
         propTypes: {
-            href: React.PropTypes.string,
-            stopPropagation: React.PropTypes.bool,
-            routeName: React.PropTypes.string,
-            navParams: React.PropTypes.object,
-            queryParams: React.PropTypes.object,
-            followLink: React.PropTypes.bool,
-            preserveScrollPosition: React.PropTypes.bool,
-            replaceState: React.PropTypes.bool,
-            validate: React.PropTypes.bool,
-            activeClass: React.PropTypes.string,
-            activeElement: React.PropTypes.string,
-            activeStyle: React.PropTypes.object
+            href: PropTypes.string,
+            stopPropagation: PropTypes.bool,
+            routeName: PropTypes.string,
+            navParams: PropTypes.object,
+            queryParams: PropTypes.object,
+            followLink: PropTypes.bool,
+            preserveScrollPosition: PropTypes.bool,
+            replaceState: PropTypes.bool,
+            validate: PropTypes.bool,
+            activeClass: PropTypes.string,
+            activeElement: PropTypes.string,
+            activeStyle: PropTypes.object
         },
         getInitialState: function () {
             return this._getState(this.props);

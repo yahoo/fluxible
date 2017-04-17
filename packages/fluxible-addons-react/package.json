@@ -19,11 +19,13 @@
   },
   "peerDependencies": {
     "fluxible": ">=1.0.0",
+    "prop-types": "^15.5.8",
     "react": "^0.14.0 || ^15.0.0-rc.1",
     "react-dom": "^0.14.0 || ^15.0.0-rc.1"
   },
   "devDependencies": {
     "fluxible": ">=1.0.0",
+    "prop-types": "^15.5.8",
     "react": "^15.0.0-rc.1",
     "react-dom": "^15.0.0-rc.1"
   },

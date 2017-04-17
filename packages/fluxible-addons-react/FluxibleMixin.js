@@ -36,12 +36,13 @@
  */
 var DEFAULT_CHANGE_HANDLER = 'onChange';
 var React = require('react');
+var PropTypes = require('prop-types');
 
 var FluxibleMixin = {
 
     contextTypes: {
-        executeAction: React.PropTypes.func,
-        getStore: React.PropTypes.func
+        executeAction: PropTypes.func,
+        getStore: PropTypes.func
     },
 
     /**

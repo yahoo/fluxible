@@ -5,6 +5,7 @@
 /*global window */
 'use strict';
 var React = require('react');
+var PropTypes = require('prop-types');
 var debug = require('debug')('FluxibleRouter:handleHistory');
 var handleRoute = require('../lib/handleRoute');
 var navigateAction = require('../lib/navigateAction');
@@ -62,11 +63,11 @@ function createComponent(Component, opts) {
 
     HistoryHandler.displayName = 'HistoryHandler';
     HistoryHandler.contextTypes = {
-        executeAction: React.PropTypes.func.isRequired
+        executeAction: PropTypes.func.isRequired
     };
     HistoryHandler.propTypes = {
-        currentRoute: React.PropTypes.object,
-        currentNavigate: React.PropTypes.object
+        currentRoute: PropTypes.object,
+        currentNavigate: PropTypes.object
     };
     HistoryHandler.defaultProps = {
         currentRoute: null,

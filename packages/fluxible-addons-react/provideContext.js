@@ -5,14 +5,15 @@
 'use strict';
 
 var React = require('react');
+var PropTypes = require('prop-types');
 var hoistNonReactStatics = require('hoist-non-react-statics');
 var inherits = require('inherits');
 
 function createComponent(Component, customContextTypes) {
     var componentName = Component.displayName || Component.name || 'Component';
     var childContextTypes = Object.assign({
-        executeAction: React.PropTypes.func.isRequired,
-        getStore: React.PropTypes.func.isRequired
+        executeAction: PropTypes.func.isRequired,
+        getStore: PropTypes.func.isRequired
     }, customContextTypes || {});
 
     function ContextProvider(props, context) {
@@ -23,7 +24,7 @@ function createComponent(Component, customContextTypes) {
 
     ContextProvider.displayName = 'contextProvider(' + componentName + ')';
     ContextProvider.propTypes = {
-        context: React.PropTypes.object.isRequired
+        context: PropTypes.object.isRequired
     };
     ContextProvider.childContextTypes = childContextTypes;
 
@@ -57,12 +58,12 @@ function createComponent(Component, customContextTypes) {
  *
  * Example:
  *   var WrappedComponent = provideContext(Component, {
- *       foo: React.PropTypes.string
+ *       foo: PropTypes.string
  *   });
  *
  * Also supports the decorator pattern:
  *   @provideContext({
- *       foo: React.PropTypes.string
+ *       foo: PropTypes.string
  *   })
  *   class ConnectedComponent extends React.Component {
  *       render() {
