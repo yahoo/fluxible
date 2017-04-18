@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.2.11
+
+### Features
+
+* [#531] Add prop-types for React 15.5 support
+
 ## 0.2.10
 
 ### Features
