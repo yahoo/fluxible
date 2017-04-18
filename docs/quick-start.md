@@ -9,6 +9,7 @@ To use the generator, create a directory and cd into it. Then run `yo fluxible` 
 ```bash
 mkdir example && cd example
 yo fluxible
+npm install --dev
 npm run dev
 ```
 
