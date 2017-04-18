@@ -3,6 +3,7 @@
 
 var expect = require('chai').expect,
     React = require('react'),
+    PropTypes = require('prop-types'),
     ReactDOM = require('react-dom/server'),
     ReactTestUtils = require('react-addons-test-utils'),
     createReactClass = require('create-react-class'),
@@ -237,7 +238,7 @@ describe('fluxible-addons-react', function () {
                 var Component = createReactClass({
                     displayName: 'Component',
                     contextTypes: {
-                        executeAction: React.PropTypes.func.isRequired
+                        executeAction: PropTypes.func.isRequired
                     },
                     componentDidMount: function () {
                         this.context.executeAction(function () {

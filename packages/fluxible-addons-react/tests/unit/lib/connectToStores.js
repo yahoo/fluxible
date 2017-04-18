@@ -3,6 +3,7 @@
 
 var expect = require('chai').expect;
 var React;
+var PropTypes;
 var ReactDOM;
 var ReactTestUtils;
 var connectToStores;
@@ -33,6 +34,7 @@ describe('fluxible-addons-react', function () {
 
                 React = require('react');
                 ReactDOM = require('react-dom');
+                PropTypes = require('prop-types');
                 createReactClass = require('create-react-class');
                 ReactTestUtils = require('react-addons-test-utils');
                 connectToStores = require('../../../').connectToStores;
@@ -51,7 +53,7 @@ describe('fluxible-addons-react', function () {
         it('should get the state from the stores', function (done) {
             var Component = createReactClass({
                 contextTypes: {
-                    executeAction: React.PropTypes.func.isRequired
+                    executeAction: PropTypes.func.isRequired
                 },
                 onClick: function () {
                     this.context.executeAction(function (actionContext) {
@@ -104,7 +106,7 @@ describe('fluxible-addons-react', function () {
             //    };
             //}) class Component extends React.Component {
             //    static contextTypes = {
-            //        executeAction: React.PropTypes.func.isRequired
+            //        executeAction: PropTypes.func.isRequired
             //    };
             //
             //    onClick() {
@@ -152,7 +154,7 @@ describe('fluxible-addons-react', function () {
         // Decorators not supported with babel 6
         it.skip('should take customContextTypes using decorator pattern', function (done) {
             var customContextTypes = {
-                foo: React.PropTypes.func.isRequired
+                foo: PropTypes.func.isRequired
             };
             @connectToStores([], (context) => {
                 return {

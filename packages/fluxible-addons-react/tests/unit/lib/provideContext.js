@@ -3,6 +3,7 @@
 
 var expect = require('chai').expect;
 var React = require('react');
+var PropTypes = require('prop-types');
 var renderToString = require('react-dom/server').renderToString;
 var render = require('react-dom').render;
 var createReactClass = require('create-react-class');
@@ -63,9 +64,9 @@ describe('fluxible-addons-react', function () {
             };
             var Component = createReactClass({
                 contextTypes: {
-                    foo: React.PropTypes.string.isRequired,
-                    executeAction: React.PropTypes.func.isRequired,
-                    getStore: React.PropTypes.func.isRequired
+                    foo: PropTypes.string.isRequired,
+                    executeAction: PropTypes.func.isRequired,
+                    getStore: PropTypes.func.isRequired
                 },
                 render: function () {
                     expect(this.context.foo).to.equal(context.foo);
@@ -75,7 +76,7 @@ describe('fluxible-addons-react', function () {
                 }
             });
             var WrappedComponent = provideContext(Component, {
-                foo: React.PropTypes.string
+                foo: PropTypes.string
             });
 
             renderToString(<WrappedComponent context={context}/>);
@@ -103,7 +104,7 @@ describe('fluxible-addons-react', function () {
                 }
             });
             var WrappedComponent = provideContext(Component, {
-                foo: React.PropTypes.string
+                foo: PropTypes.string
             });
 
             expect(WrappedComponent.initAction).to.be.a('function');
@@ -120,13 +121,13 @@ describe('fluxible-addons-react', function () {
                 }
             };
             @provideContext({
-                foo: React.PropTypes.string
+                foo: PropTypes.string
             })
             class WrappedComponent extends React.Component {
                 static contextTypes = {
-                    foo: React.PropTypes.string.isRequired,
-                    executeAction: React.PropTypes.func.isRequired,
-                    getStore: React.PropTypes.func.isRequired
+                    foo: PropTypes.string.isRequired,
+                    executeAction: PropTypes.func.isRequired,
+                    getStore: PropTypes.func.isRequired
                 };
 
                 render() {

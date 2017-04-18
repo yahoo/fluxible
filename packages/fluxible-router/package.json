@@ -25,7 +25,8 @@
     "hoist-non-react-statics": "^1.0.4",
     "inherits": "^2.0.1",
     "routr": "^2.0.0",
-    "create-react-class": "^15.5.1"
+    "create-react-class": "^15.5.1",
+    "prop-types": "^15.5.8"
   },
   "peerDependencies": {
     "fluxible": "^1.0.0",

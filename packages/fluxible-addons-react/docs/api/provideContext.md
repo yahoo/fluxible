@@ -55,7 +55,7 @@ second parameter.
 
 ```js
 Application = provideContext(Application, {
-    foo: React.PropTypes.string
+    foo: PropTypes.string
 });
 ```
 
@@ -74,7 +74,7 @@ more information on the proposal.***
 
 ```js
 @provideContext({
-    foo: React.PropTypes.string
+    foo: PropTypes.string
 })
 class Application extends React.Component {
     render() {
