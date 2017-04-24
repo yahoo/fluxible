@@ -4,7 +4,7 @@
  */
 /*globals describe,it,before,beforeEach */
 
-var jsdom = require('jsdom');
+var JSDOM = require('jsdom').JSDOM;
 var expect = require('chai').expect;
 var fs = require('fs');
 var resolve = require('resolve');
@@ -42,35 +42,27 @@ function setup(options, done) {
     path = fs.realpathSync(resolve.sync('../../../lib/NavLink'));
     delete require.cache[path];
 
-    jsdom.env({
-        url: 'http://yahoo.com',
-        html: '<html><body></body></html>',
-        done: function (err, window) {
-            if (err) {
-                done(err);
-                return;
-            }
-            global.document = window.document;
-            global.window = window;
-            global.navigator = window.navigator;
+    var jsdom = new JSDOM('<html><body></body></html>', { url: 'http://yahoo.com' });
+    global.document = jsdom.window.document;
+    global.window = jsdom.window;
+    global.navigator = jsdom.window.navigator;
 
-            React = require('react');
-            ReactDOM = require('react-dom');
-            ReactTestUtils = require('react-addons-test-utils');
-            var mockContext = createMockComponentContext({
-                stores: [TestRouteStore]
-            });
-            mockContext.getStore('RouteStore')._handleNavigateStart({
-                url: '/foo',
-                method: 'GET'
-            });
-            MockAppComponent = require('../../mocks/MockAppComponent');
-            NavLink = require('../../../lib/NavLink');
-            createNavLinkComponent = require('../../../lib/createNavLinkComponent');
-            testResult = {};
-            done(null, mockContext);
-        }
+    React = require('react');
+    ReactDOM = require('react-dom');
+    ReactTestUtils = require('react-addons-test-utils');
+    var mockContext = createMockComponentContext({
+        stores: [TestRouteStore]
     });
+    mockContext.getStore('RouteStore')._handleNavigateStart({
+        url: '/foo',
+        method: 'GET'
+    });
+    MockAppComponent = require('../../mocks/MockAppComponent');
+    NavLink = require('../../../lib/NavLink');
+    createNavLinkComponent = require('../../../lib/createNavLinkComponent');
+    testResult = {};
+
+    return done(null, mockContext);
 }
 
 function tearDown() {
@@ -205,7 +197,7 @@ describe('NavLink', function () {
             );
             expect(ReactDOM.findDOMNode(link).getAttribute('class')).to.equal(null);
         });
-        
+
         it('should able to get additional child props by dynamical getDefaultChildProps function', function () {
             var navLink = React.createElement(createNavLinkComponent({
                 getDefaultChildProps: function () {

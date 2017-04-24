@@ -11,7 +11,7 @@ var expect = require('chai').expect,
     FluxibleMixin = require('../../../').FluxibleMixin,
     createStore = require('fluxible/addons/createStore'),
     createMockComponentContext = require('fluxible/utils/createMockComponentContext'),
-    jsdom = require('jsdom');
+    JSDOM = require('jsdom').JSDOM;
 
 var MockStore = createStore({
         storeName: 'FooStore'
@@ -26,22 +26,17 @@ describe('fluxible-addons-react', function () {
             mockStore,
             mockStore2;
 
-        beforeEach(function (done) {
+        beforeEach(function () {
             context = createMockComponentContext({
                 stores: [MockStore, MockStore2]
             });
             mockStore = context.getStore(MockStore);
             mockStore2 = context.getStore(MockStore2);
-            jsdom.env('<html><body></body></html>', [], function (err, window) {
-                if (err) {
-                    done(err);
-                    return;
-                }
-                global.window = window;
-                global.document = window.document;
-                global.navigator = window.navigator;
-                done();
-            });
+            
+            var jsdom = new JSDOM('<html><body></body></html>');
+            global.window = jsdom.window;
+            global.document = jsdom.window.document;
+            global.navigator = jsdom.window.navigator;
         });
 
         afterEach(function () {

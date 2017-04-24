@@ -4,7 +4,7 @@
  */
 /*globals describe,it,before,beforeEach,afterEach,window,document,navigator */
 var expect = require('chai').expect;
-var jsdom = require('jsdom');
+var JSDOM = require('jsdom').JSDOM;
 var React;
 var ReactDOM;
 var createReactClass;
@@ -71,35 +71,29 @@ describe('handleHistory', function () {
     var provideContext;
     var handleHistory;
 
-    beforeEach(function (done) {
-        jsdom.env('<html><body></body></html>', [], function (err, window) {
-            if (err) {
-                done(err);
-                return;
-            }
-            global.document = window.document;
-            global.window = window;
-            global.navigator = window.navigator;
-            global.window.scrollTo = scrollToMock;
-            global.Event = window.Event;
+    beforeEach(function () {
+        var jsdom = new JSDOM('<html><body></body></html>');
+        global.window = jsdom.window;
+        global.document = jsdom.window.document;
+        global.navigator = jsdom.window.navigator;
+        global.window.scrollTo = scrollToMock;
+        global.Event = window.Event;
 
-            // Reset cache of handleHistory to allow pre-emptyive pushState testing
-            delete require.cache[require.resolve('../../../lib/handleHistory')];
-            delete require.cache[require.resolve('../../mocks/MockAppComponent')];
+        // Reset cache of handleHistory to allow pre-emptyive pushState testing
+        delete require.cache[require.resolve('../../../lib/handleHistory')];
+        delete require.cache[require.resolve('../../mocks/MockAppComponent')];
 
-            React = require('react');
-            ReactDOM = require('react-dom');
-            createReactClass = require('create-react-class');
-            provideContext = require('fluxible-addons-react/provideContext');
-            handleHistory = require('../../../lib/handleHistory');
-            MockAppComponentLib = require('../../mocks/MockAppComponent');
-            ReactTestUtils = require('react-addons-test-utils');
-            mockContext = createMockComponentContext({
-                stores: [TestRouteStore]
-            });
-            testResult = {};
-            done();
+        React = require('react');
+        ReactDOM = require('react-dom');
+        createReactClass = require('create-react-class');
+        provideContext = require('fluxible-addons-react/provideContext');
+        handleHistory = require('../../../lib/handleHistory');
+        MockAppComponentLib = require('../../mocks/MockAppComponent');
+        ReactTestUtils = require('react-addons-test-utils');
+        mockContext = createMockComponentContext({
+            stores: [TestRouteStore]
         });
+        testResult = {};
     });
 
     afterEach(function () {

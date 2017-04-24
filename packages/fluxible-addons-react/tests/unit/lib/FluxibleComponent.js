@@ -12,36 +12,29 @@ var createReactClass;
 var FooStore = require('../../fixtures/stores/FooStore');
 var BarStore = require('../../fixtures/stores/BarStore');
 var createMockComponentContext = require('fluxible/utils/createMockComponentContext');
-var jsdom = require('jsdom');
+var JSDOM = require('jsdom').JSDOM;
 
 describe('fluxible-addons-react', function () {
     describe('FluxibleComponent', function () {
         var context;
 
-        beforeEach(function (done) {
-            jsdom.env('<html><body></body></html>', [], function (err, window) {
-                if (err) {
-                    done(err);
-                    return;
-                }
-                global.window = window;
-                global.document = window.document;
-                global.navigator = window.navigator;
+        beforeEach(function () {
+            var jsdom = new JSDOM('<html><body></body></html>');
+            global.window = jsdom.window;
+            global.document = jsdom.window.document;
+            global.navigator = jsdom.window.navigator;
 
-                context = createMockComponentContext({
-                    stores: [FooStore, BarStore]
-                });
-
-                React = require('react');
-                ReactDOM = require('react-dom');
-                createReactClass = require('create-react-class');
-                ReactTestUtils = require('react-addons-test-utils');
-                connectToStores = require('../../../').connectToStores;
-                provideContext = require('../../../').provideContext;
-                FluxibleComponent = require('../../../').FluxibleComponent;
-
-                done();
+            context = createMockComponentContext({
+                stores: [FooStore, BarStore]
             });
+
+            React = require('react');
+            ReactDOM = require('react-dom');
+            createReactClass = require('create-react-class');
+            ReactTestUtils = require('react-addons-test-utils');
+            connectToStores = require('../../../').connectToStores;
+            provideContext = require('../../../').provideContext;
+            FluxibleComponent = require('../../../').FluxibleComponent;
         });
 
         afterEach(function () {

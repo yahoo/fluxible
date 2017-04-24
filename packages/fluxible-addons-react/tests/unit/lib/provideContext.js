@@ -8,21 +8,15 @@ var renderToString = require('react-dom/server').renderToString;
 var render = require('react-dom').render;
 var createReactClass = require('create-react-class');
 var provideContext = require('../../..').provideContext;
-var jsdom = require('jsdom');
+var JSDOM = require('jsdom').JSDOM;
 
 describe('fluxible-addons-react', function () {
     describe('provideContext', function () {
-        beforeEach(function (done) {
-            jsdom.env('<html><body></body></html>', [], function (err, window) {
-                if (err) {
-                    done(err);
-                    return;
-                }
-                global.window = window;
-                global.document = window.document;
-                global.navigator = window.navigator;
-                done();
-            });
+        beforeEach(function () {
+            var jsdom = new JSDOM('<html><body></body></html>');
+            global.window = jsdom.window;
+            global.document = jsdom.window.document;
+            global.navigator = jsdom.window.navigator;
         });
 
         afterEach(function () {

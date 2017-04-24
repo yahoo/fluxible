@@ -4,7 +4,7 @@
  */
 /*globals describe,it,before,beforeEach,afterEach,window,document,navigator */
 var expect = require('chai').expect;
-var jsdom = require('jsdom');
+var JSDOM = require('jsdom').JSDOM;
 var React;
 var ReactDOM;
 var RouteStore = require('../../../lib/RouteStore');
@@ -23,25 +23,19 @@ describe('handleRoute', function () {
     var handleRoute;
     var mockContext;
 
-    beforeEach(function (done) {
-        jsdom.env('<html><body></body></html>', [], function (err, window) {
-            if (err) {
-                done(err);
-                return;
-            }
-            global.document = window.document;
-            global.window = window;
-            global.navigator = window.navigator;
+    beforeEach(function () {
+        var jsdom = new JSDOM('<html><body></body></html>');
+        global.window = jsdom.window;
+        global.document = jsdom.window.document;
+        global.navigator = jsdom.window.navigator;
 
-            React = require('react');
-            ReactDOM = require('react-dom');
-            ReactTestUtils = require('react-addons-test-utils');
-            provideContext = require('fluxible-addons-react/provideContext');
-            handleRoute = require('../../../').handleRoute;
-            mockContext = createMockComponentContext({
-                stores: [TestRouteStore]
-            });
-            done();
+        React = require('react');
+        ReactDOM = require('react-dom');
+        ReactTestUtils = require('react-addons-test-utils');
+        provideContext = require('fluxible-addons-react/provideContext');
+        handleRoute = require('../../../').handleRoute;
+        mockContext = createMockComponentContext({
+            stores: [TestRouteStore]
         });
     });
 

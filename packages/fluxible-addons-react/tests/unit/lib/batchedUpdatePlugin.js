@@ -10,39 +10,32 @@ var provideContext;
 var FooStore = require('../../fixtures/stores/FooStore');
 var BarStore = require('../../fixtures/stores/BarStore');
 var Fluxible = require('fluxible');
-var jsdom = require('jsdom');
+var JSDOM = require('jsdom').JSDOM;
 var createReactClass = require('create-react-class');
 
 describe('fluxible-addons-react', function () {
     describe('connectToStores', function () {
         var appContext;
 
-        beforeEach(function (done) {
-            jsdom.env('<html><body></body></html>', [], function (err, window) {
-                if (err) {
-                    done(err);
-                    return;
-                }
-                global.window = window;
-                global.document = window.document;
-                global.navigator = window.navigator;
+        beforeEach(function () {
+            var jsdom = new JSDOM('<html><body></body></html>');
+            global.window = jsdom.window;
+            global.document = jsdom.window.document;
+            global.navigator = jsdom.window.navigator;
 
-                React = require('react');
-                ReactDOM = require('react-dom');
-                ReactTestUtils = require('react-addons-test-utils');
-                connectToStores = require('../../../').connectToStores;
-                provideContext = require('../../../').provideContext;
+            React = require('react');
+            ReactDOM = require('react-dom');
+            ReactTestUtils = require('react-addons-test-utils');
+            connectToStores = require('../../../').connectToStores;
+            provideContext = require('../../../').provideContext;
 
-                var batchedUpdatePlugin = require('../../../batchedUpdatePlugin');
-                var app = new Fluxible({
-                    stores: [FooStore, BarStore]
-                });
-                app.plug(batchedUpdatePlugin());
-
-                appContext = app.createContext();
-
-                done();
+            var batchedUpdatePlugin = require('../../../batchedUpdatePlugin');
+            var app = new Fluxible({
+                stores: [FooStore, BarStore]
             });
+            app.plug(batchedUpdatePlugin());
+
+            appContext = app.createContext();
         });
 
         afterEach(function () {
