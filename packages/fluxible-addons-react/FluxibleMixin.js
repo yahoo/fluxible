@@ -40,6 +40,8 @@ var PropTypes = require('prop-types');
 
 var FluxibleMixin = {
 
+    _isMounted: false,
+
     contextTypes: {
         executeAction: PropTypes.func,
         getStore: PropTypes.func
@@ -50,6 +52,7 @@ var FluxibleMixin = {
      * @method componentDidMount
      */
     componentDidMount: function componentDidMount() {
+        this._isMounted = true;
         this._fluxible_listeners = [];
         var self = this;
 
@@ -182,7 +185,7 @@ var FluxibleMixin = {
      * @private
      */
     _attachStoreListener: function _attachStoreListener(listener) {
-        if (this.isMounted && !this.isMounted()) {
+        if (!this._isMounted) {
             throw new Error('storeListener mixin called listen when component wasn\'t mounted.');
         }
 
@@ -200,6 +203,7 @@ var FluxibleMixin = {
                 listener.store.removeListener('change', listener.handler);
             });
         }
+        this._isMounted = false;
         this._fluxible_listeners = [];
     }
 };

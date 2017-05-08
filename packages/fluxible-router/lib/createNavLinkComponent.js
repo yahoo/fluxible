@@ -70,6 +70,7 @@ function getRelativeHref(href) {
  */
 module.exports = function createNavLinkComponent (overwriteSpec) {
     var NavLink = createReactClass(Object.assign({}, {
+        _isMounted: false,
         autobind: false,
         displayName: 'NavLink',
         contextTypes: {
@@ -104,11 +105,13 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
             routeStore.removeChangeListener(this._onRouteStoreChange);
         },
         componentDidMount: function () {
+            this._isMounted = true;
             if (this.props.activeClass || this.props.activeStyle) {
                 this.startListening();
             }
         },
         componentWillUnmount: function () {
+            this._isMounted = false;
             if (this.props.activeClass || this.props.activeStyle) {
                 this.stopListening();
             }
@@ -135,7 +138,7 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
             this.setState(this._getState(nextProps));
         },
         _onRouteStoreChange: function () {
-            if (this.isMounted()) {
+            if (this._isMounted) {
                 this.setState(this._getState(this.props));
             }
         },
