@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.2.12
+
+* [#535] Replaced `isMounted()` with flags (@geta6)
+
 ## 0.2.11
 
 ### Features
