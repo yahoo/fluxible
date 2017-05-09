@@ -58,6 +58,10 @@ Store.prototype.rehydrate = function (state) {
     this.state = state;
 };
 
+Store.prototype.exception = function () {
+    throw new Error('Store handler error thrown');
+};
+
 Store.handlers = {
     'NAVIGATE': function navigate() {
         this.state.called = true;
@@ -67,7 +71,8 @@ Store.handlers = {
     'DELAY': 'delay',
     'ERROR': 'error',
     'DISPATCH': 'dispatch',
-    'WAITFOR': 'waitFor'
+    'WAITFOR': 'waitFor',
+    'EXCEPTION': 'exception'
 };
 
 module.exports = Store;

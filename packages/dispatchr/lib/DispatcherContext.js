@@ -110,7 +110,11 @@ DispatcherContext.prototype.dispatch = function dispatch(actionName, payload) {
         });
         this.currentAction.execute(handlerFns);
     } catch (e) {
-        throw e;
+        var message = e.message;
+        var meta = {
+            error: e
+        };
+        return this.dispatcher._throwOrCallErrorHandler(message, 'DISPATCH_EXCEPTION', this.context, meta);
     } finally {
         debug('finished ' + actionName);
         this.currentAction = null;
