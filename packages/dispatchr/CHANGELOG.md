@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.2.0
+
+### Enhancement
+
+ * [#536] Use errorHandler for exceptions thrown inside stores by @ash14
+
 ## 1.1.1
 
 ### Bug Fix
