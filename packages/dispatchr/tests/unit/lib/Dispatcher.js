@@ -263,6 +263,7 @@ describe('Dispatchr', function () {
                     expect(info).to.be.an('object');
                     expect(info.type).equal('REGISTER_STORE_NO_CONSTRUCTOR');
                     expect(info.message).equal('registerStore requires a constructor as first parameter');
+                    expect(info.meta.error).to.be.an.instanceOf(Error);
                     done();
                 }
             });
@@ -292,6 +293,7 @@ describe('Dispatchr', function () {
                         expect(info.type).equal('STORE_UNREGISTERED');
                         expect(info.message).equal('Store NewStore was not registered.');
                         expect(info.meta.storeName).equal('NewStore');
+                        expect(info.meta.error).to.be.an.instanceOf(Error);
                         done();
                     }
                 }),
@@ -300,6 +302,22 @@ describe('Dispatchr', function () {
 
             dispatcherContext.getStore(NewStore);
         });
+
+        it('should use the error handler when exceptions are thrown', function (done) {
+            var dispatcher = dispatchr.createDispatcher({
+                    stores: [mockStore],
+                    errorHandler: function (info, context) {
+                        expect(info.type).equal('DISPATCH_EXCEPTION');
+                        expect(info.message).equal('Store handler error thrown');
+                        expect(info.meta.error).to.be.an.instanceOf(Error);
+                        done();
+                    }
+                }),
+                context = {test: 'test'},
+                dispatcherContext = dispatcher.createContext(context);
+
+            dispatcherContext.dispatch('EXCEPTION', {});
+        })
     });
 
 });
