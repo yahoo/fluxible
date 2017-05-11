@@ -211,11 +211,13 @@ Fluxible.prototype.rehydrate = function rehydrate(obj, callback) {
     if (callback) {
         rehydratePromise
             .then(function (contextValue) {
-                // Ensures that errors in callback are not swallowed by promise
-                setImmediate(callback, null, contextValue);
+                callback(null, contextValue);
             }, function (err) {
-                // Ensures that errors in callback are not swallowed by promise
-                setImmediate(callback, err);
+                callback(err);
+            })['catch'](function (err) {
+                setImmediate(function () {
+                    throw err;
+                });
             });
     }
 
