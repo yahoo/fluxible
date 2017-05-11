@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.3.0
+
+### Enhancement
+
+ * [#494] Remove setImmediate from rehydration promise
+
 ## 1.2.0
 
 ### Features
