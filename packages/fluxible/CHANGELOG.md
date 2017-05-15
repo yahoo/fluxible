@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.4.0
+
+### Enhancement
+
+ * [#537] Add config to allow removing second setImmediate wrapper around callback during action execution, so that there is less artifial yielding for most of the normal cases where callback function executes successfully with no exception.
+
 ## 1.3.0
 
 ### Enhancement
