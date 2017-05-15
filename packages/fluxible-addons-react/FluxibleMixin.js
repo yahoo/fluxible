@@ -121,7 +121,8 @@ var FluxibleMixin = {
         }
 
         if (!handler) {
-            throw new Error('storeListener attempted to add undefined handler. Make sure handlers actually exist.');
+            throw new Error('storeListener attempted to add undefined handler. Make sure handlers actually exist.' +
+            ' (Your component probably needs an `onChange` function.)');
         }
 
         return handler;
