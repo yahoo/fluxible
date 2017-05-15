@@ -158,6 +158,7 @@ RouteStore.withStaticRoutes = function (staticRoutes) {
     var staticRouter = new Router(staticRoutes);
     function StaticRouteStore() {
         RouteStore.apply(this, arguments);
+        this._routes = staticRoutes;
         this._router = staticRouter;
     }
     inherits(StaticRouteStore, RouteStore);
