@@ -24,6 +24,7 @@ Creates a new context instance with the following parameters:
 
  * `options`: An object containing the context settings
  * `options.app`: Provides access to the application level functions and settings
+ * `options.optimizePromiseCallback`: Whether to optimize Promise callback. Defaults to `false`. `FluxibleContext` uses two setImmediate in [utils/callAction](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/utils/callAction.js) when executing every action.  The second `setImmediate` wraps callback execution to make sure exceptions thrown during callback execution are not swallowed by Promise. This optimization eliminates the second `setImmediate` by catching errors caught by Promise and throwing it. This way, successful callback executions won't need this extra yielding because of the `setImmediate`.
 
 ### executeAction(action, payload, [done])
 

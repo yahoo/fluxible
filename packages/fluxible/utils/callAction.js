@@ -5,6 +5,7 @@
 /* global Promise */
 'use strict';
 var isPromise = require('is-promise');
+var promiseCallback = require('./promiseCallback');
 require('setimmediate');
 
 /**
@@ -36,14 +37,7 @@ function callAction (actionContext, action, payload, done) {
     });
 
     if (done) {
-        executeActionPromise
-            .then(function(result) {
-                // Ensures that errors in callback are not swallowed by promise
-                setImmediate(done, null, result);
-            }, function (err) {
-                // Ensures that errors in callback are not swallowed by promise
-                setImmediate(done, err);
-            });
+        promiseCallback(executeActionPromise, done, {optimize: actionContext.optimizePromiseCallback});
     }
 
     return executeActionPromise;

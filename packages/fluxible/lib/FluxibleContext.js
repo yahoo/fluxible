@@ -16,9 +16,17 @@ require('setimmediate');
  * A request or browser-session context
  * @class FluxibleContext
  * @param {Fluxible} app The Fluxible instance used to create the context
+ * @param {Object} options The options sharable by the context and context plugins
+ * @param {Boolean} options.optimizePromiseCallback Whether to optimize Promise callback.
+ *          Defaults to `false`. `FluxibleContext` uses two setImmediate in utils/callAction
+ *          when executing every action.  The second `setImmediate` wraps callback execution
+ *          to make sure exceptions thrown during callback execution are not swallowed by Promise.
+ *          This optimization eliminates the second `setImmediate` by catching errors caught by
+ *          Promise and throwing it. This way, successful callback executions won't need this extra
+ *          yielding because of the `setImmediate`.
  * @constructor
  */
-function FluxContext(app) {
+function FluxContext(app, options) {
     this._app = app;
 
     // To be created on demand
@@ -34,6 +42,8 @@ function FluxContext(app) {
     this._actionContext = null;
     this._componentContext = null;
     this._storeContext = null;
+
+    this._optimizePromiseCallback = !!(options && options.optimizePromiseCallback);
 }
 
 /**
@@ -185,8 +195,9 @@ FluxContext.prototype._createSubActionContext = function createSubActionContext(
     var displayName = action.displayName || action.name;
     var newActionContext = Object.assign({}, this.getActionContext(), {
         displayName: displayName,
-        stack: (parentActionContext.stack || []).concat([displayName]),
-        rootId: (parentActionContext.rootId) || generateUUID()
+        optimizePromiseCallback: this._optimizePromiseCallback,
+        rootId: (parentActionContext.rootId) || generateUUID(),
+        stack: (parentActionContext.stack || []).concat([displayName])
     });
     newActionContext.executeAction = newActionContext.executeAction.bind(newActionContext);
     return newActionContext;
@@ -311,6 +322,9 @@ FluxContext.prototype.dehydrate = function dehydrate() {
     var self = this;
     var state = {
         dispatcher: (this._dispatcher && this._dispatcher.dehydrate()) || {},
+        options: {
+            optimizePromiseCallback: this._optimizePromiseCallback
+        },
         plugins: {}
     };
 
@@ -328,6 +342,8 @@ FluxContext.prototype.dehydrate = function dehydrate() {
  * Rehydrates the context state
  * @method rehydrate
  * @param {Object} obj Configuration
+ * @param {Object} obj.options Dehydrated context options
+ * @param {Boolean} obj.options.optimizePromiseCallback Default to false.
  * @param {Object} obj.plugins Dehydrated context plugin state
  * @param {Object} obj.dispatcher Dehydrated dispatcher state
  */
@@ -341,6 +357,7 @@ FluxContext.prototype.rehydrate = function rehydrate(obj) {
         }
     }
     obj.plugins = obj.plugins || {};
+    self._optimizePromiseCallback = !!(obj.options && obj.options.optimizePromiseCallback);
     var pluginTasks = self._plugins.filter(function (plugin) {
         return 'function' === typeof plugin.rehydrate
             && obj.plugins[plugin.name];
