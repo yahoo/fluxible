@@ -8,6 +8,7 @@ var debug = require('debug')('Fluxible');
 var isPromise = require('is-promise');
 var FluxibleContext = require('./FluxibleContext');
 var dispatchr = require('dispatchr');
+var promiseCallback = require('../utils/promiseCallback');
 var __DEV__ = process.env.NODE_ENV !== 'production';
 
 /*
@@ -53,13 +54,14 @@ function Fluxible(options) {
 /**
  * Creates an isolated context for a request/session
  * @method createContext
- * @param {Object} [options]
+ * @param {Object} [options] The options object.  Please refer to FluxibleContext's constructor
+ *         doc for supported subfields and detailed description.
  * @returns {FluxibleContext}
  */
 Fluxible.prototype.createContext = function createContext(options) {
     var self = this;
     options = options || {};
-    var context = new FluxibleContext(self);
+    var context = new FluxibleContext(self, options);
 
     // Plug context with app plugins that implement plugContext method
     this._plugins.forEach(function eachPlugin(plugin) {
@@ -168,7 +170,8 @@ Fluxible.prototype.dehydrate = function dehydrate(context) {
  * @method rehydrate
  * @param {Object} obj Raw object of dehydrated state
  * @param {Object} obj.plugins Dehydrated app plugin state
- * @param {Object} obj.context Dehydrated context state
+ * @param {Object} obj.context Dehydrated context state. See FluxibleContext's
+ *                 rehydrate() for subfields in this object.
  * @param {Function} callback
  * @async Rehydration may require more asset loading or async IO calls
  */
@@ -203,22 +206,13 @@ Fluxible.prototype.rehydrate = function rehydrate(obj, callback) {
         });
     });
 
-    var context = self.createContext();
+    var context = self.createContext(obj.context && obj.context.options);
     var rehydratePromise = Promise.all(pluginTasks).then(function rehydratePluginTasks() {
         return context.rehydrate(obj.context || {});
     });
 
     if (callback) {
-        rehydratePromise
-            .then(function (contextValue) {
-                callback(null, contextValue);
-            }, function (err) {
-                callback(err);
-            })['catch'](function (err) {
-                setImmediate(function () {
-                    throw err;
-                });
-            });
+        promiseCallback(rehydratePromise, callback, {optimize: true});
     }
 
     return rehydratePromise;
