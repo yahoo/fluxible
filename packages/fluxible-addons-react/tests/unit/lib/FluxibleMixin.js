@@ -111,7 +111,46 @@ describe('fluxible-addons-react', function () {
                 mockStore.emitChange();
             });
         });
-
+        describe('autobind storeListeners', function () {
+            it('should register listener when autobind:false', function (done) {
+                var Component = provideContext(React.createClass({
+                    autobind: false,
+                    mixins: [FluxibleMixin],
+                    statics: {
+                        storeListeners: [MockStore]
+                    },
+                    onChange: function () {
+                        done();
+                    },
+                    render: function () {
+                        return null;
+                    }
+                }));
+                var component = ReactTestUtils.renderIntoDocument(<Component
+                    context={context}/>);
+                expect(component.refs.wrappedElement.listeners).to.have.length(1);
+                mockStore.emitChange();
+            });
+            it('should register listener when autobind:true', function (done) {
+                var Component = provideContext(React.createClass({
+                    autobind: true,
+                    mixins: [FluxibleMixin],
+                    statics: {
+                        storeListeners: [MockStore]
+                    },
+                    onChange: function () {
+                        done();
+                    },
+                    render: function () {
+                        return null;
+                    }
+                }));
+                var component = ReactTestUtils.renderIntoDocument(<Component
+                    context={context}/>);
+                expect(component.refs.wrappedElement.listeners).to.have.length(1);
+                mockStore.emitChange();
+            });
+        });
         describe('iterating over storeListeners', function () {
             it('should expose iterables for static listener array', function () {
                 var Component = provideContext(createReactClass({
