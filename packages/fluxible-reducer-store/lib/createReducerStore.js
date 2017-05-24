@@ -14,7 +14,7 @@ module.exports = function createReducerStore(spec) {
         storeName: spec.storeName,
         handlers: {},
         initialize: function () {
-            this.state = spec.initialState;
+            this.state = typeof spec.initialState === 'function' ? spec.initialState() : spec.initialState;
         },
         getState: function () {
             return this.state;
