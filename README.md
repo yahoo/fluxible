@@ -1,5 +1,7 @@
 # Fluxible
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/yahoo/fluxible.svg)](https://greenkeeper.io/)
+
 This repository is the home of [Fluxible](http://fluxible.io/) and related libraries.
 
 For support, join our [gitter.im](https://gitter.im/yahoo/fluxible) channel.
