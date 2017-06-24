@@ -29,7 +29,7 @@
     "chai": "^4.0.2",
     "coveralls": "^2.11.1",
     "es6-promise": "^4.0.2",
-    "eslint": "^3.0.0",
+    "eslint": "^4.1.0",
     "eslint-plugin-babel": "^4.0.0",
     "eslint-plugin-react": "^7.0.0",
     "gulp": "^3.9.0",
