@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.2.13
+
+* [#548] Move create-react-class to devDeps
+
 ## 0.2.12
 
 * [#535] Replaced `isMounted()` with flags (@geta6)
