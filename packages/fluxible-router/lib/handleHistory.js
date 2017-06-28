@@ -41,9 +41,6 @@ if (HAS_PUSH_STATE) {
     window.addEventListener(EVENT_POPSTATE, preloadListener);
 }
 
-// Used for ensuring that only one history handler is created
-var historyCreated = false;
-
 function createComponent(Component, opts) {
     var options = Object.assign({}, defaultOptions, opts);
 
@@ -77,11 +74,6 @@ function createComponent(Component, opts) {
     Object.assign(HistoryHandler.prototype, {
 
         componentDidMount: function () {
-            if (historyCreated) {
-                throw new Error('Only one history handler should be on the ' +
-                'page at a time.');
-            }
-
             // Bind the event listeners
             this._onHistoryChange = this.constructor.prototype._onHistoryChange.bind(this);
             this._onScroll = this.constructor.prototype._onScroll.bind(this);
@@ -232,8 +224,6 @@ function createComponent(Component, opts) {
             if (options.saveScrollInState) {
                 window.removeEventListener('scroll', this._onScroll);
             }
-
-            historyCreated = false;
         },
         componentDidUpdate: function (prevProps, prevState) {
             debug('component did update', prevState, this.props);
