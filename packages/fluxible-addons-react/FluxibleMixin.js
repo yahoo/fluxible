@@ -69,7 +69,7 @@ var FluxibleMixin = {
     executeAction: function executeAction() {
         var context = this.props.context || this.context;
         if (!context || !context.executeAction) {
-            throw new Error('executeAction was called but no context was provided. Pass the fluxible' +
+            throw new Error('executeAction was called but no context was provided. Pass the fluxible ' +
             'context via a `context` prop or via React\'s context.');
         }
         return context.executeAction.apply(context, arguments);
@@ -86,7 +86,7 @@ var FluxibleMixin = {
         if ('object' !== typeof storeInstance) {
             var context = this.props.context || this.context;
             if (!context) {
-                throw new Error('storeListener mixin was called but no context was provided for getting the store.' +
+                throw new Error('storeListener mixin was called but no context was provided for getting the store. ' +
                 'Pass the fluxible context via a `context` prop or via React\'s context.');
             }
             storeInstance = context.getStore(store);

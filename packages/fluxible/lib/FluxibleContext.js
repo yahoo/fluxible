@@ -259,8 +259,8 @@ FluxContext.prototype.getComponentContext = function getComponentContext() {
         executeAction: function componentExecuteAction(action, payload, done) {
             if (done) {
                 if (__DEV__) {
-                    console.warn('When calling executeAction from a component,' +
-                        'a callback isn\'t allowed. See our docs for more info:' +
+                    console.warn('When calling executeAction from a component, ' +
+                        'a callback isn\'t allowed. See our docs for more info: ' +
                         'http://fluxible.io/api/components.html#component-context');
                 }
             }
