@@ -174,7 +174,7 @@ export default {
         action: showDoc,
         pageTitlePrefix: 'API: addons/createElementWithContext',
         pageDescription: 'Convenience method for instantiating the Fluxible app\'s ' +
-            'top level React component (if provided in the constructor) with the given' +
+            'top level React component (if provided in the constructor) with the given ' +
             'props with an additional context key containing a ComponentContext.'
     },
     createStore: {
