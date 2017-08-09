@@ -1,6 +1,6 @@
 # NavLink
 
-`NavLink` is the a React component for navigational links.  When the link is clicked, NavLink will execute a [navigateAction](./navigateAction.md).  Stores can register for `NAVIGATE_SUCCESS` handlers if they are interested
+`NavLink` is the React component for navigational links.  When the link is clicked, NavLink will execute a [navigateAction](./navigateAction.md).  Stores can register for `NAVIGATE_SUCCESS` handlers if they are interested
 in navigation events.
 
 ## Component Props
