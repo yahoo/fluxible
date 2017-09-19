@@ -33,7 +33,7 @@
     "eslint-plugin-babel": "^4.0.0",
     "eslint-plugin-react": "^7.0.0",
     "gulp": "^3.9.0",
-    "gulp-babel": "^6.1.2",
+    "gulp-babel": "^7.0.0",
     "istanbul": "^0.4.2",
     "jsdom": "^11.0.0",
     "mocha": "^3.0.2",
