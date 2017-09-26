@@ -3,3 +3,4 @@ artifacts
 node_modules
 *.log
 .jshintrc
+package-lock.json
