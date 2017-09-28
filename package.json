@@ -27,7 +27,7 @@
     "babel-preset-react": "^6.5.0",
     "babel-register": "^6.24.1",
     "chai": "^4.0.2",
-    "coveralls": "^2.11.1",
+    "coveralls": "^3.0.0",
     "es6-promise": "^4.0.2",
     "eslint": "^4.1.0",
     "eslint-plugin-babel": "^4.0.0",
