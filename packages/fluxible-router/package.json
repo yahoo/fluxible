@@ -8,9 +8,13 @@
     "url": "git://github.com/yahoo/fluxible.git"
   },
   "scripts": {
+    "pretest": "npm run dist",
     "test": "../../node_modules/.bin/mocha tests/unit/ --recursive --compilers js:babel-register --reporter spec",
+    "precover": "npm run dist",
     "cover": "../../node_modules/.bin/istanbul cover --dir artifacts -- ../../node_modules/.bin/_mocha tests/unit/ --recursive --compilers js:babel-register --reporter spec",
-    "lint": "../../node_modules/.bin/eslint *.js */*.js"
+    "lint": "../../node_modules/.bin/eslint src/ index.js",
+    "dist": "../../node_modules/.bin/gulp dist -p fluxible-router",
+    "prepublish": "npm run dist"
   },
   "author": "Lingyan Zhu <lingyan@yahoo-inc.com>",
   "licenses": [

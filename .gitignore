@@ -2,5 +2,6 @@ dist
 artifacts
 node_modules
 *.log
+*.tgz
 .jshintrc
 package-lock.json

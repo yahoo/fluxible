@@ -61,9 +61,9 @@ gulp.task('dist', () => {
     if (!packageName) {
         throw new Error('Usage: gulp dist -p <package>');
     }
+    let outDir = argv['out-dir'] || argv.d || '';
     var src = packages[packageName] + '/src/**/*';
-    var dest = path.resolve(packages[packageName], 'dist')
-    rm('-rf', dest);
+    var dest = path.resolve(packages[packageName], outDir)
     gulp.src(src)
         .pipe(babel({
             babelrc: false,
