@@ -5,6 +5,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { navigateAction, RouteStore } from 'fluxible-router';
 import connectToStores from 'fluxible-addons-react/connectToStores';
@@ -17,12 +18,12 @@ const ENTER_KEY_CODE = 13;
 class Search extends React.Component {
 
     static contextTypes = {
-        executeAction: React.PropTypes.func,
-        getStore: React.PropTypes.func
+        executeAction: PropTypes.func,
+        getStore: PropTypes.func
     };
 
     static propTypes = {
-        currentRoute: React.PropTypes.object
+        currentRoute: PropTypes.object
     };
 
     constructor() {

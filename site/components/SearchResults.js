@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { NavLink } from 'fluxible-router';
 import doSearch from '../actions/doSearch';
 import SearchStore from '../stores/SearchStore';
@@ -11,13 +12,13 @@ import SearchStore from '../stores/SearchStore';
 class SearchResults extends React.Component {
 
     static contextTypes = {
-        executeAction: React.PropTypes.func,
-        getStore: React.PropTypes.func
+        executeAction: PropTypes.func,
+        getStore: PropTypes.func
     };
 
     static propTypes = {
-        currentRoute: React.PropTypes.object.isRequired,
-        results: React.PropTypes.array
+        currentRoute: PropTypes.object.isRequired,
+        results: PropTypes.array
     };
 
     componentDidUpdate() {

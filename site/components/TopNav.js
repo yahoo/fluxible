@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 import NavLink from './NavLink';
 import { I13nAnchor, createI13nNode } from 'react-i13n';
@@ -12,8 +13,8 @@ import Search from './Search';
 class TopNav extends React.Component {
 
     static propTypes = {
-        currentRoute: React.PropTypes.object,
-        selected: React.PropTypes.string
+        currentRoute: PropTypes.object,
+        selected: PropTypes.string
     };
 
     constructor() {

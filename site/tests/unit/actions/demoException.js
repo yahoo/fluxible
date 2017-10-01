@@ -18,10 +18,9 @@ describe('site', () => {
 
         it('should execute the action', function (done) {
             demoException(context, {}, function (err) {
-                expect(err).to.eql(new Error('Whoops!'));
+                expect(err).to.eql(new Error('WWhoops!'));
                 done();
             });
         });
     });
 });
-
