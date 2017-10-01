@@ -1,6 +1,7 @@
 sudo: false
 language: node_js
 node_js:
+  - 8
   - 7
   - 6
 env:
@@ -20,7 +21,7 @@ before_install:
       echo "Only docs were updated, stopping build process."
       exit
     fi
-  - if [[ `npm -v` != 3* ]]; then npm i -g npm@3; fi
+  - if [[ `npm -v` != 5* ]]; then npm i -g npm@5; fi
 script: cd $TEST_DIR && npm test
 after_success:
   - "npm run cover"
