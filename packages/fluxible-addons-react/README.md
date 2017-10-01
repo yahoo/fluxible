@@ -20,11 +20,12 @@ Join the #fluxible channel of the [Reactiflux](http://reactiflux.com) Discord co
  * [provideContext](https://github.com/yahoo/fluxible/blob/master/packages/fluxible-addons-react/docs/api/provideContext.md)
  * [createElementWithContext](https://github.com/yahoo/fluxible/blob/master/packages/fluxible-addons-react/docs/api/createElementWithContext.md)
  * [batchedUpdatePlugin](https://github.com/yahoo/fluxible/blob/master/packages/fluxible-addons-react/docs/api/batchedUpdatePlugin.md)
- 
+
 ## Compatible React Versions
 
 | Compatible React Version | fluxible-addons-react Version |
 |--------------------------|-------------------------------|
+| 16.0 | >= 0.2.14 |
 | 15.0 | >= 0.2.6 |
 | 0.14 | >= 0.2.x |
 | 0.13 | <= 0.1.x |

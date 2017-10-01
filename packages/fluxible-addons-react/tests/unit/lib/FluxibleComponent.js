@@ -31,7 +31,7 @@ describe('fluxible-addons-react', function () {
             React = require('react');
             ReactDOM = require('react-dom');
             createReactClass = require('create-react-class');
-            ReactTestUtils = require('react-addons-test-utils');
+            ReactTestUtils = require('react-dom/test-utils');
             connectToStores = require('../../../').connectToStores;
             provideContext = require('../../../').provideContext;
             FluxibleComponent = require('../../../').FluxibleComponent;

@@ -89,7 +89,7 @@ describe('handleHistory', function () {
         provideContext = require('fluxible-addons-react/provideContext');
         handleHistory = require('../../../lib/handleHistory');
         MockAppComponentLib = require('../../mocks/MockAppComponent');
-        ReactTestUtils = require('react-addons-test-utils');
+        ReactTestUtils = require('react-dom/test-utils');
         mockContext = createMockComponentContext({
             stores: [TestRouteStore]
         });

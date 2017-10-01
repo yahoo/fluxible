@@ -5,7 +5,7 @@ var expect = require('chai').expect,
     React = require('react'),
     PropTypes = require('prop-types'),
     ReactDOM = require('react-dom/server'),
-    ReactTestUtils = require('react-addons-test-utils'),
+    ReactTestUtils = require('react-dom/test-utils'),
     createReactClass = require('create-react-class'),
     provideContext = require('../../../provideContext'),
     FluxibleMixin = require('../../../').FluxibleMixin,
@@ -32,7 +32,7 @@ describe('fluxible-addons-react', function () {
             });
             mockStore = context.getStore(MockStore);
             mockStore2 = context.getStore(MockStore2);
-            
+
             var jsdom = new JSDOM('<html><body></body></html>');
             global.window = jsdom.window;
             global.document = jsdom.window.document;

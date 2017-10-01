@@ -38,9 +38,8 @@
     "jsdom": "^11.0.0",
     "mocha": "^3.0.2",
     "pre-commit": "^1.0.7",
-    "react": "^15.0.0",
-    "react-addons-test-utils": "^15.0.0",
-    "react-dom": "^15.0.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
     "shelljs": "^0.7.0",
     "yargs": "^9.0.1"
   },
