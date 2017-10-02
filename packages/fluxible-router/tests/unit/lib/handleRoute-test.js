@@ -31,7 +31,7 @@ describe('handleRoute', function () {
 
         React = require('react');
         ReactDOM = require('react-dom');
-        ReactTestUtils = require('react-addons-test-utils');
+        ReactTestUtils = require('react-dom/test-utils');
         provideContext = require('fluxible-addons-react/provideContext');
         handleRoute = require('../../../').handleRoute;
         mockContext = createMockComponentContext({

@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { navigateAction } from 'fluxible-router';
 import { ReactI13n, createI13nNode, I13nAnchor, I13nDiv} from 'react-i13n';
 
@@ -23,12 +24,12 @@ function isModifiedEvent (e) {
 class Doc extends React.Component {
 
     static contextTypes = {
-        executeAction: React.PropTypes.func
+        executeAction: PropTypes.func
     };
 
     static propTypes = {
-        currentDoc: React.PropTypes.object,
-        currentRoute: React.PropTypes.object.isRequired
+        currentDoc: PropTypes.object,
+        currentRoute: PropTypes.object.isRequired
     };
 
     onClick(e) {

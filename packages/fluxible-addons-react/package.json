@@ -19,14 +19,14 @@
   },
   "peerDependencies": {
     "fluxible": ">=1.0.0",
-    "react": "^0.14.0 || ^15.0.0-rc.1",
-    "react-dom": "^0.14.0 || ^15.0.0-rc.1"
+    "react": "^0.14.0 || ^15.0.0 || ^16.0.0",
+    "react-dom": "^0.14.0 || ^15.0.0 ||  || ^16.0.0"
   },
   "devDependencies": {
     "create-react-class": "^15.5.1",
     "fluxible": ">=1.0.0",
-    "react": "^15.0.0-rc.1",
-    "react-dom": "^15.0.0-rc.1"
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
   },
   "author": "Michael Ridgway <mridgway@yahoo-inc.com>",
   "license": "BSD-3-Clause"

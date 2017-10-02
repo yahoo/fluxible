@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import Menu from './Menu';
 import Doc from './Doc';
 import SearchResults from './SearchResults';
@@ -15,8 +16,8 @@ import SearchStore from '../stores/SearchStore';
 class Docs extends React.Component {
 
     static propTypes = {
-        currentDoc: React.PropTypes.object,
-        currentRoute: React.PropTypes.object.isRequired
+        currentDoc: PropTypes.object,
+        currentRoute: PropTypes.object.isRequired
     };
 
     constructor(props, context) {

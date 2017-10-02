@@ -49,7 +49,7 @@ function setup(options, done) {
 
     React = require('react');
     ReactDOM = require('react-dom');
-    ReactTestUtils = require('react-addons-test-utils');
+    ReactTestUtils = require('react-dom/test-utils');
     var mockContext = createMockComponentContext({
         stores: [TestRouteStore]
     });
