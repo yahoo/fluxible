@@ -592,6 +592,7 @@ describe('FluxibleContext', function () {
                 var d = domain.create();
                 d.on('error', function (e) {
                     expect(e).to.equal(actionError);
+                    d.exit();
                     done();
                     global.Promise = oldPromise;
                 });
