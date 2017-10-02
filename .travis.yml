@@ -12,6 +12,7 @@ before_install:
       exit
     fi
   - if [[ `npm -v` != 5* ]]; then npm i -g npm@5; fi
+before_script: npm run build
 script: npm test
 after_success:
   - "npm run cover"
