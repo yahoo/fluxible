@@ -32,12 +32,6 @@
     "fluxible": "^1.0.0",
     "react": "^0.14.0 || ^15.0.0 || ^16.0.0"
   },
-  "devDependencies": {
-    "fluxible": "^1.0.0",
-    "lodash": "^3.2.0",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0"
-  },
   "keywords": [
     "flux",
     "fluxible",
