@@ -9,9 +9,9 @@
   },
   "scripts": {
     "pretest": "npm run dist",
-    "test": "../../node_modules/.bin/mocha tests/unit/ --recursive --compilers js:babel-register --reporter spec",
+    "test": "../../node_modules/.bin/mocha tests/unit/ --opts ../../mocha.opts",
     "precover": "npm run dist",
-    "cover": "../../node_modules/.bin/istanbul cover --dir artifacts -- ../../node_modules/.bin/_mocha tests/unit/ --recursive --compilers js:babel-register --reporter spec",
+    "cover": "../../node_modules/.bin/istanbul cover --dir artifacts -- ../../node_modules/.bin/_mocha tests/unit/ --opts ../../mocha.opts",
     "lint": "../../node_modules/.bin/eslint src/ index.js",
     "dist": "../../node_modules/.bin/gulp dist -p fluxible-plugin-devtools",
     "prepublish": "npm run dist"

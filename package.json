@@ -8,11 +8,12 @@
     "url": "https://github.com/yahoo/fluxible"
   },
   "scripts": {
-    "test": "mocha {**,**/**}/tests/unit/ --recursive --compilers js:babel-register --reporter spec",
-    "cover": "istanbul cover --dir artifacts -- _mocha {**,**/**}/tests/unit/ --recursive --compilers js:babel-register --reporter spec",
+    "build": "lerna bootstrap --hoist --since --include-filtered-dependencies",
+    "cover": "lerna run cover --since",
+    "dev:lint": "lerna run lint --since master",
+    "dev:test": "lerna run test --since master",
     "lint": "eslint .",
-    "postinstall": "gulp install",
-    "preversion": "echo \"Error: version should be called using gulp\" && exit 1"
+    "test": "lerna run lint --since && lerna run test --since"
   },
   "dependencies": {},
   "devDependencies": {
@@ -27,7 +28,7 @@
     "babel-preset-react": "^6.5.0",
     "babel-register": "^6.24.1",
     "chai": "^4.0.2",
-    "coveralls": "^2.11.1",
+    "coveralls": "^3.0.0",
     "create-react-class": "^15.5.1",
     "es6-promise": "^4.0.2",
     "eslint": "^4.1.0",
@@ -54,8 +55,8 @@
     "npm": "2.x || 3.x"
   },
   "pre-commit": [
-    "lint",
-    "test"
+    "dev:lint",
+    "dev:test"
   ],
   "author": "Michael Ridgway <mridgway@yahoo-inc.com>",
   "license": "BSD-3-Clause"
