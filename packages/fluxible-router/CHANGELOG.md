@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.4.0
+
+* [#566] Support React 16
+
 ## 1.3.0
 
 * [#535] Replaced `isMounted()` with flags (@geta6)
