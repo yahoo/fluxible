@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.2.14
+
+* [#566] Support React 16
+
 ## 0.2.13
 
 * [#548] Move create-react-class to devDeps
