@@ -19,6 +19,7 @@
   "devDependencies": {
     "async": "^2.0.0",
     "babel": "^6.5.2",
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.6.4",
     "babel-eslint": "^8.0.0",
     "babel-plugin-syntax-decorators": "^6.5.0",
