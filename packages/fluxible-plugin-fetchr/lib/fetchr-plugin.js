@@ -3,7 +3,6 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 'use strict';
-var debug = require('debug')('Fluxible:FetchrPlugin');
 var DEFAULT_API_PATH = '/api';
 var DEFAULT_XHR_TIMEOUT = 3000;
 var Fetchr = require('fetchr');

@@ -1,4 +1,5 @@
 /*globals describe,it,afterEach,beforeEach*/
+/*eslint react/prop-types:0, react/no-render-return-value:0, react/no-find-dom-node:0 */
 'use strict';
 
 var expect = require('chai').expect;
