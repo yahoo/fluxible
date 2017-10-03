@@ -38,8 +38,6 @@
     "eslint-plugin-babel": "^4.0.0",
     "eslint-plugin-react": "^7.0.0",
     "fluxible": "^1.0.0",
-    "gulp": "^3.9.0",
-    "gulp-babel": "^7.0.0",
     "jsdom": "^11.0.0",
     "lerna": "^2.2.0",
     "lodash": "^3.2.0",
