@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "../../node_modules/.bin/mocha tests/unit/ --opts ../../mocha.opts",
-    "cover": "../../node_modules/.bin/istanbul cover --dir artifacts -- ../../node_modules/.bin/_mocha tests/unit/ --opts ../../mocha.opts",
+    "cover": "BABEL_ENV=test ../../node_modules/.bin/nyc ../../node_modules/.bin/_mocha tests/unit/ --opts ../../mocha.opts",
     "lint": "../../node_modules/.bin/eslint lib/ addons/"
   },
   "dependencies": {
