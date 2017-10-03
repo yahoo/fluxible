@@ -13,7 +13,7 @@
     "precover": "npm run dist",
     "cover": "../../node_modules/.bin/istanbul cover --dir artifacts -- ../../node_modules/.bin/_mocha tests/unit/ --recursive --compilers js:babel-register --reporter spec",
     "lint": "../../node_modules/.bin/eslint src/ index.js",
-    "dist": "../../node_modules/.bin/gulp dist -p fluxible-plugin-devtools",
+    "dist": "../../node_modules/.bin/gulp dist -p fluxible-plugin-devtools -d dist",
     "prepublish": "npm run dist"
   },
   "dependencies": {

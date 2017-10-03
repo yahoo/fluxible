@@ -1,4 +1,8 @@
+*.log
+*.md
+*.tgz
 .npmignore
 /artifacts/
 /docs/
+/src/
 /tests/
