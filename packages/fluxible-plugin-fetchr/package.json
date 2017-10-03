@@ -8,17 +8,13 @@
     "url": "git://github.com/yahoo/fluxible.git"
   },
   "scripts": {
-    "test": "../../node_modules/.bin/mocha tests/unit/ --recursive --compilers js:babel-register --reporter spec",
-    "cover": "../../node_modules/.bin/istanbul cover --dir artifacts -- ../../node_modules/.bin/_mocha tests/unit/ --recursive --compilers js:babel-register --reporter spec",
+    "test": "../../node_modules/.bin/mocha tests/unit/ --opts ../../mocha.opts",
+    "cover": "BABEL_ENV=test ../../node_modules/.bin/nyc ../../node_modules/.bin/_mocha tests/unit/ --opts ../../mocha.opts",
     "lint": "../../node_modules/.bin/eslint lib/ tests/ utils/ index.js"
   },
   "dependencies": {
     "debug": "^2.0.0",
     "fetchr": "^0.5.18"
-  },
-  "devDependencies": {
-    "mockery": "^1.7.0",
-    "sinon": "^1.17.4"
   },
   "author": "Michael Ridgway <mridgway@yahoo-inc.com>",
   "contributors": [],

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Nav from './Nav';
+import PropTypes from 'prop-types';
 import ApplicationStore from '../stores/ApplicationStore';
 import { connectToStores, provideContext } from 'fluxible-addons-react';
 import { handleHistory } from 'fluxible-router';
@@ -27,6 +28,10 @@ class Application extends React.Component {
         document.title = newProps.pageTitle;
     }
 }
+
+Application.propTypes = {
+    currentRoute: PropTypes.object
+};
 
 export default provideContext(handleHistory(connectToStores(
     Application,

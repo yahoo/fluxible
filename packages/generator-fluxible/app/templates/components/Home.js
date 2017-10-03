@@ -7,4 +7,4 @@ export default function Home() {
             <p>Welcome to the site!</p>
         </div>
     );
-};
+}
