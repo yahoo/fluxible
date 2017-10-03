@@ -7,4 +7,4 @@ export default function About() {
             <p>This is a description of the site.</p>
         </div>
     );
-};
+}
