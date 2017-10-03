@@ -3,7 +3,6 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 /*globals describe,it,before,beforeEach,after */
-/* eslint-ignore no-empty:0 */
 'use strict';
 
 var expect = require('chai').expect;
