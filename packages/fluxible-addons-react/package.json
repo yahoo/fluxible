@@ -8,8 +8,8 @@
     "url": "https://github.com/yahoo/fluxible"
   },
   "scripts": {
-    "test": "../../node_modules/.bin/mocha tests/unit/ --recursive --compilers js:babel-register --reporter spec",
-    "cover": "../../node_modules/.bin/istanbul cover --dir artifacts -- ../../node_modules/.bin/_mocha tests/unit/ --recursive --compilers js:babel-register --reporter spec",
+    "test": "../../node_modules/.bin/mocha tests/unit/ --opts ../../mocha.opts",
+    "cover": "BABEL_ENV=test ../../node_modules/.bin/nyc ../../node_modules/.bin/_mocha tests/unit/ --opts ../../mocha.opts",
     "lint": "../../node_modules/.bin/eslint *.js tests/"
   },
   "dependencies": {
@@ -21,12 +21,6 @@
     "fluxible": ">=1.0.0",
     "react": "^0.14.0 || ^15.0.0 || ^16.0.0",
     "react-dom": "^0.14.0 || ^15.0.0 ||  || ^16.0.0"
-  },
-  "devDependencies": {
-    "create-react-class": "^15.5.1",
-    "fluxible": ">=1.0.0",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0"
   },
   "author": "Michael Ridgway <mridgway@yahoo-inc.com>",
   "license": "BSD-3-Clause"

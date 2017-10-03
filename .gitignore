@@ -1,3 +1,5 @@
+.nyc_output
+coverage
 dist
 artifacts
 node_modules

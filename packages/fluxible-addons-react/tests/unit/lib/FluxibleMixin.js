@@ -1,4 +1,5 @@
 /*globals describe,it,afterEach,beforeEach*/
+/*eslint react/display-name:0 */
 'use strict';
 
 var expect = require('chai').expect,

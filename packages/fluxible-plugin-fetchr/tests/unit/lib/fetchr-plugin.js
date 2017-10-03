@@ -2,7 +2,7 @@
  * Copyright 2014, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-/*globals describe,it,beforeEach */
+/*globals describe,it,before,beforeEach,after */
 'use strict';
 
 var expect = require('chai').expect;
@@ -133,7 +133,7 @@ describe('fetchrPlugin', function () {
                 corsPath: null
             });
         });
-        
+
         it('should dehydrate / rehydrate context correctly when updating new options', function () {
             var contextPlug = pluginInstance.plugContext({ xhrContext: { device: 'tablet' }});
             contextPlug.rehydrate({
