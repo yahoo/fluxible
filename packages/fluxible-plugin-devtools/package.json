@@ -21,7 +21,7 @@
     "prop-types": "^15.5.8"
   },
   "peerDependencies": {
-    "react": "^0.14.0 || ^15.0.0-rc.1"
+    "react": "^0.14.0 || ^15.0.0 || ^16.0.0"
   },
   "author": "Rajiv Tirumalareddy <rajivtirum@yahoo-inc.com>",
   "contributors": [],
