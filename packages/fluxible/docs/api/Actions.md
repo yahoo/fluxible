@@ -70,7 +70,7 @@ class MyComponent extends React.Component {
         this.context.executeAction(myAction, {});
     }
     render () {
-        return <button onClick={this.onClick}>Click Me</a>;
+        return <button onClick={this.onClick}>Click Me</button>;
     }
 };
 MyComponent.contextTypes = {
