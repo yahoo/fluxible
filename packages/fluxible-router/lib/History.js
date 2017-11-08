@@ -102,7 +102,9 @@ History.prototype = {
             url = isUndefined(url) ? win.location.href : url;
 
             // remember the original url in state, so that it can be used by getUrl()
-            var _state = Object.assign({origUrl: url}, state);
+            // remember the referrer url in state, so that it can be used for back navigations
+            var _state = Object.assign({origUrl: url, referrerUrl: win.location.href}, state);
+
             try {
                 win.history.pushState(_state, title, url);
             } catch (_) {

@@ -202,30 +202,30 @@ describe('History', function () {
             var history = new History({win: win});
 
             history.pushState({foo: 'bar'});
-            expect(testResult.pushState.state).to.eql({origUrl: '/currentUrl', foo: 'bar'});
+            expect(testResult.pushState.state).to.eql({origUrl: '/currentUrl', referrerUrl: '/currentUrl', foo: 'bar'});
             expect(testResult.pushState.title).to.equal('current title');
             expect(testResult.pushState.url).to.equal('/currentUrl');
 
             history.pushState({foo: 'bar'}, 't');
-            expect(testResult.pushState.state).to.eql({origUrl: '/currentUrl', foo: 'bar'});
+            expect(testResult.pushState.state).to.eql({origUrl: '/currentUrl', referrerUrl: '/currentUrl', foo: 'bar'});
             expect(testResult.pushState.title).to.equal('t');
             expect(testResult.pushState.url).to.equal('/currentUrl');
 
             history.pushState({foo: 'bar'}, 't', '/url');
-            expect(testResult.pushState.state).to.eql({origUrl: '/url', foo: 'bar'});
+            expect(testResult.pushState.state).to.eql({origUrl: '/url', referrerUrl: '/currentUrl', foo: 'bar'});
             expect(testResult.pushState.title).to.equal('t');
             expect(testResult.pushState.url).to.equal('/url');
             expect(windowMock.HTML5.document.title).to.equal('t');
 
             history.pushState({foo: 'bar'}, 'tt', '/url?a=b&x=y');
-            expect(testResult.pushState.state).to.eql({origUrl: '/url?a=b&x=y', foo: 'bar'});
+            expect(testResult.pushState.state).to.eql({origUrl: '/url?a=b&x=y', referrerUrl: '/currentUrl', foo: 'bar'});
             expect(testResult.pushState.title).to.equal('tt');
             expect(testResult.pushState.url).to.equal('/url?a=b&x=y');
             expect(windowMock.HTML5.document.title).to.equal('tt');
 
             var unicodeUrl = '/post/128097060420/2015-fno-vogue全球購物夜-眾藝人名人共襄盛舉';
             history.pushState({foo: 'bar'}, 'tt', unicodeUrl);
-            expect(testResult.pushState.state).to.eql({origUrl: unicodeUrl, foo: 'bar'});
+            expect(testResult.pushState.state).to.eql({origUrl: unicodeUrl, referrerUrl: '/currentUrl', foo: 'bar'});
             expect(testResult.pushState.title).to.equal('tt');
             expect(testResult.pushState.url).to.equal(unicodeUrl);
             expect(windowMock.HTML5.document.title).to.equal('tt');
@@ -242,17 +242,17 @@ describe('History', function () {
             var history = new History({win: win});
 
             history.pushState({foo: 'bar'});
-            expect(testResult.pushState.state).to.eql({origUrl: '/currentUrl', foo: 'bar'});
+            expect(testResult.pushState.state).to.eql({origUrl: '/currentUrl', referrerUrl: '/currentUrl', foo: 'bar'});
             expect(testResult.pushState.title).to.equal('current title');
             expect(testResult.pushState.url).to.equal('/currentUrl');
 
             history.pushState({foo: 'bar'}, 't');
-            expect(testResult.pushState.state).to.eql({origUrl: '/currentUrl', foo: 'bar'});
+            expect(testResult.pushState.state).to.eql({origUrl: '/currentUrl', referrerUrl: '/currentUrl', foo: 'bar'});
             expect(testResult.pushState.title).to.equal('t');
             expect(testResult.pushState.url).to.equal('/currentUrl');
 
             history.pushState({foo: 'bar'}, 't', '/url');
-            expect(testResult.pushState.state).to.eql({origUrl: '/url', foo: 'bar'});
+            expect(testResult.pushState.state).to.eql({origUrl: '/url', referrerUrl: '/currentUrl', foo: 'bar'});
             expect(testResult.pushState.title).to.equal('t');
             expect(testResult.pushState.url).to.equal('/url');
         });
