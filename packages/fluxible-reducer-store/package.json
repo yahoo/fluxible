@@ -13,7 +13,7 @@
     "lint": "../../node_modules/.bin/eslint *.js"
   },
   "dependencies": {
-    "fluxible": ">0.3.0"
+    "fluxible": "^1.4.0"
   },
   "author": "Michael Ridgway <mridgway@yahoo-inc.com>",
   "contributors": [],
