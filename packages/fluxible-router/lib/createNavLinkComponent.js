@@ -171,6 +171,14 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
             return {};
         },
         /**
+         * Allows to programmatically customize class for link element.
+         * @method getChildClassName
+         * @return {String} the classname string
+         */
+        getChildClassName: function () {
+            return this.props.className;
+        },
+        /**
          * Allows consumer to add additional properties to filter from the node
          * @see https://fb.me/react-unknown-prop
          * @method getFilteredProps
@@ -333,7 +341,7 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
             }
 
             var style = props.style;
-            var className = props.className;
+            var className = this.getChildClassName();
             if (isActive) {
                 if (activeClass) {
                     className = className ? (className + ' ') : '';
