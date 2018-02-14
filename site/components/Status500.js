@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import NavLink from './NavLink';
+import { NavLink } from 'fluxible-router';
 
 class Status500 extends React.Component {
     render() {
@@ -14,7 +14,7 @@ class Status500 extends React.Component {
                     <div className="Mx(a) W(65%) Pos(r) Ov(h) Fw(300)">
                         <h1>Error</h1>
                         <p>Sorry there was an unexpected errror.</p>
-                        <p><NavLink routeName="home" i13nModel={{category: '500'}}>Back to the home page.</NavLink></p>
+                        <p><NavLink routeName="home">Back to the home page.</NavLink></p>
                     </div>
                 </div>
             </div>

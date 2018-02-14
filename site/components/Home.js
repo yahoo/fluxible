@@ -4,8 +4,7 @@
  */
 
 import React from 'react';
-import NavLink from './NavLink';
-import { I13nAnchor, createI13nNode } from 'react-i13n';
+import { NavLink } from 'fluxible-router';
 import Doc from './Doc';
 
 class Home extends React.Component {
@@ -24,7 +23,7 @@ class Home extends React.Component {
                     </div>
                     <div className="Pos(a) End(10px) B(5px) C(eee) Fz(80%)">
                         <cite>
-                            <I13nAnchor href="https://www.flickr.com/photos/devinmoore/2670474853" title="Splash derived from Blue Ring Electricity Fractal by Devin Moore used under CC BY 2.0" _target="blank">&copy; Devon Moore</I13nAnchor>
+                            <a href="https://www.flickr.com/photos/devinmoore/2670474853" title="Splash derived from Blue Ring Electricity Fractal by Devin Moore used under CC BY 2.0" _target="blank">&copy; Devon Moore</a>
                         </cite>
                     </div>
                 </div>
@@ -79,13 +78,13 @@ class Home extends React.Component {
                     </div>
 
                     <p className="Ta(c) Mt(2em)--sm">
-                        <I13nAnchor href="https://gitter.im/yahoo/fluxible">
+                        <a href="https://gitter.im/yahoo/fluxible">
                             <img src="https://camo.githubusercontent.com/20d7543bc8280bf8134b686c46c7b7e2c0a467fd/68747470733a2f2f6261646765732e6769747465722e696d2f67697474657248512f6769747465722e706e67"
                                 alt="Gitter chat"
                                 data-canonical-src="https://badges.gitter.im/gitterHQ/gitter.png"
                                 style={{maxWidth: '100%'}}
                                 className="Va(m)" />
-                        </I13nAnchor>
+                        </a>
                     </p>
 
                     <div className="Ta(c)">
@@ -97,6 +96,4 @@ class Home extends React.Component {
     }
 }
 
-export default createI13nNode(Home, {
-    i13nModel: {category: 'home'}
-});
+export default Home;

@@ -13,27 +13,17 @@ import { provideContext, connectToStores } from 'fluxible-addons-react';
 import { handleHistory } from 'fluxible-router';
 import { Actions } from 'fluxible-plugin-devtools';
 import Debug from './Debug';
-import NavLink from './NavLink';
+import { NavLink } from 'fluxible-router';
 import TopNav from './TopNav';
 import Status404 from './Status404';
 import Status500 from './Status500';
 import cx from 'classnames';
-import { ReactI13n, setupI13n, I13nAnchor } from 'react-i13n';
-import ReactI13nGoogleAnalytics from 'react-i13n-ga';
 
 const debug = debugLib('MyApp');
 
 class Application extends React.Component {
 
-    componentDidMount() {
-        this.props.i13n.executeEvent('pageview', {});
-    }
-
     componentDidUpdate(prevProps, prevState) {
-        this.props.i13n.executeEvent('pageview', {
-            page: this.props.currentRoute && this.props.currentRoute.url,
-            title: this.props.currentTitle
-        });
         document.title = this.props.currentTitle;
     }
 
@@ -66,7 +56,7 @@ class Application extends React.Component {
                 <div className="wrapper Bxz(bb) Mih(100%)">
                     <div id="header" role="header" className="Px(10px) Py(13px) Ov(h) Z(7) Pos(r) Bgc(logo) optLegibility">
                         <div className="innerwrapper spaceBetween Mx(a)--sm W(90%)--sm">
-                            <NavLink className={logoClasses} routeName="home" style={{ fontFamily: 'Montserrat' }} i13nModel={{category: 'logo'}}>
+                            <NavLink className={logoClasses} routeName="home" style={{ fontFamily: 'Montserrat' }}>
                                 <img src="/public/images/logo_small.svg" width="16" height="16" alt="Fluxible" style={{verticalAlign: 'baseline'}} /> Fluxible
                             </NavLink> <TopNav selected={routeName} currentRoute={this.props.currentRoute} />
                         </div>
@@ -75,7 +65,7 @@ class Application extends React.Component {
                 </div>
                 <div id="footer" className="P(20px) Bdt(1)" role="footer">
                     <div className="innerwrapper spaceBetween Mx(a)--sm W(90%)--sm W(a)--sm">
-                        <small>All code on this site is licensed under the <I13nAnchor i13nModel={{category: 'license'}} href="https://github.com/yahoo/fluxible.io/blob/master/LICENSE.md">Yahoo BSD License</I13nAnchor>, unless otherwise stated.</small> <small>&copy; 2015 Yahoo! Inc. All rights reserved.</small>
+                        <small>All code on this site is licensed under the <a href="https://github.com/yahoo/fluxible.io/blob/master/LICENSE.md">Yahoo BSD License</a>, unless otherwise stated.</small> <small>&copy; 2015 Yahoo! Inc. All rights reserved.</small>
                     </div>
                 </div>
             </div>
@@ -96,9 +86,5 @@ Application = provideContext(
         devtools: PropTypes.object
     }
 );
-
-// setup i13n
-var reactI13nGoogleAnalytics = new ReactI13nGoogleAnalytics('UA-58912168-1');
-Application = setupI13n(Application, {}, [reactI13nGoogleAnalytics.getPlugin()]);
 
 export default Application;
