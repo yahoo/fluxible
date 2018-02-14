@@ -5,8 +5,7 @@
 
 import React from 'react';
 import cx from 'classnames';
-import NavLink from './NavLink';
-import { createI13nNode } from 'react-i13n';
+import { NavLink } from 'fluxible-router';
 import docsConfig from './../configs/menu';
 
 class Menu extends React.Component {
@@ -53,6 +52,4 @@ class Menu extends React.Component {
     }
 }
 
-export default createI13nNode(Menu, {
-    i13nModel: {category: 'menu'}
-});
+export default Menu;

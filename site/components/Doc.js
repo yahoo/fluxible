@@ -6,7 +6,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { navigateAction } from 'fluxible-router';
-import { ReactI13n, createI13nNode, I13nAnchor, I13nDiv} from 'react-i13n';
 
 function createDocsUrl(repo, path) {
     repo = repo || 'yahoo/fluxible';
@@ -61,11 +60,11 @@ class Doc extends React.Component {
 
         if (this.props.currentRoute && this.props.currentRoute.githubPath !== -1) {
             editEl = (
-                <I13nAnchor href={createDocsUrl(this.props.currentRoute.githubRepo, this.props.currentRoute.githubPath)}
+                <a href={createDocsUrl(this.props.currentRoute.githubRepo, this.props.currentRoute.githubPath)}
                     className="edit-github Pos(a) End(10px) T(18px)"
                     target="_blank">
                     Edit on Github
-                </I13nAnchor>
+                </a>
             );
         }
 
@@ -74,12 +73,10 @@ class Doc extends React.Component {
         return (
             <div id="main" role="main" className="D(tbc)--sm Px(10px) Pos(r)">
                 {editEl}
-                <I13nDiv key={new Date().getTime()} onClick={this.onClick.bind(this)} dangerouslySetInnerHTML={{__html: markup}} scanLinks={{enable: true}}></I13nDiv>
+                <div key={new Date().getTime()} onClick={this.onClick.bind(this)} dangerouslySetInnerHTML={{__html: markup}} scanLinks={{enable: true}}></div>
             </div>
         );
     }
 }
 
-export default createI13nNode(Doc, {
-    i13nModel: {category: 'doc'}
-});
+export default Doc;

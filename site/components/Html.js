@@ -18,7 +18,6 @@ class Html extends React.Component {
                     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Nobile" />
                     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat" />
                     <link rel="stylesheet" href="/public/css/bundle.css" />
-                    <script dangerouslySetInnerHTML={{__html: this.props.tracking}}></script>
                 </head>
                 <body className="Mih(100%)">
                     <div id="docsapp" className="H(100%)" dangerouslySetInnerHTML={{__html: this.props.markup}}></div>
