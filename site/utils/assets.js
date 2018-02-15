@@ -4,10 +4,11 @@
  */
 
 import path from 'path';
+const CDN_PATH = '/public/js/';
 
 let assets = {
-    common: '/public/js/common.js',
-    main: '/public/js/main.js'
+    common: CDN_PATH + 'common.js',
+    main: CDN_PATH + 'main.js'
 };
 
 if ('production' === process.env.NODE_ENV) {
@@ -16,8 +17,8 @@ if ('production' === process.env.NODE_ENV) {
     } catch (e) {
         throw new Error('Please run `grunt build` to generate the production assets.');
     }
-    assets.common = webpackAssets.cdnPath + webpackAssets.assets.common;
-    assets.main = webpackAssets.cdnPath + webpackAssets.assets.main;
+    assets.common = CDN_PATH + webpackAssets.assets.common;
+    assets.main = CDN_PATH + webpackAssets.assets.main;
 }
 
 export default assets;
