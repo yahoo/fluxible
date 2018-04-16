@@ -8,6 +8,10 @@
     "url": "git://github.com/yahoo/fluxible.git"
   },
   "scripts": {
+    "dist": "../../node_modules/.bin/babel src -d dist",
+    "precover": "npm run dist",
+    "prepublish": "npm run dist",
+    "pretest": "npm run dist",
     "test": "../../node_modules/.bin/mocha tests/unit/ --opts ../../mocha.opts",
     "cover": "BABEL_ENV=test ../../node_modules/.bin/nyc ../../node_modules/.bin/_mocha tests/unit/ --opts ../../mocha.opts",
     "lint": "../../node_modules/.bin/eslint *.js */*.js"
