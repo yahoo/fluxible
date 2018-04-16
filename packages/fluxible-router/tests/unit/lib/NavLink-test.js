@@ -37,9 +37,9 @@ function setup(options, done) {
     if (options.nodeEnv) {
         process.env.NODE_ENV = options.nodeEnv;
     }
-    var path = fs.realpathSync(resolve.sync('../../../lib/createNavLinkComponent'));
+    var path = fs.realpathSync(resolve.sync('../../../dist/lib/createNavLinkComponent'));
     delete require.cache[path];
-    path = fs.realpathSync(resolve.sync('../../../lib/NavLink'));
+    path = fs.realpathSync(resolve.sync('../../../dist/lib/NavLink'));
     delete require.cache[path];
 
     var jsdom = new JSDOM('<html><body></body></html>', { url: 'http://yahoo.com' });
@@ -58,8 +58,8 @@ function setup(options, done) {
         method: 'GET'
     });
     MockAppComponent = require('../../mocks/MockAppComponent');
-    NavLink = require('../../../lib/NavLink');
-    createNavLinkComponent = require('../../../lib/createNavLinkComponent');
+    NavLink = require('../../../dist/lib/NavLink');
+    createNavLinkComponent = require('../../../dist/lib/createNavLinkComponent');
     testResult = {};
 
     return done(null, mockContext);
