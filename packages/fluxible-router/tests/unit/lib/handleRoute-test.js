@@ -7,7 +7,7 @@ var expect = require('chai').expect;
 var JSDOM = require('jsdom').JSDOM;
 var React;
 var ReactDOM;
-var RouteStore = require('../../../lib/RouteStore');
+var RouteStore = require('../../../dist/lib/RouteStore');
 var createMockComponentContext = require('fluxible/utils/createMockComponentContext');
 var ReactTestUtils;
 var TestRouteStore = RouteStore.withStaticRoutes({

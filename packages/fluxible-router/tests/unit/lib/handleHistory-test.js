@@ -13,7 +13,7 @@ var mockCreators = {
     decoratedCreator: 'createDecoratedMockAppComponent'
 };
 var MockAppComponentLib;
-var RouteStore = require('../../../lib/RouteStore');
+var RouteStore = require('../../../dist/lib/RouteStore');
 var createMockComponentContext = require('fluxible/utils/createMockComponentContext');
 var ReactTestUtils;
 
@@ -80,14 +80,14 @@ describe('handleHistory', function () {
         global.Event = window.Event;
 
         // Reset cache of handleHistory to allow pre-emptyive pushState testing
-        delete require.cache[require.resolve('../../../lib/handleHistory')];
+        delete require.cache[require.resolve('../../../dist/lib/handleHistory')];
         delete require.cache[require.resolve('../../mocks/MockAppComponent')];
 
         React = require('react');
         ReactDOM = require('react-dom');
         createReactClass = require('create-react-class');
         provideContext = require('fluxible-addons-react/provideContext');
-        handleHistory = require('../../../lib/handleHistory');
+        handleHistory = require('../../../dist/lib/handleHistory');
         MockAppComponentLib = require('../../mocks/MockAppComponent');
         ReactTestUtils = require('react-dom/test-utils');
         mockContext = createMockComponentContext({

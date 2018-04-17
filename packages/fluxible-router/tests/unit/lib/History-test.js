@@ -3,7 +3,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 /*globals describe,it,before,beforeEach */
-var History = require('../../../lib/History'),
+var History = require('../../../dist/lib/History'),
     expect = require('chai').expect,
     _ = require('lodash'),
     windowMock,

@@ -1,5 +1,8 @@
 .npmignore
 /artifacts/
 /docs/
+/src/
 /tests/
 *.log
+*.md
+*.tgz

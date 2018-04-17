@@ -5,11 +5,11 @@
 'use strict';
 
 module.exports = {
-    createNavLinkComponent: require('./lib/createNavLinkComponent'),
-    handleHistory: require('./lib/handleHistory'),
-    handleRoute: require('./lib/handleRoute'),
-    History: require('./lib/History'),
-    navigateAction: require('./lib/navigateAction'),
-    NavLink: require('./lib/NavLink'),
-    RouteStore: require('./lib/RouteStore')
+    createNavLinkComponent: require('./dist/lib/createNavLinkComponent'),
+    handleHistory: require('./dist/lib/handleHistory'),
+    handleRoute: require('./dist/lib/handleRoute'),
+    History: require('./dist/lib/History'),
+    navigateAction: require('./dist/lib/navigateAction'),
+    NavLink: require('./dist/lib/NavLink'),
+    RouteStore: require('./dist/lib/RouteStore')
 };

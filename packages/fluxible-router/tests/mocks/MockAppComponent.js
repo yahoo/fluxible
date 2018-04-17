@@ -6,7 +6,7 @@
 var React = require('react');
 var PropTypes = require('prop-types');
 var provideContext = require('fluxible-addons-react/provideContext');
-var handleHistory = require('../../lib/handleHistory');
+var handleHistory = require('../../dist/lib/handleHistory');
 var createReactClass = require('create-react-class');
 
 var MockAppComponent = createReactClass({
