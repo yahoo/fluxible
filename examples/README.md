@@ -1,4 +1,4 @@
-#flux-examples
+# flux-examples
 
 Example isomorphic [Flux][] applications using [Fluxible][], 
 [fluxible-router][], and [fluxible-plugin-fetchr][].
