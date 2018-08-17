@@ -50,7 +50,7 @@
     "semver": "^5.1.0",
     "serialize-javascript": "^1.0.0",
     "serve-favicon": "^2.1.6",
-    "superagent": "^1.2.0"
+    "superagent": "^3.8.3"
   },
   "devDependencies": {
     "babel": "^6.5.2",
