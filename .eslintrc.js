@@ -23,5 +23,11 @@ module.exports = {
     "no-redeclare": 0,
     "no-unused-vars": 0,
     "quotes": [2, "single"]
+  },
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "16.0"
+    }
   }
 }
