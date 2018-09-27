@@ -2,9 +2,10 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-/*globals describe,it,before,beforeEach,afterEach,window,document,navigator */
+
 var expect = require('chai').expect;
 var JSDOM = require('jsdom').JSDOM;
+var PropTypes = require('prop-types');
 var React;
 var ReactDOM;
 var createReactClass;
@@ -161,6 +162,9 @@ describe('handleHistory', function () {
                     routeStore._handleNavigateStart({url: '/foo', method: 'GET'});
                     var Child = createReactClass({
                         displayName: 'Child',
+                        propTypes: {
+                            currentRoute: PropTypes.object
+                        },
                         render: function () {
                             rendered = true;
                             expect(this.props.currentRoute).to.be.an('object');

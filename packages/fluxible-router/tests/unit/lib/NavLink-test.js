@@ -2,7 +2,7 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-/*globals describe,it,before,beforeEach */
+/* eslint react/no-find-dom-node:0 */
 
 var JSDOM = require('jsdom').JSDOM;
 var expect = require('chai').expect;
@@ -265,9 +265,9 @@ describe('NavLink', function () {
             };
             var navParams = {a: 1, b: true};
             var link = ReactTestUtils.renderIntoDocument(
-                    <MockAppComponent context={mockContext} onClick={propagateFail}>
-                        <NavLink href='/foo' stopPropagation={true} navParams={navParams} />
-                    </MockAppComponent>
+                <MockAppComponent context={mockContext} onClick={propagateFail}>
+                    <NavLink href='/foo' stopPropagation={true} navParams={navParams} />
+                </MockAppComponent>
             );
             ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(link), {button: 0});
             window.setTimeout(function () {
@@ -622,7 +622,7 @@ describe('NavLink', function () {
                 <MockAppComponent context={mockContext}>
                     <NavLink href='/foo' activeClass='active' />
                 </MockAppComponent>
-            , div);
+                , div);
             var routeStore = mockContext.getStore('RouteStore');
             expect(routeStore.listeners('change').length).to.equal(2);
             ReactDOM.unmountComponentAtNode(div);

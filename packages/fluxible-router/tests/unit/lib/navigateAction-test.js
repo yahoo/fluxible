@@ -2,7 +2,7 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-/*globals describe,it,before,beforeEach */
+
 var expect = require('chai').expect;
 var navigateAction = require('../../../dist/lib/navigateAction');
 var createMockActionContext = require('fluxible/utils/createMockActionContext');

@@ -13,6 +13,10 @@ var MockAppComponent = createReactClass({
     contextTypes: {
         getStore: PropTypes.func.isRequired
     },
+    propTypes: {
+        children: PropTypes.object,
+        currentRoute: PropTypes.object
+    },
     render: function () {
         if (!this.props.children) {
             return null;
@@ -41,6 +45,10 @@ module.exports.createDecoratedMockAppComponent = function createDecoratedMockApp
     class DecoratedMockAppComponent extends React.Component {
         static contextTypes = {
             getStore: PropTypes.func.isRequired
+        };
+        static propTypes = {
+            children: PropTypes.object,
+            currentRoute: PropTypes.object
         };
         constructor(props, context) {
             super(props, context);
