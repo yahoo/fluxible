@@ -26,7 +26,7 @@
   "dependencies": {
     "debug": "^2.0.0",
     "fluxible-addons-react": "^0.2.15",
-    "hoist-non-react-statics": "^2.5.0",
+    "hoist-non-react-statics": "^3.0.1",
     "inherits": "^2.0.1",
     "prop-types": "^15.5.8",
     "routr": "^2.0.0"
