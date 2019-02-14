@@ -20,7 +20,7 @@
     }
   ],
   "dependencies": {
-    "debug": "^2.0.0",
+    "debug": "^4.1.1",
     "eventemitter3": "^2.0.0",
     "inherits": "^2.0.1"
   },
