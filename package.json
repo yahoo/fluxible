@@ -48,7 +48,7 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "shelljs": "^0.8.0",
-    "sinon": "^6.0.0",
+    "sinon": "^7.2.4",
     "yargs": "^13.1.0"
   },
   "devEngines": {
