@@ -44,6 +44,11 @@ describe('navigateAction', function () {
             action: function (context, payload, done) {
                 done();
             }
+        },
+        noMatchedAction: {
+            method: 'get',
+            path: '/noMatchedAction',
+            action: 'noMatchedAction'
         }
     };
     var fooAction = function (context, payload, done) {
@@ -201,6 +206,21 @@ describe('navigateAction', function () {
             expect(mockContext.dispatchCalls[0].payload.url).to.equal('/post');
             expect(mockContext.dispatchCalls[1].name).to.equal('NAVIGATE_SUCCESS');
             expect(mockContext.dispatchCalls[1].payload.url).to.equal('/post');
+            done();
+        });
+    });
+
+    it('should dispatch faliure if action can\'t be resolved', function (done) {
+        navigateAction(mockContext, {
+            url: '/noMatchedAction',
+            method: 'get'
+        }, function (err) {
+            expect(err).to.equal(undefined);
+            expect(mockContext.dispatchCalls.length).to.equal(2);
+            expect(mockContext.dispatchCalls[0].name).to.equal('NAVIGATE_START');
+            expect(mockContext.dispatchCalls[0].payload.url).to.equal('/noMatchedAction');
+            expect(mockContext.dispatchCalls[1].name).to.equal('NAVIGATE_FAILURE');
+            expect(mockContext.dispatchCalls[1].payload.url).to.equal('/noMatchedAction');
             done();
         });
     });

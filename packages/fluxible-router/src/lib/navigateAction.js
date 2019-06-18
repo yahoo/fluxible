@@ -44,6 +44,12 @@ function navigateAction (context, payload, done) {
     var action = route.action;
     if ('string' === typeof action && context.getAction) {
         action = context.getAction(action);
+        if (!action) {
+            debug('action cannot be resolved');
+            context.dispatch('NAVIGATE_FAILURE', completionPayload);
+            done();
+            return;
+        }
     }
 
     if (!action || 'function' !== typeof action) {
