@@ -42,19 +42,24 @@ function navigateAction (context, payload, done) {
     }
 
     var action = route.action;
+    if (!action) {
+        debug('route has no action, dispatching without calling action');
+        context.dispatch('NAVIGATE_SUCCESS', completionPayload);
+        done();
+        return;
+    }
+
     if ('string' === typeof action && context.getAction) {
         action = context.getAction(action);
-        if (!action) {
-            debug('action cannot be resolved');
-            context.dispatch('NAVIGATE_FAILURE', completionPayload);
-            done();
-            return;
-        }
     }
 
     if (!action || 'function' !== typeof action) {
-        debug('route has no action, dispatching without calling action');
-        context.dispatch('NAVIGATE_SUCCESS', completionPayload);
+        debug('action cannot be resolved');
+        completionPayload.error = {
+            statusCode: 500,
+            message: 'Action for ' + payload.url + 'can not be resolved'
+        };
+        context.dispatch('NAVIGATE_FAILURE', completionPayload);
         done();
         return;
     }
