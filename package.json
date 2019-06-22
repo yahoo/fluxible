@@ -34,7 +34,7 @@
     "coveralls": "^3.0.0",
     "create-react-class": "^15.5.1",
     "es6-promise": "^4.0.2",
-    "eslint": "^5.0.0",
+    "eslint": "^6.0.0",
     "eslint-plugin-babel": "^5.0.0",
     "eslint-plugin-react": "^7.0.0",
     "fluxible": "^1.0.0",
