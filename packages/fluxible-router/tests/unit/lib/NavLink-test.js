@@ -497,6 +497,7 @@ describe('NavLink', function () {
 
         it('should throw if context not available', function () {
             expect(function () {
+                // eslint-disable-next-line no-useless-catch
                 try{
                     ReactTestUtils.renderIntoDocument(
                         <NavLink href='/foo' followLink={false} />
