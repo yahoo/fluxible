@@ -1,4 +1,4 @@
 {
-  "lerna": "2.2.0",
+  "registry": "https://registry.npmjs.org/",
   "version": "independent"
 }

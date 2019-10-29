@@ -13,7 +13,7 @@
   },
   "scripts": {
     "cover": "BABEL_ENV=test ../../node_modules/.bin/nyc ../../node_modules/.bin/_mocha tests/unit --recursive --reporter spec",
-    "lint": "../../node_modules/.bin/eslint app/ test/",
+    "lint": "../../node_modules/.bin/eslint app/ tests/",
     "test": "../../node_modules/.bin/mocha tests/unit --recursive --reporter=spec"
   },
   "precommit": [
