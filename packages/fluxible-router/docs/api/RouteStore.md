@@ -2,7 +2,7 @@
 
 The `RouteStore` maintains the routes and handles the route matching logic. The `RouteStore` listens for `NAVIGATE_START` and `RECEIVE_ROUTES` events.
 
-When a `NAVIGATE_START` event is heard we attempt to match the route provided by the `payload.url`. If a match is made we update the `currentRoute` with the matched route. We also set the `currentNavigate` property to be the original `payload`. You typically access these properties via `getCurrentRoute()` and `getCurrentNavigate()`.
+When a `NAVIGATE_START` event is heard we attempt to match the route provided by the `payload.url`. If a match is made we update the `currentRoute` with the matched route. We also set the `currentNavigate` property to be the original `payload`. You typically access these properties via `getCurrentRoute()` and `getCurrentNavigate()`. In addition, the previous navigation object will be saved in the store, which contains information about the route before this navigation. The previous navigate object is accessible through `getPrevNavigate()`.
 
 When a `RECEIVE_ROUTES` event is heard we merge the current routes (if any) with those found in the `payload` object. We then nullify the current router instance so it's re-created with the most up-to-date routes next time it's needed.
 
