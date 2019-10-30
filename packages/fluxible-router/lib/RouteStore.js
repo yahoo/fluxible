@@ -19,6 +19,7 @@ var RouteStore = createStore({
         this._routes = null;
         this._router = null;
         this._currentNavigate = null;
+        this._prevNavigate = null;
     },
     _handleNavigateStart: function (navigate) {
         var currentRoute = this._currentNavigate && this._currentNavigate.route;
@@ -31,6 +32,8 @@ var RouteStore = createStore({
         if (this._areEqual(matchedRoute, currentRoute)) {
             matchedRoute = currentRoute;
         }
+
+        this._prevNavigate = this._currentNavigate;
 
         this._currentNavigate = Object.assign({}, navigate, {
             route: matchedRoute,
@@ -115,6 +118,9 @@ var RouteStore = createStore({
     getCurrentNavigate: function () {
         return this._currentNavigate;
     },
+    getPrevNavigate: function () {
+        return this._prevNavigate;
+    },
     getCurrentNavigateError: function () {
         return this._currentNavigate && this._currentNavigate.error;
     },
@@ -137,12 +143,16 @@ var RouteStore = createStore({
         return this._currentNavigate && this._currentNavigate.url === href;
     },
     dehydrate: function () {
+        // no need to dehydrate this._prevNavigate, because it will always
+        // be null on server request
         return {
             currentNavigate: this._currentNavigate,
             routes: this._routes
         };
     },
     rehydrate: function (state) {
+        // no need to rehydrate this._prevNavigate, since it is not being
+        // dehydrated
         this._routes = state.routes;
         if (this._routes) {
             this._router = null;
