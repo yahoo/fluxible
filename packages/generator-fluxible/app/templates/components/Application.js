@@ -30,7 +30,8 @@ class Application extends React.Component {
 }
 
 Application.propTypes = {
-    currentRoute: PropTypes.object
+    currentRoute: PropTypes.object,
+    pageTitle: PropTypes.string
 };
 
 export default provideContext(handleHistory(connectToStores(

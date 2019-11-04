@@ -2,7 +2,7 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-/* global browser, describe, it */
+/* global browser, describe, it, $, $$ */
 
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
