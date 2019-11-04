@@ -35,6 +35,7 @@ class DocStore extends BaseStore {
     }
 
     _receiveDocSuccess(doc) {
+        // eslint-disable-next-line no-prototype-builtins
         if (!doc || !doc.hasOwnProperty('key')) {
             return;
         }

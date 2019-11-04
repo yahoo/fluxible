@@ -53,7 +53,7 @@ class Debug extends React.Component {
                     id="relative_action_tracing"
                     onClick={this.handleRelativeWidth.bind(this)}
                 />
-                <label for="relative_action_tracing">Relative width</label>
+                <label htmlFor="relative_action_tracing">Relative width</label>
                 <Actions relativeWidth={this.state.relativeWidth} />
             </div>
         );
