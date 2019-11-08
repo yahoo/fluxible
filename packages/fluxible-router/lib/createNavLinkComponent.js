@@ -277,7 +277,15 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
 
             e.preventDefault();
 
-            var onBeforeUnloadText = typeof window.onbeforeunload === 'function' ? window.onbeforeunload() : '';
+            var onBeforeUnloadText = '';
+            if (typeof window.onbeforeunload === 'function') {
+                try {
+                    onBeforeUnloadText = window.onbeforeunload();
+                } catch(error) {
+                    var logWarn = (this.context.logger && this.context.logger.warn) || console.warn;
+                    logWarn('Warning: Call of window.onbeforeunload failed', error);
+                }
+            }
             var confirmResult = onBeforeUnloadText ? window.confirm(onBeforeUnloadText) : true;
 
             if (confirmResult) {
