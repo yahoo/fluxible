@@ -375,17 +375,19 @@ describe('handleHistory', function () {
                     });
                 });
                 describe('window.onbeforeunload', function () {
+                    var MockAppComponent;
                     beforeEach(function () {
+                        global.window.dispatchEvent(Object.assign(new Event('popstate'), {}));
+                        var routeStore = mockContext.getStore('RouteStore');
+                        routeStore._handleNavigateStart({url: '/the_path_from_history', method: 'GET'});
+                    });
+
+                    it('does not execute navigate action if there is a window.onbeforeunload method that the user does not confirm', function (done) {
                         global.window.confirm = function () { return false; };
                         global.window.onbeforeunload = function () {
                             return 'this is a test';
                         };
-                    });
-
-                    it('does not dispatch navigate event if there is a window.onbeforeunload method that the user does not confirm', function (done) {
-                        var routeStore = mockContext.getStore('RouteStore');
-                        routeStore._handleNavigateStart({url: '/the_path_from_history', method: 'GET'});
-                        var MockAppComponent = mockCreator({
+                        MockAppComponent = mockCreator({
                             historyCreator: function () {
                                 return historyMock('/foo');
                             }
@@ -394,7 +396,37 @@ describe('handleHistory', function () {
                             <MockAppComponent context={mockContext} />
                         );
                         window.setTimeout(function() {
-                            expect(testResult.dispatch).to.equal(undefined, JSON.stringify(testResult.dispatch));
+                            expect(testResult.pushState).to.have.length(1);
+                            expect(testResult.pushState[0].url).to.equal('/the_path_from_history');
+                            expect(mockContext.executeActionCalls.length).to.equal(0);
+                            done();
+                        }, 10);
+                    });
+
+                    it('should ignore any error which happens when calling onbeforeunload', function (done) {
+                        var loggerWarning;
+                        mockContext.logger = {
+                            warn: function () {
+                                loggerWarning = arguments;
+                            }
+                        };
+                        global.window.confirm = function () { return false; };
+                        global.window.onbeforeunload = function () {
+                            throw new Error('Test error');
+                        };
+                        MockAppComponent = mockCreator({
+                            historyCreator: function () {
+                                return historyMock('/foo');
+                            }
+                        });
+                        ReactTestUtils.renderIntoDocument(
+                            <MockAppComponent context={mockContext} />
+                        );
+                        window.setTimeout(function() {
+                            expect(loggerWarning[0]).to.equal('Warning: Call of window.onbeforeunload failed');
+                            expect(loggerWarning[1].message).to.equal('Test error');
+                            expect(testResult.pushState).to.equal(undefined);
+                            expect(mockContext.executeActionCalls.length).to.equal(1);
                             done();
                         }, 10);
                     });
