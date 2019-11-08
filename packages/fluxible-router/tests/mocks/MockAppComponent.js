@@ -32,7 +32,7 @@ module.exports = provideContext(handleHistory(MockAppComponent, {
 }), customContextTypes);
 
 module.exports.createWrappedMockAppComponent = function createWrappedMockAppComponent(opts) {
-    return provideContext(handleHistory(MockAppComponent, opts));
+    return provideContext(handleHistory(MockAppComponent, opts), customContextTypes);
 };
 
 module.exports.createDecoratedMockAppComponent = function createDecoratedMockAppComponent(opts) {
