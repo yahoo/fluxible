@@ -1,5 +1,13 @@
 # Change Log
 
+## 1.5.3
+
+* [#623] Catch onbeforeunload access errors (@dplate)
+
+## 1.5.2
+
+* [#621] remember prevNavigate
+
 ## 1.4.0
 
 * [#566] Support React 16
