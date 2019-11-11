@@ -474,14 +474,12 @@ describe('NavLink', function () {
         });
 
         describe('window.onbeforeunload', function () {
-            beforeEach(function () {
+            it('should not call context.executeAction when a user does not confirm the onbeforeunload method', function (done) {
                 global.window.confirm = function () { return false; };
                 global.window.onbeforeunload = function () {
                     return 'this is a test';
                 };
-            });
 
-            it('should not call context.executeAction when a user does not confirm the onbeforeunload method', function (done) {
                 var link = ReactTestUtils.renderIntoDocument(
                     <MockAppComponent context={mockContext}>
                         <NavLink href='/foo' followLink={false} />
@@ -490,6 +488,31 @@ describe('NavLink', function () {
                 ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(link), {button: 0});
                 window.setTimeout(function () {
                     expect(mockContext.executeActionCalls.length).to.equal(0);
+                    done();
+                }, 10);
+            });
+
+            it('should ignore any error which happens when calling onbeforeunload', function (done) {
+                var loggerWarning;
+                mockContext.logger = {
+                    warn: function () {
+                        loggerWarning = arguments;
+                    }
+                };
+                global.window.onbeforeunload = function () {
+                    throw new Error('Test error');
+                };
+
+                var link = ReactTestUtils.renderIntoDocument(
+                    <MockAppComponent context={mockContext}>
+                        <NavLink href='/foo' followLink={false} />
+                    </MockAppComponent>
+                );
+                ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(link), {button: 0});
+                window.setTimeout(function () {
+                    expect(loggerWarning[0]).to.equal('Warning: Call of window.onbeforeunload failed');
+                    expect(loggerWarning[1].message).to.equal('Test error');
+                    expect(mockContext.executeActionCalls.length).to.equal(1);
                     done();
                 }, 10);
             });

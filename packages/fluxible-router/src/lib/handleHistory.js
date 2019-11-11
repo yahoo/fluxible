@@ -60,7 +60,8 @@ function createComponent(Component, opts) {
 
     HistoryHandler.displayName = 'HistoryHandler';
     HistoryHandler.contextTypes = {
-        executeAction: PropTypes.func.isRequired
+        executeAction: PropTypes.func.isRequired,
+        logger: PropTypes.object
     };
     HistoryHandler.propTypes = {
         currentRoute: PropTypes.object,
@@ -162,7 +163,15 @@ function createComponent(Component, opts) {
 
             var currentUrl = currentRoute.url;
 
-            var onBeforeUnloadText = typeof window.onbeforeunload === 'function' ? window.onbeforeunload() : '';
+            var onBeforeUnloadText = '';
+            if (typeof window.onbeforeunload === 'function') {
+                try {
+                    onBeforeUnloadText = window.onbeforeunload();
+                } catch(error) {
+                    var logWarn = (this.context.logger && this.context.logger.warn) || console.warn;
+                    logWarn('Warning: Call of window.onbeforeunload failed', error);
+                }
+            }
             var confirmResult = onBeforeUnloadText ? window.confirm(onBeforeUnloadText) : true;
 
             var navParams = nav.params || {};
