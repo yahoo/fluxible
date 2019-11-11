@@ -18,7 +18,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "async": "^2.0.0",
+    "async": "^3.0.1",
     "babel": "^6.5.2",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.6.4",
