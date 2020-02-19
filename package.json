@@ -43,12 +43,12 @@
     "lodash": "^4.17.5",
     "mocha": "^6.0.0",
     "mockery": "^1.7.0",
-    "nyc": "^14.0.0",
+    "nyc": "^15.0.0",
     "pre-commit": "^1.0.7",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "shelljs": "^0.8.0",
-    "sinon": "^7.2.4",
+    "sinon": "^8.0.0",
     "yargs": "^15.0.1"
   },
   "devEngines": {
