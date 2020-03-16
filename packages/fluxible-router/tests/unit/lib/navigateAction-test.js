@@ -215,7 +215,8 @@ describe('navigateAction', function () {
             url: '/noMatchedAction',
             method: 'get'
         }, function (err) {
-            expect(err).to.equal(undefined);
+            expect(err.statusCode).to.equal(500);
+            expect(err.message).to.equal('Action for /noMatchedAction can not be resolved');
             expect(mockContext.dispatchCalls.length).to.equal(2);
             expect(mockContext.dispatchCalls[0].name).to.equal('NAVIGATE_START');
             expect(mockContext.dispatchCalls[0].payload.url).to.equal('/noMatchedAction');
