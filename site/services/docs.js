@@ -114,7 +114,7 @@ function fetchAPI(docParams, cb) {
             let output = marked(mdString, {renderer: renderer});
 
             // Replace all .md links
-            let linkRegex = /href="([^\"]+\.md)(:?#[^\"]+)?"/g;
+            let linkRegex = /href="([^"]+\.md)(:?#[^"]+)?"/g;
             let replacements = [];
             let result;
 

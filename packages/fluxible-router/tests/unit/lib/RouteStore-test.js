@@ -234,4 +234,47 @@ describe('RouteStore', function () {
         });
     });
 
+    it('Prev Navigate', function () {
+        var routeStore = new RouteStore();
+        var routes = {
+            foo: {
+                path: '/foo',
+                method: 'get'
+            },
+            bar: {
+                path: '/bar',
+                method: 'post'
+            }
+        };
+        routeStore._handleReceiveRoutes(routes);
+        routeStore._handleNavigateStart({
+            url: '/foo',
+            method: 'get'
+        });
+        expect(routeStore.getCurrentNavigate().url).to.equal('/foo');
+        expect(routeStore.getCurrentNavigate().method).to.equal('get');
+        expect(routeStore.getPrevNavigate()).to.equal(null);
+        routeStore._handleNavigateSuccess({
+            transactionId: 'first',
+            route: {
+                url: '/foo',
+                method: 'get'
+            }
+        });
+        routeStore._handleNavigateStart({
+            url: '/bar',
+            method: 'get'
+        });
+        expect(routeStore.getCurrentNavigate().url).to.equal('/bar');
+        expect(routeStore.getCurrentNavigate().method).to.equal('get');
+        expect(routeStore.getPrevNavigate().url).to.equal('/foo');
+        expect(routeStore.getPrevNavigate().method).to.equal('get');
+
+        var state = routeStore.dehydrate();
+        expect(state).to.be.an('object');
+        expect(state.currentNavigate.url).to.equal('/bar');
+        expect(state.currentNavigate.method).to.equal('get');
+        expect(state.prevNavigate).to.equal(undefined);
+        expect(state.routes).to.deep.equal(routes);
+    });
 });

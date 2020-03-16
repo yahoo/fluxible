@@ -62,7 +62,8 @@ class Doc extends React.Component {
             editEl = (
                 <a href={createDocsUrl(this.props.currentRoute.githubRepo, this.props.currentRoute.githubPath)}
                     className="edit-github Pos(a) End(10px) T(18px)"
-                    target="_blank">
+                    target="_blank"
+                    rel="noopener noreferrer">
                     Edit on Github
                 </a>
             );

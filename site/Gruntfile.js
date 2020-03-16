@@ -9,6 +9,7 @@ var path = require('path');
 var fs = require('fs');
 
 // format `*.[chunkhash].min.js`
+// eslint-disable-next-line no-useless-escape
 var CHUNK_REGEX = /^([A-Za-z0-9_\-]+)\..*/;
 
 var nodemonArgs = [];

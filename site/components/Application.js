@@ -11,7 +11,6 @@ import Home from './Home';
 import Docs from './Docs';
 import { provideContext, connectToStores } from 'fluxible-addons-react';
 import { handleHistory } from 'fluxible-router';
-import { Actions } from 'fluxible-plugin-devtools';
 import Debug from './Debug';
 import { NavLink } from 'fluxible-router';
 import TopNav from './TopNav';

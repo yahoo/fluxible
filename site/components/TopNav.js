@@ -34,7 +34,7 @@ class TopNav extends React.Component {
                     </NavLink>
                 </li>
                 <li className="D(ib) Va(m) Mstart(20px) Pos(r) Fw(400)">
-                    <a href="https://github.com/yahoo/fluxible" className="D(b) C(#fff) Td(n):h navLink" target="_blank">
+                    <a href="https://github.com/yahoo/fluxible" className="D(b) C(#fff) Td(n):h navLink" target="_blank" rel="noopener noreferrer">
                         <i className="Va(m) Pos(r) fa fa-github"></i> GitHub
                     </a>
                 </li>
