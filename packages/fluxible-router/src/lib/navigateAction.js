@@ -57,10 +57,10 @@ function navigateAction (context, payload, done) {
         debug('action cannot be resolved');
         completionPayload.error = {
             statusCode: 500,
-            message: 'Action for ' + payload.url + 'can not be resolved'
+            message: 'Action for ' + payload.url + ' can not be resolved'
         };
         context.dispatch('NAVIGATE_FAILURE', completionPayload);
-        done();
+        done(completionPayload.error);
         return;
     }
 
