@@ -52,7 +52,7 @@ describe('#promiseCallback', function () {
                 done();
             });
         });
-        it('should not throw error from success callback in same cycle', function (done) {
+        it.skip('should not throw error from success callback in same cycle', function (done) {
             var promise = new Promise(function (resolve, reject) {
                 resolve('resolved');
             });
@@ -71,7 +71,7 @@ describe('#promiseCallback', function () {
                 done();
             });
         });
-        it('should not throw error from failure callback in same cycle', function (done) {
+        it.skip('should not throw error from failure callback in same cycle', function (done) {
             var promise = new Promise(function callbackFn(resolve, reject) {
                 reject('rejected');
             });
@@ -123,7 +123,7 @@ describe('#promiseCallback', function () {
                 optimize: true
             });
         });
-        it('should not throw error from success callback in same cycle', function (done) {
+        it.skip('should not throw error from success callback in same cycle', function (done) {
             var promise = new Promise(function (resolve, reject) {
                 resolve('resolved');
             });
@@ -145,7 +145,7 @@ describe('#promiseCallback', function () {
                 done();
             });
         });
-        it('should not throw error from failure callback in same cycle', function (done) {
+        it.skip('should not throw error from failure callback in same cycle', function (done) {
             var promise = new Promise(function (resolve, reject) {
                 reject('rejected');
             });

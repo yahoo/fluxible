@@ -12,8 +12,8 @@
     "precover": "npm run dist",
     "prepublish": "npm run dist",
     "pretest": "npm run dist",
-    "test": "../../node_modules/.bin/mocha tests/unit/ --opts ../../mocha.opts",
-    "cover": "BABEL_ENV=test ../../node_modules/.bin/nyc ../../node_modules/.bin/_mocha tests/unit/ --opts ../../mocha.opts",
+    "test": "../../node_modules/.bin/mocha tests/unit/",
+    "cover": "BABEL_ENV=test ../../node_modules/.bin/nyc ../../node_modules/.bin/_mocha tests/unit/",
     "lint": "../../node_modules/.bin/eslint **/*.js"
   },
   "author": "Lingyan Zhu <lingyan@yahoo-inc.com>",
