@@ -20,6 +20,7 @@ module.exports = {
     "indent": [2, 4, {"SwitchCase": 1}],
     "no-console": 0,
     "no-empty": 0,
+    "no-prototype-builtins": 0,
     "no-redeclare": 0,
     "no-unused-vars": 0,
     "quotes": [2, "single"]

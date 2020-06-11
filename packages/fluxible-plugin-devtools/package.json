@@ -9,9 +9,9 @@
   },
   "scripts": {
     "pretest": "npm run dist",
-    "test": "../../node_modules/.bin/mocha tests/unit/ --opts ../../mocha.opts",
+    "test": "../../node_modules/.bin/mocha tests/unit/",
     "precover": "npm run dist",
-    "cover": "BABEL_ENV=test ../../node_modules/.bin/nyc ../../node_modules/.bin/_mocha tests/unit/ --opts ../../mocha.opts",
+    "cover": "BABEL_ENV=test ../../node_modules/.bin/nyc ../../node_modules/.bin/_mocha tests/unit/",
     "lint": "../../node_modules/.bin/eslint src/ index.js",
     "dist": "../../node_modules/.bin/babel src -d dist",
     "prepublish": "npm run dist"
