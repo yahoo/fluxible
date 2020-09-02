@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.5.4
+
+* [#645] Return failure when no action can be resolved (#616)  (@tom76kimo)
+
 ## 1.5.3
 
 * [#623] Catch onbeforeunload access errors (@dplate)
