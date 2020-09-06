@@ -14,5 +14,4 @@ before_script: npm run build
 script: npm test
 after_success:
   - "npm run cover"
-  - "npm run cover:collect"
-  - "cat artifacts/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+  - "cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
