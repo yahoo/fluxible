@@ -17,7 +17,7 @@ module.exports = function deprecateComponent(Component, warningMessage) {
     var DeprecationComponent = React.createClass({
         displayName: 'DeprecationComponent',
 
-        componentWillMount: function () {
+        componentDidMount: function () {
             console.warn(warningMessage);
         },
 
