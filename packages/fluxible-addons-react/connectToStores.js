@@ -8,6 +8,7 @@ var React = require('react');
 var PropTypes = require('prop-types');
 var inherits = require('inherits');
 var hoistNonReactStatics = require('hoist-non-react-statics');
+var nanoid = require('nanoid').nanoid;
 
 function createComponent(Component, stores, getStateFromStores, customContextTypes) {
     var componentName = Component.displayName || Component.name;
@@ -41,12 +42,16 @@ function createComponent(Component, stores, getStateFromStores, customContextTyp
                 this.context.getStore(Store).removeListener('change', this._onStoreChange);
             }, this);
         },
-        componentWillReceiveProps: function componentWillReceiveProps(nextProps){
-            this.setState(this.getStateFromStores(nextProps));
+        componentDidUpdate: function componentDidUpdate(prevProps, prevState) {
+            if (this.state._key === prevState._key) {
+                this.setState(this.getStateFromStores());
+            }
         },
         getStateFromStores: function (props) {
-            props = props || this.props;
-            return getStateFromStores(this.context, props);
+            return {
+                fromStore: getStateFromStores(this.context, this.props),
+                _key: nanoid()
+            };
         },
         _onStoreChange: function onStoreChange() {
             if (this._isMounted) {
@@ -55,7 +60,7 @@ function createComponent(Component, stores, getStateFromStores, customContextTyp
         },
         render: function render() {
             var props = Component.prototype && Component.prototype.isReactComponent ? {ref: 'wrappedElement'} : null;
-            return React.createElement(Component, Object.assign({}, this.props, this.state, props));
+            return React.createElement(Component, Object.assign({}, this.props, this.state.fromStore, props));
         }
     });
 
