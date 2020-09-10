@@ -13,7 +13,7 @@
     "precover": "npm run dist",
     "cover": "BABEL_ENV=test ../../node_modules/.bin/nyc ../../node_modules/.bin/_mocha tests/unit/",
     "lint": "../../node_modules/.bin/eslint src/ index.js",
-    "dist": "../../node_modules/.bin/babel src -d dist",
+    "dist": "../../node_modules/.bin/babel --root-mode upward src -d dist",
     "prepublish": "npm run dist"
   },
   "dependencies": {
