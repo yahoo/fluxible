@@ -277,4 +277,33 @@ describe('RouteStore', function () {
         expect(state.prevNavigate).to.equal(undefined);
         expect(state.routes).to.deep.equal(routes);
     });
+
+    it('reset routes', function () {
+        var routeStore = new RouteStore();
+        var routes = {
+            foo: {
+                path: '/foo',
+                method: 'get'
+            },
+            bar: {
+                path: '/bar',
+                method: 'post'
+            }
+        };
+        routeStore._handleReceiveRoutes(routes);
+        var state = routeStore.dehydrate();
+        expect(state).to.be.an('object');
+        expect(state.routes).to.deep.equal(routes);
+
+        var newRoutes = {
+            baz: {
+                path: '/baz',
+                method: 'get'
+            }
+        };
+        routeStore._handleResetRoutes(newRoutes);
+        var newState = routeStore.dehydrate();
+        expect(newState).to.be.an('object');
+        expect(newState.routes).to.deep.equal(newRoutes);
+    });
 });

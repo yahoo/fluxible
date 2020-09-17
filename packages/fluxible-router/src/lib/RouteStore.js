@@ -13,7 +13,8 @@ var RouteStore = createStore({
         'NAVIGATE_START': '_handleNavigateStart',
         'NAVIGATE_SUCCESS': '_handleNavigateSuccess',
         'NAVIGATE_FAILURE': '_handleNavigateFailure',
-        'RECEIVE_ROUTES': '_handleReceiveRoutes'
+        'RECEIVE_ROUTES': '_handleReceiveRoutes',
+        'RESET_ROUTES': '_handleResetRoutes'
     },
     initialize: function () {
         this._routes = null;
@@ -79,6 +80,11 @@ var RouteStore = createStore({
     _handleReceiveRoutes: function (payload) {
         this._routes = Object.assign({}, this._routes || {}, payload);
         // Reset the router so that it is recreated next time it's needed
+        this._router = null;
+        this.emitChange();
+    },
+    _handleResetRoutes: function (payload) {
+        this._routes = payload || {};
         this._router = null;
         this.emitChange();
     },
