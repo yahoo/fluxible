@@ -41,7 +41,7 @@ function createComponent(Component, stores, getStateFromStores, customContextTyp
                 this.context.getStore(Store).removeListener('change', this._onStoreChange);
             }, this);
         },
-        componentWillReceiveProps: function componentWillReceiveProps(nextProps){
+        UNSAFE_componentWillReceiveProps: function UNSAFE_componentWillReceiveProps(nextProps){
             this.setState(this.getStateFromStores(nextProps));
         },
         getStateFromStores: function (props) {
