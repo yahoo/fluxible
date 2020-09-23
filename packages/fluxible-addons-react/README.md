@@ -24,6 +24,7 @@ Join the #fluxible channel of the [Reactiflux](http://reactiflux.com) Discord co
 
 | Compatible React Version | fluxible-addons-react Version |
 |--------------------------|-------------------------------|
+| 16.3 | >= 1.x |
 | 16.0 | >= 0.2.14 |
 | 15.0 | >= 0.2.6 |
 | 0.14 | >= 0.2.x |
