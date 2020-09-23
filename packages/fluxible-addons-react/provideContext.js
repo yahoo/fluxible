@@ -18,6 +18,7 @@ function createComponent(Component, customContextTypes) {
 
     function ContextProvider(props, context) {
         React.Component.apply(this, arguments);
+        this.wrappedElementRef = React.createRef();
     }
 
     inherits(ContextProvider, React.Component);
@@ -43,7 +44,9 @@ function createComponent(Component, customContextTypes) {
         },
 
         render: function () {
-            var props = Component.prototype && Component.prototype.isReactComponent ? {ref: 'wrappedElement'} : null;
+            var props = (Component.prototype && Component.prototype.isReactComponent)
+                ? {ref: this.wrappedElementRef}
+                : null;
             return React.createElement(Component, Object.assign({}, this.props, props));
         }
     });

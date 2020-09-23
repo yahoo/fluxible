@@ -121,7 +121,7 @@ describe('fluxible-addons-react', function () {
 
             var container = document.createElement('div');
             var component = render(<WrappedComponent context={context}/>, container);
-            expect(component.refs).to.include.keys('wrappedElement');
+            expect(component).to.include.keys('wrappedElementRef');
         });
 
         it('should not add a ref to pure function components', function () {

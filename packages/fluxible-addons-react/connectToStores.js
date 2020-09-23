@@ -20,6 +20,7 @@ function createComponent(Component, stores, getStateFromStores, customContextTyp
         this.state = this.getStateFromStores();
         this._onStoreChange = null;
         this._isMounted = false;
+        this.wrappedElementRef = React.createRef();
     }
 
     inherits(StoreConnector, React.Component);
@@ -54,7 +55,9 @@ function createComponent(Component, stores, getStateFromStores, customContextTyp
             }
         },
         render: function render() {
-            var props = Component.prototype && Component.prototype.isReactComponent ? {ref: 'wrappedElement'} : null;
+            var props = (Component.prototype && Component.prototype.isReactComponent)
+                ? {ref: this.wrappedElementRef}
+                : null;
             return React.createElement(Component, Object.assign({}, this.props, this.state, props));
         }
     });
