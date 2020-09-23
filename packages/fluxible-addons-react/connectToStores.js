@@ -79,20 +79,6 @@ function createComponent(Component, stores, getStateFromStores, customContextTyp
  *       }
  *   })
  *
- * Also supports the decorator pattern:
- *   @connectToStores([FooStore],  {
- *       FooStore: function (store, props) {
- *           return {
- *               foo: store.getFoo()
- *           }
- *       }
- *   })
- *   class ConnectedComponent extends React.Component {
- *       render() {
- *           return <div/>;
- *       }
- *   }
- *
  * @method connectToStores
  * @param {React.Component} [Component] component to pass state as props to.
  * @param {array} stores List of stores to listen for changes
@@ -103,16 +89,5 @@ function createComponent(Component, stores, getStateFromStores, customContextTyp
  * @returns {React.Component} or {Function} if using decorator pattern
  */
 module.exports = function connectToStores(Component, stores, getStateFromStores, customContextTypes) {
-
-    // support decorator pattern
-    if (typeof Component !== 'function') {
-        var _stores = Component;
-        var _getStateFromStores = stores;
-        var _customContextTypes = getStateFromStores;
-        return function connectToStoresDecorator(ComponentToDecorate) {
-            return createComponent(ComponentToDecorate, _stores, _getStateFromStores, _customContextTypes);
-        };
-    }
-
     return createComponent.apply(null, arguments);
 };

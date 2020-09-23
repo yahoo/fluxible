@@ -105,36 +105,6 @@ describe('fluxible-addons-react', function () {
             expect(WrappedComponent.displayName).to.not.equal(Component.displayName);
         });
 
-        // Decorators do not work with babel 6
-        it.skip('should provide the context with custom types to children using the decorator pattern', function () {
-            var context = {
-                foo: 'bar',
-                executeAction: function () {
-                },
-                getStore: function () {
-                }
-            };
-            @provideContext({
-                foo: PropTypes.string
-            })
-            class WrappedComponent extends React.Component {
-                static contextTypes = {
-                    foo: PropTypes.string.isRequired,
-                    executeAction: PropTypes.func.isRequired,
-                    getStore: PropTypes.func.isRequired
-                };
-
-                render() {
-                    expect(this.context.foo).to.equal(context.foo);
-                    expect(this.context.executeAction).to.equal(context.executeAction);
-                    expect(this.context.getStore).to.equal(context.getStore);
-                    return null;
-                }
-            }
-
-            renderToString(<WrappedComponent context={context}/>);
-        });
-
         it('should add a ref to class components', function () {
             var context = {
                 executeAction: function () {

@@ -8,7 +8,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 
 Takes the following parameters:
 
- * `Component` - the component that should receive the state as props, optional if using decorator pattern
+ * `Component` - the component that should receive the state as props
  * `stores` - array of store constructors to listen for changes
  * `getStateFromStores` - function that receives all stores and should return the full state object. Receives `stores` hash and component `props` as arguments
  * `customContextTypes` (*optional*) - additional `contextTypes` that could be accessed from your `getStateFromStores` function
@@ -34,31 +34,5 @@ Component = connectToStores(Component, [FooStore, BarStore], (context, props) =>
     bar: context.getStore(BarStore).getBar()
 }));
 
-export default Component;
-```
-
-### Decorator
-
-***Decorators are an evolving proposal and should be used with caution
-as the API may change at any point. Decorator support in
-fluxible-addons-react was built against Babel 5's implementation of
-decorators. As of Babel 6, support for decorators has been removed although
-third party transforms have been attempted with limited success.
-
-Decorators are also only proposed for classes and properties and therefore
-will not work with stateless functional components. See
-[decorator pattern](https://github.com/wycats/javascript-decorators) for
-more information on the proposal.***
-
-```js
-@connectToStores([FooStore, BarStore], (context, props) => ({
-    foo: context.getStore(FooStore).getFoo(),
-    bar: context.getStore(BarStore).getBar()
-}))
-class Component extends React.Component {
-    render() {
-        return <div/>;
-    }
-}
 export default Component;
 ```
