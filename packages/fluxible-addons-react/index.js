@@ -9,6 +9,5 @@ module.exports = {
     connectToStores: require('./connectToStores'),
     createElementWithContext: require('./createElementWithContext'),
     FluxibleComponent: require('./FluxibleComponent'),
-    FluxibleMixin: require('./FluxibleMixin'),
     provideContext: require('./provideContext')
 };
