@@ -13,7 +13,7 @@
     "lint": "../../node_modules/.bin/eslint *.js tests/"
   },
   "dependencies": {
-    "hoist-non-react-statics": "^3.0.1",
+    "hoist-non-react-statics": "^3.3.2",
     "inherits": "^2.0.4",
     "prop-types": "^15.7.2"
   },
