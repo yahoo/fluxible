@@ -46,6 +46,14 @@ describe('handleRoute', function () {
     });
 
     describe('refs', function () {
+        const hasWrappedElementRef = component => {
+            const contextProvider = component;
+            const storeConnector = contextProvider.wrappedElementRef.current;
+            const routeHandler = storeConnector.wrappedElementRef.current;
+            const wrappedElement = routeHandler.refs.wrappedElement;
+            return Boolean(wrappedElement);
+        };
+
         it('should add a ref to class components', function () {
             class Component extends React.Component {
                 render() {
@@ -55,14 +63,14 @@ describe('handleRoute', function () {
             var WrappedComponent = provideContext(handleRoute(Component));
 
             var component = ReactTestUtils.renderIntoDocument(<WrappedComponent context={mockContext}/>);
-            expect(component.refs.wrappedElement.refs.wrappedElement.refs).to.include.keys('wrappedElement');
+            expect(hasWrappedElementRef(component)).to.equal(true);
         });
 
         it('should not add a ref to pure function components', function () {
             var WrappedComponent = provideContext(handleRoute(() => <noscript/>));
 
             var component = ReactTestUtils.renderIntoDocument(<WrappedComponent context={mockContext}/>);
-            expect(component.refs.wrappedElement.refs.wrappedElement.refs).to.not.include.keys('wrappedElement');
+            expect(hasWrappedElementRef(component)).to.equal(false);
         });
     });
 });

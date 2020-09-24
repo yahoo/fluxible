@@ -13,14 +13,14 @@
     "lint": "../../node_modules/.bin/eslint *.js tests/"
   },
   "dependencies": {
-    "hoist-non-react-statics": "^3.0.1",
-    "inherits": "^2.0.1",
-    "prop-types": "^15.5.8"
+    "hoist-non-react-statics": "^3.3.2",
+    "inherits": "^2.0.4",
+    "prop-types": "^15.7.2"
   },
   "peerDependencies": {
     "fluxible": ">=1.0.0",
-    "react": "^0.14.0 || ^15.0.0 || ^16.0.0",
-    "react-dom": "^0.14.0 || ^15.0.0 ||  || ^16.0.0"
+    "react": "^16.3.0",
+    "react-dom": "^16.3.0"
   },
   "author": "Michael Ridgway <mridgway@yahoo-inc.com>",
   "license": "BSD-3-Clause"

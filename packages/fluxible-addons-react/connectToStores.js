@@ -20,6 +20,7 @@ function createComponent(Component, stores, getStateFromStores, customContextTyp
         this.state = this.getStateFromStores();
         this._onStoreChange = null;
         this._isMounted = false;
+        this.wrappedElementRef = React.createRef();
     }
 
     inherits(StoreConnector, React.Component);
@@ -41,7 +42,7 @@ function createComponent(Component, stores, getStateFromStores, customContextTyp
                 this.context.getStore(Store).removeListener('change', this._onStoreChange);
             }, this);
         },
-        componentWillReceiveProps: function componentWillReceiveProps(nextProps){
+        UNSAFE_componentWillReceiveProps: function UNSAFE_componentWillReceiveProps(nextProps){
             this.setState(this.getStateFromStores(nextProps));
         },
         getStateFromStores: function (props) {
@@ -54,7 +55,9 @@ function createComponent(Component, stores, getStateFromStores, customContextTyp
             }
         },
         render: function render() {
-            var props = Component.prototype && Component.prototype.isReactComponent ? {ref: 'wrappedElement'} : null;
+            var props = (Component.prototype && Component.prototype.isReactComponent)
+                ? {ref: this.wrappedElementRef}
+                : null;
             return React.createElement(Component, Object.assign({}, this.props, this.state, props));
         }
     });
@@ -79,20 +82,6 @@ function createComponent(Component, stores, getStateFromStores, customContextTyp
  *       }
  *   })
  *
- * Also supports the decorator pattern:
- *   @connectToStores([FooStore],  {
- *       FooStore: function (store, props) {
- *           return {
- *               foo: store.getFoo()
- *           }
- *       }
- *   })
- *   class ConnectedComponent extends React.Component {
- *       render() {
- *           return <div/>;
- *       }
- *   }
- *
  * @method connectToStores
  * @param {React.Component} [Component] component to pass state as props to.
  * @param {array} stores List of stores to listen for changes
@@ -103,16 +92,5 @@ function createComponent(Component, stores, getStateFromStores, customContextTyp
  * @returns {React.Component} or {Function} if using decorator pattern
  */
 module.exports = function connectToStores(Component, stores, getStateFromStores, customContextTypes) {
-
-    // support decorator pattern
-    if (typeof Component !== 'function') {
-        var _stores = Component;
-        var _getStateFromStores = stores;
-        var _customContextTypes = getStateFromStores;
-        return function connectToStoresDecorator(ComponentToDecorate) {
-            return createComponent(ComponentToDecorate, _stores, _getStateFromStores, _customContextTypes);
-        };
-    }
-
     return createComponent.apply(null, arguments);
 };
