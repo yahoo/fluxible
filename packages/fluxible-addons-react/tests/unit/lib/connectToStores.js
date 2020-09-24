@@ -91,110 +91,34 @@ describe('fluxible-addons-react', function () {
             done();
         });
 
-        it('should get the state from the stores using decorator pattern', function (done) {
-            @connectToStores([FooStore, BarStore], (context) => {
-                return {
-                    foo: context.getStore(FooStore).getFoo(),
-                    bar: context.getStore(BarStore).getBar()
-                };
-            }) class Component extends React.Component {
-               static contextTypes = {
-                   executeAction: PropTypes.func.isRequired
-               };
-            
-               onClick() {
-                   this.context.executeAction(function (actionContext) {
-                       actionContext.dispatch('DOUBLE_UP');
-                   });
-               }
-            
-               render() {
-                   return (
-                       <div>
-                           <span id="foo">{this.props.foo}</span>
-                           <span id="bar">{this.props.bar}</span>
-                           <button id="button" onClick={this.onClick.bind(this)}/>
-                       </div>
-                   );
-               }
-            }
-            
-            var WrappedComponent = provideContext(Component);
-            
-            var container = document.createElement('div');
-            var component = ReactDOM.render(<WrappedComponent context={appContext}/>, container);
-            var domNode = ReactDOM.findDOMNode(component);
-            expect(domNode.querySelector('#foo').textContent).to.equal('bar');
-            expect(domNode.querySelector('#bar').textContent).to.equal('baz');
-            
-            ReactTestUtils.Simulate.click(domNode.querySelector('#button'));
-            
-            expect(domNode.querySelector('#foo').textContent).to.equal('barbar');
-            expect(domNode.querySelector('#bar').textContent).to.equal('bazbaz');
-            
-            expect(appContext.getStore(BarStore).listeners('change').length).to.equal(1);
-            expect(appContext.getStore(FooStore).listeners('change').length).to.equal(1);
-            
-            ReactDOM.unmountComponentAtNode(container);
-            
-            expect(appContext.getStore(BarStore).listeners('change').length).to.equal(0);
-            expect(appContext.getStore(FooStore).listeners('change').length).to.equal(0);
-            done();
-        });
-
-        it('should take customContextTypes using decorator pattern', function (done) {
-            var customContextTypes = {
-                foo: PropTypes.func.isRequired
+        describe('refs', () => {
+            const hasWrappedComponentRef = component => {
+                const contextProvider = component;
+                const storeConnector = contextProvider.wrappedElementRef.current;
+                const wrappedElement = storeConnector.wrappedElementRef.current;
+                return Boolean(wrappedElement);
             };
-            @connectToStores([], (context) => {
-                return {
-                    foo: context.foo()
-                };
-            }, customContextTypes) class Component extends React.Component {
-                render() {
-                    return (
-                        <div>
-                            <span id="foo">{this.props.foo}</span>
-                        </div>
-                    );
+
+            it('should add a ref to class components', function () {
+                class Component extends React.Component {
+                    render() {
+                        return <noscript/>;
+                    }
                 }
-            }
+                var WrappedComponent = provideContext(connectToStores(Component, [], () => ({})));
 
-            var WrappedComponent = provideContext(Component, customContextTypes);
+                var container = document.createElement('div');
+                var component = ReactDOM.render(<WrappedComponent context={appContext}/>, container);
+                expect(hasWrappedComponentRef(component)).to.equal(true);
+            });
 
-            var container = document.createElement('div');
-            var context = Object.assign({
-                foo() {
-                    return 'bar';
-                }
-            }, appContext);
-            var component = ReactDOM.render(<WrappedComponent context={context}/>, container);
-            var domNode = ReactDOM.findDOMNode(component);
-            expect(domNode.querySelector('#foo').textContent).to.equal('bar');
-            done();
-        });
+            it('should not add a ref to pure function components', function () {
+                var WrappedComponent = provideContext(connectToStores(() => <noscript/>, [], () => ({})));
 
-        it('should add a ref to class components', function () {
-            class Component extends React.Component {
-                render() {
-                    return <noscript/>;
-                }
-            }
-            var WrappedComponent = provideContext(connectToStores(Component, [], () => ({})));
-
-            var container = document.createElement('div');
-            var component = ReactDOM.render(<WrappedComponent
-                context={appContext}/>, container);
-            expect(component.refs.wrappedElement.refs).to.include.keys('wrappedElement');
-        });
-
-        it('should not add a ref to pure function components', function () {
-            var WrappedComponent = provideContext(connectToStores(() => <noscript/>, [], () => ({})));
-
-            var container = document.createElement('div');
-            var component = ReactDOM.render(<WrappedComponent
-                context={appContext}/>, container);
-            expect(component.refs.wrappedElement.refs).to.not.include.keys('wrappedElement');
+                var container = document.createElement('div');
+                var component = ReactDOM.render(<WrappedComponent context={appContext}/>, container);
+                expect(hasWrappedComponentRef(component)).to.equal(false);
+            });
         });
 
         it('should hoist non-react statics to higher order component', function () {

@@ -68,7 +68,7 @@ describe('fluxible-addons-react', function () {
             var container = document.createElement('div');
             var component = ReactDOM.render(<WrappedComponent
                 context={appContext.getComponentContext()}/>, container);
-            var wrappedElement = component.refs.wrappedElement.refs.wrappedElement;
+            var wrappedElement = component.wrappedElementRef.current.wrappedElementRef.current;
 
             ReactDOM.unstable_batchedUpdates(function () {
                 wrappedElement.setState({

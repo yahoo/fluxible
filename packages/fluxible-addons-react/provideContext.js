@@ -18,6 +18,7 @@ function createComponent(Component, customContextTypes) {
 
     function ContextProvider(props, context) {
         React.Component.apply(this, arguments);
+        this.wrappedElementRef = React.createRef();
     }
 
     inherits(ContextProvider, React.Component);
@@ -43,7 +44,9 @@ function createComponent(Component, customContextTypes) {
         },
 
         render: function () {
-            var props = Component.prototype && Component.prototype.isReactComponent ? {ref: 'wrappedElement'} : null;
+            var props = (Component.prototype && Component.prototype.isReactComponent)
+                ? {ref: this.wrappedElementRef}
+                : null;
             return React.createElement(Component, Object.assign({}, this.props, props));
         }
     });
@@ -61,29 +64,11 @@ function createComponent(Component, customContextTypes) {
  *       foo: PropTypes.string
  *   });
  *
- * Also supports the decorator pattern:
- *   @provideContext({
- *       foo: PropTypes.string
- *   })
- *   class ConnectedComponent extends React.Component {
- *       render() {
- *           return <div/>;
- *       }
- *   }
- *
  * @method provideContext
  * @param {React.Component} [Component] component to wrap
  * @param {object} customContextTypes Custom contextTypes to add
  * @returns {React.Component} or {Function} if using decorator pattern
  */
 module.exports = function provideContext(Component, customContextTypes) {
-    // support decorator pattern
-    if (arguments.length === 0 || typeof arguments[0] !== 'function') {
-        customContextTypes = arguments[0];
-        return function connectToStoresDecorator(ComponentToDecorate) {
-            return createComponent(ComponentToDecorate, customContextTypes);
-        };
-    }
-
     return createComponent.apply(null, arguments);
 };
