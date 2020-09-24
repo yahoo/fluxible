@@ -16,7 +16,6 @@ Join the #fluxible channel of the [Reactiflux](http://reactiflux.com) Discord co
 
  * [connectToStores](https://github.com/yahoo/fluxible/blob/master/packages/fluxible-addons-react/docs/api/connectToStores.md)
  * [FluxibleComponent](https://github.com/yahoo/fluxible/blob/master/packages/fluxible-addons-react/docs/api/FluxibleComponent.md)
- * [FluxibleMixin](https://github.com/yahoo/fluxible/blob/master/packages/fluxible-addons-react/docs/api/FluxibleMixin.md) (legacy)
  * [provideContext](https://github.com/yahoo/fluxible/blob/master/packages/fluxible-addons-react/docs/api/provideContext.md)
  * [createElementWithContext](https://github.com/yahoo/fluxible/blob/master/packages/fluxible-addons-react/docs/api/createElementWithContext.md)
  * [batchedUpdatePlugin](https://github.com/yahoo/fluxible/blob/master/packages/fluxible-addons-react/docs/api/batchedUpdatePlugin.md)
@@ -25,6 +24,7 @@ Join the #fluxible channel of the [Reactiflux](http://reactiflux.com) Discord co
 
 | Compatible React Version | fluxible-addons-react Version |
 |--------------------------|-------------------------------|
+| 16.3 | >= 1.x |
 | 16.0 | >= 0.2.14 |
 | 15.0 | >= 0.2.6 |
 | 0.14 | >= 0.2.x |
