@@ -7,7 +7,7 @@
 'use strict';
 var React = require('react');
 var PropTypes = require('prop-types');
-var connectToStores = require('fluxible-addons-react/connectToStores');
+var connectToStores = require('fluxible-addons-react').connectToStores;
 var hoistNonReactStatics = require('hoist-non-react-statics');
 var inherits = require('inherits');
 
