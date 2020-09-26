@@ -30,7 +30,7 @@ describe('fluxible-addons-react', function () {
             connectToStores = require('../../../').connectToStores;
             provideContext = require('../../../').provideContext;
 
-            var batchedUpdatePlugin = require('../../../batchedUpdatePlugin');
+            var batchedUpdatePlugin = require('../../../').batchedUpdatePlugin;
             var app = new Fluxible({
                 stores: [FooStore, BarStore]
             });
