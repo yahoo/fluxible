@@ -108,7 +108,7 @@ class NavLink extends React.Component {
             this.state.currentRoute !== nextState.currentRoute
         );
     }
-    componentWillReceiveProps (nextProps) {
+    UNSAFE_componentWillReceiveProps (nextProps) {
         this.setState(this._getState(nextProps));
     }
     _onRouteStoreChange () {
