@@ -54,33 +54,6 @@ AppComponent = provideContext(AppComponent);
 module.exports = AppComponent;
 ```
 
-### Decorator Usage
-
-***Decorators are an evolving proposal and should be used with caution
-as the API may change at any point. Decorator support in
-fluxible-addons-react was built against Babel 5's implementation of
-decorators. As of Babel 6, support for decorators has been removed although
-third party transforms have been attempted with limited success.
-
-Decorators are also only proposed for classes and properties and therefore
-will not work with stateless functional components. See
-[decorator pattern](https://github.com/wycats/javascript-decorators) for
-more information on the proposal.***
-
-```js
-// components/App.jsx
-import {provideContext} from 'fluxible-addons-react';
-import {handleHistory} from 'fluxible-router';
-
-@provideContext
-@handleHistory
-class AppComponent extends React.Component {
-    //...
-}
-
-export default AppComponent;
-```
-
 ## onbeforeunload Support
 
 The `History` API does not allow `popstate` events to be cancelled, which results in `window.onbeforeunload()` methods not being triggered.  This is problematic for users, since application state could be lost when they navigate to a certain page without knowing the consequences.

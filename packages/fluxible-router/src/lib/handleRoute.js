@@ -60,12 +60,5 @@ function createComponent(Component) {
 }
 
 module.exports = function handleRoute(Component) {
-    // support decorator pattern
-    if (arguments.length === 0) {
-        return function handleRouteDecorator(componentToDecorate) {
-            return createComponent(componentToDecorate);
-        };
-    }
-
     return createComponent.apply(null, arguments);
 };
