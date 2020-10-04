@@ -18,7 +18,6 @@
   },
   "dependencies": {
     "hoist-non-react-statics": "^3.3.2",
-    "inherits": "^2.0.4",
     "prop-types": "^15.7.2"
   },
   "peerDependencies": {

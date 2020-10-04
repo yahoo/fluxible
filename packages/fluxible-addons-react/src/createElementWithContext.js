@@ -4,8 +4,8 @@
  */
 'use strict';
 
-var React = require('react');
-var FluxibleComponent = require('./FluxibleComponent');
+const React = require('react');
+const FluxibleComponent = require('./FluxibleComponent');
 
 /**
  * Creates an instance of the app level component with given props and a proper component
@@ -14,19 +14,23 @@ var FluxibleComponent = require('./FluxibleComponent');
  * @param {Object} props
  * @return {ReactElement}
  */
-module.exports = function createElement(fluxibleContext, props) {
-    var Component = fluxibleContext.getComponent();
+function createElementWithContext(fluxibleContext, props) {
+    const Component = fluxibleContext.getComponent();
     if (!Component) {
-        throw new Error('A top-level component was not passed to the Fluxible' +
-            ' constructor.');
+        throw new Error('A top-level component was not passed to the Fluxible constructor.');
     }
-    if (Component.displayName && -1 !== Component.displayName.indexOf('contextProvider')) {
-        return React.createElement(Component, Object.assign({}, {
-            context: fluxibleContext.getComponentContext()
-        }, props));
+    if (Component.displayName && Component.displayName.includes('contextProvider')) {
+        return React.createElement(
+            Component,
+            {context: fluxibleContext.getComponentContext(), ...props},
+        );
     }
-    var componentInstance = React.createElement(Component, props);
-    return React.createElement(FluxibleComponent, {
-        context: fluxibleContext.getComponentContext()
-    }, componentInstance);
-};
+    const componentInstance = React.createElement(Component, props);
+    return React.createElement(
+        FluxibleComponent,
+        {context: fluxibleContext.getComponentContext()},
+        componentInstance
+    );
+}
+
+module.exports = createElementWithContext;
