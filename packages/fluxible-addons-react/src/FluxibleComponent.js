@@ -4,42 +4,32 @@
  */
 'use strict';
 
-var React = require('react');
-var PropTypes = require('prop-types');
-var inherits = require('inherits');
+const React = require('react');
+const PropTypes = require('prop-types');
 
-function FluxibleComponent(props, context) {
-    React.Component.apply(this, arguments);
-}
-
-inherits(FluxibleComponent, React.Component);
-
-FluxibleComponent.displayName = 'FluxibleComponent';
-FluxibleComponent.propTypes = {
-    context: PropTypes.object.isRequired
-};
-FluxibleComponent.childContextTypes = {
-    executeAction: PropTypes.func.isRequired,
-    getStore: PropTypes.func.isRequired
-};
-
-Object.assign(FluxibleComponent.prototype, {
-    /**
-     * Provides the current context as a child context
-     * @method getChildContext
-     */
-    getChildContext: function () {
+class FluxibleComponent extends React.Component {
+    getChildContext() {
         return {
             getStore: this.props.context.getStore,
             executeAction: this.props.context.executeAction
         };
-    },
+    }
 
-    render: function () {
+    render() {
         return React.cloneElement(this.props.children, {
             context: this.props.context
         });
     }
-});
+}
+
+FluxibleComponent.propTypes = {
+    children: PropTypes.node.isRequired,
+    context: PropTypes.object.isRequired
+};
+
+FluxibleComponent.childContextTypes = {
+    executeAction: PropTypes.func.isRequired,
+    getStore: PropTypes.func.isRequired
+};
 
 module.exports = FluxibleComponent;
