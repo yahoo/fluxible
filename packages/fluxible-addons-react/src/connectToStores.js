@@ -4,69 +4,9 @@
  */
 'use strict';
 
-var React = require('react');
-var PropTypes = require('prop-types');
-var inherits = require('inherits');
-var hoistNonReactStatics = require('hoist-non-react-statics');
-
-function createComponent(Component, stores, getStateFromStores, customContextTypes) {
-    var componentName = Component.displayName || Component.name;
-    var componentContextTypes = Object.assign({
-        getStore: PropTypes.func.isRequired
-    }, customContextTypes);
-
-    function StoreConnector(props, context) {
-        React.Component.apply(this, arguments);
-        this.state = this.getStateFromStores();
-        this._onStoreChange = null;
-        this._isMounted = false;
-        this.wrappedElementRef = React.createRef();
-    }
-
-    inherits(StoreConnector, React.Component);
-
-    StoreConnector.displayName = 'storeConnector(' + componentName + ')';
-    StoreConnector.contextTypes = componentContextTypes;
-
-    Object.assign(StoreConnector.prototype, {
-        componentDidMount: function componentDidMount() {
-            this._isMounted = true;
-            this._onStoreChange = this.constructor.prototype._onStoreChange.bind(this);
-            stores.forEach(function storesEach(Store) {
-                this.context.getStore(Store).on('change', this._onStoreChange);
-            }, this);
-        },
-        componentWillUnmount: function componentWillUnmount() {
-            this._isMounted = false;
-            stores.forEach(function storesEach(Store) {
-                this.context.getStore(Store).removeListener('change', this._onStoreChange);
-            }, this);
-        },
-        UNSAFE_componentWillReceiveProps: function UNSAFE_componentWillReceiveProps(nextProps){
-            this.setState(this.getStateFromStores(nextProps));
-        },
-        getStateFromStores: function (props) {
-            props = props || this.props;
-            return getStateFromStores(this.context, props);
-        },
-        _onStoreChange: function onStoreChange() {
-            if (this._isMounted) {
-                this.setState(this.getStateFromStores());
-            }
-        },
-        render: function render() {
-            var props = (Component.prototype && Component.prototype.isReactComponent)
-                ? {ref: this.wrappedElementRef}
-                : null;
-            return React.createElement(Component, Object.assign({}, this.props, this.state, props));
-        }
-    });
-
-    hoistNonReactStatics(StoreConnector, Component);
-    StoreConnector.WrappedComponent = Component;
-
-    return StoreConnector;
-}
+const React = require('react');
+const PropTypes = require('prop-types');
+const hoistNonReactStatics = require('hoist-non-react-statics');
 
 /**
  * Registers change listeners and retrieves state from stores using the `getStateFromStores`
@@ -91,6 +31,62 @@ function createComponent(Component, stores, getStateFromStores, customContextTyp
  *      function
  * @returns {React.Component} or {Function} if using decorator pattern
  */
-module.exports = function connectToStores(Component, stores, getStateFromStores, customContextTypes) {
-    return createComponent.apply(null, arguments);
-};
+function connectToStores(Component, stores, getStateFromStores, customContextTypes) {
+    class StoreConnector extends React.Component {
+        constructor(props, context) {
+            super(props, context);
+            this._isMounted = false;
+            this._onStoreChange = this._onStoreChange.bind(this);
+            this.getStateFromStores = this.getStateFromStores.bind(this);
+            this.state = this.getStateFromStores();
+            this.wrappedElementRef = React.createRef();
+        }
+
+        getStateFromStores(props) {
+            props = props || this.props;
+            return getStateFromStores(this.context, props);
+        }
+
+        _onStoreChange() {
+            if (this._isMounted) {
+                this.setState(this.getStateFromStores());
+            }
+        }
+
+        componentDidMount() {
+            this._isMounted = true;
+            stores.forEach(Store => this.context.getStore(Store).on('change', this._onStoreChange));
+        }
+
+        componentWillUnmount() {
+            this._isMounted = false;
+            stores.forEach(Store => this.context.getStore(Store).removeListener('change', this._onStoreChange));
+        }
+
+        UNSAFE_componentWillReceiveProps(nextProps) {
+            this.setState(this.getStateFromStores(nextProps));
+        }
+
+        render() {
+            const props = (Component.prototype && Component.prototype.isReactComponent)
+                ? {ref: this.wrappedElementRef}
+                : null;
+            return React.createElement(Component, {...this.props, ...this.state, ...props});
+        }
+    }
+
+    StoreConnector.displayName = `storeConnector(${Component.displayName || Component.name || 'Component'})`;
+
+    StoreConnector.contextTypes = {
+        getStore: PropTypes.func.isRequired,
+        ...customContextTypes
+    },
+
+    StoreConnector.WrappedComponent = Component;
+
+    hoistNonReactStatics(StoreConnector, Component);
+
+    return StoreConnector;
+}
+
+module.exports = connectToStores;
