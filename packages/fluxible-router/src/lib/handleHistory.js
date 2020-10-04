@@ -319,13 +319,5 @@ function createComponent(Component, opts) {
  * @returns {React.Component}
  */
 module.exports = function handleHistory(Component, opts) {
-    // support decorator pattern
-    if (arguments.length === 0 || typeof arguments[0] !== 'function') {
-        opts = arguments[0];
-        return function handleHistoryDecorator(componentToDecorate) {
-            return createComponent(componentToDecorate, opts);
-        };
-    }
-
     return createComponent.apply(null, arguments);
 };

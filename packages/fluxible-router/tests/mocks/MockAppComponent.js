@@ -38,30 +38,3 @@ module.exports = provideContext(handleHistory(MockAppComponent, {
 module.exports.createWrappedMockAppComponent = function createWrappedMockAppComponent(opts) {
     return provideContext(handleHistory(MockAppComponent, opts), customContextTypes);
 };
-
-module.exports.createDecoratedMockAppComponent = function createDecoratedMockAppComponent(opts) {
-    @provideContext
-    @handleHistory(opts)
-    class DecoratedMockAppComponent extends React.Component {
-        static contextTypes = {
-            getStore: PropTypes.func.isRequired
-        };
-        static propTypes = {
-            children: PropTypes.object,
-            currentRoute: PropTypes.object
-        };
-        constructor(props, context) {
-            super(props, context);
-        }
-        render() {
-            if (!this.props.children) {
-                return null;
-            }
-            return React.cloneElement(this.props.children, {
-                currentRoute: this.props.currentRoute
-            });
-        }
-    }
-
-    return DecoratedMockAppComponent;
-};
