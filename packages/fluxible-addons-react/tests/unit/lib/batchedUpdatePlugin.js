@@ -1,37 +1,27 @@
-/*globals describe,it,afterEach,beforeEach,document*/
-/*eslint react/prop-types:0 react/no-render-return-value:0 */
-'use strict';
+/* globals describe, it, afterEach, beforeEach, document */
+/* eslint react/prop-types:0 react/no-render-return-value:0 */
+import { expect } from 'chai';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import ReactTestUtils from 'react-dom/test-utils';
+import { JSDOM } from 'jsdom';
+import Fluxible from 'fluxible';
 
-var expect = require('chai').expect;
-var React;
-var ReactDOM;
-var ReactTestUtils;
-var connectToStores;
-var provideContext;
-var FooStore = require('../../fixtures/stores/FooStore');
-var BarStore = require('../../fixtures/stores/BarStore');
-var Fluxible = require('fluxible');
-var JSDOM = require('jsdom').JSDOM;
-var createReactClass = require('create-react-class');
+import { batchedUpdatePlugin, connectToStores, provideContext } from '../../../';
+import FooStore from '../../fixtures/stores/FooStore';
+import BarStore from '../../fixtures/stores/BarStore';
 
-describe('fluxible-addons-react', function () {
-    describe('connectToStores', function () {
-        var appContext;
+describe('fluxible-addons-react', () => {
+    describe('batchedUpdatePlugin', () => {
+        let appContext;
 
-        beforeEach(function () {
-            var jsdom = new JSDOM('<html><body></body></html>');
+        beforeEach(() => {
+            const jsdom = new JSDOM('<html><body></body></html>');
             global.window = jsdom.window;
             global.document = jsdom.window.document;
             global.navigator = jsdom.window.navigator;
 
-            React = require('react');
-            ReactDOM = require('react-dom');
-            ReactTestUtils = require('react-dom/test-utils');
-            connectToStores = require('../../../').connectToStores;
-            provideContext = require('../../../').provideContext;
-
-            var batchedUpdatePlugin = require('../../../').batchedUpdatePlugin;
-            var app = new Fluxible({
+            const app = new Fluxible({
                 stores: [FooStore, BarStore]
             });
             app.plug(batchedUpdatePlugin());
@@ -39,19 +29,19 @@ describe('fluxible-addons-react', function () {
             appContext = app.createContext();
         });
 
-        afterEach(function () {
+        afterEach(() => {
             delete global.window;
             delete global.document;
             delete global.navigator;
         });
 
-        it('should only call render once when two stores emit changes', function (done) {
-            var i = 0;
-            var Component = createReactClass({
-                componentDidUpdate: function () {
+        it('should only call render once when two stores emit changes', (done) => {
+            let i = 0;
+            class Component extends React.Component {
+                componentDidUpdate() {
                     i++;
-                },
-                render: function () {
+                }
+                render() {
                     return (
                         <div>
                             <span id="foo">{this.props.foo}</span>
@@ -59,18 +49,19 @@ describe('fluxible-addons-react', function () {
                         </div>
                     );
                 }
-            });
-            var WrappedComponent = provideContext(connectToStores(Component, [FooStore, BarStore], (context) => ({
+            }
+
+            const WrappedComponent = provideContext(connectToStores(Component, [FooStore, BarStore], (context) => ({
                 foo: context.getStore(FooStore).getFoo(),
                 bar: context.getStore(BarStore).getBar()
             })));
 
-            var container = document.createElement('div');
-            var component = ReactDOM.render(<WrappedComponent
-                context={appContext.getComponentContext()}/>, container);
-            var wrappedElement = component.wrappedElementRef.current.wrappedElementRef.current;
+            const container = document.createElement('div');
+            const context = appContext.getComponentContext();
+            const component = ReactDOM.render(<WrappedComponent context={context}/>, container);
+            const wrappedElement = component.wrappedElementRef.current.wrappedElementRef.current;
 
-            ReactDOM.unstable_batchedUpdates(function () {
+            ReactDOM.unstable_batchedUpdates(() => {
                 wrappedElement.setState({
                     foo: 'far',
                     bar: 'baz'
@@ -84,14 +75,15 @@ describe('fluxible-addons-react', function () {
             expect(i).to.equal(1);
             i = 0;
 
-            appContext.executeAction(function (actionContext) {
+            appContext.executeAction((actionContext) => {
                 actionContext.dispatch('DOUBLE_UP');
             });
+
             (function checkForFinalState() {
-                var props = wrappedElement.props;
+                const props = wrappedElement.props;
                 if (props && props.foo === 'barbar' && props.bar === 'bazbaz') {
                     if (i > 1) {
-                        done(new Error('Update called ' + i + ' times during dispatch'));
+                        done(new Error(`Update called ${i} times during dispatch`));
                         return;
                     }
                     done();
