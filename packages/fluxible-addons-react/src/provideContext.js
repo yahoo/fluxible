@@ -16,10 +16,9 @@ import hoistNonReactStatics from 'hoist-non-react-statics';
  *
  * @method provideContext
  * @param {React.Component} [Component] component to wrap
- * @param {object} customContextTypes Custom contextTypes to add
  * @returns {React.Component} or {Function} if using decorator pattern
  */
-function provideContext(Component, customContextTypes) {
+function provideContext(Component) {
     class ContextProvider extends ReactComponent {
         constructor(props) {
             super(props);
@@ -31,11 +30,6 @@ function provideContext(Component, customContextTypes) {
                 executeAction: this.props.context.executeAction,
                 getStore: this.props.context.getStore
             };
-            if (customContextTypes) {
-                Object.keys(customContextTypes).forEach(key => {
-                    childContext[key] = this.props.context[key];
-                });
-            }
             return childContext;
         }
 
@@ -50,7 +44,6 @@ function provideContext(Component, customContextTypes) {
     ContextProvider.childContextTypes = {
         executeAction: func.isRequired,
         getStore: func.isRequired,
-        ...customContextTypes
     };
 
     ContextProvider.propTypes = {

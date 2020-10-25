@@ -52,35 +52,6 @@ describe('fluxible-addons-react', () => {
             );
         });
 
-        it('should provide the context with custom types to children', () => {
-            const context = {
-                foo: 'bar',
-                executeAction: function() {},
-                getStore: function() {}
-            };
-
-            class Component extends React.Component {
-                static contextTypes = {
-                    foo: PropTypes.string.isRequired,
-                    executeAction: PropTypes.func.isRequired,
-                    getStore: PropTypes.func.isRequired
-                }
-
-                render() {
-                    expect(this.context.foo).to.equal(context.foo);
-                    expect(this.context.executeAction).to.equal(context.executeAction);
-                    expect(this.context.getStore).to.equal(context.getStore);
-                    return null;
-                }
-            }
-
-            const WrappedComponent = provideContext(Component, {
-                foo: PropTypes.string
-            });
-
-            renderToString(<WrappedComponent context={context} />);
-        });
-
         it('should hoist non-react statics to higher order component', () => {
             const context = {
                 foo: 'bar',
