@@ -17,18 +17,15 @@ function createElementWithContext(fluxibleContext, props) {
     if (!Component) {
         throw new Error('A top-level component was not passed to the Fluxible constructor.');
     }
+
+    const context = fluxibleContext.getComponentContext();
+
     if (Component.displayName && Component.displayName.includes('contextProvider')) {
-        return createElement(
-            Component,
-            {context: fluxibleContext.getComponentContext(), ...props},
-        );
+        return createElement(Component, { context, ...props});
     }
-    const componentInstance = createElement(Component, props);
-    return createElement(
-        FluxibleComponent,
-        {context: fluxibleContext.getComponentContext()},
-        componentInstance
-    );
+
+    const children = createElement(Component, props);
+    return createElement(FluxibleComponent, { context }, children);
 }
 
 export default createElementWithContext;

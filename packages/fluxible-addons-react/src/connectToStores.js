@@ -3,8 +3,8 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 import { Component as ReactComponent, createRef, createElement } from 'react';
-import { func } from 'prop-types';
 import hoistNonReactStatics from 'hoist-non-react-statics';
+import { FluxibleContext } from './FluxibleContext';
 
 /**
  * Registers change listeners and retrieves state from stores using the `getStateFromStores`
@@ -73,9 +73,7 @@ function connectToStores(Component, stores, getStateFromStores) {
 
     StoreConnector.displayName = `storeConnector(${Component.displayName || Component.name || 'Component'})`;
 
-    StoreConnector.contextTypes = {
-        getStore: func.isRequired,
-    },
+    StoreConnector.contextType = FluxibleContext;
 
     StoreConnector.WrappedComponent = Component;
 

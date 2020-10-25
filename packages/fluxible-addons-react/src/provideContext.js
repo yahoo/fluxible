@@ -5,6 +5,7 @@
 import { Component as ReactComponent, createRef, createElement } from 'react';
 import { func, object } from 'prop-types';
 import hoistNonReactStatics from 'hoist-non-react-statics';
+import { FluxibleProvider } from './FluxibleContext';
 
 /**
  * Provides context prop to all children as React context
@@ -16,7 +17,7 @@ import hoistNonReactStatics from 'hoist-non-react-statics';
  *
  * @method provideContext
  * @param {React.Component} [Component] component to wrap
- * @returns {React.Component} or {Function} if using decorator pattern
+ * @returns {React.Component}
  */
 function provideContext(Component) {
     class ContextProvider extends ReactComponent {
@@ -25,26 +26,16 @@ function provideContext(Component) {
             this.wrappedElementRef = createRef();
         }
 
-        getChildContext() {
-            const childContext = {
-                executeAction: this.props.context.executeAction,
-                getStore: this.props.context.getStore
-            };
-            return childContext;
-        }
-
         render() {
             const props = (Component.prototype && Component.prototype.isReactComponent)
                 ? {ref: this.wrappedElementRef}
                 : null;
-            return createElement(Component, {...this.props, ...props});
+
+            const { context } = this.props;
+            const children = createElement(Component, {...this.props, ...props});
+            return createElement(FluxibleProvider, { context }, children);
         }
     }
-
-    ContextProvider.childContextTypes = {
-        executeAction: func.isRequired,
-        getStore: func.isRequired,
-    };
 
     ContextProvider.propTypes = {
         context: object.isRequired
