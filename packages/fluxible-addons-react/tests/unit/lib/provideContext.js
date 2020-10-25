@@ -1,103 +1,107 @@
-/*globals describe,it,beforeEach,afterEach,document*/
-'use strict';
+/* globals describe, it, beforeEach, afterEach, document */
+/* eslint react/no-render-return-value:0 */
+import { expect } from 'chai';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { renderToString } from 'react-dom/server';
+import PropTypes from 'prop-types';
+import { JSDOM } from 'jsdom';
 
-var expect = require('chai').expect;
-var React = require('react');
-var PropTypes = require('prop-types');
-var renderToString = require('react-dom/server').renderToString;
-var render = require('react-dom').render;
-var createReactClass = require('create-react-class');
-var provideContext = require('../../..').provideContext;
-var JSDOM = require('jsdom').JSDOM;
+import { provideContext } from '../../../';
 
-describe('fluxible-addons-react', function () {
-    describe('provideContext', function () {
-        beforeEach(function () {
-            var jsdom = new JSDOM('<html><body></body></html>');
+describe('fluxible-addons-react', () => {
+    describe('provideContext', () => {
+        beforeEach(() => {
+            const jsdom = new JSDOM('<html><body></body></html>');
             global.window = jsdom.window;
             global.document = jsdom.window.document;
             global.navigator = jsdom.window.navigator;
         });
 
-        afterEach(function () {
+        afterEach(() => {
             delete global.window;
             delete global.document;
             delete global.navigator;
         });
 
-        it('should use the childs name', function () {
-            var Component = createReactClass({
-                render: function () {
+        it('should use the childs name', () => {
+            class Component extends React.Component {
+                render() {
                     return null;
                 }
-            });
+            }
 
-            var WrappedComponent = provideContext(Component);
-            expect(WrappedComponent.displayName).to.equal('contextProvider(Component)');
+            const WrappedComponent = provideContext(Component);
+            expect(WrappedComponent.displayName).to.equal(
+                'contextProvider(Component)'
+            );
         });
 
-        it('should use the childs displayName', function () {
-            var Component = createReactClass({
-                displayName: 'TestComponent',
-                render: function () {
+        it('should use the childs displayName', () => {
+            class Component extends React.Component {
+                static displayName = 'TestComponent'
+
+                render() {
                     return null;
                 }
-            });
+            }
 
-            var WrappedComponent = provideContext(Component);
-            expect(WrappedComponent.displayName).to.equal('contextProvider(TestComponent)');
+            const WrappedComponent = provideContext(Component);
+            expect(WrappedComponent.displayName).to.equal(
+                'contextProvider(TestComponent)'
+            );
         });
 
-        it('should provide the context with custom types to children', function () {
-            var context = {
+        it('should provide the context with custom types to children', () => {
+            const context = {
                 foo: 'bar',
-                executeAction: function () {
-                },
-                getStore: function () {
-                }
+                executeAction: function() {},
+                getStore: function() {}
             };
-            var Component = createReactClass({
-                contextTypes: {
+
+            class Component extends React.Component {
+                static contextTypes = {
                     foo: PropTypes.string.isRequired,
                     executeAction: PropTypes.func.isRequired,
                     getStore: PropTypes.func.isRequired
-                },
-                render: function () {
+                }
+
+                render() {
                     expect(this.context.foo).to.equal(context.foo);
                     expect(this.context.executeAction).to.equal(context.executeAction);
                     expect(this.context.getStore).to.equal(context.getStore);
                     return null;
                 }
-            });
-            var WrappedComponent = provideContext(Component, {
+            }
+
+            const WrappedComponent = provideContext(Component, {
                 foo: PropTypes.string
             });
 
-            renderToString(<WrappedComponent context={context}/>);
+            renderToString(<WrappedComponent context={context} />);
         });
 
-        it('should hoist non-react statics to higher order component', function () {
-            var context = {
+        it('should hoist non-react statics to higher order component', () => {
+            const context = {
                 foo: 'bar',
-                executeAction: function () {
-                },
-                getStore: function () {
-                }
+                executeAction: () => {},
+                getStore: () => {},
             };
-            var Component = createReactClass({
-                displayName: 'Component',
-                statics: {
-                    initAction: function () {
-                    }
-                },
-                render: function () {
+
+            class Component extends React.Component {
+                static displayName = 'Component'
+
+                static initAction() {}
+
+                render() {
                     expect(this.context.foo).to.equal(context.foo);
                     expect(this.context.executeAction).to.equal(context.executeAction);
                     expect(this.context.getStore).to.equal(context.getStore);
                     return null;
                 }
-            });
-            var WrappedComponent = provideContext(Component, {
+            }
+
+            const WrappedComponent = provideContext(Component, {
                 foo: PropTypes.string
             });
 
@@ -105,36 +109,35 @@ describe('fluxible-addons-react', function () {
             expect(WrappedComponent.displayName).to.not.equal(Component.displayName);
         });
 
-        it('should add a ref to class components', function () {
-            var context = {
-                executeAction: function () {
-                },
-                getStore: function () {
-                }
+        it('should add a ref to class components', () => {
+            const context = {
+                executeAction: () => {},
+                getStore: () => {},
             };
+
             class Component extends React.Component {
                 render() {
-                    return <noscript/>;
+                    return <noscript />;
                 }
             }
-            var WrappedComponent = provideContext(Component, [], () => ({}));
 
-            var container = document.createElement('div');
-            var component = render(<WrappedComponent context={context}/>, container);
+            const WrappedComponent = provideContext(Component, [], () => ({}));
+
+            const container = document.createElement('div');
+            const component = ReactDOM.render(<WrappedComponent context={context} />, container);
             expect(component).to.include.keys('wrappedElementRef');
         });
 
-        it('should not add a ref to pure function components', function () {
-            var context = {
-                executeAction: function () {
-                },
-                getStore: function () {
-                }
+        it('should not add a ref to pure function components', () => {
+            const context = {
+                executeAction: () => {},
+                getStore: () => {},
             };
-            var WrappedComponent = provideContext(() => <noscript/>, [], () => ({}));
 
-            var container = document.createElement('div');
-            var component = render(<WrappedComponent context={context}/>, container);
+            const WrappedComponent = provideContext(() => <noscript />, [], () => ({}));
+
+            const container = document.createElement('div');
+            const component = ReactDOM.render(<WrappedComponent context={context} />, container);
             expect(component.refs).to.not.include.keys('wrappedElement');
         });
     });
