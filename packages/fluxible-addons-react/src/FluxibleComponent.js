@@ -2,12 +2,10 @@
  * Copyright 2015, Yahoo Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-'use strict';
+import { Component, cloneElement } from 'react';
+import { func, object, node } from 'prop-types';
 
-const React = require('react');
-const PropTypes = require('prop-types');
-
-class FluxibleComponent extends React.Component {
+class FluxibleComponent extends Component {
     getChildContext() {
         return {
             getStore: this.props.context.getStore,
@@ -16,20 +14,20 @@ class FluxibleComponent extends React.Component {
     }
 
     render() {
-        return React.cloneElement(this.props.children, {
+        return cloneElement(this.props.children, {
             context: this.props.context
         });
     }
 }
 
 FluxibleComponent.propTypes = {
-    children: PropTypes.node.isRequired,
-    context: PropTypes.object.isRequired
+    children: node.isRequired,
+    context: object.isRequired
 };
 
 FluxibleComponent.childContextTypes = {
-    executeAction: PropTypes.func.isRequired,
-    getStore: PropTypes.func.isRequired
+    executeAction: func.isRequired,
+    getStore: func.isRequired
 };
 
-module.exports = FluxibleComponent;
+export default FluxibleComponent;

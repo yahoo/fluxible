@@ -2,11 +2,9 @@
  * Copyright 2015, Yahoo Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-'use strict';
-
-const React = require('react');
-const PropTypes = require('prop-types');
-const hoistNonReactStatics = require('hoist-non-react-statics');
+import { Component as ReactComponent, createRef, createElement } from 'react';
+import { func, object } from 'prop-types';
+import hoistNonReactStatics from 'hoist-non-react-statics';
 
 /**
  * Provides context prop to all children as React context
@@ -22,10 +20,10 @@ const hoistNonReactStatics = require('hoist-non-react-statics');
  * @returns {React.Component} or {Function} if using decorator pattern
  */
 function provideContext(Component, customContextTypes) {
-    class ContextProvider extends React.Component {
+    class ContextProvider extends ReactComponent {
         constructor(props) {
             super(props);
-            this.wrappedElementRef = React.createRef();
+            this.wrappedElementRef = createRef();
         }
 
         getChildContext() {
@@ -45,18 +43,18 @@ function provideContext(Component, customContextTypes) {
             const props = (Component.prototype && Component.prototype.isReactComponent)
                 ? {ref: this.wrappedElementRef}
                 : null;
-            return React.createElement(Component, {...this.props, ...props});
+            return createElement(Component, {...this.props, ...props});
         }
     }
 
     ContextProvider.childContextTypes = {
-        executeAction: PropTypes.func.isRequired,
-        getStore: PropTypes.func.isRequired,
+        executeAction: func.isRequired,
+        getStore: func.isRequired,
         ...customContextTypes
     };
 
     ContextProvider.propTypes = {
-        context: PropTypes.object.isRequired
+        context: object.isRequired
     };
 
     ContextProvider.displayName = `contextProvider(${Component.displayName || Component.name || 'Component'})`;
@@ -66,4 +64,4 @@ function provideContext(Component, customContextTypes) {
     return ContextProvider;
 }
 
-module.exports = provideContext;
+export default provideContext;
