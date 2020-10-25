@@ -1,26 +1,23 @@
-/*globals describe,it,afterEach,beforeEach,document*/
-/*eslint react/prop-types:0, react/no-render-return-value:0, react/no-find-dom-node:0 */
-'use strict';
+/* globals describe, it, afterEach, beforeEach, document */
+/* eslint react/prop-types:0, react/no-render-return-value:0, react/no-find-dom-node:0 */
+import { expect } from 'chai';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import ReactTestUtils from 'react-dom/test-utils';
+import PropTypes from 'prop-types';
+import { JSDOM } from 'jsdom';
+import createMockComponentContext from 'fluxible/utils/createMockComponentContext';
 
-var expect = require('chai').expect;
-var React;
-var PropTypes;
-var ReactDOM;
-var ReactTestUtils;
-var connectToStores;
-var provideContext;
-var createReactClass;
-var FooStore = require('../../fixtures/stores/FooStore');
-var BarStore = require('../../fixtures/stores/BarStore');
-var createMockComponentContext = require('fluxible/utils/createMockComponentContext');
-var JSDOM = require('jsdom').JSDOM;
+import { connectToStores, provideContext } from '../../../';
+import FooStore from '../../fixtures/stores/FooStore';
+import BarStore from '../../fixtures/stores/BarStore';
 
-describe('fluxible-addons-react', function () {
-    describe('connectToStores', function () {
-        var appContext;
+describe('fluxible-addons-react', () => {
+    describe('connectToStores', () => {
+        let appContext;
 
-        beforeEach(function () {
-            var jsdom = new JSDOM('<html><body></body></html>');
+        beforeEach(() => {
+            const jsdom = new JSDOM('<html><body></body></html>');
             global.window = jsdom.window;
             global.document = jsdom.window.document;
             global.navigator = jsdom.window.navigator;
@@ -28,33 +25,30 @@ describe('fluxible-addons-react', function () {
             appContext = createMockComponentContext({
                 stores: [FooStore, BarStore]
             });
-
-            React = require('react');
-            ReactDOM = require('react-dom');
-            PropTypes = require('prop-types');
-            createReactClass = require('create-react-class');
-            ReactTestUtils = require('react-dom/test-utils');
-            connectToStores = require('../../../').connectToStores;
-            provideContext = require('../../../').provideContext;
         });
 
-        afterEach(function () {
+        afterEach(() => {
             delete global.window;
             delete global.document;
             delete global.navigator;
         });
 
-        it('should get the state from the stores', function (done) {
-            var Component = createReactClass({
-                contextTypes: {
-                    executeAction: PropTypes.func.isRequired
-                },
-                onClick: function () {
-                    this.context.executeAction(function (actionContext) {
-                        actionContext.dispatch('DOUBLE_UP');
-                    });
-                },
-                render: function () {
+        it('should get the state from the stores', (done) => {
+            class Component extends React.Component {
+                static contextTypes = {
+                    executeAction: PropTypes.func.isRequired,
+                }
+
+                constructor() {
+                    super();
+                    this.onClick = this.onClick.bind(this);
+                }
+
+                onClick() {
+                    this.context.executeAction((actionContext) => actionContext.dispatch('DOUBLE_UP'));
+                }
+
+                render() {
                     return (
                         <div>
                             <span id="foo">{this.props.foo}</span>
@@ -63,16 +57,16 @@ describe('fluxible-addons-react', function () {
                         </div>
                     );
                 }
-            });
-            var WrappedComponent = provideContext(connectToStores(Component, [FooStore, BarStore], (context) => ({
+            }
+
+            const WrappedComponent = provideContext(connectToStores(Component, [FooStore, BarStore], (context) => ({
                 foo: context.getStore(FooStore).getFoo(),
                 bar: context.getStore(BarStore).getBar()
             })));
 
-            var container = document.createElement('div');
-            var component = ReactDOM.render(<WrappedComponent
-                context={appContext}/>, container);
-            var domNode = ReactDOM.findDOMNode(component);
+            const container = document.createElement('div');
+            const component = ReactDOM.render(<WrappedComponent context={appContext} />, container);
+            const domNode = ReactDOM.findDOMNode(component);
             expect(domNode.querySelector('#foo').textContent).to.equal('bar');
             expect(domNode.querySelector('#bar').textContent).to.equal('baz');
 
@@ -99,53 +93,43 @@ describe('fluxible-addons-react', function () {
                 return Boolean(wrappedElement);
             };
 
-            it('should add a ref to class components', function () {
+            it('should add a ref to class components', () => {
                 class Component extends React.Component {
                     render() {
-                        return <noscript/>;
+                        return <noscript />;
                     }
                 }
-                var WrappedComponent = provideContext(connectToStores(Component, [], () => ({})));
+                const WrappedComponent = provideContext(connectToStores(Component, [], () => ({})));
 
-                var container = document.createElement('div');
-                var component = ReactDOM.render(<WrappedComponent context={appContext}/>, container);
+                const container = document.createElement('div');
+                const component = ReactDOM.render(<WrappedComponent context={appContext}/>, container);
                 expect(hasWrappedComponentRef(component)).to.equal(true);
             });
 
-            it('should not add a ref to pure function components', function () {
-                var WrappedComponent = provideContext(connectToStores(() => <noscript/>, [], () => ({})));
+            it('should not add a ref to pure function components', () => {
+                const WrappedComponent = provideContext(connectToStores(() => <noscript />, [], () => ({})));
 
-                var container = document.createElement('div');
-                var component = ReactDOM.render(<WrappedComponent context={appContext}/>, container);
+                const container = document.createElement('div');
+                const component = ReactDOM.render(<WrappedComponent context={appContext} />, container);
                 expect(hasWrappedComponentRef(component)).to.equal(false);
             });
         });
 
-        it('should hoist non-react statics to higher order component', function () {
-            var Component = createReactClass({
-                displayName: 'Component',
-                statics: {
-                    initAction: function () {
-                    }
-                },
-                render: function () {
-                    return (
-                        <p>Hello world.</p>
-                    );
+        it('should hoist non-react statics to higher order component', () => {
+            class Component extends React.Component {
+                static displayName = 'Component';
+
+                static initAction() {}
+
+                render() {
+                    return <p>Hello world.</p>;
                 }
-            });
-            var WrapperComponent = provideContext(connectToStores(Component, [FooStore, BarStore], {
+            }
+
+            const WrapperComponent = provideContext(connectToStores(Component, [FooStore, BarStore], {
                 displayName: 'WrapperComponent',
-                FooStore: function (store, props) {
-                    return {
-                        foo: store.getFoo()
-                    };
-                },
-                BarStore: function (store, props) {
-                    return {
-                        bar: store.getBar()
-                    };
-                }
+                FooStore: (store, props) => ({ foo: store.getFoo() }),
+                BarStore: (store, props) => ({ bar: store.getBar() }),
             }));
 
             expect(WrapperComponent.initAction).to.be.a('function');
