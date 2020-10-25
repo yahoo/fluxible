@@ -5,19 +5,12 @@
 'use strict';
 var React = require('react');
 var PropTypes = require('prop-types');
-var provideContext = require('fluxible-addons-react').provideContext;
+var { provideContext, FluxibleContext } = require('fluxible-addons-react');
 var handleHistory = require('../../dist/lib/handleHistory');
 var createReactClass = require('create-react-class');
 
-var MockAppComponent = createReactClass({
-    contextTypes: {
-        getStore: PropTypes.func.isRequired
-    },
-    propTypes: {
-        children: PropTypes.object,
-        currentRoute: PropTypes.object
-    },
-    render: function () {
+class MockAppComponent extends React.Component {
+    render() {
         if (!this.props.children) {
             return null;
         }
@@ -25,16 +18,20 @@ var MockAppComponent = createReactClass({
             currentRoute: this.props.currentRoute
         });
     }
-});
+}
 
-var customContextTypes = {
-    logger: PropTypes.object
+MockAppComponent.contextType = FluxibleContext;
+
+MockAppComponent.propTypes = {
+    children: PropTypes.object,
+    currentRoute: PropTypes.object
 };
+
 module.exports = provideContext(handleHistory(MockAppComponent, {
     checkRouteOnPageLoad: false,
     enableScroll: true
-}), customContextTypes);
+}));
 
 module.exports.createWrappedMockAppComponent = function createWrappedMockAppComponent(opts) {
-    return provideContext(handleHistory(MockAppComponent, opts), customContextTypes);
+    return provideContext(handleHistory(MockAppComponent, opts));
 };
