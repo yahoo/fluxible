@@ -2,11 +2,9 @@
  * Copyright 2015, Yahoo Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-'use strict';
-
-const React = require('react');
-const PropTypes = require('prop-types');
-const hoistNonReactStatics = require('hoist-non-react-statics');
+import { Component as ReactComponent, createRef, createElement } from 'react';
+import { func } from 'prop-types';
+import hoistNonReactStatics from 'hoist-non-react-statics';
 
 /**
  * Registers change listeners and retrieves state from stores using the `getStateFromStores`
@@ -32,14 +30,14 @@ const hoistNonReactStatics = require('hoist-non-react-statics');
  * @returns {React.Component} or {Function} if using decorator pattern
  */
 function connectToStores(Component, stores, getStateFromStores, customContextTypes) {
-    class StoreConnector extends React.Component {
+    class StoreConnector extends ReactComponent {
         constructor(props, context) {
             super(props, context);
             this._isMounted = false;
             this._onStoreChange = this._onStoreChange.bind(this);
             this.getStateFromStores = this.getStateFromStores.bind(this);
             this.state = this.getStateFromStores();
-            this.wrappedElementRef = React.createRef();
+            this.wrappedElementRef = createRef();
         }
 
         getStateFromStores(props) {
@@ -71,14 +69,14 @@ function connectToStores(Component, stores, getStateFromStores, customContextTyp
             const props = (Component.prototype && Component.prototype.isReactComponent)
                 ? {ref: this.wrappedElementRef}
                 : null;
-            return React.createElement(Component, {...this.props, ...this.state, ...props});
+            return createElement(Component, {...this.props, ...this.state, ...props});
         }
     }
 
     StoreConnector.displayName = `storeConnector(${Component.displayName || Component.name || 'Component'})`;
 
     StoreConnector.contextTypes = {
-        getStore: PropTypes.func.isRequired,
+        getStore: func.isRequired,
         ...customContextTypes
     },
 
@@ -89,4 +87,4 @@ function connectToStores(Component, stores, getStateFromStores, customContextTyp
     return StoreConnector;
 }
 
-module.exports = connectToStores;
+export default connectToStores;

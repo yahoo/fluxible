@@ -2,10 +2,8 @@
  * Copyright 2015, Yahoo Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-'use strict';
-
-const React = require('react');
-const FluxibleComponent = require('./FluxibleComponent');
+import { Component, createElement } from 'react';
+import FluxibleComponent from './FluxibleComponent';
 
 /**
  * Creates an instance of the app level component with given props and a proper component
@@ -20,17 +18,17 @@ function createElementWithContext(fluxibleContext, props) {
         throw new Error('A top-level component was not passed to the Fluxible constructor.');
     }
     if (Component.displayName && Component.displayName.includes('contextProvider')) {
-        return React.createElement(
+        return createElement(
             Component,
             {context: fluxibleContext.getComponentContext(), ...props},
         );
     }
-    const componentInstance = React.createElement(Component, props);
-    return React.createElement(
+    const componentInstance = createElement(Component, props);
+    return createElement(
         FluxibleComponent,
         {context: fluxibleContext.getComponentContext()},
         componentInstance
     );
 }
 
-module.exports = createElementWithContext;
+export default createElementWithContext;

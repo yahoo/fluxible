@@ -2,12 +2,8 @@
  * Copyright 2015, Yahoo Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-'use strict';
-
-module.exports = {
-    batchedUpdatePlugin: require('./batchedUpdatePlugin'),
-    connectToStores: require('./connectToStores'),
-    createElementWithContext: require('./createElementWithContext'),
-    FluxibleComponent: require('./FluxibleComponent'),
-    provideContext: require('./provideContext')
-};
+export { default as FluxibleComponent } from './FluxibleComponent';
+export { default as batchedUpdatePlugin } from './batchedUpdatePlugin';
+export { default as connectToStores } from './connectToStores';
+export { default as createElementWithContext } from './createElementWithContext';
+export { default as provideContext } from './provideContext';
