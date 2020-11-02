@@ -7,7 +7,7 @@ import { renderToString } from 'react-dom/server';
 import PropTypes from 'prop-types';
 import { JSDOM } from 'jsdom';
 
-import { provideContext } from '../../../';
+import { provideContext, FluxibleContext } from '../../../';
 
 describe('fluxible-addons-react', () => {
     describe('provideContext', () => {
@@ -50,6 +50,30 @@ describe('fluxible-addons-react', () => {
             expect(WrappedComponent.displayName).to.equal(
                 'contextProvider(TestComponent)'
             );
+        });
+
+        it('should provide the context with custom types to children', () => {
+            const plugins = ['foo'];
+            const context = {
+                foo: 'bar',
+                executeAction: function() {},
+                getStore: function() {}
+            };
+
+            class Component extends React.Component {
+                static contextType = FluxibleContext;
+
+                render() {
+                    expect(this.context.executeAction).to.equal(context.executeAction);
+                    expect(this.context.getStore).to.equal(context.getStore);
+                    expect(this.context.foo).to.equal(context.foo);
+                    return null;
+                }
+            }
+
+            const WrappedComponent = provideContext(Component, plugins);
+
+            renderToString(<WrappedComponent context={context} />);
         });
 
         it('should hoist non-react statics to higher order component', () => {

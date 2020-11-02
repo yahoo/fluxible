@@ -17,9 +17,10 @@ import { FluxibleProvider } from './FluxibleContext';
  *
  * @method provideContext
  * @param {React.Component} [Component] component to wrap
+ * @param {array} [plugins] list of plugins names to inject into the context
  * @returns {React.Component}
  */
-function provideContext(Component) {
+function provideContext(Component, plugins) {
     class ContextProvider extends ReactComponent {
         constructor(props) {
             super(props);
@@ -33,7 +34,7 @@ function provideContext(Component) {
 
             const { context } = this.props;
             const children = createElement(Component, {...this.props, ...props});
-            return createElement(FluxibleProvider, { context }, children);
+            return createElement(FluxibleProvider, { context, plugins }, children);
         }
     }
 
