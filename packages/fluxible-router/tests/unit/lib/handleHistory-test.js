@@ -404,11 +404,7 @@ describe('handleHistory', function () {
 
                 it('should ignore any error which happens when calling onbeforeunload', function (done) {
                     var loggerWarning;
-                    mockContext.logger = {
-                        warn: function () {
-                            loggerWarning = arguments;
-                        }
-                    };
+                    global.console.warn = (...args) => { loggerWarning = args; };
                     global.window.confirm = function () { return false; };
                     global.window.onbeforeunload = function () {
                         throw new Error('Test error');

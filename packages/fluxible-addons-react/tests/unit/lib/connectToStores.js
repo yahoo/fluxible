@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import { JSDOM } from 'jsdom';
 import createMockComponentContext from 'fluxible/utils/createMockComponentContext';
 
-import { connectToStores, provideContext } from '../../../';
+import { connectToStores, provideContext, FluxibleContext } from '../../../';
 import FooStore from '../../fixtures/stores/FooStore';
 import BarStore from '../../fixtures/stores/BarStore';
 
@@ -35,9 +35,7 @@ describe('fluxible-addons-react', () => {
 
         it('should get the state from the stores', (done) => {
             class Component extends React.Component {
-                static contextTypes = {
-                    executeAction: PropTypes.func.isRequired,
-                }
+                static contextType = FluxibleContext
 
                 constructor() {
                     super();

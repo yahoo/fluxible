@@ -7,6 +7,7 @@
 var React = require('react');
 var PropTypes = require('prop-types');
 var debug = require('debug')('FluxibleRouter:handleHistory');
+var { FluxibleContext } = require('fluxible-addons-react');
 var handleRoute = require('../lib/handleRoute');
 var navigateAction = require('../lib/navigateAction');
 var History = require('./History');
@@ -59,10 +60,7 @@ function createComponent(Component, opts) {
     inherits(HistoryHandler, React.Component);
 
     HistoryHandler.displayName = 'HistoryHandler';
-    HistoryHandler.contextTypes = {
-        executeAction: PropTypes.func.isRequired,
-        logger: PropTypes.object
-    };
+    HistoryHandler.contextType = FluxibleContext;
     HistoryHandler.propTypes = {
         currentRoute: PropTypes.object,
         currentNavigate: PropTypes.object
@@ -168,8 +166,7 @@ function createComponent(Component, opts) {
                 try {
                     onBeforeUnloadText = window.onbeforeunload();
                 } catch(error) {
-                    var logWarn = (this.context.logger && this.context.logger.warn) || console.warn;
-                    logWarn('Warning: Call of window.onbeforeunload failed', error);
+                    console.warn('Warning: Call of window.onbeforeunload failed', error);
                 }
             }
             var confirmResult = onBeforeUnloadText ? window.confirm(onBeforeUnloadText) : true;
