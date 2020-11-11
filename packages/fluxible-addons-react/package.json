@@ -1,6 +1,6 @@
 {
   "name": "fluxible-addons-react",
-  "version": "0.2.16",
+  "version": "1.0.0-beta.0",
   "description": "Fluxible addons for use with React",
   "main": "dist/index.js",
   "repository": {
