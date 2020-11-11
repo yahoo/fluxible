@@ -3,8 +3,8 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 import { Component as ReactComponent, createRef, createElement } from 'react';
-import { func } from 'prop-types';
 import hoistNonReactStatics from 'hoist-non-react-statics';
+import { FluxibleContext } from './FluxibleContext';
 
 /**
  * Registers change listeners and retrieves state from stores using the `getStateFromStores`
@@ -25,11 +25,9 @@ import hoistNonReactStatics from 'hoist-non-react-statics';
  * @param {array} stores List of stores to listen for changes
  * @param {function} getStateFromStores function that receives all stores and should return
  *      the full state object. Receives `stores` hash and component `props` as arguments
- * @param {Object} [customContextTypes] additional `contextTypes` that could be accessed from your `getStateFromStores`
- *      function
  * @returns {React.Component} or {Function} if using decorator pattern
  */
-function connectToStores(Component, stores, getStateFromStores, customContextTypes) {
+function connectToStores(Component, stores, getStateFromStores) {
     class StoreConnector extends ReactComponent {
         constructor(props, context) {
             super(props, context);
@@ -75,10 +73,7 @@ function connectToStores(Component, stores, getStateFromStores, customContextTyp
 
     StoreConnector.displayName = `storeConnector(${Component.displayName || Component.name || 'Component'})`;
 
-    StoreConnector.contextTypes = {
-        getStore: func.isRequired,
-        ...customContextTypes
-    },
+    StoreConnector.contextType = FluxibleContext;
 
     StoreConnector.WrappedComponent = Component;
 

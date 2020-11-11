@@ -7,6 +7,7 @@
 'use strict';
 var React = require('react');
 var PropTypes = require('prop-types');
+var { FluxibleContext } = require('fluxible-addons-react');
 var RouteStore = require('./RouteStore');
 var debug = require('debug')('NavLink');
 var navigateAction = require('./navigateAction');
@@ -255,8 +256,7 @@ class NavLink extends React.Component {
             try {
                 onBeforeUnloadText = window.onbeforeunload();
             } catch(error) {
-                var logWarn = (this.context.logger && this.context.logger.warn) || console.warn;
-                logWarn('Warning: Call of window.onbeforeunload failed', error);
+                console.warn('Warning: Call of window.onbeforeunload failed', error);
             }
         }
         var confirmResult = onBeforeUnloadText ? window.confirm(onBeforeUnloadText) : true;
@@ -291,8 +291,7 @@ class NavLink extends React.Component {
                 throw new Error('NavLink created with empty or missing href \'' + props.href +
                     '\'or unresolvable routeName \'' + props.routeName);
             } else {
-                var logError = (this.context.logger && this.context.logger.error) || console.error;
-                logError('Error: Render NavLink with empty or missing href', props);
+                console.error('Error: Render NavLink with empty or missing href', props);
             }
         }
 
@@ -361,11 +360,7 @@ class NavLink extends React.Component {
 NavLink._isMounted = false;
 NavLink.autobind = false;
 NavLink.displayName = 'NavLink';
-NavLink.contextTypes = {
-    executeAction: PropTypes.func.isRequired,
-    getStore: PropTypes.func.isRequired,
-    logger: PropTypes.object
-}
+NavLink.contextType = FluxibleContext;
 NavLink.propTypes = {
     href: PropTypes.string,
     stopPropagation: PropTypes.bool,

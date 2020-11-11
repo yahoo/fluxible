@@ -7,3 +7,4 @@ export { default as batchedUpdatePlugin } from './batchedUpdatePlugin';
 export { default as connectToStores } from './connectToStores';
 export { default as createElementWithContext } from './createElementWithContext';
 export { default as provideContext } from './provideContext';
+export { FluxibleContext } from './FluxibleContext';

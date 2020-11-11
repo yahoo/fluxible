@@ -494,10 +494,8 @@ describe('NavLink', function () {
 
             it('should ignore any error which happens when calling onbeforeunload', function (done) {
                 var loggerWarning;
-                mockContext.logger = {
-                    warn: function () {
-                        loggerWarning = arguments;
-                    }
+                global.console.warn = (...args) => {
+                    loggerWarning = args;
                 };
                 global.window.onbeforeunload = function () {
                     throw new Error('Test error');
@@ -679,17 +677,14 @@ describe('NavLink NODE_ENV === development', function () {
 describe('NavLink NODE_ENV === production', function () {
     var mockContext;
     var loggerError;
-    var logger = {
-        error: function () {
-            loggerError = arguments;
-        }
-    };
 
     beforeEach(function (done) {
-        loggerError = null;
+        global.console.error = (...args) => {
+            loggerError = args;
+        };
+
         setup({nodeEnv: 'production'}, function (err, context) {
             mockContext = context;
-            mockContext.logger = logger;
             done(err);
         });
     });

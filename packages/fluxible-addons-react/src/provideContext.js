@@ -5,6 +5,7 @@
 import { Component as ReactComponent, createRef, createElement } from 'react';
 import { func, object } from 'prop-types';
 import hoistNonReactStatics from 'hoist-non-react-statics';
+import { FluxibleProvider } from './FluxibleContext';
 
 /**
  * Provides context prop to all children as React context
@@ -16,42 +17,26 @@ import hoistNonReactStatics from 'hoist-non-react-statics';
  *
  * @method provideContext
  * @param {React.Component} [Component] component to wrap
- * @param {object} customContextTypes Custom contextTypes to add
- * @returns {React.Component} or {Function} if using decorator pattern
+ * @param {array} [plugins] list of plugins names to inject into the context
+ * @returns {React.Component}
  */
-function provideContext(Component, customContextTypes) {
+function provideContext(Component, plugins) {
     class ContextProvider extends ReactComponent {
         constructor(props) {
             super(props);
             this.wrappedElementRef = createRef();
         }
 
-        getChildContext() {
-            const childContext = {
-                executeAction: this.props.context.executeAction,
-                getStore: this.props.context.getStore
-            };
-            if (customContextTypes) {
-                Object.keys(customContextTypes).forEach(key => {
-                    childContext[key] = this.props.context[key];
-                });
-            }
-            return childContext;
-        }
-
         render() {
             const props = (Component.prototype && Component.prototype.isReactComponent)
                 ? {ref: this.wrappedElementRef}
                 : null;
-            return createElement(Component, {...this.props, ...props});
+
+            const { context } = this.props;
+            const children = createElement(Component, {...this.props, ...props});
+            return createElement(FluxibleProvider, { context, plugins }, children);
         }
     }
-
-    ContextProvider.childContextTypes = {
-        executeAction: func.isRequired,
-        getStore: func.isRequired,
-        ...customContextTypes
-    };
 
     ContextProvider.propTypes = {
         context: object.isRequired
