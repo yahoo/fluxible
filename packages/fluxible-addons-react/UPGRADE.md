@@ -2,6 +2,25 @@
 
 ## From 0.2.x to 1.0.0
 
+### imports
+
+Since the published version is a babel transpiled code that resides on a 
+dist folder, imports like `fluxible-addons-react/connectToStores` don't work anymore.
+
+**Before**
+
+```javascript
+import connectToStores from 'fluxible-addonts-react/connectToStores';
+import provideContext from 'fluxible-addonts-react/provideContext';
+// ...
+```
+
+**After**
+
+```javascript
+import { connectToStores, provideContext } from 'fluxible-addonts-react';
+```
+
 ### provideContext
 
 `provideContext(Component, customContextTypes)` -> `provideContext(Component, plugins)`
