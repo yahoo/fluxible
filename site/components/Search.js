@@ -8,7 +8,7 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { navigateAction, RouteStore } from 'fluxible-router';
-import connectToStores from 'fluxible-addons-react/connectToStores';
+import { connectToStores } from 'fluxible-addons-react';
 import loadIndex from '../actions/loadIndex';
 import SearchStore from '../stores/SearchStore';
 import debugLib from 'debug';
