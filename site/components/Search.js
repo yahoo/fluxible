@@ -91,7 +91,7 @@ class Search extends React.Component {
         return (
             <div className="D(ib)">
                 <form className={classes}>
-                    <label forHTML="q" className="hidden">Search</label>
+                    <label htmlFor="q" className="hidden">Search</label>
                     <input
                         ref="q"
                         type="text"
