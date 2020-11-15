@@ -151,8 +151,9 @@ var RouteStore = createStore({
     dehydrate: function () {
         // no need to dehydrate this._prevNavigate, because it will always
         // be null on server request
+        var currentNavigate = Object.assign({}, this._currentNavigate, {route: null});
         return {
-            currentNavigate: this._currentNavigate,
+            currentNavigate: currentNavigate,
             routes: this._routes
         };
     },
