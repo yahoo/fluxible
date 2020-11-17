@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.7.0
+
+* [#670] fluxible-router: remove route from dehydrated state, closes (#522)  (@pablopalacios)
+
 ## 1.5.4
 
 * [#645] Return failure when no action can be resolved (#616)  (@tom76kimo)
