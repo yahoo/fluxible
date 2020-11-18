@@ -7,3 +7,4 @@ node_modules
 *.tgz
 .jshintrc
 package-lock.json
+examples/*/build
