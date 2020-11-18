@@ -35,6 +35,7 @@ describe('RouteStore', function () {
                 expect(state.currentNavigate.transactionId).to.equal('first');
                 expect(state.currentNavigate.url).to.equal('/foo');
                 expect(state.currentNavigate.method).to.equal('get');
+                expect(state.currentNavigate.route).to.equal(null);
                 expect(state.routes).to.equal(null);
             });
         });
