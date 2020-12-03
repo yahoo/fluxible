@@ -6,7 +6,6 @@
 
 import debugLib from 'debug';
 import React from 'react';
-import PropTypes from 'prop-types';
 import Home from './Home';
 import Docs from './Docs';
 import { provideContext, connectToStores } from 'fluxible-addons-react';
@@ -80,10 +79,7 @@ Application = provideContext(
             currentDoc: context.getStore('DocStore').getCurrent()
         }))
     ),
-    {
-        query: PropTypes.object,
-        devtools: PropTypes.object
-    }
+    ['query', 'devtools']
 );
 
 export default Application;
