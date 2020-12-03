@@ -1,11 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { FluxibleContext } from 'fluxible-addons-react';
 import { Actions } from 'fluxible-plugin-devtools';
 
 class Debug extends React.Component {
-    static contextTypes = {
-        query: PropTypes.object
-    }
+
+    static contextType = FluxibleContext;
 
     constructor() {
         super();
