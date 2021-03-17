@@ -62,10 +62,14 @@ function fetchGitHubReposApi(params, cb) {
 
     // use access token if available, otherwise use client id and secret
     if (secrets.github.accessToken) {
-        githubUrl += qs.stringify({
-            access_token: secrets.github.accessToken
-        });
+        // using accessToken as query param is being deprecated
+        // https://developer.github.com/changes/2020-02-10-deprecating-auth-through-query-param/
+        // githubUrl += qs.stringify({
+        //     access_token: secrets.github.accessToken
+        // });
     } else {
+        // using clientId and clientSecret as query param is being deprecated as well.
+        // will remove this after switching fluxible.io to use accessToken.
         githubUrl += qs.stringify({
             client_id: secrets.github.clientId,
             client_secret: secrets.github.clientSecret
@@ -78,10 +82,19 @@ function fetchGitHubReposApi(params, cb) {
     }
     debug(githubUrl);
 
-    request
-        .get(githubUrl)
-        .set('User-Agent', 'superagent')
-        .end(cb);
+    if (secrets.github.accessToken) {
+        request
+            .get(githubUrl)
+            .set('User-Agent', 'superagent')
+            .set('Authorization', 'token ' + secrets.github.accessToken)
+            .end(cb);
+    } else {
+        // will remove this after switching fluxible.io to use accessToken.
+        request
+            .get(githubUrl)
+            .set('User-Agent', 'superagent')
+            .end(cb);
+    }
 }
 
 /**
