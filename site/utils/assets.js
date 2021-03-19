@@ -7,7 +7,6 @@ import path from 'path';
 const CDN_PATH = '/public/js/';
 
 let assets = {
-    common: CDN_PATH + 'common.js',
     main: CDN_PATH + 'main.js'
 };
 
@@ -17,7 +16,6 @@ if ('production' === process.env.NODE_ENV) {
     } catch (e) {
         throw new Error('Please run `grunt build` to generate the production assets.');
     }
-    assets.common = CDN_PATH + webpackAssets.assets.common;
     assets.main = CDN_PATH + webpackAssets.assets.main;
 }
 
