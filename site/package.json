@@ -9,7 +9,7 @@
     "build": "grunt build",
     "dev": "grunt dev && npm run start",
     "devtest": "mocha tests/unit --require @babel/register --recursive",
-    "lint": "eslint --ext .js,.jsx --ignore-pattern artifacts,build,node_modules .",
+    "lint": "eslint --ext .js,.jsx .",
     "start": "node start",
     "test": "nyc --report-dir ${COVERAGE_DIR:-artifacts/coverage} --reporter lcov mocha tests/unit --require @babel/register --recursive"
   },
