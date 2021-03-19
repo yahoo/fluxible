@@ -5,7 +5,6 @@
 
 import async from 'async';
 import debugLib from 'debug';
-import fs from 'fs';
 import getSearchIndexPath from '../utils/getSearchIndexPath';
 import highlight from 'highlight.js';
 import lunr from 'lunr';
@@ -16,7 +15,6 @@ import request from 'superagent';
 import routes from '../configs/routes';
 import secrets from './../secrets';
 import url from 'url';
-import semver from 'semver';
 
 const ENV = process.env.NODE_ENV;
 const debug = debugLib('DocsService');
@@ -219,61 +217,6 @@ function fetchGitBranch(pkg, cb) {
     // TODO: Remove this when we figure out strategy for monorepo
     cb(null, 'master');
     return;
-    //var url = 'http://registry.npmjs.org/' + pkg;
-    //debug(url);
-    //
-    //request
-    //.get(url)
-    //.end(function (err, res) {
-    //    let version;
-    //
-    //    if (err || !res) {
-    //        return cb(new Error('npm request failed: ' + url));
-    //    }
-    //
-    //    if (res.body && res.body['dist-tags']) {
-    //        version = res.body['dist-tags'].latest;
-    //    }
-    //
-    //    // after we get the npm version of the package, we need to check and see if there is a
-    //    // suitable branch on github with the same version. this way we can ensure we receive
-    //    // the docs for the version published on npm.
-    //    //
-    //    // if we do not find a branch, then we default to 'master'.
-    //    fetchGitHubReposApi({
-    //        repo: 'yahoo/' + pkg,
-    //        type: 'branches'
-    //    }, function (err, res) {
-    //        if (err || !res) {
-    //            return cb(new Error('github branches failed for yahoo/' + pkg));
-    //        }
-    //
-    //        // default to master unless a branch match is found
-    //        var githubRef = 'master';
-    //
-    //        // TODO: Fix this logic and make it per repository? Branches are now
-    //        //      prefixed with the package name
-    //        var branches = res.body;
-    //        branches.forEach(function eachBranch(branch) {
-    //            var branchName = branch.name;
-    //
-    //            // branches start with 'v', need to remove that for semver comparison
-    //            if (branchName.charAt(0) === 'v') {
-    //                branchName = branchName.substr(1);
-    //            }
-    //            debug('checking branches for ' + pkg, version, branchName, semver.satisfies(version, branchName));
-    //
-    //            // check the cleaned branch name against the version in npm, if the branch
-    //            // satisifes the version, then use the branch for the github API call
-    //            if (semver.satisfies(version, branchName)) {
-    //                debug('found a branch that matches the npm version', version, branchName);
-    //                githubRef = branch.name;
-    //            }
-    //        });
-    //
-    //        cb(null, githubRef);
-    //    });
-    //});
 }
 
 /**
@@ -299,20 +242,17 @@ function fetchGitBranch(pkg, cb) {
         };
     }, {});
 
-    Promise.all(repoList.map((fetches, repo) => {
-        return {
-            ...fetches,
-            [repo]: new Promise((resolve, reject) => {
-                fetchGitBranch(repo.split('/')[1], (err, result) => {
-                    if (err) {
-                        reject(err);
-                        return;
-                    }
-                    branchHash[repo] = result;
-                    resolve(result);
-                });
-            })
-        };
+    Promise.all(repoList.map((repo) => {
+        return new Promise((resolve, reject) => {
+            fetchGitBranch(repo.split('/')[1], (err, result) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                branchHash[repo] = result;
+                resolve(result);
+            });
+        });
     }, {})).then(() => {
         const fetches = [];
         Object.keys(routes).forEach(function eachRoute(routeName) {
@@ -336,7 +276,7 @@ function fetchGitBranch(pkg, cb) {
         });
     })['catch']();
 
-    setTimeout(refreshCacheFromGithub, 10 * 60 * 1000); // refresh cache every ten minutes
+    setTimeout(refreshCacheFromGithub, 6 * 60 * 60 * 1000); // refresh cache every six hours
 })();
 
 export default {
