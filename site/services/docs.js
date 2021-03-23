@@ -26,6 +26,12 @@ marked.setOptions({
     }
 });
 
+if (secrets.github.accessToken) {
+    console.log('All good! Found access token.');
+} else {
+    console.error('Not good! Missing access token. Will be rate-limited by github API.');
+}
+
 // Generate a hash of valid api routes, from the /configs/apis.js file
 let cache = {};
 let documents = {};
@@ -58,22 +64,6 @@ function fetchGitHubReposApi(params, cb) {
     // create github api url
     let githubUrl = 'https://api.github.com/repos/' + repo + '/' + type + '?';
 
-    // use access token if available, otherwise use client id and secret
-    if (secrets.github.accessToken) {
-        // using accessToken as query param is being deprecated
-        // https://developer.github.com/changes/2020-02-10-deprecating-auth-through-query-param/
-        // githubUrl += qs.stringify({
-        //     access_token: secrets.github.accessToken
-        // });
-    } else {
-        // using clientId and clientSecret as query param is being deprecated as well.
-        // will remove this after switching fluxible.io to use accessToken.
-        githubUrl += qs.stringify({
-            client_id: secrets.github.clientId,
-            client_secret: secrets.github.clientSecret
-        });
-    }
-
     // the name of the commit/branch/tag
     if (params.ref) {
         githubUrl += '&ref=' + params.ref;
@@ -87,7 +77,7 @@ function fetchGitHubReposApi(params, cb) {
             .set('Authorization', 'token ' + secrets.github.accessToken)
             .end(cb);
     } else {
-        // will remove this after switching fluxible.io to use accessToken.
+        // still make call to github API, but will be rate limited.
         request
             .get(githubUrl)
             .set('User-Agent', 'superagent')

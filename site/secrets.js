@@ -1,17 +1,11 @@
 /**
- * This is a sample file for your Github client id and client secret
- * This is needed to collect the doc's from the fluxible repo.
- * You can generate the client/secret pair here: https://github.com/settings/applications/new
+ * This is a sample file for using your Github access token to collect
+ * the doc's from the fluxible repo.
  *
- * Alternatively, you can pass in an oauth access token to work around the rate limiting
- * restrictions of the client id / secret pair
- *
- * GitHub Auth docs: https://developer.github.com/v3/#authentication
+ * GitHub Auth docs: https://docs.github.com/en/rest/overview/resources-in-the-rest-api#authentication
  */
 export default {
     github: {
-        accessToken: process.env.GITHUB_ACCESS_TOKEN || '',
-        clientId: process.env.GITHUB_CLIENT_ID || '',
-        clientSecret: process.env.GITHUB_CLIENT_SECRET || ''
+        accessToken: process.env.GITHUB_ACCESS_TOKEN || ''
     }
 };
