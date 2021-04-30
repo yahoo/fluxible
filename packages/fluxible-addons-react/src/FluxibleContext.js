@@ -1,9 +1,15 @@
 import { Component, createContext, createElement } from 'react';
 import { arrayOf, node, object, string } from 'prop-types';
 
+const throwError = () => {
+    throw new Error(
+        'Fluxible context not found. Wrap your component with Fluxible component or provideContext.'
+    );
+};
+
 export const FluxibleContext = createContext({
-    executeAction: () => {},
-    getStore: () => {},
+    executeAction: throwError,
+    getStore: throwError,
 });
 
 export class FluxibleProvider extends Component {
