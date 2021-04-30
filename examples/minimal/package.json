@@ -1,0 +1,30 @@
+{
+  "name": "fluxible-minimal-example",
+  "version": "1.0.0",
+  "main": "dist/server.js",
+  "author": "Pablo Palacios <pablo.palacios@holidaycheck.com>",
+  "private": true,
+  "scripts": {
+    "build": "npm run build:browser && npm run build:server",
+    "build:browser": "BABEL_ENV=browser webpack -c webpack.browser.config.js",
+    "build:server": "BABEL_ENV=server webpack -c webpack.server.config.js",
+    "start": "node ."
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "fluxible": "^1.4.0",
+    "fluxible-addons-react": "^1.0.0-beta.0",
+    "fluxible-reducer-store": "^0.1.0",
+    "react": "^17.0.2",
+    "serialize-javascript": "^5.0.1",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.13.16",
+    "@babel/preset-env": "^7.13.15",
+    "@babel/preset-react": "^7.13.13",
+    "babel-loader": "^8.2.2",
+    "webpack": "^5.36.1",
+    "webpack-cli": "^4.6.0"
+  }
+}
