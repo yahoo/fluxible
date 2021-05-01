@@ -3,7 +3,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 import { Component as ReactComponent, createRef, createElement } from 'react';
-import { func, object } from 'prop-types';
+import { object } from 'prop-types';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { FluxibleProvider } from './FluxibleContext';
 
@@ -28,21 +28,31 @@ function provideContext(Component, plugins) {
         }
 
         render() {
-            const props = (Component.prototype && Component.prototype.isReactComponent)
-                ? {ref: this.wrappedElementRef}
-                : null;
+            const props =
+                Component.prototype && Component.prototype.isReactComponent
+                    ? { ref: this.wrappedElementRef }
+                    : null;
 
             const { context } = this.props;
-            const children = createElement(Component, {...this.props, ...props});
-            return createElement(FluxibleProvider, { context, plugins }, children);
+            const children = createElement(Component, {
+                ...this.props,
+                ...props,
+            });
+            return createElement(
+                FluxibleProvider,
+                { context, plugins },
+                children
+            );
         }
     }
 
     ContextProvider.propTypes = {
-        context: object.isRequired
+        context: object.isRequired,
     };
 
-    ContextProvider.displayName = `contextProvider(${Component.displayName || Component.name || 'Component'})`;
+    ContextProvider.displayName = `contextProvider(${
+        Component.displayName || Component.name || 'Component'
+    })`;
 
     hoistNonReactStatics(ContextProvider, Component);
 

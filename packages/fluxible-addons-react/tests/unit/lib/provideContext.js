@@ -39,7 +39,7 @@ describe('fluxible-addons-react', () => {
 
         it('should use the childs displayName', () => {
             class Component extends React.Component {
-                static displayName = 'TestComponent'
+                static displayName = 'TestComponent';
 
                 render() {
                     return null;
@@ -52,19 +52,21 @@ describe('fluxible-addons-react', () => {
             );
         });
 
-        it('should provide the context with custom types to children', () => {
+        it('should provide the context with plugins to children', () => {
             const plugins = ['foo'];
             const context = {
                 foo: 'bar',
-                executeAction: function() {},
-                getStore: function() {}
+                executeAction: function () {},
+                getStore: function () {},
             };
 
             class Component extends React.Component {
                 static contextType = FluxibleContext;
 
                 render() {
-                    expect(this.context.executeAction).to.equal(context.executeAction);
+                    expect(this.context.executeAction).to.equal(
+                        context.executeAction
+                    );
                     expect(this.context.getStore).to.equal(context.getStore);
                     expect(this.context.foo).to.equal(context.foo);
                     return null;
@@ -84,24 +86,28 @@ describe('fluxible-addons-react', () => {
             };
 
             class Component extends React.Component {
-                static displayName = 'Component'
+                static displayName = 'Component';
 
                 static initAction() {}
 
                 render() {
                     expect(this.context.foo).to.equal(context.foo);
-                    expect(this.context.executeAction).to.equal(context.executeAction);
+                    expect(this.context.executeAction).to.equal(
+                        context.executeAction
+                    );
                     expect(this.context.getStore).to.equal(context.getStore);
                     return null;
                 }
             }
 
             const WrappedComponent = provideContext(Component, {
-                foo: PropTypes.string
+                foo: PropTypes.string,
             });
 
             expect(WrappedComponent.initAction).to.be.a('function');
-            expect(WrappedComponent.displayName).to.not.equal(Component.displayName);
+            expect(WrappedComponent.displayName).to.not.equal(
+                Component.displayName
+            );
         });
 
         it('should add a ref to class components', () => {
@@ -119,7 +125,10 @@ describe('fluxible-addons-react', () => {
             const WrappedComponent = provideContext(Component, [], () => ({}));
 
             const container = document.createElement('div');
-            const component = ReactDOM.render(<WrappedComponent context={context} />, container);
+            const component = ReactDOM.render(
+                <WrappedComponent context={context} />,
+                container
+            );
             expect(component).to.include.keys('wrappedElementRef');
         });
 
@@ -129,10 +138,17 @@ describe('fluxible-addons-react', () => {
                 getStore: () => {},
             };
 
-            const WrappedComponent = provideContext(() => <noscript />, [], () => ({}));
+            const WrappedComponent = provideContext(
+                () => <noscript />,
+                [],
+                () => ({})
+            );
 
             const container = document.createElement('div');
-            const component = ReactDOM.render(<WrappedComponent context={context} />, container);
+            const component = ReactDOM.render(
+                <WrappedComponent context={context} />,
+                container
+            );
             expect(component.refs).to.not.include.keys('wrappedElement');
         });
     });
