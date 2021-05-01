@@ -3,7 +3,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 import { Component as ReactComponent, createRef, createElement } from 'react';
-import { func, object } from 'prop-types';
+import { object } from 'prop-types';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { FluxibleProvider } from './FluxibleContext';
 
@@ -21,6 +21,12 @@ import { FluxibleProvider } from './FluxibleContext';
  * @returns {React.Component}
  */
 function provideContext(Component, plugins) {
+    if (plugins && !Array.isArray(plugins)) {
+        throw new TypeError(
+            'Invalid type for plugins. Starting from v1.0, plugins must be an array of plugin names.'
+        );
+    }
+
     class ContextProvider extends ReactComponent {
         constructor(props) {
             super(props);
@@ -28,21 +34,31 @@ function provideContext(Component, plugins) {
         }
 
         render() {
-            const props = (Component.prototype && Component.prototype.isReactComponent)
-                ? {ref: this.wrappedElementRef}
-                : null;
+            const props =
+                Component.prototype && Component.prototype.isReactComponent
+                    ? { ref: this.wrappedElementRef }
+                    : null;
 
             const { context } = this.props;
-            const children = createElement(Component, {...this.props, ...props});
-            return createElement(FluxibleProvider, { context, plugins }, children);
+            const children = createElement(Component, {
+                ...this.props,
+                ...props,
+            });
+            return createElement(
+                FluxibleProvider,
+                { context, plugins },
+                children
+            );
         }
     }
 
     ContextProvider.propTypes = {
-        context: object.isRequired
+        context: object.isRequired,
     };
 
-    ContextProvider.displayName = `contextProvider(${Component.displayName || Component.name || 'Component'})`;
+    ContextProvider.displayName = `contextProvider(${
+        Component.displayName || Component.name || 'Component'
+    })`;
 
     hoistNonReactStatics(ContextProvider, Component);
 
