@@ -21,6 +21,12 @@ import { FluxibleProvider } from './FluxibleContext';
  * @returns {React.Component}
  */
 function provideContext(Component, plugins) {
+    if (plugins && !Array.isArray(plugins)) {
+        throw new TypeError(
+            'Invalid type for plugins. Starting from v1.0, plugins must be an array of plugin names.'
+        );
+    }
+
     class ContextProvider extends ReactComponent {
         constructor(props) {
             super(props);

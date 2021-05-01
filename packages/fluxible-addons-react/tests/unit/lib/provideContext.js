@@ -78,31 +78,26 @@ describe('fluxible-addons-react', () => {
             renderToString(<WrappedComponent context={context} />);
         });
 
-        it('should hoist non-react statics to higher order component', () => {
-            const context = {
-                foo: 'bar',
-                executeAction: () => {},
-                getStore: () => {},
-            };
+        it('should throw error if plugins argument is not an array', () => {
+            const plugins = { foo: 'bar' };
+            const Component = () => null;
 
+            // eslint-disable-next-line dot-notation
+            expect(() => provideContext(Component, plugins)).to.throw();
+        });
+
+        it('should hoist non-react statics to higher order component', () => {
             class Component extends React.Component {
                 static displayName = 'Component';
 
                 static initAction() {}
 
                 render() {
-                    expect(this.context.foo).to.equal(context.foo);
-                    expect(this.context.executeAction).to.equal(
-                        context.executeAction
-                    );
-                    expect(this.context.getStore).to.equal(context.getStore);
                     return null;
                 }
             }
 
-            const WrappedComponent = provideContext(Component, {
-                foo: PropTypes.string,
-            });
+            const WrappedComponent = provideContext(Component);
 
             expect(WrappedComponent.initAction).to.be.a('function');
             expect(WrappedComponent.displayName).to.not.equal(
