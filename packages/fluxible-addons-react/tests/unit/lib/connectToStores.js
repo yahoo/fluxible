@@ -35,7 +35,7 @@ describe('fluxible-addons-react', () => {
 
         it('should get the state from the stores', (done) => {
             class Component extends React.Component {
-                static contextType = FluxibleContext
+
 
                 constructor() {
                     super();
@@ -56,6 +56,7 @@ describe('fluxible-addons-react', () => {
                     );
                 }
             }
+            Component.contextType = FluxibleContext
 
             const WrappedComponent = provideContext(connectToStores(Component, [FooStore, BarStore], (context) => ({
                 foo: context.getStore(FooStore).getFoo(),
@@ -115,14 +116,13 @@ describe('fluxible-addons-react', () => {
 
         it('should hoist non-react statics to higher order component', () => {
             class Component extends React.Component {
-                static displayName = 'Component';
-
                 static initAction() {}
 
                 render() {
                     return <p>Hello world.</p>;
                 }
             }
+            Component.displayName = 'Component';
 
             const WrapperComponent = provideContext(connectToStores(Component, [FooStore, BarStore], {
                 displayName: 'WrapperComponent',

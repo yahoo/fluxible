@@ -39,12 +39,11 @@ describe('fluxible-addons-react', () => {
 
         it('should use the childs displayName', () => {
             class Component extends React.Component {
-                static displayName = 'TestComponent';
-
                 render() {
                     return null;
                 }
             }
+            Component.displayName = 'TestComponent';
 
             const WrappedComponent = provideContext(Component);
             expect(WrappedComponent.displayName).to.equal(
@@ -61,8 +60,6 @@ describe('fluxible-addons-react', () => {
             };
 
             class Component extends React.Component {
-                static contextType = FluxibleContext;
-
                 render() {
                     expect(this.context.executeAction).to.equal(
                         context.executeAction
@@ -72,6 +69,7 @@ describe('fluxible-addons-react', () => {
                     return null;
                 }
             }
+            Component.contextType = FluxibleContext;
 
             const WrappedComponent = provideContext(Component, plugins);
 
@@ -88,14 +86,13 @@ describe('fluxible-addons-react', () => {
 
         it('should hoist non-react statics to higher order component', () => {
             class Component extends React.Component {
-                static displayName = 'Component';
-
                 static initAction() {}
 
                 render() {
                     return null;
                 }
             }
+            Component.displayName = 'Component';
 
             const WrappedComponent = provideContext(Component);
 
