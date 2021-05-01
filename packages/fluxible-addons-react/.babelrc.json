@@ -1,0 +1,10 @@
+{
+    "plugins": [
+        [
+            "@babel/plugin-transform-runtime",
+            {
+                "version": "7.14.0"
+            }
+        ]
+    ]
+}

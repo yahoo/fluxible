@@ -3,6 +3,7 @@ docs
 tests
 .idea
 *.log
+.babelrc.json
 .coveralls
 .npmignore
 .travis.yml
