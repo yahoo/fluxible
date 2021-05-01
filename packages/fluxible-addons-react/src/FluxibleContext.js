@@ -15,7 +15,7 @@ export class FluxibleProvider extends Component {
             getStore: this.props.context.getStore,
         };
 
-        this.props.plugins.forEach(plugin => {
+        this.props.plugins.forEach((plugin) => {
             state[plugin] = this.props.context[plugin];
         });
 
@@ -23,17 +23,21 @@ export class FluxibleProvider extends Component {
     }
 
     render() {
-        const props =  { value: this.state };
-        return createElement(FluxibleContext.Provider, props, this.props.children);
+        const props = { value: this.state };
+        return createElement(
+            FluxibleContext.Provider,
+            props,
+            this.props.children
+        );
     }
 }
 
 FluxibleProvider.propTypes = {
     children: node.isRequired,
     context: object.isRequired,
-    plugins: arrayOf(string)
+    plugins: arrayOf(string),
 };
 
 FluxibleProvider.defaultProps = {
-    plugins: []
+    plugins: [],
 };
