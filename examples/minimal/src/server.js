@@ -4,7 +4,7 @@ import express from "express";
 import { createElementWithContext } from "fluxible-addons-react";
 import serialize from "serialize-javascript";
 import fluxibleApp from "./fluxibleApp";
-import generateUuidAction from "./generateUuidAction";
+import * as actions from "./actions";
 
 const app = express();
 
@@ -14,7 +14,7 @@ app.get("*", (req, res) => {
   const context = fluxibleApp.createContext();
 
   context
-    .executeAction(generateUuidAction)
+    .executeAction(actions.setRandomNumber)
     .then(() => {
       const element = createElementWithContext(context);
       const markup = ReactDOMServer.renderToString(element);
