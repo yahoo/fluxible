@@ -1,7 +1,7 @@
 import path from "path";
-import React from "react";
 import ReactDOMServer from "react-dom/server";
 import express from "express";
+import { createElementWithContext } from "fluxible-addons-react";
 import serialize from "serialize-javascript";
 import fluxibleApp from "./fluxibleApp";
 import generateUuidAction from "./generateUuidAction";
@@ -16,11 +16,8 @@ app.get("*", (req, res) => {
   context
     .executeAction(generateUuidAction)
     .then(() => {
-      const element = React.createElement(context.getComponent(), {
-        context: context.getComponentContext(),
-      });
+      const element = createElementWithContext(context);
       const markup = ReactDOMServer.renderToString(element);
-
       const state = serialize(fluxibleApp.dehydrate(context));
 
       res.send(`
