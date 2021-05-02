@@ -8,6 +8,9 @@
     "build": "npm run build:browser && npm run build:server",
     "build:browser": "BABEL_ENV=browser webpack",
     "build:server": "BABEL_ENV=server webpack",
+    "dev": "npm run dev:browser & npm run dev:server",
+    "dev:browser": "NODE_ENV=development BABEL_ENV=browser webpack --watch",
+    "dev:server": "NODE_ENV=development BABEL_ENV=server webpack --watch & nodemon",
     "start": "node ."
   },
   "dependencies": {
@@ -24,6 +27,7 @@
     "@babel/preset-env": "^7.13.15",
     "@babel/preset-react": "^7.13.13",
     "babel-loader": "^8.2.2",
+    "nodemon": "^2.0.7",
     "webpack": "^5.36.1",
     "webpack-cli": "^4.6.0"
   }
