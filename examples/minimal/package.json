@@ -6,8 +6,8 @@
   "private": true,
   "scripts": {
     "build": "npm run build:browser && npm run build:server",
-    "build:browser": "BABEL_ENV=browser webpack -c webpack.browser.config.js",
-    "build:server": "BABEL_ENV=server webpack -c webpack.server.config.js",
+    "build:browser": "BABEL_ENV=browser webpack",
+    "build:server": "BABEL_ENV=server webpack",
     "start": "node ."
   },
   "dependencies": {
