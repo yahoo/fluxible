@@ -49,7 +49,7 @@
     "react-dom": "^16.0.0",
     "shelljs": "^0.8.0",
     "sinon": "^10.0.0",
-    "yargs": "^16.0.0"
+    "yargs": "^17.0.0"
   },
   "devEngines": {
     "node": "4.x || 5.x || 6.x",
