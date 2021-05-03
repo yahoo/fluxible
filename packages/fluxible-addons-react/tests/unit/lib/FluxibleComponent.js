@@ -7,8 +7,9 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { JSDOM } from 'jsdom';
 import createMockComponentContext from 'fluxible/utils/createMockComponentContext';
 import createReactClass from 'create-react-class';
+import sinon from 'sinon';
 
-import { connectToStores, provideContext, FluxibleComponent } from '../../../';
+import { FluxibleComponent } from '../../../';
 import FooStore from '../../fixtures/stores/FooStore';
 import BarStore from '../../fixtures/stores/BarStore';
 
@@ -34,22 +35,23 @@ describe('fluxible-addons-react', () => {
         });
 
         it('will not double render', () => {
+            const spy = sinon.spy()
             class Component extends React.Component {
                 render() {
+                    spy()
                     return (
                         <div className="Component">{this.props.children}</div>
                     );
                 }
             }
 
-            const element = ReactTestUtils.renderIntoDocument(
+            ReactTestUtils.renderIntoDocument(
                 <FluxibleComponent context={context}>
                     <Component>Some child</Component>
                 </FluxibleComponent>
             );
 
-            expect(ReactDOM.findDOMNode(element).className).to.equal('Component');
-            expect(ReactDOM.findDOMNode(element).textContent).to.equal('Some child');
+            expect(spy.callCount).to.equal(1);
         });
 
         it('should pass context prop to child', (done) => {
