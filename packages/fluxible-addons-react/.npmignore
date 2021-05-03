@@ -1,8 +1,11 @@
 artifacts
 docs
+src
 tests
 .idea
 *.log
+*.md
+.babelrc.json
 .coveralls
 .npmignore
 .travis.yml
