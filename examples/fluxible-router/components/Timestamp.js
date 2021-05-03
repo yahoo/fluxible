@@ -7,26 +7,15 @@ import updateTime from '../actions/updateTime';
 import TimeStore from '../stores/TimeStore';
 import { connectToStores } from 'fluxible-addons-react';
 
-class Timestamp extends React.Component {
-    static contextTypes = {
-        getStore: React.PropTypes.func,
-        executeAction: React.PropTypes.func
-    };
-    constructor(props, context) {
-        super(props, context);
-    }
-    onReset() {
-        this.context.executeAction(updateTime);
-    }
-    render() {
-        return (
-            <em onClick={this.onReset.bind(this)} style={{fontSize: '.8em'}}>{this.props.time}</em>
-        );
-    }
-}
+const Timestamp = ({ onClick, time }) => (
+    <em onClick={onClick} style={{ fontSize: '.8em' }}>
+        {time}
+    </em>
+);
 
-Timestamp = connectToStores(Timestamp, [TimeStore], (context) => {
-    return context.getStore(TimeStore).getState()
+export default connectToStores(Timestamp, [TimeStore], (context) => {
+    const timeStore = context.getStore(TimeStore);
+    const { time } = timeStore.getState();
+    const onClick = () => context.executeAction(updateTime);
+    return { time, onClick };
 });
-
-export default Timestamp;

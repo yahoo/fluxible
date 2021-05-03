@@ -4,8 +4,6 @@
  */
 import React from 'react';
 
-function About () {
-    return <p>This is a description of the site.</p>;
-}
+const About = () => <p>This is a description of the site.</p>;
 
 export default About;

@@ -1,11 +1,12 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     mode: 'development',
-    entry: './client.js',
+    entry: './browser-only.js',
     output: {
         path: path.resolve('./build/js'),
-        filename: 'client.js',
+        filename: 'browser-only.js',
         publicPath: '/public/js/',
     },
     module: {
@@ -13,15 +14,18 @@ module.exports = {
             {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
-                use: { loader: 'babel-loader' },
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        rootMode: 'upward',
+                    },
+                },
             },
         ],
     },
+    plugins: [new HtmlWebpackPlugin()],
     devServer: {
         historyApiFallback: true,
         port: 3000,
-        proxy: {
-            '*': { target: 'http://localhost:3001' },
-        },
     },
 };
