@@ -1,9 +1,9 @@
 import Fluxible from "fluxible";
 import App from "./App";
-import UuidStore from "./UuidStore";
+import AppStore from "./AppStore";
 
 const fluxibleApp = new Fluxible({ component: App });
 
-fluxibleApp.registerStore(UuidStore);
+fluxibleApp.registerStore(AppStore);
 
 export default fluxibleApp;
