@@ -1,0 +1,34 @@
+{
+    "name": "fluxible-router-example",
+    "private": true,
+    "version": "0.0.0",
+    "description": "Example application",
+    "main": "server.js",
+    "author": "Michael Ridgway <mridgway@yahoo-inc.com>",
+    "scripts": {
+        "dev": "webpack serve & PORT=3001 nodemon start.js -e js,jsx",
+        "start": "node start.js",
+        "dev-browser": "cd browser-only && webpack serve"
+    },
+    "dependencies": {
+        "@babel/register": "^7.13.16",
+        "fluxible": "^1.4.0",
+        "fluxible-addons-react": "^1.0.0-beta.1",
+        "fluxible-router": "^2.0.0-beta.9.0",
+        "prop-types": "^15.7.2",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "react-helmet": "^6.1.0"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.14.0",
+        "@babel/preset-env": "^7.14.0",
+        "@babel/preset-react": "^7.13.13",
+        "babel-loader": "^8.2.2",
+        "html-webpack-plugin": "^5.3.1",
+        "nodemon": "^2.0.7",
+        "webpack": "^5.36.2",
+        "webpack-cli": "^4.6.0",
+        "webpack-dev-server": "^3.11.2"
+    }
+}
