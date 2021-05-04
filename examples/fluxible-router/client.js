@@ -3,8 +3,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 /*global App, document, window */
-import React from 'react';
-import {render} from 'react-dom';
+import ReactDOM from 'react-dom';
 import debug from 'debug';
 import app from './app';
 import { createElementWithContext } from 'fluxible-addons-react';
@@ -22,7 +21,7 @@ app.rehydrate(dehydratedState, function (err, context) {
     const mountNode = document.getElementById('app');
 
     bootstrapDebug('React Rendering');
-    render(createElementWithContext(context), mountNode, () => {
+    ReactDOM.hydrate(createElementWithContext(context), mountNode, () => {
         bootstrapDebug('React Rendered');
     });
 });

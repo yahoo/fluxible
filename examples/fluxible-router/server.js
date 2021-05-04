@@ -2,19 +2,18 @@
  * Copyright 2014, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-'use strict';
-require('babel-register');
 
+import '@babel/register';
 import express from 'express';
-import favicon from 'serve-favicon';
 import serialize from 'serialize-javascript';
-import {navigateAction} from 'fluxible-router';
+import { navigateAction } from 'fluxible-router';
 import debugLib from 'debug';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
+import { Helmet } from 'react-helmet';
+import { createElementWithContext } from 'fluxible-addons-react';
 import app from './app';
 import HtmlComponent from './components/Html';
-import {createElementWithContext} from 'fluxible-addons-react';
 
 const debug = debugLib('Example');
 const server = express();
@@ -35,14 +34,22 @@ server.use((req, res, next) => {
         }
 
         debug('Exposing context state');
-        const exposed = 'window.App=' + serialize(app.dehydrate(context)) + ';';
+        const state = 'window.App=' + serialize(app.dehydrate(context)) + ';';
+
+        const markup = ReactDOM.renderToString(
+            createElementWithContext(context)
+        );
+        const helmet = Helmet.renderStatic();
 
         debug('Rendering Application component into html');
-        const html = ReactDOM.renderToStaticMarkup(React.createElement(HtmlComponent, {
-            state: exposed,
-            markup: ReactDOM.renderToString(createElementWithContext(context)),
-            context: context.getComponentContext()
-        }));
+        const html = ReactDOM.renderToStaticMarkup(
+            React.createElement(HtmlComponent, {
+                state,
+                markup,
+                helmet,
+                context: context.getComponentContext(),
+            })
+        );
 
         debug('Sending markup');
         res.send(html);

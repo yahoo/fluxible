@@ -2,7 +2,7 @@
  * Copyright 2014, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-import {BaseStore} from 'fluxible/addons';
+import { BaseStore } from 'fluxible/addons';
 
 class ApplicationStore extends BaseStore {
     constructor(dispatcher) {
@@ -18,7 +18,7 @@ class ApplicationStore extends BaseStore {
     }
     getState() {
         return {
-            pageTitle: this.pageTitle
+            pageTitle: this.pageTitle,
         };
     }
     dehydrate() {
@@ -31,7 +31,7 @@ class ApplicationStore extends BaseStore {
 
 ApplicationStore.storeName = 'ApplicationStore';
 ApplicationStore.handlers = {
-    'UPDATE_PAGE_TITLE'    : 'updatePageTitle'
+    UPDATE_PAGE_TITLE: 'updatePageTitle',
 };
 
 export default ApplicationStore;

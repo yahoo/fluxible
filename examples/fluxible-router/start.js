@@ -2,10 +2,7 @@
  * Copyright 2014, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-import React from 'react';
+'use strict';
+require('@babel/register');
 
-function Home () {
-    return <p>Welcome to the site!</p>;
-}
-
-export default Home;
+module.exports = require('./server');
