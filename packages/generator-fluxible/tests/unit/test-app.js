@@ -22,7 +22,6 @@ describe('generator-fluxible', function () {
         it('creates files', function () {
             assert.file([
                 'package.json',
-                '.editorconfig',
                 '.babelrc',
                 'app.js',
                 'components/Application.js',
