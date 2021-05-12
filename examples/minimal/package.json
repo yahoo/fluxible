@@ -5,12 +5,10 @@
   "author": "Pablo Palacios <pablo.palacios@holidaycheck.com>",
   "private": true,
   "scripts": {
-    "build": "npm run build:browser && npm run build:server",
-    "build:browser": "BABEL_ENV=browser webpack",
-    "build:server": "BABEL_ENV=server webpack",
+    "build": "NODE_ENV=production webpack",
     "dev": "npm run dev:browser & npm run dev:server",
-    "dev:browser": "NODE_ENV=development BABEL_ENV=browser webpack --watch",
-    "dev:server": "NODE_ENV=development BABEL_ENV=server webpack --watch & nodemon",
+    "dev:browser": "NODE_ENV=development webpack --watch --no-stats",
+    "dev:server": "NODE_ENV=development nodemon",
     "start": "node ."
   },
   "dependencies": {
