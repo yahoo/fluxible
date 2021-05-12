@@ -12,7 +12,8 @@ var os = require('os');
 describe('generator-fluxible', function () {
     describe('app', function () {
         before(function (done) {
-            helpers.run(path.join(__dirname, '../../app'))
+            helpers
+                .run(path.join(__dirname, '../../app'))
                 .inDir(path.join(os.tmpdir(), './temp-test'))
                 .withOptions({ 'skip-install': true })
                 .on('end', done);
@@ -23,9 +24,8 @@ describe('generator-fluxible', function () {
                 'package.json',
                 '.editorconfig',
                 '.babelrc',
-                '.eslintrc',
                 'app.js',
-                'components/Application.js'
+                'components/Application.js',
             ]);
         });
     });

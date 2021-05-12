@@ -45,7 +45,6 @@ module.exports = yeoman.generators.Base.extend({
             this.template('.editorconfig', '.editorconfig', this.context);
             // .gitignore is renamed by npm to .npmignore, so use underscore
             this.template('_gitignore', '.gitignore', this.context);
-            this.template('.eslintrc', '.eslintrc', this.context);
             this.template('package.json', 'package.json', this.context);
         },
 
