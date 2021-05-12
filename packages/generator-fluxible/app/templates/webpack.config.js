@@ -1,46 +1,42 @@
-var webpack = require('webpack');
-var path = require('path');
+const path = require('path');
+const nodeExternals = require('webpack-node-externals');
 
-var webpackConfig = {
-    resolve: {
-        extensions: ['', '.js', '.jsx']
-    },
-    entry: [
-        'webpack-dev-server/client?http://localhost:3000',
-        'webpack/hot/only-dev-server',
-        './client.js'
-    ],
-    output: {
-        path: path.resolve('./build/js'),
-        publicPath: '/public/js/',
-        filename: 'main.js'
-    },
+const isProduction = process.env.NODE_ENV !== 'development';
+
+const commonConfig = {
+    mode: isProduction ? 'production' : 'development',
     module: {
-        loaders: [
+        rules: [
             {
-                test: /\.(js|jsx)$/,
+                test: /\.m?js$/,
                 exclude: /node_modules/,
-                loaders: [
-                    require.resolve('react-hot-loader'),
-                    require.resolve('babel-loader')
-                ]
+                use: { loader: 'babel-loader' },
             },
-            { test: /\.json$/, loader: 'json-loader'}
-        ]
+        ],
     },
-    node: {
-        setImmediate: false
-    },
-    plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin(),
-        new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-            }
-        })
-    ],
-    devtool: 'eval'
 };
 
-module.exports = webpackConfig;
+const browserConfig = {
+    ...commonConfig,
+    target: 'web',
+    entry: './client.js',
+    output: {
+        filename: isProduction ? 'main.min.js' : 'main.js',
+        path: path.resolve('./dist/public'),
+        publicPath: '/public/',
+    },
+};
+
+const serverConfig = {
+    ...commonConfig,
+    target: 'node',
+    entry: './server.js',
+    output: {
+        filename: 'server.js',
+        path: path.resolve(__dirname, 'dist'),
+    },
+    externals: [nodeExternals()],
+    externalsPresets: { node: true },
+};
+
+module.exports = [browserConfig, serverConfig];

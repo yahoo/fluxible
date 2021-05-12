@@ -41,7 +41,7 @@ module.exports = yeoman.generators.Base.extend({
 
     writing: {
         config: function () {
-            this.template('.babelrc', '.babelrc', this.context);
+            this.template('babel.config.js', 'babel.config.js', this.context);
             // .gitignore is renamed by npm to .npmignore, so use underscore
             this.template('_gitignore', '.gitignore', this.context);
             this.template('package.json', 'package.json', this.context);
@@ -51,16 +51,11 @@ module.exports = yeoman.generators.Base.extend({
             this.template('app.js', 'app.js', this.context);
             this.template('client.js', 'client.js', this.context);
             this.template('server.js', 'server.js', this.context);
-            this.template('start.js', 'start.js', this.context);
             this.template('webpack.config.js', 'webpack.config.js', this.context);
-            this.template('webpack.config.production.js', 'webpack.config.production.js', this.context);
-            this.template('webpack-dev-server.js', 'webpack-dev-server.js', this.context);
             this.directory('actions', 'actions', this.context);
             this.directory('components', 'components', this.context);
             this.directory('configs', 'configs', this.context);
             this.directory('stores', 'stores', this.context);
-            // Webpack dev server needs this folder to exist before starting
-            this.template('_buildgitignore', 'build/js/.gitignore', this.context);
         }
     },
 
