@@ -2,11 +2,9 @@
 /* eslint react/prop-types:0, react/no-render-return-value:0, react/no-find-dom-node:0 */
 import { expect } from 'chai';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import { JSDOM } from 'jsdom';
 import createMockComponentContext from 'fluxible/utils/createMockComponentContext';
-import createReactClass from 'create-react-class';
 import sinon from 'sinon';
 
 import { FluxibleComponent } from '../../../';
@@ -24,7 +22,7 @@ describe('fluxible-addons-react', () => {
             global.navigator = jsdom.window.navigator;
 
             context = createMockComponentContext({
-                stores: [FooStore, BarStore]
+                stores: [FooStore, BarStore],
             });
         });
 
@@ -35,10 +33,10 @@ describe('fluxible-addons-react', () => {
         });
 
         it('will not double render', () => {
-            const spy = sinon.spy()
+            const spy = sinon.spy();
             class Component extends React.Component {
                 render() {
-                    spy()
+                    spy();
                     return (
                         <div className="Component">{this.props.children}</div>
                     );

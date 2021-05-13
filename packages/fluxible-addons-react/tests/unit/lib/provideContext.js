@@ -4,7 +4,6 @@ import { expect } from 'chai';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { renderToString } from 'react-dom/server';
-import PropTypes from 'prop-types';
 import { JSDOM } from 'jsdom';
 
 import { provideContext, FluxibleContext } from '../../../';
@@ -52,7 +51,6 @@ describe('fluxible-addons-react', () => {
         });
 
         it('should provide the context with plugins to children', () => {
-            const plugins = ['foo'];
             const context = {
                 foo: 'bar',
                 executeAction: function () {},
@@ -61,27 +59,15 @@ describe('fluxible-addons-react', () => {
 
             class Component extends React.Component {
                 render() {
-                    expect(this.context.executeAction).to.equal(
-                        context.executeAction
-                    );
-                    expect(this.context.getStore).to.equal(context.getStore);
-                    expect(this.context.foo).to.equal(context.foo);
+                    expect(this.context).to.deep.equal(context);
                     return null;
                 }
             }
             Component.contextType = FluxibleContext;
 
-            const WrappedComponent = provideContext(Component, plugins);
+            const WrappedComponent = provideContext(Component);
 
             renderToString(<WrappedComponent context={context} />);
-        });
-
-        it('should throw error if plugins argument is not an array', () => {
-            const plugins = { foo: 'bar' };
-            const Component = () => null;
-
-            // eslint-disable-next-line dot-notation
-            expect(() => provideContext(Component, plugins)).to.throw();
         });
 
         it('should hoist non-react statics to higher order component', () => {
@@ -114,7 +100,7 @@ describe('fluxible-addons-react', () => {
                 }
             }
 
-            const WrappedComponent = provideContext(Component, [], () => ({}));
+            const WrappedComponent = provideContext(Component);
 
             const container = document.createElement('div');
             const component = ReactDOM.render(
@@ -130,11 +116,7 @@ describe('fluxible-addons-react', () => {
                 getStore: () => {},
             };
 
-            const WrappedComponent = provideContext(
-                () => <noscript />,
-                [],
-                () => ({})
-            );
+            const WrappedComponent = provideContext(() => <noscript />);
 
             const container = document.createElement('div');
             const component = ReactDOM.render(

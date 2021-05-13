@@ -4,8 +4,9 @@
 
 ### imports
 
-Since the published version is a babel transpiled code that resides on a 
-dist folder, imports like `fluxible-addons-react/connectToStores` don't work anymore.
+Since the published version is a babel transpiled code that resides on
+a dist folder, imports like `fluxible-addons-react/connectToStores`
+don't work anymore.
 
 **Before**
 
@@ -23,11 +24,11 @@ import { connectToStores, provideContext } from 'fluxible-addonts-react';
 
 ### provideContext
 
-`provideContext(Component, customContextTypes)` -> `provideContext(Component, plugins)`
+`provideContext(Component, customContextTypes)` -> `provideContext(Component)`
 
-Since the new React API doesn't rely on PropTypes anymore, a list of
-plugins keys is enough to tell fluxible which custom data you would
-like to have available inside fluxible context.
+Since the new React API doesn't rely on PropTypes anymore, there is no
+need to pass an object with context types in order to forward plugins
+context to the components.
 
 **Before:**
 
@@ -43,9 +44,7 @@ provideContext(Component, customContextTypes)
 **After:**
 
 ```javascript
-const plugins = ['pluginBar', 'pluginFoo'];
-
-provideContext(Component, plugins)
+provideContext(Component)
 ```
 
 If you were using `provideContext` to provide other context data not
@@ -57,9 +56,8 @@ solution to achieve the same result as before.
 `connectToStores(Component, stores, getStateFromStores, customContextTypes)` -> `connectToStores(Component, stores, getStateFromStores)`
 
 Since the new React API doesn't rely on PropTypes anymore, there is no
-need to specify customContextTypes to extract from the fluxible
-context. The context available to your `getStateFromStores` will
-contain all the custom data specified in `provideContext`.
+need to specify customContextTypes to extract plugins context from the
+fluxible context since all plugins will be available.
 
 **Before:**
 
@@ -81,7 +79,7 @@ connectToStores(Component)
 If you were relying in other contextTypes that were not included in
 `provideContext` (non fluxible plugins), you will need to find another
 way to have it available in `getStateFromStores`. Since the second
-argument of `getStateFromStores` is props passed to the wrapped
+argument of `getStateFromStores` is the props passed to the wrapped
 component, you can create your own high order component that passes
 the required context as props to your connected component:
 
