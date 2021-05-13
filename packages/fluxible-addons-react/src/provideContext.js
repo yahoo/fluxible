@@ -17,16 +17,9 @@ import { FluxibleProvider } from './FluxibleContext';
  *
  * @method provideContext
  * @param {React.Component} [Component] component to wrap
- * @param {array} [plugins] list of plugins names to inject into the context
  * @returns {React.Component}
  */
-function provideContext(Component, plugins) {
-    if (plugins && !Array.isArray(plugins)) {
-        throw new TypeError(
-            'Invalid type for plugins. Starting from v1.0, plugins must be an array of plugin names.'
-        );
-    }
-
+function provideContext(Component) {
     class ContextProvider extends ReactComponent {
         constructor(props) {
             super(props);
@@ -44,11 +37,7 @@ function provideContext(Component, plugins) {
                 ...this.props,
                 ...props,
             });
-            return createElement(
-                FluxibleProvider,
-                { context, plugins },
-                children
-            );
+            return createElement(FluxibleProvider, { context }, children);
         }
     }
 
