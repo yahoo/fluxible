@@ -1,5 +1,5 @@
-import { Component, createContext, createElement } from 'react';
-import { arrayOf, node, object, string } from 'prop-types';
+import { createContext, createElement } from 'react';
+import { node, object } from 'prop-types';
 
 const throwError = () => {
     throw new Error(
@@ -12,38 +12,12 @@ export const FluxibleContext = createContext({
     getStore: throwError,
 });
 
-export class FluxibleProvider extends Component {
-    constructor(props) {
-        super(props);
+FluxibleContext.displayName = 'FluxibleContext';
 
-        const state = {
-            executeAction: this.props.context.executeAction,
-            getStore: this.props.context.getStore,
-        };
-
-        this.props.plugins.forEach((plugin) => {
-            state[plugin] = this.props.context[plugin];
-        });
-
-        this.state = state;
-    }
-
-    render() {
-        const props = { value: this.state };
-        return createElement(
-            FluxibleContext.Provider,
-            props,
-            this.props.children
-        );
-    }
-}
+export const FluxibleProvider = ({ children, context }) =>
+    createElement(FluxibleContext.Provider, { value: context }, children);
 
 FluxibleProvider.propTypes = {
     children: node.isRequired,
     context: object.isRequired,
-    plugins: arrayOf(string),
-};
-
-FluxibleProvider.defaultProps = {
-    plugins: [],
 };
