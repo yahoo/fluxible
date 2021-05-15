@@ -45,6 +45,7 @@ function setup(options, done) {
     var jsdom = new JSDOM('<html><body></body></html>', { url: 'http://yahoo.com' });
     global.document = jsdom.window.document;
     global.window = jsdom.window;
+    global.window.scrollTo = (x, y) => ({ x, y });
     global.navigator = jsdom.window.navigator;
 
     React = require('react');
