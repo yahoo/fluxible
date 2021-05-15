@@ -26,9 +26,9 @@
   "dependencies": {
     "debug": "^2.0.0",
     "fluxible-addons-react": "^1.0.0-beta.0",
-    "hoist-non-react-statics": "^3.0.1",
+    "hoist-non-react-statics": "^3.3.2",
     "inherits": "^2.0.1",
-    "prop-types": "^15.5.8",
+    "prop-types": "^15.7.2",
     "routr": "^2.0.0"
   },
   "peerDependencies": {
