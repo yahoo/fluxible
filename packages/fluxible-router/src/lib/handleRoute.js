@@ -2,8 +2,9 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-/*global window */
-/*eslint no-func-assign:0 */
+/* global window */
+/* eslint no-func-assign:0 */
+/* eslint-disable react/display-name */
 'use strict';
 var React = require('react');
 var PropTypes = require('prop-types');
@@ -30,12 +31,11 @@ function createComponent(Component) {
     Object.assign(RouteHandler.prototype, {
         render: function () {
             var routeStore = this.context.getStore('RouteStore');
-            var props = Component.prototype && Component.prototype.isReactComponent ? {ref: 'wrappedElement'} : null;
 
             return React.createElement(Component, Object.assign({
                 isActive: routeStore.isActive.bind(routeStore),
                 makePath: routeStore.makePath.bind(routeStore)
-            }, this.props, props));
+            }, this.props));
         }
     });
 
