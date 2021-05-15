@@ -1,13 +1,13 @@
 module.exports = {
   "env": {
     "browser": true,
-    "es6": true,
+    "es2020": true,
     "mocha": true,
     "node": true
   },
   "extends": ["eslint:recommended", "plugin:react/recommended"],
-  "parser": "babel-eslint",
   "parserOptions": {
+    "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
     }
