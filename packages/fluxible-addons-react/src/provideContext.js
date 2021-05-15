@@ -2,7 +2,7 @@
  * Copyright 2015, Yahoo Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-import { Component as ReactComponent, createRef, createElement } from 'react';
+import { Component as ReactComponent, createElement } from 'react';
 import { object } from 'prop-types';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { FluxibleProvider } from './FluxibleContext';
@@ -23,20 +23,11 @@ function provideContext(Component) {
     class ContextProvider extends ReactComponent {
         constructor(props) {
             super(props);
-            this.wrappedElementRef = createRef();
         }
 
         render() {
-            const props =
-                Component.prototype && Component.prototype.isReactComponent
-                    ? { ref: this.wrappedElementRef }
-                    : null;
-
             const { context } = this.props;
-            const children = createElement(Component, {
-                ...this.props,
-                ...props,
-            });
+            const children = createElement(Component, this.props);
             return createElement(FluxibleProvider, { context }, children);
         }
     }

@@ -4,7 +4,6 @@ import { expect } from 'chai';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-import PropTypes from 'prop-types';
 import { JSDOM } from 'jsdom';
 import createMockComponentContext from 'fluxible/utils/createMockComponentContext';
 
@@ -35,8 +34,6 @@ describe('fluxible-addons-react', () => {
 
         it('should get the state from the stores', (done) => {
             class Component extends React.Component {
-
-
                 constructor() {
                     super();
                     this.onClick = this.onClick.bind(this);
@@ -82,36 +79,6 @@ describe('fluxible-addons-react', () => {
             expect(appContext.getStore(BarStore).listeners('change').length).to.equal(0);
             expect(appContext.getStore(FooStore).listeners('change').length).to.equal(0);
             done();
-        });
-
-        describe('refs', () => {
-            const hasWrappedComponentRef = component => {
-                const contextProvider = component;
-                const storeConnector = contextProvider.wrappedElementRef.current;
-                const wrappedElement = storeConnector.wrappedElementRef.current;
-                return Boolean(wrappedElement);
-            };
-
-            it('should add a ref to class components', () => {
-                class Component extends React.Component {
-                    render() {
-                        return <noscript />;
-                    }
-                }
-                const WrappedComponent = provideContext(connectToStores(Component, [], () => ({})));
-
-                const container = document.createElement('div');
-                const component = ReactDOM.render(<WrappedComponent context={appContext}/>, container);
-                expect(hasWrappedComponentRef(component)).to.equal(true);
-            });
-
-            it('should not add a ref to pure function components', () => {
-                const WrappedComponent = provideContext(connectToStores(() => <noscript />, [], () => ({})));
-
-                const container = document.createElement('div');
-                const component = ReactDOM.render(<WrappedComponent context={appContext} />, container);
-                expect(hasWrappedComponentRef(component)).to.equal(false);
-            });
         });
 
         it('should hoist non-react statics to higher order component', () => {

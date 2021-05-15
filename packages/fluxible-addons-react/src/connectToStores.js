@@ -2,7 +2,7 @@
  * Copyright 2015, Yahoo Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-import { Component as ReactComponent, createRef, createElement } from 'react';
+import { Component as ReactComponent, createElement } from 'react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { FluxibleContext } from './FluxibleContext';
 
@@ -35,7 +35,6 @@ function connectToStores(Component, stores, getStateFromStores) {
             this._onStoreChange = this._onStoreChange.bind(this);
             this.getStateFromStores = this.getStateFromStores.bind(this);
             this.state = this.getStateFromStores();
-            this.wrappedElementRef = createRef();
         }
 
         getStateFromStores(props) {
@@ -64,10 +63,7 @@ function connectToStores(Component, stores, getStateFromStores) {
         }
 
         render() {
-            const props = (Component.prototype && Component.prototype.isReactComponent)
-                ? {ref: this.wrappedElementRef}
-                : null;
-            return createElement(Component, {...this.props, ...this.state, ...props});
+            return createElement(Component, {...this.props, ...this.state });
         }
     }
 
