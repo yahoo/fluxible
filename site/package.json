@@ -44,7 +44,7 @@
     "highlight.js": "^9.2.0",
     "lunr": "^0.6.0",
     "marked": "^0.3.3",
-    "prop-types": "^15.6.0",
+    "prop-types": "^15.7.2",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "semver": "^5.1.0",
