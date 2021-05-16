@@ -2,7 +2,7 @@
  * Copyright 2015, Yahoo Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-import { Component as ReactComponent, createElement } from 'react';
+import { Component as ReactComponent, createElement, forwardRef } from 'react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { FluxibleContext } from './FluxibleContext';
 
@@ -27,7 +27,7 @@ import { FluxibleContext } from './FluxibleContext';
  *      the full state object. Receives `stores` hash and component `props` as arguments
  * @returns {React.Component} or {Function} if using decorator pattern
  */
-function connectToStores(Component, stores, getStateFromStores) {
+function connectToStores(Component, stores, getStateFromStores, options) {
     class StoreConnector extends ReactComponent {
         constructor(props, context) {
             super(props, context);
@@ -50,12 +50,18 @@ function connectToStores(Component, stores, getStateFromStores) {
 
         componentDidMount() {
             this._isMounted = true;
-            stores.forEach(Store => this.context.getStore(Store).on('change', this._onStoreChange));
+            stores.forEach((Store) =>
+                this.context.getStore(Store).on('change', this._onStoreChange)
+            );
         }
 
         componentWillUnmount() {
             this._isMounted = false;
-            stores.forEach(Store => this.context.getStore(Store).removeListener('change', this._onStoreChange));
+            stores.forEach((Store) =>
+                this.context
+                    .getStore(Store)
+                    .removeListener('change', this._onStoreChange)
+            );
         }
 
         UNSAFE_componentWillReceiveProps(nextProps) {
@@ -63,19 +69,28 @@ function connectToStores(Component, stores, getStateFromStores) {
         }
 
         render() {
-            return createElement(Component, {...this.props, ...this.state });
+            return createElement(Component, {
+                ref: this.props.fluxibleRef,
+                ...this.props,
+                ...this.state,
+            });
         }
     }
 
-    StoreConnector.displayName = `storeConnector(${Component.displayName || Component.name || 'Component'})`;
-
     StoreConnector.contextType = FluxibleContext;
 
-    StoreConnector.WrappedComponent = Component;
+    const forwarded = forwardRef((props, ref) =>
+        createElement(StoreConnector, {
+            ...props,
+            fluxibleRef: options?.forwardRef ? ref : null,
+        })
+    );
+    forwarded.displayName = `storeConnector(${
+        Component.displayName || Component.name || 'Component'
+    })`;
+    forwarded.WrappedComponent = Component;
 
-    hoistNonReactStatics(StoreConnector, Component);
-
-    return StoreConnector;
+    return hoistNonReactStatics(forwarded, Component);
 }
 
 export default connectToStores;

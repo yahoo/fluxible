@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { expect } from 'chai';
-import React from 'react';
+import React, { forwardRef, useImperativeHandle } from 'react';
 import TestRenderer from 'react-test-renderer';
 import createMockComponentContext from 'fluxible/utils/createMockComponentContext';
 
@@ -91,6 +91,67 @@ describe('fluxible-addons-react', () => {
 
             expect(component.props.foo).to.equal('barbar');
             expect(component.props.bar).to.equal('bazbaz');
+        });
+
+        describe('ref support', () => {
+            class ClassComponent extends React.Component {
+                constructor() {
+                    super();
+                    this.number = 42;
+                }
+                render() {
+                    return null;
+                }
+            }
+
+            const ConnectedClassComponent = connectToStores(
+                ClassComponent,
+                stores,
+                getStateFromStores,
+                { forwardRef: true }
+            );
+
+            const ForwardComponent = forwardRef((props, ref) => {
+                useImperativeHandle(ref, () => ({ number: 24 }));
+                return <div {...props} />;
+            });
+            ForwardComponent.displayName = 'ForwardComponent';
+
+            const ConnectedForwardComponent = connectToStores(
+                ForwardComponent,
+                stores,
+                getStateFromStores,
+                { forwardRef: true }
+            );
+
+            const WithoutRefComponent = connectToStores(
+                DumbComponent,
+                stores,
+                getStateFromStores,
+                { forwardRef: false }
+            );
+
+            it('should not forward ref by default', () => {
+                const ref = React.createRef(null);
+                renderComponent(ConnectedComponent, ref);
+                expect(ref.current).to.equal(null);
+            });
+
+            it('should not forward ref if options.forwardRef is false', () => {
+                const ref = React.createRef(null);
+                renderComponent(WithoutRefComponent, ref);
+                expect(ref.current).to.equal(null);
+            });
+
+            it('should forward ref if options.forwardRef is true', () => {
+                const ref1 = React.createRef(null);
+                renderComponent(ConnectedClassComponent, ref1);
+                expect(ref1.current.number).to.equal(42);
+
+                const ref2 = React.createRef(null);
+                renderComponent(ConnectedForwardComponent, ref2);
+                expect(ref2.current.number).to.equal(24);
+            });
         });
     });
 });
