@@ -1,104 +1,96 @@
-/* globals describe, it, afterEach, beforeEach, document */
-/* eslint react/prop-types:0, react/no-render-return-value:0, react/no-find-dom-node:0 */
+/* eslint-disable react/prop-types */
 import { expect } from 'chai';
 import React from 'react';
-import ReactDOM from 'react-dom';
-import ReactTestUtils from 'react-dom/test-utils';
-import { JSDOM } from 'jsdom';
+import TestRenderer from 'react-test-renderer';
 import createMockComponentContext from 'fluxible/utils/createMockComponentContext';
 
-import { connectToStores, provideContext, FluxibleContext } from '../../../';
+import { connectToStores, FluxibleComponent } from '../../../';
 import FooStore from '../../fixtures/stores/FooStore';
 import BarStore from '../../fixtures/stores/BarStore';
 
+const DumbComponent = ({ foo, bar, onClick }) => (
+    <div>
+        <span id="foo">{foo}</span>
+        <span id="bar">{bar}</span>
+        <button id="button" onClick={onClick} />
+    </div>
+);
+DumbComponent.displayName = 'DumbComponent';
+DumbComponent.initAction = () => {};
+
+const stores = [FooStore, BarStore];
+
+const getStateFromStores = ({ getStore, executeAction }) => ({
+    foo: getStore(FooStore).getFoo(),
+    bar: getStore(BarStore).getBar(),
+    onClick: () => executeAction((context) => context.dispatch('DOUBLE_UP')),
+});
+
+const ConnectedComponent = connectToStores(
+    DumbComponent,
+    stores,
+    getStateFromStores
+);
+
+const renderComponent = (Component, ref) => {
+    const context = createMockComponentContext({ stores });
+
+    const app = TestRenderer.create(
+        <FluxibleComponent context={context}>
+            <Component ref={ref} />
+        </FluxibleComponent>
+    );
+
+    return { app, context };
+};
+
+const getComponent = (app) => app.root.findByType(DumbComponent);
+
 describe('fluxible-addons-react', () => {
     describe('connectToStores', () => {
-        let appContext;
-
-        beforeEach(() => {
-            const jsdom = new JSDOM('<html><body></body></html>');
-            global.window = jsdom.window;
-            global.document = jsdom.window.document;
-            global.navigator = jsdom.window.navigator;
-
-            appContext = createMockComponentContext({
-                stores: [FooStore, BarStore]
-            });
+        it('should hoist and set static properties properly', () => {
+            expect(ConnectedComponent.displayName).to.equal(
+                'storeConnector(DumbComponent)'
+            );
+            expect(ConnectedComponent.WrappedComponent).to.equal(DumbComponent);
+            expect(ConnectedComponent.initAction).to.be.a('function');
+            expect(ConnectedComponent.initAction).to.equal(
+                DumbComponent.initAction
+            );
         });
 
-        afterEach(() => {
-            delete global.window;
-            delete global.document;
-            delete global.navigator;
+        it('should register/unregister from stores on mount/unmount', () => {
+            const { app, context } = renderComponent(ConnectedComponent);
+
+            const barStore = context.getStore(BarStore);
+            const fooStore = context.getStore(FooStore);
+
+            expect(barStore.listeners('change').length).to.equal(1);
+            expect(fooStore.listeners('change').length).to.equal(1);
+
+            app.unmount();
+
+            expect(barStore.listeners('change').length).to.equal(0);
+            expect(fooStore.listeners('change').length).to.equal(0);
         });
 
-        it('should get the state from the stores', (done) => {
-            class Component extends React.Component {
-                constructor() {
-                    super();
-                    this.onClick = this.onClick.bind(this);
-                }
+        it('should forward props from getStateFromStores to component', () => {
+            const { app } = renderComponent(ConnectedComponent);
+            const component = getComponent(app);
 
-                onClick() {
-                    this.context.executeAction((actionContext) => actionContext.dispatch('DOUBLE_UP'));
-                }
-
-                render() {
-                    return (
-                        <div>
-                            <span id="foo">{this.props.foo}</span>
-                            <span id="bar">{this.props.bar}</span>
-                            <button id="button" onClick={this.onClick}/>
-                        </div>
-                    );
-                }
-            }
-            Component.contextType = FluxibleContext
-
-            const WrappedComponent = provideContext(connectToStores(Component, [FooStore, BarStore], (context) => ({
-                foo: context.getStore(FooStore).getFoo(),
-                bar: context.getStore(BarStore).getBar()
-            })));
-
-            const container = document.createElement('div');
-            const component = ReactDOM.render(<WrappedComponent context={appContext} />, container);
-            const domNode = ReactDOM.findDOMNode(component);
-            expect(domNode.querySelector('#foo').textContent).to.equal('bar');
-            expect(domNode.querySelector('#bar').textContent).to.equal('baz');
-
-            ReactTestUtils.Simulate.click(domNode.querySelector('#button'));
-
-            expect(domNode.querySelector('#foo').textContent).to.equal('barbar');
-            expect(domNode.querySelector('#bar').textContent).to.equal('bazbaz');
-
-            expect(appContext.getStore(BarStore).listeners('change').length).to.equal(1);
-            expect(appContext.getStore(FooStore).listeners('change').length).to.equal(1);
-
-            ReactDOM.unmountComponentAtNode(container);
-
-            expect(appContext.getStore(BarStore).listeners('change').length).to.equal(0);
-            expect(appContext.getStore(FooStore).listeners('change').length).to.equal(0);
-            done();
+            expect(component.props.foo).to.equal('bar');
+            expect(component.props.bar).to.equal('baz');
+            expect(component.props.onClick).to.be.a('function');
         });
 
-        it('should hoist non-react statics to higher order component', () => {
-            class Component extends React.Component {
-                static initAction() {}
+        it('should listen to store changes', () => {
+            const { app } = renderComponent(ConnectedComponent);
+            const component = getComponent(app);
 
-                render() {
-                    return <p>Hello world.</p>;
-                }
-            }
-            Component.displayName = 'Component';
+            component.props.onClick();
 
-            const WrapperComponent = provideContext(connectToStores(Component, [FooStore, BarStore], {
-                displayName: 'WrapperComponent',
-                FooStore: (store, props) => ({ foo: store.getFoo() }),
-                BarStore: (store, props) => ({ bar: store.getBar() }),
-            }));
-
-            expect(WrapperComponent.initAction).to.be.a('function');
-            expect(WrapperComponent.displayName).to.not.equal(Component.displayName);
+            expect(component.props.foo).to.equal('barbar');
+            expect(component.props.bar).to.equal('bazbaz');
         });
     });
 });
