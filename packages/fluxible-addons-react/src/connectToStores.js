@@ -7,25 +7,29 @@ import hoistNonReactStatics from 'hoist-non-react-statics';
 import { FluxibleContext } from './FluxibleContext';
 
 /**
- * Registers change listeners and retrieves state from stores using the `getStateFromStores`
- * method. Concept provided by Dan Abramov via
- * https://medium.com/@dan_abramov/mixins-are-dead-long-live-higher-order-components-94a0d2f9e750
+ * @callback getStateFromStores
+ * @param {FluxibleContext} context - Fluxible component context.
+ * @param {Object} ownProps - The props that the component received.
+ * @returns {Object} props - The props that should be passed to the component.
+ */
+
+/**
+ * HOC that registers change listeners and retrieves state from stores
+ * using the `getStateFromStores` method.
  *
  * Example:
- *   connectToStores(Component, [FooStore], {
- *       FooStore: function (store, props) {
- *           return {
- *               foo: store.getFoo()
- *           }
- *       }
+ *   connectToStores(Component, [FooStore], (context, props) => ({
+ *       foo: context.getStore(FooStore).getFoo(),
+ *       onClick: () => context.executeAction(fooAction, props)
  *   })
  *
- * @method connectToStores
- * @param {React.Component} [Component] component to pass state as props to.
- * @param {array} stores List of stores to listen for changes
- * @param {function} getStateFromStores function that receives all stores and should return
- *      the full state object. Receives `stores` hash and component `props` as arguments
- * @returns {React.Component} or {Function} if using decorator pattern
+ * @function connectToStores
+ * @param {React.Component} Component - The component to pass state as props to.
+ * @param {array} stores - List of stores to listen for changes.
+ * @param {getStateFromStores} getStateFromStores - The main function that must map the context into props.
+ * @param {Object} [options] - options to tweak the HOC.
+ * @param {boolean} options.forwardRef - If true, forwards a ref to the wrapped component.
+ * @returns {React.Component} ConnectedComponent - A component connected to the stores.
  */
 function connectToStores(Component, stores, getStateFromStores, options) {
     class StoreConnector extends ReactComponent {
