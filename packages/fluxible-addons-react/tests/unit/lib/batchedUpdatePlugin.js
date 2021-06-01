@@ -1,96 +1,117 @@
 /* globals describe, it, afterEach, beforeEach, document */
 /* eslint react/prop-types:0 react/no-render-return-value:0 */
 import { expect } from 'chai';
+import sinon from 'sinon';
+import TestRenderer from 'react-test-renderer';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ReactTestUtils from 'react-dom/test-utils';
-import { JSDOM } from 'jsdom';
 import Fluxible from 'fluxible';
 
-import { batchedUpdatePlugin, connectToStores, provideContext } from '../../../';
+import {
+    batchedUpdatePlugin,
+    connectToStores,
+    provideContext,
+} from '../../../';
 import FooStore from '../../fixtures/stores/FooStore';
 import BarStore from '../../fixtures/stores/BarStore';
 
+class DumbComponent extends React.Component {
+    componentDidUpdate() {
+        this.props.spy();
+    }
+    render() {
+        return null;
+    }
+}
+
+const createContext = (plugins = []) => {
+    const app = new Fluxible({ stores: [FooStore, BarStore] });
+
+    plugins.forEach((plugin) => app.plug(plugin));
+
+    return app.createContext();
+};
+
+const createComponent = (context) => {
+    const WrappedComponent = provideContext(
+        connectToStores(DumbComponent, [FooStore, BarStore], (context) => ({
+            foo: context.getStore(FooStore).getFoo(),
+            bar: context.getStore(BarStore).getBar(),
+        }))
+    );
+
+    const props = {
+        spy: sinon.stub(),
+        context: context.getComponentContext(),
+    };
+
+    const renderer = TestRenderer.create(<WrappedComponent {...props} />);
+
+    const component = renderer.root.findByType(DumbComponent).instance;
+
+    return { component, spy: props.spy };
+};
+
 describe('fluxible-addons-react', () => {
     describe('batchedUpdatePlugin', () => {
-        let appContext;
+        let clock;
 
         beforeEach(() => {
-            const jsdom = new JSDOM('<html><body></body></html>');
-            global.window = jsdom.window;
-            global.document = jsdom.window.document;
-            global.navigator = jsdom.window.navigator;
-
-            const app = new Fluxible({
-                stores: [FooStore, BarStore]
-            });
-            app.plug(batchedUpdatePlugin());
-
-            appContext = app.createContext();
+            clock = sinon.useFakeTimers();
+            sinon
+                .stub(ReactDOM, 'unstable_batchedUpdates')
+                .callsFake(TestRenderer.unstable_batchedUpdates);
         });
 
         afterEach(() => {
-            delete global.window;
-            delete global.document;
-            delete global.navigator;
+            clock.restore();
+            ReactDOM.unstable_batchedUpdates.restore();
         });
 
-        it('should only call render once when two stores emit changes', (done) => {
-            let i = 0;
-            class Component extends React.Component {
-                componentDidUpdate() {
-                    i++;
-                }
-                render() {
-                    return (
-                        <div>
-                            <span id="foo">{this.props.foo}</span>
-                            <span id="bar">{this.props.bar}</span>
-                        </div>
-                    );
-                }
-            }
+        it('can mock unstable_batchedUpdates', () => {
+            const context = createContext();
+            const { component, spy } = createComponent(context);
 
-            const WrappedComponent = provideContext(connectToStores(Component, [FooStore, BarStore], (context) => ({
-                foo: context.getStore(FooStore).getFoo(),
-                bar: context.getStore(BarStore).getBar()
-            })));
+            component.setState({ foo: 'far', bar: 'baz' });
+            component.setState({ foo: 'far', bar: 'baz' });
 
-            const container = document.createElement('div');
-            const context = appContext.getComponentContext();
-            const component = ReactDOM.render(<WrappedComponent context={context}/>, container);
-            const wrappedElement = component.wrappedElementRef.current.wrappedElementRef.current;
+            expect(spy.callCount).to.equal(2);
+
+            spy.reset();
 
             ReactDOM.unstable_batchedUpdates(() => {
-                wrappedElement.setState({
-                    foo: 'far',
-                    bar: 'baz'
-                });
-                wrappedElement.setState({
-                    foo: 'far',
-                    bar: 'baz'
-                });
+                component.setState({ foo: 'far', bar: 'baz' });
+                component.setState({ foo: 'far', bar: 'baz' });
             });
 
-            expect(i).to.equal(1);
-            i = 0;
+            expect(spy.callCount).to.equal(1);
+        });
 
-            appContext.executeAction((actionContext) => {
-                actionContext.dispatch('DOUBLE_UP');
-            });
+        it('updates component only once when two stores emit changes', () => {
+            const plugins = [batchedUpdatePlugin()];
+            const context = createContext(plugins);
+            const { component, spy } = createComponent(context);
 
-            (function checkForFinalState() {
-                const props = wrappedElement.props;
-                if (props && props.foo === 'barbar' && props.bar === 'bazbaz') {
-                    if (i > 1) {
-                        done(new Error(`Update called ${i} times during dispatch`));
-                        return;
-                    }
-                    done();
-                } else {
-                    setTimeout(checkForFinalState, 5);
-                }
-            })();
+            context.executeAction((context) => context.dispatch('DOUBLE_UP'));
+
+            clock.tick(1);
+
+            expect(component.props.bar).to.equal('bazbaz');
+            expect(component.props.foo).to.equal('barbar');
+            expect(spy.callCount).to.equal(1);
+        });
+
+        it('updates component twice if plugin is not used', () => {
+            const context = createContext();
+            const { component, spy } = createComponent(context);
+
+            context.executeAction((context) => context.dispatch('DOUBLE_UP'));
+
+            clock.tick(1);
+
+            expect(component.props.bar).to.equal('bazbaz');
+            expect(component.props.foo).to.equal('barbar');
+            expect(spy.callCount).to.equal(2);
         });
     });
 });
