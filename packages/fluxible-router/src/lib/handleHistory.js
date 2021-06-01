@@ -2,7 +2,8 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-/*global window */
+/* global window */
+/* eslint-disable react/display-name */
 'use strict';
 var React = require('react');
 var PropTypes = require('prop-types');
@@ -283,8 +284,7 @@ function createComponent(Component, opts) {
         },
 
         render: function () {
-            var props = Component.prototype && Component.prototype.isReactComponent ? {ref: 'wrappedElement'} : null;
-            return React.createElement(Component, Object.assign({}, this.props, props));
+            return React.createElement(Component, this.props);
         }
     });
 

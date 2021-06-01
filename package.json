@@ -16,7 +16,6 @@
     "lint": "eslint .",
     "test": "lerna run lint --since --stream && lerna run test --since --stream"
   },
-  "dependencies": {},
   "devDependencies": {
     "@babel/cli": "^7.11.6",
     "@babel/core": "^7.11.6",
@@ -43,6 +42,7 @@
     "pre-commit": "^1.0.7",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
+    "react-test-renderer": "^16.0.0",
     "shelljs": "^0.8.0",
     "sinon": "^11.1.1",
     "yargs": "^16.0.0"

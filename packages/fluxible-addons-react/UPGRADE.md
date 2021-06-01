@@ -51,13 +51,18 @@ If you were using `provideContext` to provide other context data not
 related to fluxible itself, you will need to provide your own
 solution to achieve the same result as before.
 
+#### Ref support removed
+
+This hoc does not include `wrappedComponent` ref anymore.
+
 ### connectToStores
 
-`connectToStores(Component, stores, getStateFromStores, customContextTypes)` -> `connectToStores(Component, stores, getStateFromStores)`
+`connectToStores(Component, stores, getStateFromStores, customContextTypes)` -> `connectToStores(Component, stores, getStateFromStores, options)`
 
 Since the new React API doesn't rely on PropTypes anymore, there is no
-need to specify customContextTypes to extract plugins context from the
-fluxible context since all plugins will be available.
+need to specify the `customContextTypes` param to extract plugins
+context from the fluxible context. All plugins component context are
+available.
 
 **Before:**
 
@@ -67,30 +72,80 @@ const customContextTypes = {
     pluginFoo: PropTypes.object
 };
 
-connectToStores(Component, customContextTypes)
+connectToStores(Component, stores, getStateFromStores, customContextTypes)
 ```
 
 **After:**
 
 ```javascript
-connectToStores(Component)
+connectToStores(Component, stores, getStateFromStores)
 ```
 
-If you were relying in other contextTypes that were not included in
-`provideContext` (non fluxible plugins), you will need to find another
-way to have it available in `getStateFromStores`. Since the second
-argument of `getStateFromStores` is the props passed to the wrapped
-component, you can create your own high order component that passes
-the required context as props to your connected component:
+#### Ref support improved
 
+`connectToStores` now returns a `React.forwardRef` component instead
+of internally attaching the `wrappedComponent` ref to the wrapped
+component. This means that you can now pass a ref to the connected
+component that it will be forwarded to the wrapped component.
+
+However, in order to have your prop forwarded, you need to explicitly
+tell it to `connectToStores` by setting `forwardRef` to `true` in the
+`options` param.
+
+
+**Before**
 ```javascript
-const customContextTypes = {
-    foo: PropTypes.string,
-    bar: PropTypes.object
-};
+// Only class components would get access to a ref
+class CustomInput extends React.Component {
+    constructor() {
+        this.ref = React.createRef();
+    }
 
-export default injectContext(customContextTypes, connectToStores(Component));
+    render() {
+        return <input ref={this.ref} {...this.props} />
+    }
+}
+
+const ConnectedInput = connectToStores(CustomInput, stores, getStateFromStores);
+
+class App extends React.Component {
+    constructor() {
+        this.ref = React.createRef();
+    }
+
+    componentDidMount() {
+        this.ref.current.wrappedComponent.ref.current.focus()
+    }
+
+    render() {
+        return <ConnectedInput ref={this.ref} />
+    }
+}
 ```
 
-You can read more about how to create your own high order components
-at React [official documentation](https://reactjs.org/docs/higher-order-components.html).
+**After**
+```javascript
+// Besides classes, it's now possible to forward refs to functional components.
+const CustomInput = React.forwardRef((props, ref) => <input ref={ref} {...props} />);
+
+const ConnectedInput = connectToStores(
+    CustomInput,
+    stores,
+    getStateFromStores,
+    { forwardRef: true }
+);
+
+class App extends React.Component {
+    constructor() {
+        this.ref = React.createRef();
+    }
+
+    componentDidMount() {
+        this.ref.current.focus()
+    }
+
+    render() {
+        return <ConnectedInput ref={this.ref} />
+    }
+}
+```

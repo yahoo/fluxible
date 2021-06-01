@@ -2,7 +2,6 @@
 /* eslint react/no-render-return-value:0 */
 import { expect } from 'chai';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { renderToString } from 'react-dom/server';
 import { JSDOM } from 'jsdom';
 
@@ -86,44 +85,6 @@ describe('fluxible-addons-react', () => {
             expect(WrappedComponent.displayName).to.not.equal(
                 Component.displayName
             );
-        });
-
-        it('should add a ref to class components', () => {
-            const context = {
-                executeAction: () => {},
-                getStore: () => {},
-            };
-
-            class Component extends React.Component {
-                render() {
-                    return <noscript />;
-                }
-            }
-
-            const WrappedComponent = provideContext(Component);
-
-            const container = document.createElement('div');
-            const component = ReactDOM.render(
-                <WrappedComponent context={context} />,
-                container
-            );
-            expect(component).to.include.keys('wrappedElementRef');
-        });
-
-        it('should not add a ref to pure function components', () => {
-            const context = {
-                executeAction: () => {},
-                getStore: () => {},
-            };
-
-            const WrappedComponent = provideContext(() => <noscript />);
-
-            const container = document.createElement('div');
-            const component = ReactDOM.render(
-                <WrappedComponent context={context} />,
-                container
-            );
-            expect(component.refs).to.not.include.keys('wrappedElement');
         });
     });
 });
