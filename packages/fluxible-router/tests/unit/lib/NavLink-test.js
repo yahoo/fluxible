@@ -6,6 +6,7 @@
 
 import { JSDOM } from 'jsdom';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import fs from 'fs';
 import resolve from 'resolve';
 import createMockComponentContext from 'fluxible/utils/createMockComponentContext';
@@ -18,7 +19,6 @@ let ReactDOM;
 let NavLink;
 let createNavLinkComponent;
 let ReactTestUtils;
-let testResult;
 let MockAppComponent;
 
 const TestRouteStore = RouteStore.withStaticRoutes({
@@ -28,10 +28,6 @@ const TestRouteStore = RouteStore.withStaticRoutes({
     fooA: { path: '/foo/:a', method: 'get' },
     fooAB: { path: '/foo/:a/:b', method: 'get' }
 });
-
-function onClickMock() {
-    testResult.onClickMockInvoked = true;
-}
 
 function setup(options, done) {
     if (options.nodeEnv) {
@@ -61,7 +57,6 @@ function setup(options, done) {
     MockAppComponent = require('../../mocks/MockAppComponent')['default'];
     NavLink = require('../../../dist/lib/NavLink');
     createNavLinkComponent = require('../../../dist/lib/createNavLinkComponent');
-    testResult = {};
 
     return done(null, mockContext);
 }
@@ -320,7 +315,7 @@ describe('NavLink', () => {
             );
             ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(link), {button: 0});
             window.setTimeout(() => {
-                expect(testResult.dispatch).to.equal(undefined);
+                expect(mockContext.executeActionCalls.length).to.equal(0);
                 done();
             }, 10);
         });
@@ -349,7 +344,7 @@ describe('NavLink', () => {
             );
             ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(link), {button: 0});
             window.setTimeout(() => {
-                expect(testResult.dispatch).to.equal(undefined);
+                expect(mockContext.executeActionCalls.length).to.equal(0);
                 done();
             }, 10);
         });
@@ -398,7 +393,7 @@ describe('NavLink', () => {
             );
             ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(link), {button: 0});
             window.setTimeout(() => {
-                expect(testResult.dispatch).to.equal(undefined);
+                expect(mockContext.executeActionCalls.length).to.equal(0);
                 done();
             }, 10);
         });
@@ -411,7 +406,7 @@ describe('NavLink', () => {
             );
             ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(link), {button: 0});
             window.setTimeout(() => {
-                expect(testResult.dispatch).to.equal(undefined);
+                expect(mockContext.executeActionCalls.length).to.equal(0);
                 done();
             }, 10);
         });
@@ -424,7 +419,7 @@ describe('NavLink', () => {
             );
             ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(link), {button: 0});
             window.setTimeout(() => {
-                expect(testResult.dispatch).to.equal(undefined);
+                expect(mockContext.executeActionCalls.length).to.equal(0);
                 done();
             }, 10);
         });
@@ -437,7 +432,7 @@ describe('NavLink', () => {
             );
             ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(link), {button: 0});
             window.setTimeout(() => {
-                expect(testResult.dispatch).to.equal(undefined);
+                expect(mockContext.executeActionCalls.length).to.equal(0);
                 done();
             }, 10);
         });
@@ -466,7 +461,6 @@ describe('NavLink', () => {
             );
             ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(link), {button: 0});
             window.setTimeout(() => {
-                expect(testResult.dispatch).to.equal(undefined);
                 expect(mockContext.executeActionCalls.length).to.equal(0);
                 done();
             }, 10);
@@ -565,7 +559,7 @@ describe('NavLink', () => {
                     );
                     ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(link), eventData);
                     window.setTimeout(() => {
-                        expect(testResult.dispatch).to.equal(undefined);
+                        expect(mockContext.executeActionCalls.length).to.equal(0);
                         done();
                     }, 10);
                 });
@@ -573,16 +567,17 @@ describe('NavLink', () => {
         });
 
         it('allow overriding onClick', (done) => {
+            const onClickMock = sinon.spy();
             const link = ReactTestUtils.renderIntoDocument(
                 <MockAppComponent context={mockContext}>
                     <NavLink href='#here' onClick={onClickMock} />
                 </MockAppComponent>
             );
-            expect(testResult.onClickMockInvoked).to.equal(undefined);
+
             ReactTestUtils.Simulate.click(ReactDOM.findDOMNode(link), {button: 0});
+
             window.setTimeout(() => {
-                expect(testResult.dispatch).to.equal(undefined);
-                expect(testResult.onClickMockInvoked).to.equal(true);
+                expect(onClickMock.calledOnce).to.equal(true);
                 done();
             }, 10);
         });
