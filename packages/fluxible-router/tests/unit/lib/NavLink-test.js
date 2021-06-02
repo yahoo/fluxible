@@ -515,14 +515,9 @@ describe('NavLink', () => {
 
         it('should throw if context not available', () => {
             expect(() => {
-                // eslint-disable-next-line no-useless-catch
-                try{
-                    ReactTestUtils.renderIntoDocument(
-                        <NavLink href='/foo' followLink={false} />
-                    );
-                } catch (e) {
-                    throw e;
-                }
+                ReactTestUtils.renderIntoDocument(
+                    <NavLink href="/foo" followLink={false} />
+                );
             }).to['throw']();
         });
 
@@ -558,7 +553,7 @@ describe('NavLink', () => {
                 }, 10);
             });
 
-            ['metaKey', 'altKey', 'ctrlKey', 'shiftKey'].map((key) => {
+            ['metaKey', 'altKey', 'ctrlKey', 'shiftKey'].forEach((key) => {
                 it('does not navigate on modified ' + key, (done) => {
                     const eventData = {button: 0};
                     eventData[key] = true;
