@@ -120,7 +120,7 @@ describe('handleHistory', function () {
         var mockCreator;
 
         beforeEach(function () {
-            mockCreator = MockAppComponentLib.createWrappedMockAppComponent;
+            mockCreator = require('../../mocks/MockAppComponent').createWrappedMockAppComponent;
         });
 
         describe('render', function () {

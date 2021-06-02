@@ -58,7 +58,7 @@ function setup(options, done) {
         url: '/foo',
         method: 'GET'
     });
-    MockAppComponent = require('../../mocks/MockAppComponent');
+    MockAppComponent = require('../../mocks/MockAppComponent')['default'];
     NavLink = require('../../../dist/lib/NavLink');
     createNavLinkComponent = require('../../../dist/lib/createNavLinkComponent');
     testResult = {};

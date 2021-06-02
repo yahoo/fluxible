@@ -2,12 +2,10 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-'use strict';
-var React = require('react');
-var PropTypes = require('prop-types');
-var { provideContext, FluxibleContext } = require('fluxible-addons-react');
-var handleHistory = require('../../dist/lib/handleHistory');
-var createReactClass = require('create-react-class');
+import React from 'react';
+import PropTypes from 'prop-types';
+import { provideContext, FluxibleContext } from 'fluxible-addons-react';
+import handleHistory from '../../dist/lib/handleHistory';
 
 class MockAppComponent extends React.Component {
     render() {
@@ -15,7 +13,7 @@ class MockAppComponent extends React.Component {
             return null;
         }
         return React.cloneElement(this.props.children, {
-            currentRoute: this.props.currentRoute
+            currentRoute: this.props.currentRoute,
         });
     }
 }
@@ -24,14 +22,16 @@ MockAppComponent.contextType = FluxibleContext;
 
 MockAppComponent.propTypes = {
     children: PropTypes.object,
-    currentRoute: PropTypes.object
+    currentRoute: PropTypes.object,
 };
 
-module.exports = provideContext(handleHistory(MockAppComponent, {
-    checkRouteOnPageLoad: false,
-    enableScroll: true
-}));
+export default provideContext(
+    handleHistory(MockAppComponent, {
+        checkRouteOnPageLoad: false,
+        enableScroll: true,
+    })
+);
 
-module.exports.createWrappedMockAppComponent = function createWrappedMockAppComponent(opts) {
+export function createWrappedMockAppComponent(opts) {
     return provideContext(handleHistory(MockAppComponent, opts));
-};
+}
