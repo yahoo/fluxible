@@ -60,6 +60,12 @@ const renderNavLink = (props) => {
     return { link, context };
 };
 
+const simulateClick = (link) => {
+    ReactTestUtils.act(() => {
+        ReactTestUtils.Simulate.click(link, { button: 0 });
+    });
+};
+
 function setup(options) {
     if (options?.nodeEnv) {
         process.env.NODE_ENV = options.nodeEnv;
@@ -221,7 +227,7 @@ describe('NavLink', () => {
     });
 
     describe('dispatchNavAction()', () => {
-        it('use react context', (done) => {
+        it('use react context', () => {
             const navParams = { a: 1, b: true };
             const { link, context } = renderNavLink({
                 href: '/foo',
@@ -229,18 +235,25 @@ describe('NavLink', () => {
                 navParams,
             });
 
-            ReactTestUtils.Simulate.click(link, { button: 0 });
-            window.setTimeout(() => {
-                expect(context.executeActionCalls[0].action).to.equal(navigateAction);
-                expect(context.executeActionCalls[0].payload.type).to.equal('click');
-                expect(context.executeActionCalls[0].payload.url).to.equal('/foo');
-                expect(context.executeActionCalls[0].payload.preserveScrollPosition).to.equal(true);
-                expect(context.executeActionCalls[0].payload.params).to.eql({a: 1, b: true});
-                done();
-            }, 10);
+            simulateClick(link);
+
+            expect(context.executeActionCalls[0].action).to.equal(
+                navigateAction
+            );
+            expect(context.executeActionCalls[0].payload.type).to.equal(
+                'click'
+            );
+            expect(context.executeActionCalls[0].payload.url).to.equal('/foo');
+            expect(
+                context.executeActionCalls[0].payload.preserveScrollPosition
+            ).to.equal(true);
+            expect(context.executeActionCalls[0].payload.params).to.eql({
+                a: 1,
+                b: true,
+            });
         });
 
-        it('should getNavParams from overwriteSpec if so configured', (done) => {
+        it('should getNavParams from overwriteSpec if so configured', () => {
             const navParams = { a: 1, b: true };
             const props = {
                 id: 'another-link',
@@ -259,19 +272,25 @@ describe('NavLink', () => {
             renderComponent(component, context);
             const link = document.getElementById('another-link');
 
-            ReactTestUtils.Simulate.click(link, { button: 0 });
+            simulateClick(link);
 
-            window.setTimeout(() => {
-                expect(context.executeActionCalls[0].action).to.equal(navigateAction);
-                expect(context.executeActionCalls[0].payload.type).to.equal('click');
-                expect(context.executeActionCalls[0].payload.url).to.equal('/foo');
-                expect(context.executeActionCalls[0].payload.preserveScrollPosition).to.equal(true);
-                expect(context.executeActionCalls[0].payload.params).to.eql({a: 2, b: false});
-                done();
-            }, 10);
+            expect(context.executeActionCalls[0].action).to.equal(
+                navigateAction
+            );
+            expect(context.executeActionCalls[0].payload.type).to.equal(
+                'click'
+            );
+            expect(context.executeActionCalls[0].payload.url).to.equal('/foo');
+            expect(
+                context.executeActionCalls[0].payload.preserveScrollPosition
+            ).to.equal(true);
+            expect(context.executeActionCalls[0].payload.params).to.eql({
+                a: 2,
+                b: false,
+            });
         });
 
-        it('stopPropagation stops event propagation', (done) => {
+        it('stopPropagation stops event propagation', () => {
             const propagateFail = (e) => {
                 expect(e.isPropagationStopped()).to.eql(true);
             };
@@ -291,34 +310,38 @@ describe('NavLink', () => {
             renderComponent(component, context);
 
             const link = document.getElementById('link');
-            ReactTestUtils.Simulate.click(link, { button: 0 });
+            simulateClick(link);
 
-            window.setTimeout(() => {
-                expect(context.executeActionCalls.length).to.equal(1);
-                expect(context.executeActionCalls[0].action).to.equal(navigateAction);
-                done();
-            }, 10);
+            expect(context.executeActionCalls.length).to.equal(1);
+            expect(context.executeActionCalls[0].action).to.equal(
+                navigateAction
+            );
         });
 
-        it('context.executeAction called for relative urls', (done) => {
+        it('context.executeAction called for relative urls', () => {
             const navParams = { a: 1, b: true };
             const { link, context } = renderNavLink({
                 href: '/foo',
                 navParams,
             });
 
-            ReactTestUtils.Simulate.click(link, { button: 0 });
-            window.setTimeout(() => {
-                expect(context.executeActionCalls.length).to.equal(1);
-                expect(context.executeActionCalls[0].action).to.equal(navigateAction);
-                expect(context.executeActionCalls[0].payload.type).to.equal('click');
-                expect(context.executeActionCalls[0].payload.url).to.equal('/foo');
-                expect(context.executeActionCalls[0].payload.params).to.eql({a: 1, b: true});
-                done();
-            }, 10);
+            simulateClick(link);
+
+            expect(context.executeActionCalls.length).to.equal(1);
+            expect(context.executeActionCalls[0].action).to.equal(
+                navigateAction
+            );
+            expect(context.executeActionCalls[0].payload.type).to.equal(
+                'click'
+            );
+            expect(context.executeActionCalls[0].payload.url).to.equal('/foo');
+            expect(context.executeActionCalls[0].payload.params).to.eql({
+                a: 1,
+                b: true,
+            });
         });
 
-        it('context.executeAction called for href when validate is true and href is registered', (done) => {
+        it('context.executeAction called for href when validate is true and href is registered', () => {
             const navParams = { a: 1, b: true };
             const { link, context } = renderNavLink({
                 validate: true,
@@ -326,71 +349,80 @@ describe('NavLink', () => {
                 navParams,
             });
 
-            ReactTestUtils.Simulate.click(link, { button: 0 });
-            window.setTimeout(() => {
-                expect(context.executeActionCalls.length).to.equal(1);
-                expect(context.executeActionCalls[0].action).to.equal(navigateAction);
-                expect(context.executeActionCalls[0].payload.type).to.equal('click');
-                expect(context.executeActionCalls[0].payload.url).to.equal('/internal');
-                expect(context.executeActionCalls[0].payload.params).to.eql({a: 1, b: true});
-                done();
-            }, 10);
+            simulateClick(link);
+
+            expect(context.executeActionCalls.length).to.equal(1);
+            expect(context.executeActionCalls[0].action).to.equal(
+                navigateAction
+            );
+            expect(context.executeActionCalls[0].payload.type).to.equal(
+                'click'
+            );
+            expect(context.executeActionCalls[0].payload.url).to.equal(
+                '/internal'
+            );
+            expect(context.executeActionCalls[0].payload.params).to.eql({
+                a: 1,
+                b: true,
+            });
         });
 
-        it('context.executeAction not called for external href when validate is true', (done) => {
+        it('context.executeAction not called for external href when validate is true', () => {
             const { link, context } = renderNavLink({
                 href: '/external',
                 validate: true,
             });
 
-            ReactTestUtils.Simulate.click(link, { button: 0 });
-            window.setTimeout(() => {
-                expect(context.executeActionCalls.length).to.equal(0);
-                done();
-            }, 10);
+            simulateClick(link);
+
+            expect(context.executeActionCalls.length).to.equal(0);
         });
 
-        it('context.executeAction called for external href when validate is false', (done) => {
+        it('context.executeAction called for external href when validate is false', () => {
             const { link, context } = renderNavLink({ href: '/external' });
 
-            ReactTestUtils.Simulate.click(link, { button: 0 });
-            window.setTimeout(() => {
-                expect(context.executeActionCalls.length).to.equal(1);
-                expect(context.executeActionCalls[0].action).to.equal(navigateAction);
-                expect(context.executeActionCalls[0].payload.type).to.equal('click');
-                expect(context.executeActionCalls[0].payload.url).to.equal('/external');
-                done();
-            }, 10);
+            simulateClick(link);
+
+            expect(context.executeActionCalls.length).to.equal(1);
+            expect(context.executeActionCalls[0].action).to.equal(
+                navigateAction
+            );
+            expect(context.executeActionCalls[0].payload.type).to.equal(
+                'click'
+            );
+            expect(context.executeActionCalls[0].payload.url).to.equal(
+                '/external'
+            );
         });
 
-        it('context.executeAction not called for href when validate is true but href is not registered', (done) => {
+        it('context.executeAction not called for href when validate is true but href is not registered', () => {
             const { link, context } = renderNavLink({
                 validate: true,
                 href: 'notregister',
             });
 
-            ReactTestUtils.Simulate.click(link, { button: 0 });
-            window.setTimeout(() => {
-                expect(context.executeActionCalls.length).to.equal(0);
-                done();
-            }, 10);
+            simulateClick(link);
+
+            expect(context.executeActionCalls.length).to.equal(0);
         });
 
-        it('context.executeAction called for routeNames', (done) => {
+        it('context.executeAction called for routeNames', () => {
             const { link, context } = renderNavLink({ routeName: 'foo' });
 
             link.context = context;
-            ReactTestUtils.Simulate.click(link, { button: 0 });
-            window.setTimeout(() => {
-                expect(context.executeActionCalls.length).to.equal(1);
-                expect(context.executeActionCalls[0].action).to.equal(navigateAction);
-                expect(context.executeActionCalls[0].payload.type).to.equal('click');
-                expect(context.executeActionCalls[0].payload.url).to.equal('/foo');
-                done();
-            }, 10);
+            simulateClick(link);
+
+            expect(context.executeActionCalls.length).to.equal(1);
+            expect(context.executeActionCalls[0].action).to.equal(
+                navigateAction
+            );
+            expect(context.executeActionCalls[0].payload.type).to.equal(
+                'click'
+            );
+            expect(context.executeActionCalls[0].payload.url).to.equal('/foo');
         });
 
-        it('context.executeAction called for absolute urls from same origin', (done) => {
+        it('context.executeAction called for absolute urls from same origin', () => {
             const navParams = { a: 1, b: true };
             const origin = window.location.origin;
             const { link, context } = renderNavLink({
@@ -398,97 +430,96 @@ describe('NavLink', () => {
                 navParams,
             });
 
-            ReactTestUtils.Simulate.click(link, { button: 0 });
-            window.setTimeout(() => {
-                expect(context.executeActionCalls.length).to.equal(1);
-                expect(context.executeActionCalls[0].action).to.equal(navigateAction);
-                expect(context.executeActionCalls[0].payload.type).to.equal('click');
-                expect(context.executeActionCalls[0].payload.url).to.equal('/foo?x=y');
-                expect(context.executeActionCalls[0].payload.params).to.eql({a: 1, b: true});
-                done();
-            }, 10);
+            simulateClick(link);
+
+            expect(context.executeActionCalls.length).to.equal(1);
+            expect(context.executeActionCalls[0].action).to.equal(
+                navigateAction
+            );
+            expect(context.executeActionCalls[0].payload.type).to.equal(
+                'click'
+            );
+            expect(context.executeActionCalls[0].payload.url).to.equal(
+                '/foo?x=y'
+            );
+            expect(context.executeActionCalls[0].payload.params).to.eql({
+                a: 1,
+                b: true,
+            });
         });
 
-        it('context.executeAction not called for external urls', (done) => {
+        it('context.executeAction not called for external urls', () => {
             const { link, context } = renderNavLink({
                 href: 'http://domain.does.not.exist/foo',
             });
 
-            ReactTestUtils.Simulate.click(link, { button: 0 });
-            window.setTimeout(() => {
-                expect(context.executeActionCalls.length).to.equal(0);
-                done();
-            }, 10);
+            simulateClick(link);
+
+            expect(context.executeActionCalls.length).to.equal(0);
         });
 
-        it('context.executeAction not called for external urls when validate is true', (done) => {
+        it('context.executeAction not called for external urls when validate is true', () => {
             const { link, context } = renderNavLink({
                 validate: true,
                 href: 'http://domain.does.not.exist/foo',
             });
 
-            ReactTestUtils.Simulate.click(link, { button: 0 });
-            window.setTimeout(() => {
-                expect(context.executeActionCalls.length).to.equal(0);
-                done();
-            }, 10);
+            simulateClick(link);
+
+            expect(context.executeActionCalls.length).to.equal(0);
         });
 
-        it('context.executeAction not called for # urls', (done) => {
+        it('context.executeAction not called for # urls', () => {
             const { link, context } = renderNavLink({ href: '#here' });
 
-            ReactTestUtils.Simulate.click(link, { button: 0 });
-            window.setTimeout(() => {
-                expect(context.executeActionCalls.length).to.equal(0);
-                done();
-            }, 10);
+            simulateClick(link);
+
+            expect(context.executeActionCalls.length).to.equal(0);
         });
 
-        it('context.executeAction not called if followLink=true', (done) => {
+        it('context.executeAction not called if followLink=true', () => {
             const { link, context } = renderNavLink({
                 href: '/foo',
                 followLink: true,
             });
 
-            ReactTestUtils.Simulate.click(link, { button: 0 });
-            window.setTimeout(() => {
-                expect(context.executeActionCalls.length).to.equal(0);
-                done();
-            }, 10);
+            simulateClick(link);
+
+            expect(context.executeActionCalls.length).to.equal(0);
         });
 
-        it('context.executeAction called if followLink=false', (done) => {
+        it('context.executeAction called if followLink=false', () => {
             const { link, context } = renderNavLink({
                 href: '/foo',
                 followLink: false,
             });
 
-            ReactTestUtils.Simulate.click(link, { button: 0 });
-            window.setTimeout(() => {
-                expect(context.executeActionCalls.length).to.equal(1);
-                expect(context.executeActionCalls[0].action).to.equal(navigateAction);
-                expect(context.executeActionCalls[0].payload.type).to.equal('click');
-                expect(context.executeActionCalls[0].payload.url).to.equal('/foo');
-                done();
-            }, 10);
+            simulateClick(link);
+
+            expect(context.executeActionCalls.length).to.equal(1);
+            expect(context.executeActionCalls[0].action).to.equal(
+                navigateAction
+            );
+            expect(context.executeActionCalls[0].payload.type).to.equal(
+                'click'
+            );
+            expect(context.executeActionCalls[0].payload.url).to.equal('/foo');
         });
 
-        it('context.executeAction not called if validate=true and route is invalid', (done) => {
+        it('context.executeAction not called if validate=true and route is invalid', () => {
             const { link, context } = renderNavLink({
                 href: '/invalid',
                 followLink: false,
                 validate: true,
             });
 
-            ReactTestUtils.Simulate.click(link, { button: 0 });
-            window.setTimeout(() => {
-                expect(context.executeActionCalls.length).to.equal(0);
-                done();
-            }, 10);
+            simulateClick(link);
+
+            expect(context.executeActionCalls.length).to.equal(0);
         });
 
         describe('window.onbeforeunload', () => {
-            it('should not call context.executeAction when a user does not confirm the onbeforeunload method', (done) => {
+            it('should not call context.executeAction when a user does not confirm the onbeforeunload method', () => {
                 global.window.confirm = () => false;
                 global.window.onbeforeunload = () => 'this is a test';
 
@@ -497,14 +528,12 @@ describe('NavLink', () => {
                     followLink: false,
                 });
 
-                ReactTestUtils.Simulate.click(link, { button: 0 });
-                window.setTimeout(() => {
-                    expect(context.executeActionCalls.length).to.equal(0);
-                    done();
-                }, 10);
+                simulateClick(link);
+
+                expect(context.executeActionCalls.length).to.equal(0);
             });
 
-            it('should ignore any error which happens when calling onbeforeunload', (done) => {
+            it('should ignore any error which happens when calling onbeforeunload', () => {
                 let loggerWarning;
                 global.console.warn = (...args) => {
                     loggerWarning = args;
@@ -518,13 +547,13 @@ describe('NavLink', () => {
                     followLink: false,
                 });
 
-                ReactTestUtils.Simulate.click(link, { button: 0 });
-                window.setTimeout(() => {
-                    expect(loggerWarning[0]).to.equal('Warning: Call of window.onbeforeunload failed');
-                    expect(loggerWarning[1].message).to.equal('Test error');
-                    expect(context.executeActionCalls.length).to.equal(1);
-                    done();
-                }, 10);
+                simulateClick(link);
+
+                expect(loggerWarning[0]).to.equal(
+                    'Warning: Call of window.onbeforeunload failed'
+                );
+                expect(loggerWarning[1].message).to.equal('Test error');
+                expect(context.executeActionCalls.length).to.equal(1);
             });
         });
 
@@ -537,67 +566,66 @@ describe('NavLink', () => {
         });
 
         describe('click type', () => {
-            it('navigates on regular click', (done) => {
+            it('navigates on regular click', () => {
                 const origin = window.location.origin;
                 const { link, context } = renderNavLink({ href: origin });
 
-                ReactTestUtils.Simulate.click(link, { button: 0 });
-                window.setTimeout(() => {
-                    expect(context.executeActionCalls.length).to.equal(1);
-                    expect(context.executeActionCalls[0].action).to.equal(navigateAction);
-                    expect(context.executeActionCalls[0].payload.type).to.equal('click');
-                    done();
-                }, 10);
+                simulateClick(link);
+
+                expect(context.executeActionCalls.length).to.equal(1);
+                expect(context.executeActionCalls[0].action).to.equal(
+                    navigateAction
+                );
+                expect(context.executeActionCalls[0].payload.type).to.equal(
+                    'click'
+                );
             });
 
-            it('navigates on regular click using replaceState', (done) => {
+            it('navigates on regular click using replaceState', () => {
                 const origin = window.location.origin;
                 const { link, context } = renderNavLink({
                     href: origin,
                     replaceState: true,
                 });
 
-                ReactTestUtils.Simulate.click(link, { button: 0 });
-                window.setTimeout(() => {
-                    expect(context.executeActionCalls[0].action).to.equal(navigateAction);
-                    expect(context.executeActionCalls[0].payload.type).to.equal('replacestate');
-                    done();
-                }, 10);
+                simulateClick(link);
+
+                expect(context.executeActionCalls[0].action).to.equal(
+                    navigateAction
+                );
+                expect(context.executeActionCalls[0].payload.type).to.equal(
+                    'replacestate'
+                );
             });
 
             ['metaKey', 'altKey', 'ctrlKey', 'shiftKey'].forEach((key) => {
-                it('does not navigate on modified ' + key, (done) => {
+                it('does not navigate on modified ' + key, () => {
                     const eventData = { button: 0 };
                     eventData[key] = true;
                     const origin = window.location.origin;
                     const { link, context } = renderNavLink({ href: origin });
 
                     ReactTestUtils.Simulate.click(link, eventData);
-                    window.setTimeout(() => {
-                        expect(context.executeActionCalls.length).to.equal(0);
-                        done();
-                    }, 10);
+
+                    expect(context.executeActionCalls.length).to.equal(0);
                 });
             });
         });
 
-        it('allow overriding onClick', (done) => {
+        it('allow overriding onClick', () => {
             const onClickMock = sinon.spy();
             const { link } = renderNavLink({
                 href: '#here',
                 onClick: onClickMock,
             });
-            ReactTestUtils.Simulate.click(link, { button: 0 });
+            simulateClick(link);
 
-            window.setTimeout(() => {
-                expect(onClickMock.calledOnce).to.equal(true);
-                done();
-            }, 10);
+            expect(onClickMock.calledOnce).to.equal(true);
         });
     });
 
     describe('onStoreChange', () => {
-        it('should update active state', (done) => {
+        it('should update active state', () => {
             const { link, context } = renderNavLink({
                 href: '/foo',
                 activeClass: 'active',
@@ -607,17 +635,15 @@ describe('NavLink', () => {
             expect(link.getAttribute('href')).to.equal('/foo');
             expect(link.textContent).to.equal('bar');
             expect(link.getAttribute('class')).to.equal('active');
+
             context.getStore('RouteStore')._handleNavigateStart({
                 url: '/bar',
                 method: 'GET',
             });
-            // Wait for DOM to update
-            setTimeout(() => {
-                expect(link.getAttribute('href')).to.equal('/foo');
-                expect(link.textContent).to.equal('bar');
-                expect(!link.getAttribute('class')).to.equal(true);
-                done();
-            }, 50);
+
+            expect(link.getAttribute('href')).to.equal('/foo');
+            expect(link.textContent).to.equal('bar');
+            expect(!link.getAttribute('class')).to.equal(true);
         });
     });
 
