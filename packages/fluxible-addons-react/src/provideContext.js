@@ -2,7 +2,7 @@
  * Copyright 2015, Yahoo Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-import { Component as ReactComponent, createElement } from 'react';
+import { createElement } from 'react';
 import { object } from 'prop-types';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { FluxibleProvider } from './FluxibleContext';
@@ -15,22 +15,17 @@ import { FluxibleProvider } from './FluxibleContext';
  *       foo: PropTypes.string
  *   });
  *
- * @method provideContext
- * @param {React.Component} [Component] component to wrap
+ * @function provideContext
+ * @param {React.Component} Component - component to wrap.
  * @returns {React.Component}
  */
 function provideContext(Component) {
-    class ContextProvider extends ReactComponent {
-        constructor(props) {
-            super(props);
-        }
-
-        render() {
-            const { context } = this.props;
-            const children = createElement(Component, this.props);
-            return createElement(FluxibleProvider, { context }, children);
-        }
-    }
+    const ContextProvider = (props) =>
+        createElement(
+            FluxibleProvider,
+            { context: props.context },
+            createElement(Component, props)
+        );
 
     ContextProvider.propTypes = {
         context: object.isRequired,
@@ -40,9 +35,7 @@ function provideContext(Component) {
         Component.displayName || Component.name || 'Component'
     })`;
 
-    hoistNonReactStatics(ContextProvider, Component);
-
-    return ContextProvider;
+    return hoistNonReactStatics(ContextProvider, Component);
 }
 
 export default provideContext;
