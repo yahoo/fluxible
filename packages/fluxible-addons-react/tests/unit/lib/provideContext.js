@@ -5,7 +5,7 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { JSDOM } from 'jsdom';
 
-import { provideContext, FluxibleComponentContext } from '../../../';
+import { provideContext, useFluxible } from '../../../';
 
 describe('fluxible-addons-react', () => {
     describe('provideContext', () => {
@@ -56,13 +56,11 @@ describe('fluxible-addons-react', () => {
                 getStore: function () {},
             };
 
-            class Component extends React.Component {
-                render() {
-                    expect(this.context).to.deep.equal(context);
-                    return null;
-                }
-            }
-            Component.contextType = FluxibleComponentContext;
+            const Component = () => {
+                const componentContext = useFluxible();
+                expect(componentContext).to.deep.equal(context);
+                return null;
+            };
 
             const WrappedComponent = provideContext(Component);
 
