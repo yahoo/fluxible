@@ -1,5 +1,4 @@
-import { createContext, createElement } from 'react';
-import { node, object } from 'prop-types';
+import { createContext } from 'react';
 
 const throwError = () => {
     throw new Error(
@@ -13,11 +12,3 @@ export const FluxibleContext = createContext({
 });
 
 FluxibleContext.displayName = 'FluxibleContext';
-
-export const FluxibleProvider = ({ children, context }) =>
-    createElement(FluxibleContext.Provider, { value: context }, children);
-
-FluxibleProvider.propTypes = {
-    children: node.isRequired,
-    context: object.isRequired,
-};
