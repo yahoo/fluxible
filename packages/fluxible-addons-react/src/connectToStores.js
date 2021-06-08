@@ -4,7 +4,7 @@
  */
 import { Component as ReactComponent, createElement, forwardRef } from 'react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import { FluxibleContext } from './FluxibleContext';
+import FluxibleComponentContext from './FluxibleComponentContext';
 
 /**
  * @callback getStateFromStores
@@ -81,7 +81,7 @@ function connectToStores(Component, stores, getStateFromStores, options) {
         }
     }
 
-    StoreConnector.contextType = FluxibleContext;
+    StoreConnector.contextType = FluxibleComponentContext;
 
     const forwarded = forwardRef((props, ref) =>
         createElement(StoreConnector, {

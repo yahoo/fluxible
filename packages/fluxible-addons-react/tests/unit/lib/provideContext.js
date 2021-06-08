@@ -5,7 +5,7 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { JSDOM } from 'jsdom';
 
-import { provideContext, FluxibleContext } from '../../../';
+import { provideContext, FluxibleComponentContext } from '../../../';
 
 describe('fluxible-addons-react', () => {
     describe('provideContext', () => {
@@ -62,7 +62,7 @@ describe('fluxible-addons-react', () => {
                     return null;
                 }
             }
-            Component.contextType = FluxibleContext;
+            Component.contextType = FluxibleComponentContext;
 
             const WrappedComponent = provideContext(Component);
 
