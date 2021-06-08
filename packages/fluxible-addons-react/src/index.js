@@ -10,3 +10,4 @@ export { default as connectToStores } from './connectToStores';
 export { default as createElementWithContext } from './createElementWithContext';
 export { default as provideContext } from './provideContext';
 export { default as useFluxible } from './useFluxible';
+export { default as withFluxible } from './withFluxible';
