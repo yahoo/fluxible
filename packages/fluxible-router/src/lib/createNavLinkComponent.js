@@ -7,7 +7,7 @@
 'use strict';
 var React = require('react');
 var PropTypes = require('prop-types');
-var { FluxibleContext } = require('fluxible-addons-react');
+var { FluxibleComponentContext } = require('fluxible-addons-react');
 var RouteStore = require('./RouteStore');
 var debug = require('debug')('NavLink');
 var navigateAction = require('./navigateAction');
@@ -360,7 +360,7 @@ class NavLink extends React.Component {
 NavLink._isMounted = false;
 NavLink.autobind = false;
 NavLink.displayName = 'NavLink';
-NavLink.contextType = FluxibleContext;
+NavLink.contextType = FluxibleComponentContext;
 NavLink.propTypes = {
     href: PropTypes.string,
     stopPropagation: PropTypes.bool,

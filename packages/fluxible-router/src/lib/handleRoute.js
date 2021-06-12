@@ -8,7 +8,7 @@
 'use strict';
 var React = require('react');
 var PropTypes = require('prop-types');
-var { connectToStores, FluxibleContext } = require('fluxible-addons-react');
+var { connectToStores, FluxibleComponentContext } = require('fluxible-addons-react');
 var hoistNonReactStatics = require('hoist-non-react-statics');
 var inherits = require('inherits');
 
@@ -20,7 +20,7 @@ function createComponent(Component) {
     inherits(RouteHandler, React.Component);
 
     RouteHandler.displayName = 'RouteHandler';
-    RouteHandler.contextType = FluxibleContext;
+    RouteHandler.contextType = FluxibleComponentContext;
     RouteHandler.propTypes = {
         currentRoute: PropTypes.object,
         currentNavigate: PropTypes.object,

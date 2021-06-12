@@ -8,7 +8,7 @@
 var React = require('react');
 var PropTypes = require('prop-types');
 var debug = require('debug')('FluxibleRouter:handleHistory');
-var { FluxibleContext } = require('fluxible-addons-react');
+var { FluxibleComponentContext } = require('fluxible-addons-react');
 var handleRoute = require('../lib/handleRoute');
 var navigateAction = require('../lib/navigateAction');
 var History = require('./History');
@@ -61,7 +61,7 @@ function createComponent(Component, opts) {
     inherits(HistoryHandler, React.Component);
 
     HistoryHandler.displayName = 'HistoryHandler';
-    HistoryHandler.contextType = FluxibleContext;
+    HistoryHandler.contextType = FluxibleComponentContext;
     HistoryHandler.propTypes = {
         currentRoute: PropTypes.object,
         currentNavigate: PropTypes.object
