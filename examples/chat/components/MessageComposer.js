@@ -48,13 +48,14 @@ class MessageComposer extends React.Component {
 
     render() {
         return (
-            <textarea
-                className="message-composer"
-                name="message"
-                value={this.state.text}
-                onChange={this._onChange}
-                onKeyDown={this._onKeyDown}
-            />
+            <div className="message-composer">
+                <input
+                    name="message"
+                    value={this.state.text}
+                    onChange={this._onChange}
+                    onKeyDown={this._onKeyDown}
+                />
+            </div>
         );
     }
 }
