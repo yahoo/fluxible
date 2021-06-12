@@ -3,7 +3,8 @@ import hoistNonReactStatics from 'hoist-non-react-statics';
 import useFluxible from './useFluxible';
 
 /**
- * High order component that injects the fluxible context as context prop.
+ * Higher-order component that injects the fluxible context as context
+ * prop.
  *
  * const MyComponent = ({ context }) => {
  *     const onClick = () => context.executeAction(myAction);
