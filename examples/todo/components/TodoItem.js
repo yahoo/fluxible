@@ -3,57 +3,67 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 'use strict';
-var React = require('react');
-var classNames = require('classnames');
+const React = require('react');
+const classNames = require('classnames');
 
+const ESCAPE_KEY = 27;
+const ENTER_KEY = 13;
 
-var ESCAPE_KEY = 27;
-var ENTER_KEY = 13;
+class Component extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { editText: this.props.todo.text };
+        this.editField = React.createRef();
 
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleEdit = this.handleEdit.bind(this);
+        this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+    }
 
-var Component = React.createClass({
-    getInitialState: function () {
-        return { editText: this.props.todo.text };
-    },
-    handleSubmit: function (event) {
-        var completed = this.props.todo.completed;
-        var text = this.state.editText.trim();
+    handleSubmit() {
+        const completed = this.props.todo.completed;
+        const text = this.state.editText.trim();
 
         if (text) {
             this.props.onSave(completed, text);
             this.setState({ editText: text });
-        }
-        else {
+        } else {
             this.props.onDestroy();
         }
-    },
-    handleEdit: function () {
-        this.props.onEdit(function () {
-            var node = this.refs.editField.getDOMNode();
-            node.focus();
-            node.setSelectionRange(node.value.length, node.value.length);
-        }.bind(this));
+    }
+
+    handleEdit() {
+        this.props.onEdit(
+            function () {
+                const node = this.editField.current;
+                node.focus();
+                node.setSelectionRange(node.value.length, node.value.length);
+            }.bind(this)
+        );
 
         this.setState({ editText: this.props.todo.text });
-    },
-    handleKeyDown: function (event) {
+    }
+
+    handleKeyDown(event) {
         if (event.which === ESCAPE_KEY) {
             this.setState({ editText: this.props.todo.text });
             this.props.onCancel(event);
+        } else if (event.which === ENTER_KEY) {
+            this.editField.current.blur();
         }
-        else if (event.which === ENTER_KEY) {
-            this.refs.editField.getDOMNode().blur();
-        }
-    },
-    handleChange: function (event) {
+    }
+
+    handleChange(event) {
         this.setState({ editText: event.target.value });
-    },
-    render: function () {
-        var classSet = classNames({
+    }
+
+    render() {
+        const classSet = classNames({
             completed: this.props.todo.completed,
             editing: this.props.editing,
             pending: this.props.todo.pending,
-            failure: this.props.todo.failure
+            failure: this.props.todo.failure,
         });
 
         return (
@@ -66,7 +76,13 @@ var Component = React.createClass({
                         onChange={this.props.onToggle}
                         disabled={this.props.todo.failure}
                     />
-                    <label onDoubleClick={this.props.todo.failure ? undefined : this.handleEdit}>
+                    <label
+                        onDoubleClick={
+                            this.props.todo.failure
+                                ? undefined
+                                : this.handleEdit
+                        }
+                    >
                         {this.props.todo.text}
                     </label>
                     <button
@@ -76,7 +92,7 @@ var Component = React.createClass({
                     />
                 </div>
                 <input
-                    ref="editField"
+                    ref={this.editField}
                     className="edit"
                     value={this.state.editText}
                     onBlur={this.handleSubmit}
@@ -86,7 +102,6 @@ var Component = React.createClass({
             </li>
         );
     }
-});
-
+}
 
 module.exports = Component;

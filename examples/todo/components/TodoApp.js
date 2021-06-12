@@ -3,102 +3,114 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 'use strict';
-var React = require('react');
-var provideContext = require('fluxible-addons-react/provideContext');
-var connectToStores = require('fluxible-addons-react/connectToStores');
-var TodoStore = require('../stores/TodoStore');
-var TodoItem = require('./TodoItem');
-var Footer = require('./Footer');
-var createTodo = require('../actions/createTodo');
-var updateTodo = require('../actions/updateTodo');
-var deleteTodo = require('../actions/deleteTodo');
-var toggleAll = require('../actions/toggleAll');
+const React = require('react');
+const { provideContext, connectToStores } = require('fluxible-addons-react');
+const TodoStore = require('../stores/TodoStore');
+const TodoItem = require('./TodoItem');
+const Footer = require('./Footer');
+const createTodo = require('../actions/createTodo');
+const updateTodo = require('../actions/updateTodo');
+const deleteTodo = require('../actions/deleteTodo');
+const toggleAll = require('../actions/toggleAll');
 
-var ENTER_KEY = 13;
+const ENTER_KEY = 13;
 
-var TodoApp = React.createClass({
-    contextTypes: {
-        executeAction: React.PropTypes.func.isRequired
-    },
-    getInitialState: function () {
-        return {
-            nowShowing: 'ALL_TODOS'
-        };
-    },
-    handleNewTodoKeyDown: function (event) {
+class TodoApp extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { nowShowing: 'ALL_TODOS' };
+        this.handleNewTodoKeyDown = this.handleNewTodoKeyDown.bind(this);
+        this.toggleAll = this.toggleAll.bind(this);
+        this.clearCompleted = this.clearCompleted.bind(this);
+        this.changeFilter = this.changeFilter.bind(this);
+        this.newField = React.createRef();
+    }
+
+    handleNewTodoKeyDown(event) {
         if (event.which !== ENTER_KEY) {
             return;
         }
 
         event.preventDefault();
 
-        var text = this.refs.newField.value.trim();
+        const text = this.newField.current.value.trim();
 
         if (text) {
-            this.context.executeAction(createTodo, {
-                text: text
+            this.props.context.executeAction(createTodo, {
+                text: text,
             });
-            this.refs.newField.value = '';
+            this.newField.current.value = '';
         }
-    },
-    changeFilter: function (filter, event) {
+    }
+
+    changeFilter(filter, event) {
         this.setState({ nowShowing: filter });
         event.preventDefault();
-    },
-    clearCompleted: function () {
-        var ids = this.props.items.filter(function (todo) {
-            return todo.completed;
-        }).map(function (todo) {
-            return todo.id;
-        });
+    }
 
-        this.context.executeAction(deleteTodo, {
-            ids: ids
+    clearCompleted() {
+        const ids = this.props.items
+            .filter(function (todo) {
+                return todo.completed;
+            })
+            .map(function (todo) {
+                return todo.id;
+            });
+
+        this.props.context.executeAction(deleteTodo, {
+            ids: ids,
         });
-    },
-    toggleAll: function (event) {
-        var checked = event.target.checked;
-        this.context.executeAction(toggleAll, {
-            checked: checked
+    }
+
+    toggleAll(event) {
+        const checked = event.target.checked;
+        this.props.context.executeAction(toggleAll, {
+            checked: checked,
         });
-    },
-    toggle: function (todo) {
-        this.context.executeAction(updateTodo, {
+    }
+
+    toggle(todo) {
+        this.props.context.executeAction(updateTodo, {
             id: todo.id,
             completed: !todo.completed,
-            text: todo.text
+            text: todo.text,
         });
-    },
-    destroy: function (todo) {
-        this.context.executeAction(deleteTodo, {
-            ids: [todo.id]
+    }
+
+    destroy(todo) {
+        this.props.context.executeAction(deleteTodo, {
+            ids: [todo.id],
         });
-    },
-    edit: function (todo, callback) {
+    }
+
+    edit(todo, callback) {
         // refer TodoItem.handleEdit for the reasoning behind callback
         this.setState({ editing: todo.id }, function () {
             callback();
         });
-    },
-    save: function (todo, completed, text) {
-        this.context.executeAction(updateTodo, {
+    }
+
+    save(todo, completed, text) {
+        this.props.context.executeAction(updateTodo, {
             id: todo.id,
             completed: completed,
-            text: text
+            text: text,
         });
 
         this.setState({ editing: null });
-    },
-    cancel: function () {
+    }
+
+    cancel() {
         this.setState({ editing: null });
-    },
-    render: function() {
-        var todos = this.props.items;
+    }
+
+    render() {
+        const todos = this.props.items;
         var main;
         var footer;
 
-        var shownTodos = todos.filter(function (todo) {
-            switch(this.state.nowShowing) {
+        const shownTodos = todos.filter(function (todo) {
+            switch (this.state.nowShowing) {
                 case 'ACTIVE_TODOS':
                     return !todo.completed;
                 case 'COMPLETED_TODOS':
@@ -108,7 +120,7 @@ var TodoApp = React.createClass({
             }
         }, this);
 
-        var todoItems = shownTodos.map(function (todo) {
+        const todoItems = shownTodos.map(function (todo) {
             return (
                 <TodoItem
                     key={todo.id}
@@ -123,20 +135,22 @@ var TodoApp = React.createClass({
             );
         }, this);
 
-        var activeTodoCount = todos.reduce(function (total, todo) {
+        const activeTodoCount = todos.reduce(function (total, todo) {
             return todo.completed ? total : total + 1;
         }, 0);
 
-        var completedCount = todos.length - activeTodoCount;
+        const completedCount = todos.length - activeTodoCount;
 
         if (activeTodoCount || completedCount) {
-            footer = <Footer
-                count={activeTodoCount}
-                completedCount={completedCount}
-                nowShowing={this.state.nowShowing}
-                onClearCompleted={this.clearCompleted}
-                onFilterChange={this.changeFilter}
-            />;
+            footer = (
+                <Footer
+                    count={activeTodoCount}
+                    completedCount={completedCount}
+                    nowShowing={this.state.nowShowing}
+                    onClearCompleted={this.clearCompleted}
+                    onFilterChange={this.changeFilter}
+                />
+            );
         }
 
         if (todos.length) {
@@ -148,9 +162,7 @@ var TodoApp = React.createClass({
                         onChange={this.toggleAll}
                         checked={activeTodoCount === 0}
                     />
-                    <ul id="todo-list">
-                        {todoItems}
-                    </ul>
+                    <ul id="todo-list">{todoItems}</ul>
                 </section>
             );
         }
@@ -160,7 +172,7 @@ var TodoApp = React.createClass({
                 <header id="header">
                     <h1>todos</h1>
                     <input
-                        ref="newField"
+                        ref={this.newField}
                         id="new-todo"
                         placeholder="What needs to be done?"
                         onKeyDown={this.handleNewTodoKeyDown}
@@ -172,14 +184,11 @@ var TodoApp = React.createClass({
             </div>
         );
     }
-});
+}
 
-TodoApp = connectToStores(TodoApp, [TodoStore], function (context, props) {
-    return {
-        items: context.getStore(TodoStore).getAll()
-    };
-});
-
-TodoApp = provideContext(TodoApp);
-
-module.exports = TodoApp;
+module.exports = provideContext(
+    connectToStores(TodoApp, [TodoStore], (context) => ({
+        items: context.getStore(TodoStore).getAll(),
+        context,
+    }))
+);
