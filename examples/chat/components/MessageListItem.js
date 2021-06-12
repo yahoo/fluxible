@@ -13,26 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict';
-var React = require('react');
+const React = require('react');
+const PropTypes = require('prop-types');
 
-var ReactPropTypes = React.PropTypes;
-
-var MessageListItem = function (props) {
-    var message = props.message;
-    return (
-        <li className="message-list-item">
-            <h5 className="message-author-name">{message.authorName}</h5>
-            <div className="message-time">
-                {(new Date(message.timestamp)).toTimeString()}
-            </div>
-            <div className="message-text">{message.text}</div>
-        </li>
-    );
-};
+const MessageListItem = ({ message }) => (
+    <li className="message-list-item">
+        <h5 className="message-author-name">{message.authorName}</h5>
+        <div className="message-time">
+            {new Date(message.timestamp).toTimeString()}
+        </div>
+        <div className="message-text">{message.text}</div>
+    </li>
+);
 
 MessageListItem.propTypes = {
-    message: ReactPropTypes.object
+    message: PropTypes.object,
 };
 
 module.exports = MessageListItem;

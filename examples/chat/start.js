@@ -3,6 +3,6 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 'use strict';
-require('babel-register');
+require('@babel/register');
 
 module.exports = require('./server');
