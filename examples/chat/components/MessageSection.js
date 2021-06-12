@@ -13,60 +13,52 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict';
-var React = require('react');
-var MessageComposer = require('./MessageComposer');
-var MessageListItem = require('./MessageListItem');
-var MessageStore = require('../stores/MessageStore');
-var ThreadStore = require('../stores/ThreadStore');
-var connectToStores = require('fluxible-addons-react/connectToStores');
+const React = require('react');
+const { connectToStores } = require('fluxible-addons-react');
+const MessageComposer = require('./MessageComposer');
+const MessageListItem = require('./MessageListItem');
+const MessageStore = require('../stores/MessageStore');
+const ThreadStore = require('../stores/ThreadStore');
 
 function getMessageListItem(message) {
-    return (
-        <MessageListItem
-            key={message.id}
-            message={message}
-        />
-    );
+    return <MessageListItem key={message.id} message={message} />;
 }
 
-var MessageSection = React.createClass({
-
-    componentDidMount: function() {
+class MessageSection extends React.Component {
+    componentDidMount() {
         this._scrollToBottom();
-    },
+    }
 
-    render: function() {
-        var messageListItems = this.props.messages.map(getMessageListItem);
+    componentDidUpdate() {
+        this._scrollToBottom();
+    }
+
+    _scrollToBottom() {
+        const ul = this.refs.messageList;
+        ul.scrollTop = ul.scrollHeight;
+    }
+
+    render() {
+        const messageListItems = this.props.messages.map(getMessageListItem);
         return (
             <div className="message-section">
-                <h3 className="message-thread-heading">{this.props.thread && this.props.thread.name}</h3>
+                <h3 className="message-thread-heading">
+                    {this.props.thread && this.props.thread.name}
+                </h3>
                 <ul className="message-list" ref="messageList">
                     {messageListItems}
                 </ul>
                 <MessageComposer />
             </div>
         );
-    },
-
-    componentDidUpdate: function() {
-        this._scrollToBottom();
-    },
-
-    _scrollToBottom: function() {
-        var ul = this.refs.messageList;
-        ul.scrollTop = ul.scrollHeight;
     }
-
-});
+}
 
 module.exports = connectToStores(
     MessageSection,
     [ThreadStore, MessageStore],
-    function (context, props) {
-        return {
-            messages: context.getStore(MessageStore).getAllForCurrentThread(),
-            thread: context.getStore(ThreadStore).getCurrent()
-        }
-    }
+    (context) => ({
+        messages: context.getStore(MessageStore).getAllForCurrentThread(),
+        thread: context.getStore(ThreadStore).getCurrent(),
+    })
 );

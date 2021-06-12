@@ -13,54 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict';
-var React = require('react');
-var MessageStore = require('../stores/MessageStore');
-var ThreadListItem = require('../components/ThreadListItem');
-var ThreadStore = require('../stores/ThreadStore');
-var UnreadThreadStore = require('../stores/UnreadThreadStore');
-var connectToStores = require('fluxible-addons-react/connectToStores');
-var NavLink = require('fluxible-router').NavLink;
+const React = require('react');
+const ThreadListItem = require('../components/ThreadListItem');
+const ThreadStore = require('../stores/ThreadStore');
+const UnreadThreadStore = require('../stores/UnreadThreadStore');
+const { connectToStores } = require('fluxible-addons-react');
+const { NavLink } = require('fluxible-router');
 
-var ThreadSection = React.createClass({
+const ThreadSection = (props) => {
+    const threadListItems = props.threads.map((thread) => (
+        <NavLink href={'/thread/' + thread.id} key={thread.id}>
+            <ThreadListItem key={thread.id} thread={thread} />
+        </NavLink>
+    ));
 
-    render: function() {
-        var threadListItems = this.props.threads.map(function(thread) {
-            return (
-                <NavLink href={'/thread/' + thread.id} key={thread.id}>
-                    <ThreadListItem
-                        key={thread.id}
-                        thread={thread}
-                    />
-                </NavLink>
-            );
-        }, this);
-        var unread =
-            this.props.unreadCount === 0 ?
-                null :
-                <span>Unread threads: {this.props.unreadCount}</span>;
-        return (
-            <div className="thread-section">
-                <div className="thread-count">
-                    {unread}
-                </div>
-                <ul className="thread-list">
-                    {threadListItems}
-                </ul>
-            </div>
+    const unread =
+        props.unreadCount === 0 ? null : (
+            <span>Unread threads: {props.unreadCount}</span>
         );
-    }
 
-});
+    return (
+        <div className="thread-section">
+            <div className="thread-count">{unread}</div>
+            <ul className="thread-list">{threadListItems}</ul>
+        </div>
+    );
+};
 
 module.exports = connectToStores(
     ThreadSection,
     [ThreadStore, UnreadThreadStore],
-    function (context, props) {
-        return {
-            currentThreadID: context.getStore(ThreadStore).getCurrentID(),
-            threads: context.getStore(ThreadStore).getAllChrono(),
-            unreadCount: context.getStore(UnreadThreadStore).getCount()
-        }
-    }
+    (context) => ({
+        currentThreadID: context.getStore(ThreadStore).getCurrentID(),
+        threads: context.getStore(ThreadStore).getAllChrono(),
+        unreadCount: context.getStore(UnreadThreadStore).getCount(),
+    })
 );

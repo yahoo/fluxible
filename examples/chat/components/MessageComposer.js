@@ -13,22 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict';
-var React = require('react');
-var createMessage = require('../actions/createMessage');
-var ENTER_KEY_CODE = 13;
+const React = require('react');
+const { connectToStores } = require('fluxible-addons-react');
+const createMessage = require('../actions/createMessage');
 
-var MessageComposer = React.createClass({
+const ENTER_KEY_CODE = 13;
 
-    contextTypes: {
-        executeAction: React.PropTypes.func.isRequired
-    },
+class MessageComposer extends React.Component {
+    constructor() {
+        super();
+        this.state = { text: '' };
+        this._onChange = this._onChange.bind(this);
+        this._onKeyDown = this._onKeyDown.bind(this);
+    }
 
-    getInitialState: function() {
-        return {text: ''};
-    },
+    _onChange(event) {
+        this.setState({ text: event.target.value });
+    }
 
-    render: function() {
+    _onKeyDown(event) {
+        if (event.keyCode === ENTER_KEY_CODE) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            const text = this.state.text.trim();
+            if (text) {
+                this.props.context.executeAction(createMessage, {
+                    text: text,
+                });
+            }
+            this.setState({ text: '' });
+        }
+    }
+
+    render() {
         return (
             <textarea
                 className="message-composer"
@@ -38,27 +56,9 @@ var MessageComposer = React.createClass({
                 onKeyDown={this._onKeyDown}
             />
         );
-    },
-
-    _onChange: function(event, value) {
-        this.setState({text: event.target.value});
-    },
-
-    _onKeyDown: function(event) {
-        if (event.keyCode === ENTER_KEY_CODE) {
-            event.preventDefault();
-            event.stopPropagation();
-
-            var text = this.state.text.trim();
-            if (text) {
-                this.context.executeAction(createMessage, {
-                    text: text
-                });
-            }
-            this.setState({text: ''});
-        }
     }
+}
 
-});
-
-module.exports = MessageComposer;
+module.exports = connectToStores(MessageComposer, [], (context) => ({
+    context,
+}));
