@@ -4,7 +4,7 @@
  */
 import { cloneElement, createElement } from 'react';
 import { object, node } from 'prop-types';
-import { FluxibleProvider } from './FluxibleContext';
+import FluxibleProvider from './FluxibleProvider';
 
 const FluxibleComponent = ({ children, context }) => {
     const childrenWithContext = cloneElement(children, { context });

@@ -5,7 +5,7 @@
 import { createElement } from 'react';
 import { object } from 'prop-types';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import { FluxibleProvider } from './FluxibleContext';
+import FluxibleProvider from './FluxibleProvider';
 
 /**
  * Provides context prop to all children as React context

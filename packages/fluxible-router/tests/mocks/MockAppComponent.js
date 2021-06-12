@@ -2,9 +2,10 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
+
 import React from 'react';
 import PropTypes from 'prop-types';
-import { provideContext, FluxibleContext } from 'fluxible-addons-react';
+import { provideContext } from 'fluxible-addons-react';
 import handleHistory from '../../dist/lib/handleHistory';
 
 class MockAppComponent extends React.Component {
@@ -17,8 +18,6 @@ class MockAppComponent extends React.Component {
         });
     }
 }
-
-MockAppComponent.contextType = FluxibleContext;
 
 MockAppComponent.propTypes = {
     children: PropTypes.object,
