@@ -13,34 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict';
-var React = require('react');
-var classNames = require('classnames');
-var ReactPropTypes = React.PropTypes;
+const React = require('react');
+const classNames = require('classnames');
+const PropTypes = require('prop-types');
 
-var ThreadListItem = function (props) {
-    var thread = props.thread;
-    var lastMessage = thread.lastMessage;
-    var classSet = classNames({
+const ThreadListItem = (props) => {
+    const thread = props.thread;
+    const lastMessage = thread.lastMessage;
+    const classSet = classNames({
         'thread-list-item': true,
-        'active': props.isActive
+        active: props.isActive,
     });
+
     return (
         <li className={classSet}>
             <h5 className="thread-name">{thread.name}</h5>
             <div className="thread-time">
-                {(new Date(lastMessage.timestamp)).toTimeString()}
+                {new Date(lastMessage.timestamp).toTimeString()}
             </div>
-            <div className="thread-last-message">
-                {lastMessage.text}
-            </div>
+            <div className="thread-last-message">{lastMessage.text}</div>
         </li>
     );
 };
 
 ThreadListItem.propTypes = {
-    thread: ReactPropTypes.object,
-    currentThreadID: ReactPropTypes.string
+    thread: PropTypes.object,
+    currentThreadID: PropTypes.string,
 };
 
 module.exports = ThreadListItem;
