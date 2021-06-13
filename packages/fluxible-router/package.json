@@ -8,7 +8,8 @@
     "url": "git://github.com/yahoo/fluxible.git"
   },
   "scripts": {
-    "dist": "../../node_modules/.bin/babel src -d dist",
+    "clean": "rm -rf dist",
+    "dist": "npm run clean && ../../node_modules/.bin/babel src -d dist",
     "precover": "npm run dist",
     "prepublish": "npm run dist",
     "pretest": "npm run dist",
