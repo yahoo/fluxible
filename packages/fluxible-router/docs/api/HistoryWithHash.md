@@ -26,12 +26,11 @@ By default, the hash fragments are just url paths.  With `HistoryWithHash`, you 
 ## Example
 
 ```js
-var handleHistory = require('fluxible-router').handleHistory;
-var HistoryWithHash = require('fluxible-router').HistoryWithHash;
+import { handleHistory, HistoryWithHash } from 'fluxible-router';
 
-var AppComponent = React.createClass({
+let AppComponent = (props) => {
     // ...
-});
+};
 
 // wrap with history handler
 AppComponent = handleHistory(Application, {
@@ -58,5 +57,5 @@ AppComponent = handleHistory(Application, {
     }
 });
 
-module.exports = AppComponent;
+export default AppComponent;
 ```

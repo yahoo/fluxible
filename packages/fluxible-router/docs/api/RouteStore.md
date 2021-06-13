@@ -13,7 +13,7 @@ Note that if multiple `RECEIVE_ROUTES` events are received, the event payloads o
 ```js
 // configs/routes.js
 
-module.exports = {
+const routes = {
     home: {
         path: '/',
         method: 'get'
@@ -22,23 +22,26 @@ module.exports = {
         path: '/blog',
         method: 'get'
     }
-};
+}
+
+export default routes;
 ```
 
 ```js
 // app.js
 
-var Fluxible = require('fluxible');
-var RouteStore = require('fluxible-router').RouteStore;
-var routes = require('./configs/routes');
+import Fluxible from 'fluxible';
+import { RouteStore } from 'fluxible-router';
+import routes from './configs/routes';
+import App from './components/App.jsx';
 
-var app = new Fluxible({
-    component: require('./components/App.jsx')
+const app = new Fluxible({
+    component: App
 });
 
-var MyRouteStore = RouteStore.withStaticRoutes(routes);
+const MyRouteStore = RouteStore.withStaticRoutes(routes);
 
 app.registerStore(MyRouteStore);
 
-module.exports = app;
+export default app;
 ```
