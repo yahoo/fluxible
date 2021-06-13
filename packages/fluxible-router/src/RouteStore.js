@@ -2,10 +2,9 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-'use strict';
-var createStore = require('fluxible/addons/createStore');
-var Router = require('routr');
-var inherits = require('inherits');
+import createStore from 'fluxible/addons/createStore';
+import Router from 'routr';
+import inherits from 'inherits';
 
 var RouteStore = createStore({
     storeName: 'RouteStore',
@@ -187,4 +186,4 @@ RouteStore.withStaticRoutes = function (staticRoutes) {
     return StaticRouteStore;
 };
 
-module.exports = RouteStore;
+export default RouteStore;

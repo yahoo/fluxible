@@ -91,8 +91,10 @@ function setup(options) {
     React = require('react');
     ReactDOM = require('react-dom');
     ReactTestUtils = require('react-dom/test-utils');
-    NavLink = require('../../dist/cjs/NavLink');
-    createNavLinkComponent = require('../../dist/cjs/createNavLinkComponent');
+    NavLink = require('../../dist/cjs/NavLink')['default'];
+    createNavLinkComponent = require('../../dist/cjs/createNavLinkComponent')[
+        'default'
+    ];
 }
 
 function tearDown() {

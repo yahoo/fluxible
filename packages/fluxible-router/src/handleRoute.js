@@ -5,12 +5,11 @@
 /* global window */
 /* eslint no-func-assign:0 */
 /* eslint-disable react/display-name */
-'use strict';
-var React = require('react');
-var PropTypes = require('prop-types');
-var { connectToStores, FluxibleComponentContext } = require('fluxible-addons-react');
-var hoistNonReactStatics = require('hoist-non-react-statics');
-var inherits = require('inherits');
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connectToStores, FluxibleComponentContext } from 'fluxible-addons-react';
+import hoistNonReactStatics from 'hoist-non-react-statics';
+import inherits from 'inherits';
 
 function createComponent(Component) {
     function RouteHandler(props, context) {
@@ -57,6 +56,8 @@ function createComponent(Component) {
     return RouteHandler;
 }
 
-module.exports = function handleRoute(Component) {
+function handleRoute(Component) {
     return createComponent.apply(null, arguments);
-};
+}
+
+export default handleRoute;

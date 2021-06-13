@@ -4,21 +4,23 @@
  */
 /* global window */
 /* eslint-disable react/display-name */
-'use strict';
-var React = require('react');
-var PropTypes = require('prop-types');
-var debug = require('debug')('FluxibleRouter:handleHistory');
-var { FluxibleComponentContext } = require('fluxible-addons-react');
-var handleRoute = require('./handleRoute');
-var navigateAction = require('./navigateAction');
-var History = require('./History');
+import React from 'react';
+import PropTypes from 'prop-types';
+import Debug from 'debug';
+import { FluxibleComponentContext } from 'fluxible-addons-react';
+import handleRoute from './handleRoute';
+import navigateAction from './navigateAction';
+import History from './History';
+import hoistNonReactStatics from 'hoist-non-react-statics';
+import inherits from 'inherits';
+
+const debug = Debug('FluxibleRouter:handleHistory');
+
 var TYPE_CLICK = 'click';
 var TYPE_PAGELOAD = 'pageload';
 var TYPE_REPLACESTATE = 'replacestate';
 var TYPE_POPSTATE = 'popstate';
 var TYPE_DEFAULT = 'default'; // default value if navigation type is missing, for programmatic navigation
-var hoistNonReactStatics = require('hoist-non-react-statics');
-var inherits = require('inherits');
 
 var defaultOptions = {
     checkRouteOnPageLoad: false,
@@ -315,6 +317,8 @@ function createComponent(Component, opts) {
  *                  https://github.com/yahoo/fluxible/issues/349.
  * @returns {React.Component}
  */
-module.exports = function handleHistory(Component, opts) {
+function handleHistory(Component, opts) {
     return createComponent.apply(null, arguments);
-};
+}
+
+export default handleHistory;

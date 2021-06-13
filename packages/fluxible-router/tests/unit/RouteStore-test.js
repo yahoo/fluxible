@@ -2,8 +2,9 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-var expect = require('chai').expect;
-var RouteStore = require('../../').RouteStore;
+import { expect } from 'chai';
+import { RouteStore } from '../../';
+
 var StaticRouteStore = RouteStore.withStaticRoutes({
     foo: {
         path: '/foo',

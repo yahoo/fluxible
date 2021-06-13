@@ -2,11 +2,10 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-
-var expect = require('chai').expect;
-var navigateAction = require('../../dist/cjs/navigateAction');
-var createMockActionContext = require('fluxible/utils/createMockActionContext');
-var RouteStore = require('../../').RouteStore;
+import { expect } from 'chai';
+import createMockActionContext from 'fluxible/utils/createMockActionContext';
+import navigateAction from '../../dist/cjs/navigateAction';
+import { RouteStore } from '../../';
 
 describe('navigateAction', function () {
     var mockContext;

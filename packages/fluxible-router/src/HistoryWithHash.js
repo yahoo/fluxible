@@ -3,8 +3,6 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 /*global window */
-'use strict';
-
 function isUndefined(v) {
     return v === undefined;
 }
@@ -200,4 +198,4 @@ HistoryWithHash.prototype = {
     }
 };
 
-module.exports = HistoryWithHash;
+export default HistoryWithHash;
