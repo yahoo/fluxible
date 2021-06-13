@@ -3,7 +3,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-var HistoryWithHash = require('../../../dist/addons/HistoryWithHash'),
+var HistoryWithHash = require('../../dist/HistoryWithHash'),
     expect = require('chai').expect,
     _ = require('lodash'),
     windowMock,
@@ -13,7 +13,7 @@ describe('HistoryWithHash', function () {
 
     beforeEach(function () {
         testResult = {};
-        windowMock = require('../../mocks/mockWindow')(testResult);
+        windowMock = require('../mocks/mockWindow')(testResult);
     });
 
     describe('constructor', function () {

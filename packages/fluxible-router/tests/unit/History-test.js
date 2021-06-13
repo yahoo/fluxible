@@ -3,7 +3,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-var History = require('../../../dist/lib/History'),
+var History = require('../../dist/History'),
     expect = require('chai').expect,
     _ = require('lodash'),
     windowMock,
@@ -14,7 +14,7 @@ describe('History', function () {
 
     beforeEach(function () {
         testResult = {};
-        windowMock = require('../../mocks/mockWindow')(testResult);
+        windowMock = require('../mocks/mockWindow')(testResult);
     });
 
     describe('constructor', function () {

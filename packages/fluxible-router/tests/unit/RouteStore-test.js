@@ -3,7 +3,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 var expect = require('chai').expect;
-var RouteStore = require('../../../').RouteStore;
+var RouteStore = require('../../').RouteStore;
 var StaticRouteStore = RouteStore.withStaticRoutes({
     foo: {
         path: '/foo',

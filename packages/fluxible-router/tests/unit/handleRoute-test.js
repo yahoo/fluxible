@@ -7,7 +7,7 @@ import { expect } from 'chai';
 import TestRenderer from 'react-test-renderer';
 import createMockComponentContext from 'fluxible/utils/createMockComponentContext';
 import { provideContext } from 'fluxible-addons-react';
-import { handleRoute, RouteStore } from '../../../';
+import { handleRoute, RouteStore } from '../../';
 
 const DumbComponent = () => null;
 
