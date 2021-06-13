@@ -4,9 +4,8 @@
  */
 import createStore from 'fluxible/addons/createStore';
 import Router from 'routr';
-import inherits from 'inherits';
 
-var RouteStore = createStore({
+const RouteStore = createStore({
     storeName: 'RouteStore',
     handlers: {
         'NAVIGATE_START': '_handleNavigateStart',
@@ -171,18 +170,23 @@ var RouteStore = createStore({
 });
 
 RouteStore.withStaticRoutes = function (staticRoutes) {
-    var staticRouter = new Router(staticRoutes);
-    function StaticRouteStore() {
-        RouteStore.apply(this, arguments);
-        this._router = staticRouter;
+    const staticRouter = new Router(staticRoutes);
+
+    class StaticRouteStore extends RouteStore {
+        constructor(...args) {
+            super(...args);
+            this._router = staticRouter;
+        }
+
+        getRoutes() {
+            return Object.assign({}, StaticRouteStore.routes, this._routes || {});
+        }
     }
-    inherits(StaticRouteStore, RouteStore);
+
     StaticRouteStore.storeName = RouteStore.storeName;
     StaticRouteStore.handlers = RouteStore.handlers;
     StaticRouteStore.routes = staticRoutes || {};
-    StaticRouteStore.prototype.getRoutes = function () {
-        return Object.assign({}, StaticRouteStore.routes, this._routes || {});
-    };
+
     return StaticRouteStore;
 };
 
