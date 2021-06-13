@@ -3,7 +3,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-var History = require('../../dist/History'),
+var History = require('../../dist/cjs/History'),
     expect = require('chai').expect,
     _ = require('lodash'),
     windowMock,

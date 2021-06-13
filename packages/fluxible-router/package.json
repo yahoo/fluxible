@@ -2,14 +2,17 @@
   "name": "fluxible-router",
   "version": "2.0.0-beta.12.0",
   "description": "Routing for Fluxible applications",
-  "main": "./dist/index.js",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/es/index.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/yahoo/fluxible.git"
   },
   "scripts": {
     "clean": "rm -rf dist",
-    "dist": "npm run clean && ../../node_modules/.bin/babel src -d dist",
+    "dist": "npm run clean && npm run dist:commonjs && npm run dist:es",
+    "dist:commonjs": "../../node_modules/.bin/babel --root-mode upward --env-name commonjs src -d dist/cjs",
+    "dist:es": "../../node_modules/.bin/babel --root-mode upward --env-name es src -d dist/es",
     "precover": "npm run dist",
     "prepublish": "npm run dist",
     "pretest": "npm run dist",
@@ -25,6 +28,7 @@
     }
   ],
   "dependencies": {
+    "@babel/runtime": "^7.14.0",
     "debug": "^2.0.0",
     "fluxible-addons-react": "^1.0.0-beta.0",
     "hoist-non-react-statics": "^3.3.2",

@@ -71,10 +71,10 @@ function setup(options) {
         process.env.NODE_ENV = options.nodeEnv;
     }
     let path = fs.realpathSync(
-        resolve.sync('../../dist/createNavLinkComponent')
+        resolve.sync('../../dist/cjs/createNavLinkComponent')
     );
     delete require.cache[path];
-    path = fs.realpathSync(resolve.sync('../../dist/NavLink'));
+    path = fs.realpathSync(resolve.sync('../../dist/cjs/NavLink'));
     delete require.cache[path];
 
     const jsdom = new JSDOM('<html><body></body></html>', {
@@ -91,8 +91,8 @@ function setup(options) {
     React = require('react');
     ReactDOM = require('react-dom');
     ReactTestUtils = require('react-dom/test-utils');
-    NavLink = require('../../dist/NavLink');
-    createNavLinkComponent = require('../../dist/createNavLinkComponent');
+    NavLink = require('../../dist/cjs/NavLink');
+    createNavLinkComponent = require('../../dist/cjs/createNavLinkComponent');
 }
 
 function tearDown() {

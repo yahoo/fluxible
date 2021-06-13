@@ -6,7 +6,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { provideContext } from 'fluxible-addons-react';
-import handleHistory from '../../dist/handleHistory';
+import handleHistory from '../../dist/cjs/handleHistory';
 
 class MockAppComponent extends React.Component {
     render() {

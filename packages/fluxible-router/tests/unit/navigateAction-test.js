@@ -4,7 +4,7 @@
  */
 
 var expect = require('chai').expect;
-var navigateAction = require('../../dist/navigateAction');
+var navigateAction = require('../../dist/cjs/navigateAction');
 var createMockActionContext = require('fluxible/utils/createMockActionContext');
 var RouteStore = require('../../').RouteStore;
 
