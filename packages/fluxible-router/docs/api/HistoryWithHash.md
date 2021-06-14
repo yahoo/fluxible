@@ -4,7 +4,7 @@ Using hash-based url for client side routing has a lot of known issues.  [Histor
 
 But as always, there will be some applications out there that have to use it.  This implementation provides a solution.
 
-If you do decide to use hash route, it is recommended to enable `checkRouteOnPageLoad`.  Because hash fragment (that contains route) does not get sent to the server side, [`handleHistory`](../handleHistory.md) will compare the route info from server and route in the hash fragment.  On route mismatch, it will dispatch a navigate action on browser side to load the actual page content for the route represented by the hash fragment.
+If you do decide to use hash route, it is recommended to enable `checkRouteOnPageLoad`.  Because hash fragment (that contains route) does not get sent to the server side, [`handleHistory`](./handleHistory.md) will compare the route info from server and route in the hash fragment.  On route mismatch, it will dispatch a navigate action on browser side to load the actual page content for the route represented by the hash fragment.
 
 ## `useHashRoute` Config
 
@@ -26,12 +26,11 @@ By default, the hash fragments are just url paths.  With `HistoryWithHash`, you 
 ## Example
 
 ```js
-var handleHistory = require('fluxible-router').handleHistory;
-var HistoryWithHash = require('fluxible-router/addons').HistoryWithHash;
+import { handleHistory, HistoryWithHash } from 'fluxible-router';
 
-var AppComponent = React.createClass({
+let AppComponent = (props) => {
     // ...
-});
+};
 
 // wrap with history handler
 AppComponent = handleHistory(Application, {
@@ -58,5 +57,5 @@ AppComponent = handleHistory(Application, {
     }
 });
 
-module.exports = AppComponent;
+export default AppComponent;
 ```

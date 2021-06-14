@@ -16,32 +16,29 @@ The `handleHistory` higher-order component handles the browser history state man
 
 ```js
 // components/App.jsx
-var provideContext = require('fluxible').provideContext;
-var handleHistory = require('fluxible-router').handleHistory;
-var NavLink = require('fluxible-router').NavLink;
+import { provideContext } from 'fluxible-addons-react';
+import { handleHistory, NavLink } from 'fluxible-router';
 
-var AppComponent = React.createClass({
-    render: function () {
-        // Get the handler from the current route which is passed in as prop
-        var Handler = this.props.currentRoute.handler;
+let AppComponent = () => {
+    // Get the handler from the current route which is passed in as prop
+    const Handler = this.props.currentRoute.handler;
 
-        return (
-            <div>
-                <ul>
-                    // Create client handled links using NavLink anywhere in your application
-                    // activeStyle will apply the styles when it's the current route
-                    <li><NavLink href='/home' activeStyle={{backgroundColor: '#ccc'}}>Home</NavLink></li>
-                    // RouteName will build the href from the route with the same name
-                    // Active class will apply the class when it's the current route
-                    <li><NavLink routeName='about' activeClass='selected'>About</NavLink></li>
-                    // You can also add parameters to your route if it's a dynamic route
-                    <li><NavLink routeName='user' navParams={{id: 1}}>User 1</NavLink></li>
-                </ul>
-                <Handler />
-            </div>
-        );
-    }
-});
+    return (
+      <div>
+          <ul>
+              // Create client handled links using NavLink anywhere in your application
+              // activeStyle will apply the styles when it's the current route
+              <li><NavLink href='/home' activeStyle={{backgroundColor: '#ccc'}}>Home</NavLink></li>
+              // RouteName will build the href from the route with the same name
+              // Active class will apply the class when it's the current route
+              <li><NavLink routeName='about' activeClass='selected'>About</NavLink></li>
+              // You can also add parameters to your route if it's a dynamic route
+              <li><NavLink routeName='user' navParams={{id: 1}}>User 1</NavLink></li>
+          </ul>
+          <Handler />
+      </div>
+  );
+}
 
 // wrap with history handler
 AppComponent = handleHistory(AppComponent, {
@@ -51,7 +48,7 @@ AppComponent = handleHistory(AppComponent, {
 // and wrap that with context
 AppComponent = provideContext(AppComponent);
 
-module.exports = AppComponent;
+export default AppComponent;
 ```
 
 ## onbeforeunload Support
@@ -63,7 +60,7 @@ Our solution is to check for a `window.onbeforeunload()` method, prompt the user
 To implement the `window.onbeforeunload()` method, you need to set it within the components that need user verification before leaving a page.  Here is an example:
 
 ```javascript
-componentDidMount: function() {
+componentDidMount() {
   window.onbeforeunload = function () {
     return 'Make sure to save your changes before leaving this page!';
   }

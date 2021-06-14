@@ -4,21 +4,22 @@
  */
 /* global window */
 /* eslint-disable react/display-name */
-'use strict';
-var React = require('react');
-var PropTypes = require('prop-types');
-var debug = require('debug')('FluxibleRouter:handleHistory');
-var { FluxibleComponentContext } = require('fluxible-addons-react');
-var handleRoute = require('../lib/handleRoute');
-var navigateAction = require('../lib/navigateAction');
-var History = require('./History');
+import React from 'react';
+import PropTypes from 'prop-types';
+import Debug from 'debug';
+import { FluxibleComponentContext } from 'fluxible-addons-react';
+import handleRoute from './handleRoute';
+import navigateAction from './navigateAction';
+import History from './History';
+import hoistNonReactStatics from 'hoist-non-react-statics';
+
+const debug = Debug('FluxibleRouter:handleHistory');
+
 var TYPE_CLICK = 'click';
 var TYPE_PAGELOAD = 'pageload';
 var TYPE_REPLACESTATE = 'replacestate';
 var TYPE_POPSTATE = 'popstate';
 var TYPE_DEFAULT = 'default'; // default value if navigation type is missing, for programmatic navigation
-var hoistNonReactStatics = require('hoist-non-react-statics');
-var inherits = require('inherits');
 
 var defaultOptions = {
     checkRouteOnPageLoad: false,
@@ -43,7 +44,27 @@ if (HAS_PUSH_STATE) {
     window.addEventListener(EVENT_POPSTATE, preloadListener);
 }
 
-function createComponent(Component, opts) {
+/**
+ * Enhances a component to handle history management based on RouteStore
+ * state.
+ * @function handleHistory
+ * @param {React.Component} Component
+ * @param {object} opts
+ * @param {boolean} opts.checkRouteOnPageLoad=false Performs navigate on first page load
+ * @param {boolean} opts.enableScroll=true Scrolls to saved scroll position in history state;
+ *                  scrolls to (0, 0) if there is no scroll position saved in history state.
+ * @param {function} opts.historyCreator A factory for creating the history implementation
+ * @param {boolean|function} opts.ignorePopstateOnPageLoad=false A boolean value or a function that
+ *                  returns a boolean value. Browsers tend to handle the popstate event
+ *                  differently on page load. Chrome (prior to v34) and Safari always emit
+ *                  a popstate event on page load, but Firefox doesn't
+ *                  (https://developer.mozilla.org/en-US/docs/Web/Events/popstate)
+ *                  This flag is for ignoring popstate event triggered on page load
+ *                  if that causes issue for your application, as reported in
+ *                  https://github.com/yahoo/fluxible/issues/349.
+ * @returns {React.Component}
+ */
+function handleHistory(Component, opts) {
     var options = Object.assign({}, defaultOptions, opts);
 
     function shouldIgnorePopstateOnPageLoad() {
@@ -54,26 +75,8 @@ function createComponent(Component, opts) {
         return !!ignore;
     }
 
-    function HistoryHandler(props, context) {
-        React.Component.apply(this, arguments);
-    }
-
-    inherits(HistoryHandler, React.Component);
-
-    HistoryHandler.displayName = 'HistoryHandler';
-    HistoryHandler.contextType = FluxibleComponentContext;
-    HistoryHandler.propTypes = {
-        currentRoute: PropTypes.object,
-        currentNavigate: PropTypes.object
-    };
-    HistoryHandler.defaultProps = {
-        currentRoute: null,
-        currentNavigate: null
-    };
-
-    Object.assign(HistoryHandler.prototype, {
-
-        componentDidMount: function () {
+    class HistoryHandler extends React.Component {
+        componentDidMount() {
             // Bind the event listeners
             this._onHistoryChange = this.constructor.prototype._onHistoryChange.bind(this);
             this._onScroll = this.constructor.prototype._onScroll.bind(this);
@@ -128,14 +131,16 @@ function createComponent(Component, opts) {
             if (options.saveScrollInState) {
                 window.addEventListener('scroll', this._onScroll);
             }
-        },
-        _onScroll: function (e) {
+        }
+
+        _onScroll(e) {
             if (this._scrollTimer) {
                 window.clearTimeout(this._scrollTimer);
             }
             this._scrollTimer = window.setTimeout(this._saveScrollPosition, 150);
-        },
-        _onHistoryChange: function (e) {
+        }
+
+        _onHistoryChange(e) {
             debug('history listener invoked', e);
             if (this._ignorePageLoadPopstate) {
                 // 1) e.state (null) and history.state (not null)
@@ -207,8 +212,9 @@ function createComponent(Component, opts) {
                 }
             }
 
-        },
-        _saveScrollPosition: function (e) {
+        }
+
+        _saveScrollPosition(e) {
             var historyState = (this._history.getState && this._history.getState()) || {};
             var scrollX = window.scrollX || window.pageXOffset;
             var scrollY = window.scrollY || window.pageYOffset;
@@ -224,15 +230,17 @@ function createComponent(Component, opts) {
             };
             debug('remember scroll position', historyState.scroll);
             this._history.replaceState(historyState);
-        },
-        componentWillUnmount: function () {
+        }
+
+        componentWillUnmount() {
             this._history.off(this._onHistoryChange);
 
             if (options.saveScrollInState) {
                 window.removeEventListener('scroll', this._onScroll);
             }
-        },
-        componentDidUpdate: function (prevProps, prevState) {
+        }
+
+        componentDidUpdate(prevProps, prevState) {
             debug('component did update', prevState, this.props);
 
             var nav = this.props.currentNavigate || {};
@@ -281,14 +289,27 @@ function createComponent(Component, opts) {
                     }
                     break;
             }
-        },
+        }
 
-        render: function () {
+        render() {
             return React.createElement(Component, this.props);
         }
-    });
+    }
 
-    // Copy statics to HistoryHandler
+    HistoryHandler.displayName = 'HistoryHandler';
+
+    HistoryHandler.contextType = FluxibleComponentContext;
+
+    HistoryHandler.defaultProps = {
+        currentRoute: null,
+        currentNavigate: null
+    };
+
+    HistoryHandler.propTypes = {
+        currentRoute: PropTypes.object,
+        currentNavigate: PropTypes.object
+    };
+
     hoistNonReactStatics(HistoryHandler, Component);
 
     HistoryHandler.wrappedComponent = HistoryHandler.WrappedComponent = Component;
@@ -296,25 +317,4 @@ function createComponent(Component, opts) {
     return handleRoute(HistoryHandler);
 }
 
-/**
- * Enhances a component to handle history management based on RouteStore
- * state.
- * @param {React.Component} Component
- * @param {object} opts
- * @param {boolean} opts.checkRouteOnPageLoad=false Performs navigate on first page load
- * @param {boolean} opts.enableScroll=true Scrolls to saved scroll position in history state;
- *                  scrolls to (0, 0) if there is no scroll position saved in history state.
- * @param {function} opts.historyCreator A factory for creating the history implementation
- * @param {boolean|function} opts.ignorePopstateOnPageLoad=false A boolean value or a function that
- *                  returns a boolean value. Browsers tend to handle the popstate event
- *                  differently on page load. Chrome (prior to v34) and Safari always emit
- *                  a popstate event on page load, but Firefox doesn't
- *                  (https://developer.mozilla.org/en-US/docs/Web/Events/popstate)
- *                  This flag is for ignoring popstate event triggered on page load
- *                  if that causes issue for your application, as reported in
- *                  https://github.com/yahoo/fluxible/issues/349.
- * @returns {React.Component}
- */
-module.exports = function handleHistory(Component, opts) {
-    return createComponent.apply(null, arguments);
-};
+export default handleHistory;

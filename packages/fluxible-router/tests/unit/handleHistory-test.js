@@ -2,16 +2,16 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
+import { expect } from 'chai';
+import { JSDOM } from 'jsdom';
+import PropTypes from 'prop-types';
+import createMockComponentContext from 'fluxible/utils/createMockComponentContext';
+import RouteStore from '../../dist/cjs/RouteStore';
 
-var expect = require('chai').expect;
-var JSDOM = require('jsdom').JSDOM;
-var PropTypes = require('prop-types');
 var React;
 var ReactDOM;
 var createReactClass;
 var MockAppComponentLib;
-var RouteStore = require('../../../dist/lib/RouteStore');
-var createMockComponentContext = require('fluxible/utils/createMockComponentContext');
 var ReactTestUtils;
 
 var TestRouteStore = RouteStore.withStaticRoutes({
@@ -77,15 +77,15 @@ describe('handleHistory', function () {
         global.Event = window.Event;
 
         // Reset cache of handleHistory to allow pre-emptyive pushState testing
-        delete require.cache[require.resolve('../../../dist/lib/handleHistory')];
-        delete require.cache[require.resolve('../../mocks/MockAppComponent')];
+        delete require.cache[require.resolve('../../dist/cjs/handleHistory')];
+        delete require.cache[require.resolve('../mocks/MockAppComponent')];
 
         React = require('react');
         ReactDOM = require('react-dom');
         createReactClass = require('create-react-class');
         provideContext = require('fluxible-addons-react').provideContext;
-        handleHistory = require('../../../dist/lib/handleHistory');
-        MockAppComponentLib = require('../../mocks/MockAppComponent');
+        handleHistory = require('../../dist/cjs/handleHistory')['default'];
+        MockAppComponentLib = require('../mocks/MockAppComponent');
         ReactTestUtils = require('react-dom/test-utils');
         mockContext = createMockComponentContext({
             stores: [TestRouteStore]
@@ -120,7 +120,7 @@ describe('handleHistory', function () {
         var mockCreator;
 
         beforeEach(function () {
-            mockCreator = require('../../mocks/MockAppComponent').createWrappedMockAppComponent;
+            mockCreator = require('../mocks/MockAppComponent').createWrappedMockAppComponent;
         });
 
         describe('render', function () {

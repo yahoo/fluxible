@@ -20,24 +20,18 @@ These props will be passed to your component when a `RouteStore` change is emitt
 ## Example Usage
 
 ```js
-// components/MyComponent.jsx
-var handleRoute = require('fluxible-router').handleRoute;
+import { handleRoute } from 'fluxible-router';
 
-var MyComponent = React.createClass({
-    render: function () {
-        // Get the handler from the current route which is passed in as prop
-        var Handler = this.props.currentRoute.handler;
+const MyComponent = (props) => {
+  // Get the handler from the current route which is passed in as prop
+  const Handler = this.props.currentRoute.handler;
 
-        return (
-            <div>
-                <Handler />
-            </div>
-        );
-    }
-});
+  return (
+    <div>
+      <Handler />
+    </div>
+  );
+};
 
-// wrap with route handler
-MyComponent = handleRoute(MyComponent);
-
-module.exports = MyComponent;
+export default handleRoute(MyComponent);
 ```
