@@ -12,9 +12,9 @@
 ## Example Usage
 
 ```js
-var createNavLinkComponent = require('fluxible-router').createNavLinkComponent;
+import { createNavLinkComponent } from 'fluxible-router';
 
-module.exports = createNavLinkComponent({
+export default createNavLinkComponent({
     displayName: 'CustomNavLink',
     mixins: [someMixin],
     clickHandler: function (e) {

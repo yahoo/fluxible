@@ -8,7 +8,7 @@ import sinon from 'sinon';
 import fs from 'fs';
 import resolve from 'resolve';
 import createMockComponentContext from 'fluxible/utils/createMockComponentContext';
-import { navigateAction, RouteStore } from '../../../';
+import { navigateAction, RouteStore } from '../../';
 
 const ORIG_NODE_ENV = process.env.NODE_ENV;
 
@@ -42,7 +42,7 @@ const createContext = () => {
 };
 
 const wrapWithContext = (context, component) => {
-    const MockAppComponent = require('../../mocks/MockAppComponent')['default'];
+    const MockAppComponent = require('../mocks/MockAppComponent')['default'];
     return <MockAppComponent context={context}>{component}</MockAppComponent>;
 };
 
@@ -71,10 +71,10 @@ function setup(options) {
         process.env.NODE_ENV = options.nodeEnv;
     }
     let path = fs.realpathSync(
-        resolve.sync('../../../dist/lib/createNavLinkComponent')
+        resolve.sync('../../dist/cjs/createNavLinkComponent')
     );
     delete require.cache[path];
-    path = fs.realpathSync(resolve.sync('../../../dist/lib/NavLink'));
+    path = fs.realpathSync(resolve.sync('../../dist/cjs/NavLink'));
     delete require.cache[path];
 
     const jsdom = new JSDOM('<html><body></body></html>', {
@@ -91,8 +91,10 @@ function setup(options) {
     React = require('react');
     ReactDOM = require('react-dom');
     ReactTestUtils = require('react-dom/test-utils');
-    NavLink = require('../../../dist/lib/NavLink');
-    createNavLinkComponent = require('../../../dist/lib/createNavLinkComponent');
+    NavLink = require('../../dist/cjs/NavLink')['default'];
+    createNavLinkComponent = require('../../dist/cjs/createNavLinkComponent')[
+        'default'
+    ];
 }
 
 function tearDown() {

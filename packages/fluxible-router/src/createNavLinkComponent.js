@@ -4,13 +4,15 @@
  */
 /*global window,process */
 /*eslint react/prop-types:0 */
-'use strict';
-var React = require('react');
-var PropTypes = require('prop-types');
-var { FluxibleComponentContext } = require('fluxible-addons-react');
-var RouteStore = require('./RouteStore');
-var debug = require('debug')('NavLink');
-var navigateAction = require('./navigateAction');
+import React from 'react';
+import PropTypes from 'prop-types';
+import { FluxibleComponentContext } from 'fluxible-addons-react';
+import Debug from 'debug';
+import RouteStore from './RouteStore';
+import navigateAction from './navigateAction';
+
+var debug = Debug('NavLink');
+
 var __DEV__ = process.env.NODE_ENV !== 'production';
 
 function objectWithoutProperties(obj, keys) {
@@ -381,7 +383,7 @@ NavLink.propTypes = {
  * @param {Object} overwriteSpec spec to overwrite the default spec to create NavLink
  * @returns {React.Component} NavLink component
  */
-module.exports = function createNavLinkComponent (overwriteSpec) {
+function createNavLinkComponent (overwriteSpec) {
     if (!overwriteSpec) return NavLink;
 
     class ExendedNavLink extends NavLink {}
@@ -391,4 +393,6 @@ module.exports = function createNavLinkComponent (overwriteSpec) {
     })
 
     return ExendedNavLink;
-};
+}
+
+export default createNavLinkComponent;
