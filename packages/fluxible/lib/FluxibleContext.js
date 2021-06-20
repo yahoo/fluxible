@@ -4,7 +4,6 @@
  */
 'use strict';
 
-var debug = require('debug')('Fluxible:Context');
 var isPromise = require('is-promise');
 var generateUUID = require('../utils/generateUUID');
 var callAction = require('../utils/callAction');
@@ -144,9 +143,6 @@ function executeActionProxy(context, actionContext, action, payload, done) {
         done = pluggedExecuteAction.done;
     });
 
-    if (debug.enabled) {
-        debug('Executing action ' + actionContext.stack.join('.') + ' with payload', payload);
-    }
     return callAction(actionContext, action, payload, done);
 }
 

@@ -5,7 +5,6 @@
 /*globals Promise */
 'use strict';
 
-var debug = require('debug')('Fluxible');
 var isPromise = require('is-promise');
 var FluxibleContext = require('./FluxibleContext');
 var dispatchr = require('dispatchr');
@@ -18,7 +17,6 @@ var __DEV__ = process.env.NODE_ENV !== 'production';
  */
 function defaultComponentActionHandler(context, payload, done) {
     if (payload.err) {
-        debug('Action returned error', payload.actionName, payload.err);
         throw payload.err;
     }
     done();
@@ -39,7 +37,6 @@ function defaultComponentActionHandler(context, payload, done) {
  *      });
  */
 function Fluxible(options) {
-    debug('Fluxible instance instantiated', options);
     options = options || {};
 
     // Options
@@ -138,7 +135,6 @@ Fluxible.prototype.getComponent = function getComponent() {
  * @method registerStore
  */
 Fluxible.prototype.registerStore = function registerStore() {
-    debug(arguments[0].storeName + ' store registered');
     this._dispatcher.registerStore.apply(this._dispatcher, arguments);
 };
 
@@ -149,7 +145,6 @@ Fluxible.prototype.registerStore = function registerStore() {
  * @returns {Object} Dehydrated state object
  */
 Fluxible.prototype.dehydrate = function dehydrate(context) {
-    debug('dehydrate', context);
     var self = this;
     var state = {
         context: context.dehydrate(),
@@ -177,7 +172,6 @@ Fluxible.prototype.dehydrate = function dehydrate(context) {
  * @async Rehydration may require more asset loading or async IO calls
  */
 Fluxible.prototype.rehydrate = function rehydrate(obj, callback) {
-    debug('rehydrate', obj);
     var self = this;
     if (__DEV__) {
         if (typeof obj !== 'object') {
