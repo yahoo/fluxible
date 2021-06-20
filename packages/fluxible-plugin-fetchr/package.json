@@ -13,7 +13,6 @@
     "lint": "../../node_modules/.bin/eslint lib/ tests/ utils/ index.js"
   },
   "dependencies": {
-    "debug": "^2.0.0",
     "fetchr": "^0.5.18"
   },
   "author": "Michael Ridgway <mridgway@yahoo-inc.com>",
