@@ -3,9 +3,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 'use strict';
-import debugLib from 'debug';
 import { ACTION, DISPATCH } from './CONSTANTS';
-const debug = debugLib('Fluxible:DevToolsPlugin');
 
 /**
  * Creates a new devtools plugin instance
@@ -60,7 +58,6 @@ export default function devToolsPlugin() {
              * @return {void}
              */
             function overrideCtx() {
-                debug('devtools plugin %s', enableDebug ? 'enabled' : 'disabled')
                 if (!enableDebug) {
                     return;
                 }

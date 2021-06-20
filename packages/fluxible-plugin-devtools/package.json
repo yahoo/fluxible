@@ -17,7 +17,6 @@
     "prepublish": "npm run dist"
   },
   "dependencies": {
-    "debug": "^2.0.0",
     "prop-types": "^15.5.8"
   },
   "peerDependencies": {
