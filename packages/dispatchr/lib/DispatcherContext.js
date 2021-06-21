@@ -6,7 +6,6 @@
 
 var Action = require('./Action');
 var DEFAULT = 'default';
-var debug = require('debug')('Dispatchr:DispatcherContext');
 
 /**
  * @class Dispatcher
@@ -79,10 +78,9 @@ DispatcherContext.prototype.dispatch = function dispatch(actionName, payload) {
     var actionHandlers = this.dispatcher.handlers[actionName] || [],
         defaultHandlers = this.dispatcher.handlers[DEFAULT] || [];
     if (!actionHandlers.length && !defaultHandlers.length) {
-        debug(actionName + ' does not have any registered handlers');
         return;
     }
-    debug('dispatching ' + actionName, payload);
+
     this.currentAction = new Action(actionName, payload);
     var self = this,
         allHandlers = actionHandlers.concat(defaultHandlers),
@@ -116,7 +114,6 @@ DispatcherContext.prototype.dispatch = function dispatch(actionName, payload) {
         };
         return this.dispatcher._throwOrCallErrorHandler(message, 'DISPATCH_EXCEPTION', this.context, meta);
     } finally {
-        debug('finished ' + actionName);
         this.currentAction = null;
     }
 };

@@ -13,7 +13,6 @@
     "lint": "../../node_modules/.bin/eslint lib/ addons/"
   },
   "dependencies": {
-    "debug": "^2.0.0",
     "dispatchr": "^1.0.0",
     "is-promise": "^2.0.0",
     "setimmediate": "^1.0.2"

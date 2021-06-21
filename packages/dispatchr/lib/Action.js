@@ -3,7 +3,6 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 'use strict';
-var debug = require('debug')('Dispatchr:Action');
 
 function Action(name, payload) {
     this.name = name;
@@ -63,7 +62,6 @@ Action.prototype._callHandler = function callHandler(storeName) {
         return;
     }
     self._isCompleted[storeName] = false;
-    debug('executing handler for ' + storeName);
     handlerFn(self.payload, self.name);
     self._isCompleted[storeName] = true;
 };
@@ -85,7 +83,6 @@ Action.prototype.waitFor = function waitFor(stores, callback) {
         stores = [stores];
     }
 
-    debug('waiting on ' + stores.join(', '));
     stores.forEach(function storesEach(storeName) {
         storeName = self.getStoreName(storeName);
         if (self._handlers[storeName]) {
