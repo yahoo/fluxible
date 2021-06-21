@@ -7,11 +7,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FluxibleComponentContext } from 'fluxible-addons-react';
-import Debug from 'debug';
 import RouteStore from './RouteStore';
 import navigateAction from './navigateAction';
-
-var debug = Debug('NavLink');
 
 var __DEV__ = process.env.NODE_ENV !== 'production';
 
@@ -236,7 +233,6 @@ class NavLink extends React.Component {
         return true;
     }
     dispatchNavAction (e) {
-        debug('dispatchNavAction: action=NAVIGATE', this.props.href);
         if (this.props.stopPropagation) {
             e.stopPropagation();
         }
@@ -271,8 +267,6 @@ class NavLink extends React.Component {
             var navParams = this.getNavParams(this.props);
             var navType = this.props.replaceState ? 'replacestate' : 'click';
             var context = this.props.context || this.context;
-
-            debug('dispatchNavAction: execute navigateAction', this.props.href, navType, navParams);
 
             context.executeAction(navigateAction, {
                 type: navType,

@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.0.0
+
+* Remove `debug` as dependency [#714]
+* Add es build to npm package [#710]
+* Move `addons/HistoryWithHash` to the root folder [#710]
+* Remove `wrappedElement` ref from `handleHistory` and `handleRoute` [#696]
+* Update `fluxible-addons-react` to 1.0.0 [#667]
+
 ## 1.4.0
 
 * [#566] Support React 16

@@ -2,10 +2,6 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-import Debug from 'debug';
-
-const debug = Debug('navigateAction');
-
 function navigateAction (context, payload, done) {
     var routeStore = context.getStore('RouteStore');
 
@@ -17,7 +13,6 @@ function navigateAction (context, payload, done) {
         navigate.routeName = null;
     }
 
-    debug('dispatching NAVIGATE_START', navigate);
     context.dispatch('NAVIGATE_START', navigate);
 
     if (!routeStore.getCurrentRoute) {
@@ -44,7 +39,6 @@ function navigateAction (context, payload, done) {
 
     var action = route.action;
     if (!action) {
-        debug('route has no action, dispatching without calling action');
         context.dispatch('NAVIGATE_SUCCESS', completionPayload);
         done();
         return;
@@ -55,7 +49,6 @@ function navigateAction (context, payload, done) {
     }
 
     if (!action || 'function' !== typeof action) {
-        debug('action cannot be resolved');
         completionPayload.error = {
             statusCode: 500,
             message: 'Action for ' + payload.url + ' can not be resolved'
@@ -65,7 +58,6 @@ function navigateAction (context, payload, done) {
         return;
     }
 
-    debug('executing route action');
     context.executeAction(action, route, function (err) {
         if (err) {
             completionPayload.error = {

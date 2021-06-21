@@ -6,14 +6,11 @@
 /* eslint-disable react/display-name */
 import React from 'react';
 import PropTypes from 'prop-types';
-import Debug from 'debug';
 import { FluxibleComponentContext } from 'fluxible-addons-react';
 import handleRoute from './handleRoute';
 import navigateAction from './navigateAction';
 import History from './History';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-
-const debug = Debug('FluxibleRouter:handleHistory');
 
 var TYPE_CLICK = 'click';
 var TYPE_PAGELOAD = 'pageload';
@@ -109,7 +106,6 @@ function handleHistory(Component, opts) {
                 var urlFromState = this.props.currentRoute && this.props.currentRoute.url;
 
                 if ((urlFromHistory !== urlFromState)) {
-                    debug('pageload navigate to actual route', urlFromHistory, urlFromState);
                     this.context.executeAction(navigateAction, {
                         type: TYPE_PAGELOAD,
                         url: urlFromHistory
@@ -141,7 +137,6 @@ function handleHistory(Component, opts) {
         }
 
         _onHistoryChange(e) {
-            debug('history listener invoked', e);
             if (this._ignorePageLoadPopstate) {
                 // 1) e.state (null) and history.state (not null)
                 //    -- this is popstate triggered on pageload in Safari browser.
@@ -154,9 +149,8 @@ function handleHistory(Component, opts) {
                 //       _onHistoryChange gets invoked in componentDidMount()
                 var stateFromHistory = this._history.getState();
                 var isPageloadPopstate = (e.state === null) && !!stateFromHistory;
-                debug('history listener detecting pageload popstate', e.state, stateFromHistory);
+
                 if (isPageloadPopstate) {
-                    debug('history listener skipped pageload popstate');
                     return;
                 }
             }
@@ -193,8 +187,6 @@ function handleHistory(Component, opts) {
 
             var pageTitle = navParams.pageTitle || null;
 
-            debug('history listener url, currentUrl:', url, currentUrl, this.props);
-
             if (!confirmResult) {
                 // Pushes the previous history state back on top to set the correct url
                 this._history.pushState(historyState, pageTitle, currentUrl);
@@ -221,14 +213,12 @@ function handleHistory(Component, opts) {
             // reduce unused replaceState
             // also prevent IOS Safari reset scroll position to 0 with universal link bar showing
             if (historyState.scroll && historyState.scroll.x === scrollX && historyState.scroll.y === scrollY) {
-                debug('skip updating scrolling position with same position', historyState.scroll);
                 return;
             }
             historyState.scroll = {
                 x: scrollX,
                 y: scrollY
             };
-            debug('remember scroll position', historyState.scroll);
             this._history.replaceState(historyState);
         }
 
@@ -241,8 +231,6 @@ function handleHistory(Component, opts) {
         }
 
         componentDidUpdate(prevProps, prevState) {
-            debug('component did update', prevState, this.props);
-
             var nav = this.props.currentNavigate || {};
             var navType = nav.type || TYPE_DEFAULT;
             var navParams = nav.params || {};
@@ -267,7 +255,6 @@ function handleHistory(Component, opts) {
                     } else {
                         if (options.enableScroll) {
                             window.scrollTo(0, 0);
-                            debug('on click navigation, reset scroll position to (0, 0)');
                         }
                         if (options.saveScrollInState) {
                             historyState.scroll = {x: 0, y: 0};
@@ -284,7 +271,6 @@ function handleHistory(Component, opts) {
                     if (options.enableScroll) {
                         historyState = (this._history.getState && this._history.getState()) || {};
                         var scroll = (historyState && historyState.scroll) || {};
-                        debug('on popstate navigation, restore scroll position to ', scroll);
                         window.scrollTo(scroll.x || 0, scroll.y || 0);
                     }
                     break;
