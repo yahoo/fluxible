@@ -8,28 +8,25 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { navigateAction, RouteStore } from 'fluxible-router';
-import connectToStores from 'fluxible-addons-react/connectToStores';
+import {
+    connectToStores,
+    FluxibleComponentContext,
+} from 'fluxible-addons-react';
 import loadIndex from '../actions/loadIndex';
 import SearchStore from '../stores/SearchStore';
-import debugLib from 'debug';
-const debug = debugLib('Search');
 const ENTER_KEY_CODE = 13;
 
 class Search extends React.Component {
-
-    static contextTypes = {
-        executeAction: PropTypes.func,
-        getStore: PropTypes.func
-    };
+    static contextType = FluxibleComponentContext;
 
     static propTypes = {
-        currentRoute: PropTypes.object
+        currentRoute: PropTypes.object,
     };
 
     constructor() {
         super();
         this.state = {
-            visible: false
+            visible: false,
         };
     }
 
@@ -40,7 +37,7 @@ class Search extends React.Component {
         const query = this.props.currentRoute.query.q;
         if (query) {
             this.setState({
-                visible: true
+                visible: true,
             });
         }
     }
@@ -62,7 +59,7 @@ class Search extends React.Component {
 
     _toggleSearchVisibility() {
         this.setState({
-            visible: !this.state.visible
+            visible: !this.state.visible,
         });
     }
 
@@ -77,7 +74,7 @@ class Search extends React.Component {
 
             this.context.executeAction(navigateAction, {
                 method: 'GET',
-                url: this._getPath() + '?q=' + event.target.value
+                url: this._getPath() + '?q=' + event.target.value,
             });
         }
     }
@@ -86,12 +83,14 @@ class Search extends React.Component {
         let classes = cx({
             'D(ib) Mstart(3px) Ov(h) Va(m) Pos(a) End(20px)': true,
             'W(0)': this.state.visible === false,
-            'W(200px)': this.state.visible
+            'W(200px)': this.state.visible,
         });
         return (
             <div className="D(ib)">
                 <form className={classes}>
-                    <label forHTML="q" className="hidden">Search</label>
+                    <label htmlFor="q" className="hidden">
+                        Search
+                    </label>
                     <input
                         ref="q"
                         type="text"
@@ -102,14 +101,17 @@ class Search extends React.Component {
                         id="q"
                     />
                 </form>
-                <i className="Va(m) Pos(r) fa fa-search Cur(p)" onClick={this._toggleSearchVisibility.bind(this)}></i>
+                <i
+                    className="Va(m) Pos(r) fa fa-search Cur(p)"
+                    onClick={this._toggleSearchVisibility.bind(this)}
+                ></i>
             </div>
         );
     }
 }
 
-Search = connectToStores(Search, [ SearchStore ], (context) => ({
-    search: context.getStore(SearchStore).getState()
+Search = connectToStores(Search, [SearchStore], (context) => ({
+    search: context.getStore(SearchStore).getState(),
 }));
 
 export default Search;

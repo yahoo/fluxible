@@ -1,5 +1,16 @@
 # Change Log
 
+## 1.0.0
+
+For a detailed explanation on how to migrate to `1.0.0`, please check
+the [migration guide](UPGRADE.md)).
+
+* Remove dependency on legacy React context [#663]
+* Add es build to the npm package [#683]
+* Add support for `React.ForwardRef` on `connectToStores` with `forwardRef` option [#696]
+* Remove `wrappedComponent` ref from `connectToStores` and `provideContext` [#696]
+* Add `withFluxible` higher-order component and `useFluxible` hook [#705]
+
 ## 0.2.14
 
 * [#566] Support React 16

@@ -1,29 +1,26 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { FluxibleComponentContext } from 'fluxible-addons-react';
 import { Actions } from 'fluxible-plugin-devtools';
 
 class Debug extends React.Component {
-    static contextTypes = {
-        query: PropTypes.object
-    }
+    static contextType = FluxibleComponentContext;
 
     constructor() {
         super();
         this.state = {
             shouldRender: false,
-            relativeWidth: false
+            relativeWidth: false,
         };
     }
 
-
     componentDidMount() {
         if (this.context.query.debug) {
-            this.setState({shouldRender: true});
+            this.setState({ shouldRender: true });
         }
     }
 
     handleRelativeWidth(event) {
-        this.setState({relativeWidth: event.target.checked});
+        this.setState({ relativeWidth: event.target.checked });
     }
 
     render() {
@@ -44,7 +41,7 @@ class Debug extends React.Component {
             position: 'fixed',
             top: 0,
             width: '80%',
-            zIndex: 100
+            zIndex: 100,
         };
         return (
             <div style={styles}>

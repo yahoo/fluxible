@@ -6,15 +6,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'fluxible-router';
+import { FluxibleContext } from 'fluxible-addons-react';
 import doSearch from '../actions/doSearch';
 import SearchStore from '../stores/SearchStore';
 
 class SearchResults extends React.Component {
 
-    static contextTypes = {
-        executeAction: PropTypes.func,
-        getStore: PropTypes.func
-    };
+    static contextType = FluxibleContext;
 
     static propTypes = {
         currentRoute: PropTypes.object.isRequired,

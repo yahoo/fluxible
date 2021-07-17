@@ -13,28 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use strict';
-var MessageSection = require('./MessageSection');
-var React = require('react');
-var ThreadSection = require('./ThreadSection');
-var provideContext = require('fluxible-addons-react/provideContext');
-var handleHistory = require('fluxible-router').handleHistory;
+const React = require('react');
+const { provideContext } = require('fluxible-addons-react');
+const { handleHistory } = require('fluxible-router');
+const MessageSection = require('./MessageSection');
+const ThreadSection = require('./ThreadSection');
 
-var ChatApp = React.createClass({
-    render: function() {
-        return (
-            <div className="chatapp">
-                <ThreadSection />
-                <MessageSection />
-            </div>
-        );
-    }
-});
+const ChatApp = () => (
+    <div className="chatapp">
+        <ThreadSection />
+        <MessageSection />
+    </div>
+);
 
-// wrap with history handler
-ChatApp = handleHistory(ChatApp);
-
-// and wrap that with context
-ChatApp = provideContext(ChatApp);
-
-module.exports = ChatApp;
+module.exports = provideContext(handleHistory(ChatApp));

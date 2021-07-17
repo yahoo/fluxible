@@ -74,7 +74,7 @@ class Doc extends React.Component {
         return (
             <div id="main" role="main" className="D(tbc)--sm Px(10px) Pos(r)">
                 {editEl}
-                <div key={new Date().getTime()} onClick={this.onClick.bind(this)} dangerouslySetInnerHTML={{__html: markup}} scanLinks={{enable: true}}></div>
+                <div key={new Date().getTime()} onClick={this.onClick.bind(this)} dangerouslySetInnerHTML={{__html: markup}} />
             </div>
         );
     }

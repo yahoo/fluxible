@@ -10,11 +10,7 @@ import Routes from './components/Routes';
 
 const app = new Fluxible({
     component: Routes,
-    stores: [
-        ApplicationStore,
-        PageStore,
-        TimeStore
-    ]
+    stores: [ApplicationStore, PageStore, TimeStore],
 });
 
-module.exports = app;
+export default app;

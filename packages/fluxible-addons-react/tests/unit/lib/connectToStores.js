@@ -1,231 +1,157 @@
-/*globals describe,it,afterEach,beforeEach,document*/
-/*eslint react/prop-types:0, react/no-render-return-value:0, react/no-find-dom-node:0 */
-'use strict';
+/* eslint-disable react/prop-types */
+import { expect } from 'chai';
+import React, { forwardRef, useImperativeHandle } from 'react';
+import TestRenderer from 'react-test-renderer';
+import createMockComponentContext from 'fluxible/utils/createMockComponentContext';
 
-var expect = require('chai').expect;
-var React;
-var PropTypes;
-var ReactDOM;
-var ReactTestUtils;
-var connectToStores;
-var provideContext;
-var createReactClass;
-var FooStore = require('../../fixtures/stores/FooStore');
-var BarStore = require('../../fixtures/stores/BarStore');
-var createMockComponentContext = require('fluxible/utils/createMockComponentContext');
-var JSDOM = require('jsdom').JSDOM;
+import { connectToStores, FluxibleComponent } from '../../../';
+import FooStore from '../../fixtures/stores/FooStore';
+import BarStore from '../../fixtures/stores/BarStore';
 
-describe('fluxible-addons-react', function () {
-    describe('connectToStores', function () {
-        var appContext;
+const DumbComponent = ({ foo, bar, onClick }) => (
+    <div>
+        <span id="foo">{foo}</span>
+        <span id="bar">{bar}</span>
+        <button id="button" onClick={onClick} />
+    </div>
+);
+DumbComponent.displayName = 'DumbComponent';
+DumbComponent.initAction = () => {};
 
-        beforeEach(function () {
-            var jsdom = new JSDOM('<html><body></body></html>');
-            global.window = jsdom.window;
-            global.document = jsdom.window.document;
-            global.navigator = jsdom.window.navigator;
+const stores = [FooStore, BarStore];
 
-            appContext = createMockComponentContext({
-                stores: [FooStore, BarStore]
-            });
+const getStateFromStores = ({ getStore, executeAction }) => ({
+    foo: getStore(FooStore).getFoo(),
+    bar: getStore(BarStore).getBar(),
+    onClick: () => executeAction((context) => context.dispatch('DOUBLE_UP')),
+});
 
-            React = require('react');
-            ReactDOM = require('react-dom');
-            PropTypes = require('prop-types');
-            createReactClass = require('create-react-class');
-            ReactTestUtils = require('react-dom/test-utils');
-            connectToStores = require('../../../').connectToStores;
-            provideContext = require('../../../').provideContext;
+const ConnectedComponent = connectToStores(
+    DumbComponent,
+    stores,
+    getStateFromStores
+);
+
+const renderComponent = (Component, ref) => {
+    const context = createMockComponentContext({ stores });
+
+    const app = TestRenderer.create(
+        <FluxibleComponent context={context}>
+            <Component ref={ref} />
+        </FluxibleComponent>
+    );
+
+    return { app, context };
+};
+
+const getComponent = (app) => app.root.findByType(DumbComponent);
+
+describe('fluxible-addons-react', () => {
+    describe('connectToStores', () => {
+        it('should hoist and set static properties properly', () => {
+            expect(ConnectedComponent.displayName).to.equal(
+                'storeConnector(DumbComponent)'
+            );
+            expect(ConnectedComponent.WrappedComponent).to.equal(DumbComponent);
+            expect(ConnectedComponent.initAction).to.be.a('function');
+            expect(ConnectedComponent.initAction).to.equal(
+                DumbComponent.initAction
+            );
         });
 
-        afterEach(function () {
-            delete global.window;
-            delete global.document;
-            delete global.navigator;
+        it('should register/unregister from stores on mount/unmount', () => {
+            const { app, context } = renderComponent(ConnectedComponent);
+
+            const barStore = context.getStore(BarStore);
+            const fooStore = context.getStore(FooStore);
+
+            expect(barStore.listeners('change').length).to.equal(1);
+            expect(fooStore.listeners('change').length).to.equal(1);
+
+            app.unmount();
+
+            expect(barStore.listeners('change').length).to.equal(0);
+            expect(fooStore.listeners('change').length).to.equal(0);
         });
 
-        it('should get the state from the stores', function (done) {
-            var Component = createReactClass({
-                contextTypes: {
-                    executeAction: PropTypes.func.isRequired
-                },
-                onClick: function () {
-                    this.context.executeAction(function (actionContext) {
-                        actionContext.dispatch('DOUBLE_UP');
-                    });
-                },
-                render: function () {
-                    return (
-                        <div>
-                            <span id="foo">{this.props.foo}</span>
-                            <span id="bar">{this.props.bar}</span>
-                            <button id="button" onClick={this.onClick}/>
-                        </div>
-                    );
+        it('should forward props from getStateFromStores to component', () => {
+            const { app } = renderComponent(ConnectedComponent);
+            const component = getComponent(app);
+
+            expect(component.props.foo).to.equal('bar');
+            expect(component.props.bar).to.equal('baz');
+            expect(component.props.onClick).to.be.a('function');
+        });
+
+        it('should listen to store changes', () => {
+            const { app } = renderComponent(ConnectedComponent);
+            const component = getComponent(app);
+
+            component.props.onClick();
+
+            expect(component.props.foo).to.equal('barbar');
+            expect(component.props.bar).to.equal('bazbaz');
+        });
+
+        describe('ref support', () => {
+            class ClassComponent extends React.Component {
+                constructor() {
+                    super();
+                    this.number = 42;
                 }
-            });
-            var WrappedComponent = provideContext(connectToStores(Component, [FooStore, BarStore], (context) => ({
-                foo: context.getStore(FooStore).getFoo(),
-                bar: context.getStore(BarStore).getBar()
-            })));
-
-            var container = document.createElement('div');
-            var component = ReactDOM.render(<WrappedComponent
-                context={appContext}/>, container);
-            var domNode = ReactDOM.findDOMNode(component);
-            expect(domNode.querySelector('#foo').textContent).to.equal('bar');
-            expect(domNode.querySelector('#bar').textContent).to.equal('baz');
-
-            ReactTestUtils.Simulate.click(domNode.querySelector('#button'));
-
-            expect(domNode.querySelector('#foo').textContent).to.equal('barbar');
-            expect(domNode.querySelector('#bar').textContent).to.equal('bazbaz');
-
-            expect(appContext.getStore(BarStore).listeners('change').length).to.equal(1);
-            expect(appContext.getStore(FooStore).listeners('change').length).to.equal(1);
-
-            ReactDOM.unmountComponentAtNode(container);
-
-            expect(appContext.getStore(BarStore).listeners('change').length).to.equal(0);
-            expect(appContext.getStore(FooStore).listeners('change').length).to.equal(0);
-            done();
-        });
-
-        it('should get the state from the stores using decorator pattern', function (done) {
-            @connectToStores([FooStore, BarStore], (context) => {
-                return {
-                    foo: context.getStore(FooStore).getFoo(),
-                    bar: context.getStore(BarStore).getBar()
-                };
-            }) class Component extends React.Component {
-               static contextTypes = {
-                   executeAction: PropTypes.func.isRequired
-               };
-            
-               onClick() {
-                   this.context.executeAction(function (actionContext) {
-                       actionContext.dispatch('DOUBLE_UP');
-                   });
-               }
-            
-               render() {
-                   return (
-                       <div>
-                           <span id="foo">{this.props.foo}</span>
-                           <span id="bar">{this.props.bar}</span>
-                           <button id="button" onClick={this.onClick.bind(this)}/>
-                       </div>
-                   );
-               }
-            }
-            
-            var WrappedComponent = provideContext(Component);
-            
-            var container = document.createElement('div');
-            var component = ReactDOM.render(<WrappedComponent context={appContext}/>, container);
-            var domNode = ReactDOM.findDOMNode(component);
-            expect(domNode.querySelector('#foo').textContent).to.equal('bar');
-            expect(domNode.querySelector('#bar').textContent).to.equal('baz');
-            
-            ReactTestUtils.Simulate.click(domNode.querySelector('#button'));
-            
-            expect(domNode.querySelector('#foo').textContent).to.equal('barbar');
-            expect(domNode.querySelector('#bar').textContent).to.equal('bazbaz');
-            
-            expect(appContext.getStore(BarStore).listeners('change').length).to.equal(1);
-            expect(appContext.getStore(FooStore).listeners('change').length).to.equal(1);
-            
-            ReactDOM.unmountComponentAtNode(container);
-            
-            expect(appContext.getStore(BarStore).listeners('change').length).to.equal(0);
-            expect(appContext.getStore(FooStore).listeners('change').length).to.equal(0);
-            done();
-        });
-
-        it('should take customContextTypes using decorator pattern', function (done) {
-            var customContextTypes = {
-                foo: PropTypes.func.isRequired
-            };
-            @connectToStores([], (context) => {
-                return {
-                    foo: context.foo()
-                };
-            }, customContextTypes) class Component extends React.Component {
                 render() {
-                    return (
-                        <div>
-                            <span id="foo">{this.props.foo}</span>
-                        </div>
-                    );
+                    return null;
                 }
             }
 
-            var WrappedComponent = provideContext(Component, customContextTypes);
+            const ConnectedClassComponent = connectToStores(
+                ClassComponent,
+                stores,
+                getStateFromStores,
+                { forwardRef: true }
+            );
 
-            var container = document.createElement('div');
-            var context = Object.assign({
-                foo() {
-                    return 'bar';
-                }
-            }, appContext);
-            var component = ReactDOM.render(<WrappedComponent context={context}/>, container);
-            var domNode = ReactDOM.findDOMNode(component);
-            expect(domNode.querySelector('#foo').textContent).to.equal('bar');
-            done();
-        });
-
-        it('should add a ref to class components', function () {
-            class Component extends React.Component {
-                render() {
-                    return <noscript/>;
-                }
-            }
-            var WrappedComponent = provideContext(connectToStores(Component, [], () => ({})));
-
-            var container = document.createElement('div');
-            var component = ReactDOM.render(<WrappedComponent
-                context={appContext}/>, container);
-            expect(component.refs.wrappedElement.refs).to.include.keys('wrappedElement');
-        });
-
-        it('should not add a ref to pure function components', function () {
-            var WrappedComponent = provideContext(connectToStores(() => <noscript/>, [], () => ({})));
-
-            var container = document.createElement('div');
-            var component = ReactDOM.render(<WrappedComponent
-                context={appContext}/>, container);
-            expect(component.refs.wrappedElement.refs).to.not.include.keys('wrappedElement');
-        });
-
-        it('should hoist non-react statics to higher order component', function () {
-            var Component = createReactClass({
-                displayName: 'Component',
-                statics: {
-                    initAction: function () {
-                    }
-                },
-                render: function () {
-                    return (
-                        <p>Hello world.</p>
-                    );
-                }
+            const ForwardComponent = forwardRef((props, ref) => {
+                useImperativeHandle(ref, () => ({ number: 24 }));
+                return <div {...props} />;
             });
-            var WrapperComponent = provideContext(connectToStores(Component, [FooStore, BarStore], {
-                displayName: 'WrapperComponent',
-                FooStore: function (store, props) {
-                    return {
-                        foo: store.getFoo()
-                    };
-                },
-                BarStore: function (store, props) {
-                    return {
-                        bar: store.getBar()
-                    };
-                }
-            }));
+            ForwardComponent.displayName = 'ForwardComponent';
 
-            expect(WrapperComponent.initAction).to.be.a('function');
-            expect(WrapperComponent.displayName).to.not.equal(Component.displayName);
+            const ConnectedForwardComponent = connectToStores(
+                ForwardComponent,
+                stores,
+                getStateFromStores,
+                { forwardRef: true }
+            );
+
+            const WithoutRefComponent = connectToStores(
+                DumbComponent,
+                stores,
+                getStateFromStores,
+                { forwardRef: false }
+            );
+
+            it('should not forward ref by default', () => {
+                const ref = React.createRef(null);
+                renderComponent(ConnectedComponent, ref);
+                expect(ref.current).to.equal(null);
+            });
+
+            it('should not forward ref if options.forwardRef is false', () => {
+                const ref = React.createRef(null);
+                renderComponent(WithoutRefComponent, ref);
+                expect(ref.current).to.equal(null);
+            });
+
+            it('should forward ref if options.forwardRef is true', () => {
+                const ref1 = React.createRef(null);
+                renderComponent(ConnectedClassComponent, ref1);
+                expect(ref1.current.number).to.equal(42);
+
+                const ref2 = React.createRef(null);
+                renderComponent(ConnectedForwardComponent, ref2);
+                expect(ref2.current.number).to.equal(24);
+            });
         });
     });
 });

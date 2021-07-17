@@ -4,8 +4,6 @@
  */
 import React from 'react';
 
-function Home () {
-    return <p>Welcome to the site!</p>;
-}
+const Home = () => <p>Welcome to the site!</p>;
 
 export default Home;

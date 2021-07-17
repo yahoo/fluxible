@@ -16,26 +16,21 @@
     "lint": "eslint .",
     "test": "lerna run lint --since --stream && lerna run test --since --stream"
   },
-  "dependencies": {},
   "devDependencies": {
     "@babel/cli": "^7.11.6",
     "@babel/core": "^7.11.6",
-    "@babel/plugin-proposal-class-properties": "^7.10.4",
-    "@babel/plugin-proposal-decorators": "^7.10.5",
-    "@babel/plugin-proposal-object-rest-spread": "^7.11.0",
+    "@babel/plugin-transform-runtime": "^7.13.15",
     "@babel/preset-env": "^7.11.5",
     "@babel/preset-react": "^7.10.4",
     "@babel/register": "^7.11.5",
     "@istanbuljs/nyc-config-babel": "^3.0.0",
     "async": "^3.0.1",
-    "babel-eslint": "^10.1.0",
     "babel-plugin-istanbul": "^6.0.0",
     "chai": "^4.0.2",
     "coveralls": "^3.1.0",
     "create-react-class": "^15.5.1",
     "es6-promise": "^4.0.2",
     "eslint": "^7.1.0",
-    "eslint-plugin-babel": "^5.3.0",
     "eslint-plugin-react": "^7.0.0",
     "fluxible": "^1.0.0",
     "jsdom": "^16.2.1",
@@ -47,13 +42,10 @@
     "pre-commit": "^1.0.7",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
+    "react-test-renderer": "^16.0.0",
     "shelljs": "^0.8.0",
     "sinon": "^11.1.1",
     "yargs": "^16.0.0"
-  },
-  "devEngines": {
-    "node": "4.x || 5.x || 6.x",
-    "npm": "2.x || 3.x"
   },
   "pre-commit": [
     "dev:lint",

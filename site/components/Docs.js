@@ -10,7 +10,7 @@ import Doc from './Doc';
 import SearchResults from './SearchResults';
 import cx from 'classnames';
 import { handleRoute } from 'fluxible-router';
-import connectToStores from 'fluxible-addons-react/connectToStores';
+import { connectToStores } from 'fluxible-addons-react';
 import SearchStore from '../stores/SearchStore';
 
 class Docs extends React.Component {

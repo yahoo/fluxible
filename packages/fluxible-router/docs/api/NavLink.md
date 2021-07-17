@@ -18,7 +18,7 @@ in navigation events.
 | activeClass | string | Class to add to `className` when link is active |
 | activeStyle | object | Inline styles to merge with `style` when link is active |
 | activeElement | string or React.Component| If specified, active NavLink components will use this component instead of 'a' tags |
-| validate | boolean, default to false | Useful when it is unknown whether a link matches a registered route, this will validate the path before executing the navigation action. If the link does not match a registered route, it will 
+| validate | boolean, default to false | Useful when it is unknown whether a link matches a registered route, this will validate the path before executing the navigation action. If the link does not match a registered route, it will
 let the browser handle the navigation. |
 
 
@@ -30,24 +30,20 @@ Here are two examples of generating `NavLink` using `href` property, and using `
 * Using `routeName` allows generating the `href` from the `routeName` and `navParams` props. Does not support querystring or hash fragment.
 
 ```js
-var NavLink = require('fluxible-router').NavLink;
+import { NavLink } from 'fluxible-router';
 
-var MyComponent = React.createClass({
-    render: function () {
-        return (
-            <ul>
-                // Create client handled links using NavLink anywhere in your application
-                // activeStyle will apply the styles when it's the current route
-                <li><NavLink href='/home' activeStyle={{backgroundColor: '#ccc'}}>Home</NavLink></li>
-                // RouteName will build the href from the route with the same name
-                // Active class will apply the class when it's the current route
-                <li><NavLink routeName='about' activeClass='selected'>About</NavLink></li>
-                // You can also add parameters to your route if it's a dynamic route
-                <li><NavLink routeName='user' navParams={{id: 1}}>User 1</NavLink></li>
-            </ul>
-        );
-    }
-});
+const MyComponent = () = (
+    <ul>
+        // Create client handled links using NavLink anywhere in your application
+        // activeStyle will apply the styles when it's the current route
+        <li><NavLink href='/home' activeStyle={{backgroundColor: '#ccc'}}>Home</NavLink></li>
+        // RouteName will build the href from the route with the same name
+        // Active class will apply the class when it's the current route
+        <li><NavLink routeName='about' activeClass='selected'>About</NavLink></li>
+        // You can also add parameters to your route if it's a dynamic route
+        <li><NavLink routeName='user' navParams={{id: 1}}>User 1</NavLink></li>
+    </ul>
+);
 
-module.exports = MyComponent;
+export default MyComponent;
 ```

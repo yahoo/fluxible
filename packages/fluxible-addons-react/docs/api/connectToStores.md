@@ -1,64 +1,76 @@
 # connectToStores
 
 ```js
-import connectToStores from 'fluxible-addons-react/connectToStores';
+import { connectToStores } from 'fluxible-addons-react;
 ```
 
-`connectToStores` is a higher-order component that provides a convenient way to access state from the stores from within your component. It takes care of defining `getInitialState` and listening to the stores for updates. The store state will be sent to the `Component` instance as props. It is required that the React context is set and has access to `getStore`. It is recommended to use [`provideContext`](provideContext.md) around your top level component to do this for you.
+`connectToStores` is a higher-order component that provides a
+convenient way to access state from the stores from within your
+component. It takes care of listening to the stores and updating the
+wrapped component.
+
+In order to make `connectToStores` to work, the fluxible component
+context must be available in the React context. It is recommended to
+use [`provideContext`](provideContext.md) around your top level
+component to do this for you.
 
 Takes the following parameters:
 
- * `Component` - the component that should receive the state as props, optional if using decorator pattern
+ * `Component` - the component that should receive the state as props
  * `stores` - array of store constructors to listen for changes
- * `getStateFromStores` - function that receives all stores and should return the full state object. Receives `stores` hash and component `props` as arguments
- * `customContextTypes` (*optional*) - additional `contextTypes` that could be accessed from your `getStateFromStores` function
+ * `getStateFromStores` - function that receives all stores and should
+   return the full state object. Receives Fluxible component context
+   the component `props` as arguments
+ * `options` (*optional*) - an object with configuration to tweak
+   `connectToStores` behavior
+ * `options.forwardRef` (*optional*) - a boolean that controls if a
+   ref should be forwarded to the wrapped component. Default is false.
 
 ## Example
 
-The following example will listen to changes in `FooStore` and `BarStore` and pass `foo` and `bar` as props to the `Component` when it is instantiated.
+The following example will listen to changes in `FooStore` and
+`BarStore` and pass `foo` and `bar` as props to the `Component` when
+it is instantiated.
 
 ```js
-class Component extends React.Component {
-    render() {
-        return (
-            <ul>
-                <li>{this.props.foo}</li>
-                <li>{this.props.bar}</li>
-            </ul>
-        );
-    }
-}
+const Component = (props) => (
+  <ul>
+    <li>{props.foo}</li>
+    <li>{props.bar}</li>
+  </ul>
+);
 
-Component = connectToStores(Component, [FooStore, BarStore], (context, props) => ({
-    foo: context.getStore(FooStore).getFoo(),
-    bar: context.getStore(BarStore).getBar()
-}));
+const stores = [FooStore, BarStore];
 
-export default Component;
+const getStateFromStores = (context, props) => ({
+  foo: context.getStore(FooStore).getFoo(),
+  bar: context.getStore(BarStore).getBar(),
+});
+
+export default connectToStores(Component, stores, getStateFromStores);
 ```
 
-### Decorator
+### forwardRef
 
-***Decorators are an evolving proposal and should be used with caution
-as the API may change at any point. Decorator support in
-fluxible-addons-react was built against Babel 5's implementation of
-decorators. As of Babel 6, support for decorators has been removed although
-third party transforms have been attempted with limited success.
-
-Decorators are also only proposed for classes and properties and therefore
-will not work with stateless functional components. See
-[decorator pattern](https://github.com/wycats/javascript-decorators) for
-more information on the proposal.***
+If you need to pass a ref to the wrapped component, you can set
+`forwardRef` option to true.
 
 ```js
-@connectToStores([FooStore, BarStore], (context, props) => ({
-    foo: context.getStore(FooStore).getFoo(),
-    bar: context.getStore(BarStore).getBar()
-}))
-class Component extends React.Component {
-    render() {
-        return <div/>;
-    }
-}
-export default Component;
+const Component = React.forwardRef((props, ref) => (
+  <ul ref={ref}>
+    <li>{props.foo}</li>
+    <li>{props.bar}</li>
+  </ul>
+));
+
+const stores = [FooStore, BarStore];
+
+const getStateFromStores = (context, props) => ({
+  foo: context.getStore(FooStore).getFoo(),
+  bar: context.getStore(BarStore).getBar(),
+});
+
+const options = { forwardRef: true };
+
+export default connectToStores(Component, stores, getStateFromStores, options);
 ```

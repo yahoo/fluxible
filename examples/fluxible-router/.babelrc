@@ -1,7 +1,3 @@
 {
-    "presets": ["es2015", "react"],
-    "plugins": [
-        "transform-class-properties",
-        "syntax-decorators"
-    ]
+    "presets": ["@babel/preset-env", "@babel/preset-react"]
 }

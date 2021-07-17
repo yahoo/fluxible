@@ -1,17 +1,17 @@
-var createStore = require('fluxible/addons/createStore');
+import createStore from 'fluxible/addons/createStore';
 
-module.exports = createStore({
+export default createStore({
     storeName: 'FooStore',
     handlers: {
-        'DOUBLE_UP': function () {
+        DOUBLE_UP: function() {
             this.foo += this.foo;
             this.emitChange();
         }
     },
-    initialize: function () {
+    initialize() {
         this.foo = 'bar';
     },
-    getFoo: function () {
+    getFoo() {
         return this.foo;
     }
 });

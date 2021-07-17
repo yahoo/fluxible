@@ -4,22 +4,20 @@
  */
 /*global document, window */
 'use strict';
-var React = require('react');
-var ReactDOM = require('react-dom');
-var app = require('./app');
-var createElement = require('fluxible-addons-react/createElementWithContext');
+const ReactDOM = require('react-dom');
+const app = require('./app');
+const { createElementWithContext } = require('fluxible-addons-react');
 
-var dehydratedState = window.App; // sent from the server
+const dehydratedState = window.App; // sent from the server
 
 app.rehydrate(dehydratedState, function (err, context) {
-
     if (err) {
         throw err;
     }
 
     window.context = context;
 
-    var mountNode = document.getElementById('todoapp');
+    const mountNode = document.getElementById('todoapp');
 
-    ReactDOM.render(createElement(context), mountNode);
+    ReactDOM.hydrate(createElementWithContext(context), mountNode);
 });
