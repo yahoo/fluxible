@@ -29,7 +29,7 @@
   ],
   "dependencies": {
     "@babel/runtime": "^7.14.0",
-    "fluxible-addons-react": "^1.0.0-beta.0",
+    "fluxible-addons-react": "^1.0.0",
     "hoist-non-react-statics": "^3.3.2",
     "prop-types": "^15.7.2",
     "routr": "^2.0.0"
