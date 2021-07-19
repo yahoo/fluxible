@@ -7,9 +7,9 @@ Provides isomorphic RESTful service access to your [Fluxible](https://github.com
 ## Usage
 
 ```js
-var Fluxible = require('fluxible');
-var fetchrPlugin = require('fluxible-plugin-fetchr');
-var app = new Fluxible();
+import Fluxible from 'fluxible';
+import fetchrPlugin from 'fluxible-plugin-fetchr';
+const app = new Fluxible();
 
 app.plug(fetchrPlugin({
     xhrPath: '/api' // Path for XHR to be served from
@@ -18,7 +18,7 @@ app.plug(fetchrPlugin({
 
 Now, when calling the `createContext` method on the server, make sure to send in the request object and optionally pass an `xhrContext` which will be used as parameters for all XHR calls:
 
-```
+```js
 app.createContext({
     req: req,
     xhrContext: { // Used as query params for all XHR calls
@@ -44,21 +44,19 @@ app.getPlugin('FetchrPlugin').registerService(yourService);
 
 For real examples, you can check out [the `server.js` file in our chat example](https://github.com/yahoo/fluxible/blob/master/examples/chat/server.js).
 
-
 ### Exposing Your Services
 
 Fetchr also contains an express/connect middleware that can be used as your access point from the client.
 Fetchr middleware expects that you're using the [`body-parser`](https://github.com/expressjs/body-parser) middleware (or an alternative middleware that populates `req.body`) before you use Fetchr middleware.
 
 ```js
-var server = express();
+const server = express();
 // you need to use body parser middleware before `FetchrPlugin`
 server.use(bodyParser.json());
 server.use(pluginInstance.getXhrPath(), pluginInstance.getMiddleware());
 ```
 
 For real examples, you can check out [the `server.js` file in our chat example](https://github.com/yahoo/fluxible/blob/master/examples/chat/server.js).
-
 
 ### Dynamic XHR Paths
 
@@ -80,15 +78,16 @@ Fetchr provides [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_
 For example:
 
 ```js
-var Fluxible = require('fluxible');
-var fetchrPlugin = require('fluxible-plugin-fetchr');
-var app = new Fluxible();
+import Fluxible from 'fluxible';
+import fetchrPlugin from 'fluxible-plugin-fetchr';
+const app = new Fluxible();
 
 app.plug(fetchrPlugin({
     corsPath: 'http://www.foo.com',
     xhrPath: '/fooProxy'
 }));
 ```
+
 [See Fetchr docs for more info](https://github.com/yahoo/fetchr/blob/master/README.md#cors-support)
 
 ## Context Variables
@@ -105,9 +104,9 @@ To collect fetcher service's success/failure/latency stats, you can configure `s
 Example for how to configure `statsCollector`:
 
 ```js
-var Fluxible = require('fluxible');
-var fetchrPlugin = require('fluxible-plugin-fetchr');
-var app = new Fluxible();
+import Fluxible from 'fluxible';
+import fetchrPlugin from 'fluxible-plugin-fetchr';
+const app = new Fluxible();
 
 app.plug(fetchrPlugin({
     corsPath: 'http://www.foo.com',
