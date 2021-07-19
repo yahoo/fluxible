@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.2.1
+
+ * [#717] refactor: remove debug dependency from all packages
+
 ## 1.2.0
 
 ### Enhancement
