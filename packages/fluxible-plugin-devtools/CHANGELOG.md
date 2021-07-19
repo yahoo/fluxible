@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.1.8
+
+ * [#717] refactor: remove debug dependency from all packages
+
 ## 0.1.5
 
  * [#460] Fix to devtools-plugin to support Actions without a "callback" param (@carystanley)
