@@ -16,7 +16,7 @@
         "csurf": "^1.11.0",
         "fluxible": "^1.4.0",
         "fluxible-addons-react": "^1.0.0",
-        "fluxible-plugin-fetchr": "^0.3.11",
+        "fluxible-plugin-fetchr": "^0.4.0",
         "fluxible-router": "^2.0.0",
         "prop-types": "^15.7.2",
         "react": "^16.14.0",

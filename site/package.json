@@ -33,7 +33,7 @@
     "fluxible": "^1.0.0",
     "fluxible-addons-react": "^1.0.0",
     "fluxible-plugin-devtools": "^0.1.0",
-    "fluxible-plugin-fetchr": "^0.3.0",
+    "fluxible-plugin-fetchr": "^0.4.0",
     "fluxible-router": "^2.0.0",
     "highlight.js": "^10.5.0",
     "lunr": "^0.6.0",
