@@ -53,12 +53,16 @@ export default [
                 routeName: 'fluxibleComponent'
             },
             {
-                label: 'FluxibleMixin',
-                routeName: 'fluxibleMixin'
+                label: 'batchedUpdatePlugin',
+                routeName: 'batchedUpdatePlugin'
             },
             {
                 label: 'connectToStores',
                 routeName: 'connectToStores'
+            },
+            {
+                label: 'createElementWithContext',
+                routeName: 'createElementWithContext'
             },
             {
                 label: 'createStore',
@@ -69,16 +73,20 @@ export default [
                 routeName: 'createReducerStore'
             },
             {
+                label: 'devToolsPlugin',
+                routeName: 'devToolsPlugin'
+            },
+            {
                 label: 'provideContext',
                 routeName: 'provideContext'
             },
             {
-                label: 'batchedUpdatePlugin',
-                routeName: 'batchedUpdatePlugin'
+                label: 'useFluxible',
+                routeName: 'useFluxible'
             },
             {
-                label: 'devToolsPlugin',
-                routeName: 'devToolsPlugin'
+                label: 'withFluxible',
+                routeName: 'withFluxible'
             }
         ]
     },

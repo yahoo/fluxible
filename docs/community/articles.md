@@ -13,4 +13,4 @@ page on GitHub to list yours!
  * 2015-03-12 - [How I use fluxible with Hapi](http://danecando.com/how-i-use-fluxible-with-hapi/)
  * 2015-02-20 - [Exploring Isomorphic JavaScript](http://nicolashery.com/exploring-isomorphic-javascript/)
  * 2014-11-30 - [Isomorphic React + Flux using Yahoo's Fluxible](http://dev.alexishevia.com/2014/11/isomorphic-react-flux-using-yahoos.html)
- * 2014-11-06 - [Bringing Flux to the Server](/blog/2014-11-06-bringing-flux-to-the-server.md)
+ * 2014-11-06 - [Bringing Flux to the Server](/blog/2014-11-06-bringing-flux-to-the-server.html)

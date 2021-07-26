@@ -44,6 +44,7 @@ You can also look into this [polyfill.io polyfill service](https://cdn.polyfill.
 
 | Compatible React Version | fluxible-router Version |
 |--------------------------|-------------------------------|
+| 16.3+ | >= 2.0.0 |
 | 16.0 | >= 1.3.1 |
 | 15.0 | >= 0.4.10 |
 | 0.14 | >= 0.3.x |

@@ -144,15 +144,15 @@ export default {
             ' of its children with access to the Fluxible component context via React\'s' +
             ' childContextTypes and getChildContext.'
     },
-    fluxibleMixin: {
-        path: '/addons/FluxibleMixin.html',
+    batchedUpdatePlugin: {
+        path: '/addons/batchedUpdatePlugin.html',
         method: 'GET',
         handler: Docs,
-        githubPath: '/packages/fluxible-addons-react/docs/api/FluxibleMixin.md',
+        githubPath: '/packages/fluxible-addons-react/docs/api/batchedUpdatePlugin.md',
         githubRepo: 'yahoo/fluxible',
         action: showDoc,
-        pageTitlePrefix: 'API: addons/FluxibleMixin',
-        pageDescription: 'The mixin will add the contextTypes getStore and executeAction to your component.'
+        pageTitlePrefix: 'API: addons/batchedUpdatePlugin',
+        pageDescription: 'Batches React state changes for each dispatch.'
     },
     connectToStores: {
         path: '/addons/connectToStores.html',
@@ -198,6 +198,16 @@ export default {
         pageTitlePrefix: 'API: addons/createReducerStore',
         pageDescription: 'A helper method for creating reducer stores for Fluxible.'
     },
+    devToolsPlugin: {
+        path: '/addons/devToolsPlugin.html',
+        method: 'GET',
+        handler: Docs,
+        githubPath: '/packages/fluxible-plugin-devtools/docs/fluxible-plugin-devtools.md',
+        githubRepo: 'yahoo/fluxible',
+        action: showDoc,
+        pageTitlePrefix: 'API: addons/devToolsPlugin',
+        pageDescription: 'Provides Dev Tools for debugging your app.'
+    },
     provideContext: {
         path: '/addons/provideContext.html',
         method: 'GET',
@@ -209,25 +219,25 @@ export default {
         pageDescription: 'provideContext wraps the Component with a higher-order component' +
             ' that specifies the child context for you.'
     },
-    batchedUpdatePlugin: {
-        path: '/addons/batchedUpdatePlugin.html',
+    useFluxible: {
+        path: '/addons/useFluxible.html',
         method: 'GET',
         handler: Docs,
-        githubPath: '/packages/fluxible-addons-react/docs/api/batchedUpdatePlugin.md',
+        githubPath: '/packages/fluxible-addons-react/docs/api/useFluxible.md',
         githubRepo: 'yahoo/fluxible',
         action: showDoc,
-        pageTitlePrefix: 'API: addons/batchedUpdatePlugin',
-        pageDescription: 'Batches React state changes for each dispatch.'
+        pageTitlePrefix: 'API: addons/useFluxible',
+        pageDescription: 'useFluxible is a React hook that returns the Fluxible component context.'
     },
-    devToolsPlugin: {
-        path: '/addons/devToolsPlugin.html',
+    withFluxible: {
+        path: '/addons/withFluxible.html',
         method: 'GET',
         handler: Docs,
-        githubPath: '/packages/fluxible-plugin-devtools/docs/fluxible-plugin-devtools.md',
+        githubPath: '/packages/fluxible-addons-react/docs/api/withFluxible.md',
         githubRepo: 'yahoo/fluxible',
         action: showDoc,
-        pageTitlePrefix: 'API: addons/devToolsPlugin',
-        pageDescription: 'Provides Dev Tools for debugging your app.'
+        pageTitlePrefix: 'API: addons/withFluxible',
+        pageDescription: 'is a higher-order component that injects Fluxible component context into your component through the context props.'
     },
 
     // Extensions

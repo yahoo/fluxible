@@ -63,7 +63,7 @@ class Application extends React.Component {
                 </div>
                 <div id="footer" className="P(20px) Bdt(1)" role="footer">
                     <div className="innerwrapper spaceBetween Mx(a)--sm W(90%)--sm W(a)--sm">
-                        <small>All code on this site is licensed under the <a href="https://github.com/yahoo/fluxible.io/blob/master/LICENSE.md">Yahoo BSD License</a>, unless otherwise stated.</small> <small>&copy; 2015 Yahoo! Inc. All rights reserved.</small>
+                        <small>All code on this site is licensed under the <a href="https://github.com/yahoo/fluxible.io/blob/master/LICENSE.md">Yahoo BSD License</a>, unless otherwise stated.</small> <small>&copy; 2015-present Yahoo! Inc. All rights reserved.</small>
                     </div>
                 </div>
             </div>

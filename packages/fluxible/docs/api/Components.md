@@ -57,8 +57,7 @@ class MyComponent extends React.Component {
 
 To eliminate some of this boilerplate and eliminate potential developer error (for instance forgetting `componentWillUnmount`), Fluxible provides the following helpers for connecting your components to your stores:
 
- * [connectToStores](../../../../packages/fluxible-addons-react/docs/api/connectToStores.md) ***(recommended)***
- * [FluxibleMixin](../../../../packages/fluxible-addons-react/docs/api/FluxibleMixin.md) *(deprecated)*
+ * [connectToStores](../../../../packages/fluxible-addons-react/docs/api/connectToStores.md)
 
 ## Executing Actions
 
