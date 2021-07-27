@@ -46,8 +46,10 @@
     "superagent": "^3.8.3"
   },
   "devDependencies": {
+    "@istanbuljs/nyc-config-babel": "^3.0.0",
     "babel-eslint": "^10.0.0",
     "babel-loader": "^8.2.2",
+    "babel-plugin-istanbul": "^6.0.0",
     "chai": "^3.0.0",
     "chai-as-promised": "^5.0.0",
     "eslint": "^6.0.0",
@@ -61,6 +63,7 @@
     "grunt-contrib-cssmin": "^4.0.0",
     "grunt-webpack": "^4.0.2",
     "json-loader": "^0.5.1",
+    "limits": "^1.0.0",
     "mocha": "^8.3.2",
     "mockery": "^1.4.0",
     "nodemon": "^2.0.7",

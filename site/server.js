@@ -24,6 +24,25 @@ import redirects from './configs/redirects';
 const htmlComponent = React.createFactory(HtmlComponent);
 const server = express();
 
+try {
+    server.use(require('mod_status')());
+    server.use(require('mod_akamai')());
+    server.use(require('mod_log')({
+        keep_days: 6
+    }));
+} catch (ignore) {}
+
+server.use(
+    require('limits')({
+        enable: true,
+        file_uploads: true,
+        global_timeout: 5000,
+        inc_req_timeout: 5000,
+        out_req_timeout: 5000,
+        post_max_size: 2000000
+    })
+);
+
 server.set('state namespace', 'App');
 server.use(favicon(path.join(__dirname, '/assets/images/favicon.ico')));
 server.use('/public', express['static'](path.join(__dirname, '/build')));
