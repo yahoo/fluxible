@@ -11,7 +11,7 @@
     "devtest": "mocha tests/unit --require @babel/register --recursive",
     "lint": "eslint --ext .js,.jsx .",
     "start": "node start",
-    "test": "nyc --report-dir ${COVERAGE_DIR:-artifacts/coverage} --reporter lcov mocha tests/unit --require @babel/register --recursive"
+    "test": "NODE_ENV=test nyc --report-dir ${COVERAGE_DIR:-artifacts/coverage} --reporter lcov mocha tests/unit --require @babel/register --recursive"
   },
   "precommit": [
     "lint",
