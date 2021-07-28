@@ -55,8 +55,7 @@ server.use(csrf({ cookie: true }));
 // Disable proxies from caching the page (static css/js assets are still cached)
 server.set('etag', false);
 server.use((req, res, next) => {
-    res.set('Cache-Control', 'no-store');
-    res.set('Max-Age', '0');
+    res.set('Cache-Control', 'no-store, max-age=0');
     next();
 });
 
