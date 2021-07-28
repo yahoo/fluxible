@@ -45,7 +45,9 @@ server.use(
 
 server.set('state namespace', 'App');
 server.use(favicon(path.join(__dirname, '/assets/images/favicon.ico')));
-server.use('/public', express['static'](path.join(__dirname, '/build')));
+server.use('/public', express['static'](path.join(__dirname, '/build'), {
+    maxAge: '1y'
+}));
 server.use(cookieParser());
 server.use(bodyParser.json());
 server.use(csrf({ cookie: true }));
