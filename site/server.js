@@ -45,10 +45,19 @@ server.use(
 
 server.set('state namespace', 'App');
 server.use(favicon(path.join(__dirname, '/assets/images/favicon.ico')));
-server.use('/public', express['static'](path.join(__dirname, '/build')));
+server.use('/public', express['static'](path.join(__dirname, '/build'), {
+    maxAge: '1y'
+}));
 server.use(cookieParser());
 server.use(bodyParser.json());
 server.use(csrf({ cookie: true }));
+
+// Disable proxies from caching the page (static css/js assets are still cached)
+server.set('etag', false);
+server.use((req, res, next) => {
+    res.set('Cache-Control', 'private, no-store, max-age=0');
+    next();
+});
 
 // Get access to the fetchr plugin instance
 const fetchrPlugin = app.getPlugin('FetchrPlugin');
