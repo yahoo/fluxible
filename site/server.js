@@ -50,6 +50,14 @@ server.use(cookieParser());
 server.use(bodyParser.json());
 server.use(csrf({ cookie: true }));
 
+// Disable proxies from caching the page (static css/js assets are still cached)
+server.set('etag', false);
+server.use((req, res, next) => {
+    res.set('Cache-Control', 'no-store');
+    res.set('Max-Age', '0');
+    next();
+});
+
 // Get access to the fetchr plugin instance
 const fetchrPlugin = app.getPlugin('FetchrPlugin');
 
