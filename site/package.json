@@ -36,7 +36,7 @@
     "fluxible-plugin-fetchr": "^0.4.0",
     "fluxible-router": "^2.0.0",
     "highlight.js": "^10.5.0",
-    "limit": "^0.0.1",
+    "limits": "^1.0.0",
     "lunr": "^0.6.0",
     "marked": "^2.0.1",
     "prop-types": "^15.7.2",
