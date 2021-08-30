@@ -6,4 +6,5 @@ node_modules
 *.log
 *.tgz
 .jshintrc
+*.sh
 examples/*/build
