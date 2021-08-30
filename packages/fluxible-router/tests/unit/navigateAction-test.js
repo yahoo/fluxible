@@ -89,7 +89,7 @@ describe('navigateAction', function () {
             expect(mockContext.dispatchCalls.length).to.equal(2);
             expect(mockContext.dispatchCalls[0].name).to.equal('NAVIGATE_START');
             var route = mockContext.getStore('RouteStore').getCurrentRoute();
-            expect(route.query).to.eql({foo: 'bar', a: ['b', 'c'], bool: null}, 'query added to route payload for NAVIGATE_START' + JSON.stringify(route));
+            expect(route.query).to.eql({foo: 'bar', a: ['b', 'c'], bool: ''}, 'query added to route payload for NAVIGATE_START' + JSON.stringify(route));
             expect(mockContext.dispatchCalls[1].name).to.equal('NAVIGATE_SUCCESS');
             var navigateSuccessPayload = mockContext.dispatchCalls[1].payload;
             expect(navigateSuccessPayload.route.url).to.equal(url.split('#')[0]);
