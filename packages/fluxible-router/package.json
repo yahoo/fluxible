@@ -32,7 +32,7 @@
     "fluxible-addons-react": "^1.0.0",
     "hoist-non-react-statics": "^3.3.2",
     "prop-types": "^15.7.2",
-    "routr": "^3.0.0"
+    "routr": "^3.0.1"
   },
   "peerDependencies": {
     "fluxible": "^1.0.0",
