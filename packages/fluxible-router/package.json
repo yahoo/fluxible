@@ -1,6 +1,6 @@
 {
   "name": "fluxible-router",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Routing for Fluxible applications",
   "main": "./dist/cjs/index.js",
   "module": "./dist/es/index.js",
