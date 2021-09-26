@@ -11,9 +11,7 @@ import FluxibleProvider from './FluxibleProvider';
  * Provides context prop to all children as React context
  *
  * Example:
- *   const WrappedComponent = provideContext(Component, {
- *       foo: PropTypes.string
- *   });
+ *   const WrappedComponent = provideContext(Component);
  *
  * @function provideContext
  * @param {React.Component} Component - component to wrap.

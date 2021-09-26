@@ -1,38 +1,119 @@
 # API: `React Components`
 
-React components need to be able to access the state of the application that is held within stores and also be able to execute actions that the stores can react to. Since we are not using singletons, we need to provide access to the current request's `ComponentContext`.
+React components need to be able to access the state of the
+application that is held within stores and also be able to execute
+actions that the stores can react to. Since we are not using
+singletons, we need to provide access to the current request's
+`ComponentContext`.
 
 ## Component Context
 
-The component context receives limited access to the [FluxibleContext](FluxibleContext.md) so that it can't dispatch directly. It contains the following methods:
+The component context receives limited access to the
+[FluxibleContext](FluxibleContext.md) so that it can't dispatch
+directly. It contains the following methods:
 
  * `executeAction(action, payload)`
  * `getStore(storeConstructor)`
 
-It's important to note that ***`executeAction` does not allow passing a callback from the component***. This enforces that the actions are fire-and-forget and that state changes should only be handled through the Flux flow. You may however provide an app level `componentActionErrorHandler` function when instantiating Fluxible. This allows you to handle errors (at a high level) spawning from components firing actions.
+It's important to note that ***`executeAction` does not allow passing
+a callback from the component***. This enforces that the actions are
+fire-and-forget and that state changes should only be handled through
+the Flux flow. You may however provide an app level
+`componentActionErrorHandler` function when instantiating
+Fluxible. This allows you to handle errors (at a high level) spawning
+from components firing actions.
 
-## Accessing the Context
+## Providing the Context
 
-The [`ComponentContext`](#component-context) should be passed as a prop to the top level component for your application. From there, it needs to be propagated to any controller views using two options:
+To make the component context available to all your components, you
+must wrap your top level component in a `FluxibleProvider`
+component. `FluxibleProvider` takes the
+[`ComponentContext`](#component-context) as prop and will make it
+available to all children components down the tree:
 
- * Use React's context ***(recommended)***
- * Pass it through props to every child
+```js
+// App.jsx
 
-We recommend using React's context, since it will implicitly handle propagation as long as the controller view registers its `contextTypes`. We provide a couple of helpers to make this easier:
+import Fluxible from from 'fluxible';
+import { FluxibleProvider } from 'fluxible-addons-react';
 
- * [provideContext](../../../../packages/fluxible-addons-react/docs/api/provideContext.md) ***(recommended)***- higher-order component that declares child context (declarative; supports custom `childContextTypes`)
- * [FluxibleComponent](../../../../packages/fluxible-addons-react/docs/api/FluxibleComponent.md) - wrapper component that declares child context (imperative)
+const fluxibleApp = new Fluxible();
+
+const context = fluxibleApp.createContext();
+
+const componentContext = context.getComponentContext();
+
+const App = () => {
+  return (
+    <FluxibleProvider context={componentContext}>
+      <MyComponent />
+    </FluxibleProvider>
+  );
+};
+```
+
+Another possibility would be to wrap the `MyComponent` from example
+above with the higher-order component
+[provideContext](../../../../packages/fluxible-addons-react/docs/api/provideContext.md):
+
+```js
+// MyComponent.jsx
+
+import { provideContext } from 'fluxible-addons-react';
+
+const MyComponent = () => {
+    return // ...
+};
+
+export default provideContext(MyComponent);
+```
+
+Then, in `App.jsx`:
+
+```js
+// App.jsx
+
+const App = () => {
+  return <MyComponent context={componentContext} />;
+};
+```
+
+One last possibility, would be to use
+[FluxibleComponent](../../../../packages/fluxible-addons-react/docs/api/FluxibleComponent.md). `FluxibleComponent`
+is just a React component that will wrap its children with
+`FluxibleProvider` (very similar as the first example from this
+section):
+
+```js
+const App = () => {
+  return (
+    <FluxibleComponent context={componentContext}>
+      <MyComponent />
+    </FluxibleComponent>
+  );
+};
+```
+
+The only difference is that it will also inject the context as prop in
+`MyComponent`. `FluxibleComponent` can considered a legacy API from
+the times where setting up react context would require setting context
+types and so on. It has been kept for compatibility reasons with older
+applications.
+
 
 ## Accessing Stores
 
-It is of course important that your component can access your store state. You can access the store instance via `this.context.getStore(StoreConstructor)`. You also need to make sure that any changes to the store are received by the component so that it can re-render itself. A component that listens to a store for changes without any helpers would look similar to this:
+It is of course important that your component can access your store
+state. You also need to make sure that any changes to the store are
+received by the component so that it can re-render itself. A component
+that listens to a store for changes without any helpers would look
+similar to this:
 
 ```js
+import { FluxibleComponentContext } from 'fluxible-addons-react';
 import FooStore from '../stores/FooStore';
+
 class MyComponent extends React.Component {
-    static contextTypes = {
-        getStore: React.PropTypes.func.isRequired
-    }
     constructor(props) {
         super(props);
         this.state = this.getStoreState();
@@ -53,22 +134,27 @@ class MyComponent extends React.Component {
     }
     render () {...}
 }
+
+MyComponent.contextType = FluxibleComponentContext;
 ```
 
-To eliminate some of this boilerplate and eliminate potential developer error (for instance forgetting `componentWillUnmount`), Fluxible provides the following helpers for connecting your components to your stores:
+To eliminate some of this boilerplate and eliminate potential
+developer error (for instance forgetting `componentWillUnmount`),
+Fluxible provides the following helpers to connect your components to
+your stores:
 
  * [connectToStores](../../../../packages/fluxible-addons-react/docs/api/connectToStores.md)
 
 ## Executing Actions
 
-Executing actions from a component is as simple as requiring the action you want to execute and calling `executeAction` on the context:
+Executing actions from a component is as simple as requiring the
+action you want to execute and calling `executeAction` on the context:
 
 ```js
+import { FluxibleComponentContext } from 'fluxible-addons-react';
 import fooAction from '../actions/fooAction';
+
 class MyComponent extends React.Component {
-    static contextTypes = {
-        executeAction: React.PropTypes.func.isRequired
-    }
     onClick () {
         this.context.executeAction(fooAction, { /*payload*/ });
     },
@@ -76,15 +162,22 @@ class MyComponent extends React.Component {
         return <button onClick={this.onClick}>Click me</button>;
     }
 }
+
+MyComponent.contextType = FluxibleComponentContext;
 ```
 
 ## Testing
 
-When testing your components, you can use our `MockComponentContext` library and pass an instance to your component to record the methods that the component calls on the context.
+When testing your components, you can use our `MockComponentContext`
+library and pass an instance to your component to record the methods
+that the component calls on the context.
 
-When `executeAction` is called, it will push an object to the `executeActionCalls` array. Each object contains an `action` and `payload` key.
+When `executeAction` is called, it will push an object to the
+`executeActionCalls` array. Each object contains an `action` and
+`payload` key.
 
-`getStore` calls will be proxied to a dispatcher instance, which you can register stores to upon instantiation:
+`getStore` calls will be proxied to a dispatcher instance, which you
+can register stores to upon instantiation:
 
 ```js
 createMockComponentContext({ stores: [MockStore] });
@@ -92,7 +185,8 @@ createMockComponentContext({ stores: [MockStore] });
 
 ### Usage
 
-Here is an example component test that uses `React.TestUtils` to render the component into `jsdom` to test the store integration.
+Here is an example component test that uses `React.TestUtils` to
+render the component into `jsdom` to test the store integration.
 
 ```js
 import {createMockComponentContext} from 'fluxible/utils';
@@ -102,6 +196,7 @@ import mockery from 'mockery';
 
 // Real store, overridden with MockStore in test
 import {BaseStore} from 'fluxible/addons';
+
 class FooStore extends BaseStore {
     // ...
 }
@@ -162,17 +257,16 @@ describe('TestComponent', function () {
             connectToStores = require('fluxible-addons-react/connectToStores');
 
             // The component being tested
-            TestComponent = React.createClass({
-                contextTypes: {
-                    executeAction: React.PropTypes.func.isRequired
-                },
-                onClick: function () {
-                    this.context.executeAction(myAction, 'bar');
-                },
-                render: function () {
-                    return <button onClick={this.onClick}>{this.props.foo}</button>;
+            TestComponent = class TestComponent extends React.Component {
+                render() {
+                    return (
+                      <button onClick={() => this.context.executeAction(myAction, 'bar')}>
+                        {this.props.foo}
+                      </button>
+                    );
                 }
-            });
+            };
+            TestComponent.contextType = FluxibleComponentContext;
             // Wrap with context provider and store connector
             TestComponent = provideContext(connectToStores(TestComponent, [FooStore], function (context, props) {
                 return {
