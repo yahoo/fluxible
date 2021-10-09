@@ -84,7 +84,7 @@ describe('handleHistory', function () {
         ReactDOM = require('react-dom');
         createReactClass = require('create-react-class');
         provideContext = require('fluxible-addons-react').provideContext;
-        handleHistory = require('../../dist/cjs/handleHistory')['default'];
+        handleHistory = require('../../dist/cjs/handleHistory').default;
         MockAppComponentLib = require('../mocks/MockAppComponent');
         ReactTestUtils = require('react-dom/test-utils');
         mockContext = createMockComponentContext({

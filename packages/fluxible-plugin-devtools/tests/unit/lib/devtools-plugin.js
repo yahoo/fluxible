@@ -6,7 +6,7 @@
 'use strict';
 var expect = require('chai').expect;
 var async = require('async');
-var devToolsPlugin = require('../../../dist/lib/devtools-plugin')['default'];
+var devToolsPlugin = require('../../../dist/lib/devtools-plugin').default;
 var FluxibleApp = require('fluxible');
 
 describe('devToolsPlugin', function () {

@@ -22,7 +22,7 @@ const env = process.env.NODE_ENV;
 const debug = debugLib('<%= name %>');
 
 const server = express();
-server.use('/public', express['static'](path.join(__dirname, 'public')));
+server.use('/public', express.static(path.join(__dirname, 'public')));
 server.use(compression());
 server.use(bodyParser.json());
 

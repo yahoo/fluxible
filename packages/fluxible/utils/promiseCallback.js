@@ -20,7 +20,7 @@ function promiseCallback (promise, callbackFn, options) {
         promise.then(function (result) {
             callbackFn(null, result);
         }, callbackFn)
-        ['catch'](function (err) {
+        .catch(function (err) {
             // Ensures that thrown errors in the `callbackFn()` callback above are
             // not swallowed by promise
             setImmediate(function doNotSwallowError() {

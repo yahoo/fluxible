@@ -34,7 +34,7 @@ MockServiceManager.prototype.update = function (name) {
     this.services[name].apply(null, args);
 };
 
-MockServiceManager.prototype['delete'] = function (name) {
+MockServiceManager.prototype.delete = function (name) {
     var args = Array.prototype.slice.call(arguments);
     args.shift();
     args.unshift('del');

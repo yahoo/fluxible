@@ -42,7 +42,7 @@ const createContext = () => {
 };
 
 const wrapWithContext = (context, component) => {
-    const MockAppComponent = require('../mocks/MockAppComponent')['default'];
+    const MockAppComponent = require('../mocks/MockAppComponent').default;
     return <MockAppComponent context={context}>{component}</MockAppComponent>;
 };
 
@@ -91,7 +91,7 @@ function setup(options) {
     React = require('react');
     ReactDOM = require('react-dom');
     ReactTestUtils = require('react-dom/test-utils');
-    NavLink = require('../../dist/cjs/NavLink')['default'];
+    NavLink = require('../../dist/cjs/NavLink').default;
     createNavLinkComponent = require('../../dist/cjs/createNavLinkComponent')[
         'default'
     ];
@@ -564,7 +564,7 @@ describe('NavLink', () => {
                 ReactTestUtils.renderIntoDocument(
                     <NavLink href="/foo" followLink={false} />
                 );
-            }).to['throw']();
+            }).to.throw();
         });
 
         describe('click type', () => {
@@ -684,7 +684,7 @@ describe('NavLink NODE_ENV === development', () => {
 
     it('should throw if href and routeName undefined', () => {
         const navParams = {};
-        expect(() => renderNavLink({ navParams })).to['throw']();
+        expect(() => renderNavLink({ navParams })).to.throw();
     });
 });
 

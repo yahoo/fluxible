@@ -260,12 +260,12 @@ FluxContext.prototype.getComponentContext = function getComponentContext() {
                         'http://fluxible.io/api/components.html#component-context');
                 }
             }
-            self.executeAction(action, payload) ['catch'](function actionHandlerWrapper(err) {
+            self.executeAction(action, payload).catch(function actionHandlerWrapper(err) {
                 return self.executeAction(self._app._componentActionErrorHandler, {
                     actionName: action.displayName || action.name,
                     err: err
                 });
-            })['catch'](function unhandledError(err) {
+            }).catch(function unhandledError(err) {
                 setImmediate(function () {
                     throw err;
                 });

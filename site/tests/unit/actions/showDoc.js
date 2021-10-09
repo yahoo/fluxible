@@ -78,7 +78,7 @@ describe('site', () => {
             };
 
             context.executeAction(showDoc, params, function (err) {
-                expect(err).to.be['instanceof'](Error);
+                expect(err).to.be.instanceof(Error);
                 done();
             });
         });

@@ -18,8 +18,8 @@ const { createElementWithContext } = require('fluxible-addons-react');
 
 const server = express();
 server.set('state namespace', 'App');
-server.use('/public', express['static'](__dirname + '/build'));
-server.use('/assets', express['static'](__dirname + '/assets'));
+server.use('/public', express.static(__dirname + '/build'));
+server.use('/assets', express.static(__dirname + '/assets'));
 server.use(cookieParser());
 server.use(bodyParser.json());
 server.use(csrf({cookie: true}));

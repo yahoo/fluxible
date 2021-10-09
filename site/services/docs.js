@@ -264,7 +264,7 @@ function fetchGitBranch(pkg, cb) {
                 return console.error(err);
             }
         });
-    })['catch']();
+    }).catch();
 
     setTimeout(refreshCacheFromGithub, 6 * 60 * 60 * 1000); // refresh cache every six hours
 })();

@@ -16,7 +16,7 @@ describe('fluxible-reducer-store', () => {
     it('should receive messages', () => {
         const messageStore = context.getStore(MessageStore);
         const singleStore = context.getStore(SingleReducerStore);
-        expect(messageStore).to.be['instanceof'](MessageStore);
+        expect(messageStore).to.be.instanceof(MessageStore);
         context.dispatch('RECEIVE_MESSAGES', messages);
         const threadMessages = messageStore.getAllForThread('t_1');
         expect(singleStore.getState().count).to.equal(7);

@@ -19,7 +19,7 @@ var match = router.match;
 var RouterContext = router.RouterContext;
 
 var server = express();
-server.use('/public', express['static'](__dirname + '/build'));
+server.use('/public', express.static(__dirname + '/build'));
 
 server.use(function (req, res, next) {
     debug('Executing navigate action');

@@ -84,6 +84,6 @@ describe('createStore', function () {
                 },
                 test: function() {}
             });
-        }).to['throw'](Error);
+        }).to.throw(Error);
     });
 });

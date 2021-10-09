@@ -54,7 +54,7 @@ describe('fetchrPlugin', function () {
                 expect(actionContext.service.create).to.be.an('function');
                 expect(actionContext.service.read).to.be.an('function');
                 expect(actionContext.service.update).to.be.an('function');
-                expect(actionContext.service['delete']).to.be.an('function');
+                expect(actionContext.service.delete).to.be.an('function');
             });
             describe('create', function () {
                 it('should call the service\'s create method', function (done) {
@@ -91,7 +91,7 @@ describe('fetchrPlugin', function () {
             });
             describe('delete', function () {
                 it('should call the service\'s delete method', function (done) {
-                    actionContext.service['delete']('test', {}, function (err, result) {
+                    actionContext.service.delete('test', {}, function (err, result) {
                         expect(result).to.equal('delete');
                         expect(actionContext.getServiceMeta()).to.be.empty;
                         done();

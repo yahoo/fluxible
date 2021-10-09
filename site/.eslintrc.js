@@ -16,7 +16,6 @@ module.exports = {
     "react"
   ],
   "rules": {
-    "dot-notation": [2, {"allowKeywords": false}],
     "indent": [2, 4, {"SwitchCase": 1}],
     "no-class-assign": 0,
     "no-console": 0,
