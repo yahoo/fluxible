@@ -65,7 +65,7 @@
 }
 
 .spaceBetween:after {
-    content: "";
+    content: '';
     display: inline-block;
     width: 100%;
     vertical-align: middle;

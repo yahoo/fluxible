@@ -25,14 +25,18 @@ var defaultOptions = {
     historyCreator: function () {
         return new History();
     },
-    ignorePopstateOnPageLoad: false
+    ignorePopstateOnPageLoad: false,
 };
 
 // Begin listening for popstate so they are not missed prior to instantiation
 // this could be if the user uses back button multiple times before
 // handleHistory componentDidMount fires
 var EVENT_POPSTATE = 'popstate';
-var HAS_PUSH_STATE = !!(typeof window !== 'undefined' && window.history && window.history.pushState);
+var HAS_PUSH_STATE = !!(
+    typeof window !== 'undefined' &&
+    window.history &&
+    window.history.pushState
+);
 var lastPendingPopstateEvent = null;
 function preloadListener() {
     lastPendingPopstateEvent = arguments;
@@ -75,9 +79,11 @@ function handleHistory(Component, opts) {
     class HistoryHandler extends React.Component {
         componentDidMount() {
             // Bind the event listeners
-            this._onHistoryChange = this.constructor.prototype._onHistoryChange.bind(this);
+            this._onHistoryChange =
+                this.constructor.prototype._onHistoryChange.bind(this);
             this._onScroll = this.constructor.prototype._onScroll.bind(this);
-            this._saveScrollPosition = this.constructor.prototype._saveScrollPosition.bind(this);
+            this._saveScrollPosition =
+                this.constructor.prototype._saveScrollPosition.bind(this);
 
             this._history = options.historyCreator();
 
@@ -103,12 +109,13 @@ function handleHistory(Component, opts) {
                 //   for the route represented by the hash fragment.
 
                 var urlFromHistory = this._history.getUrl();
-                var urlFromState = this.props.currentRoute && this.props.currentRoute.url;
+                var urlFromState =
+                    this.props.currentRoute && this.props.currentRoute.url;
 
-                if ((urlFromHistory !== urlFromState)) {
+                if (urlFromHistory !== urlFromState) {
                     this.context.executeAction(navigateAction, {
                         type: TYPE_PAGELOAD,
-                        url: urlFromHistory
+                        url: urlFromHistory,
                     });
                 }
             }
@@ -133,7 +140,10 @@ function handleHistory(Component, opts) {
             if (this._scrollTimer) {
                 window.clearTimeout(this._scrollTimer);
             }
-            this._scrollTimer = window.setTimeout(this._saveScrollPosition, 150);
+            this._scrollTimer = window.setTimeout(
+                this._saveScrollPosition,
+                150
+            );
         }
 
         _onHistoryChange(e) {
@@ -148,7 +158,7 @@ function handleHistory(Component, opts) {
                 //    -- this is not a valid scenario, as we update the state before
                 //       _onHistoryChange gets invoked in componentDidMount()
                 var stateFromHistory = this._history.getState();
-                var isPageloadPopstate = (e.state === null) && !!stateFromHistory;
+                var isPageloadPopstate = e.state === null && !!stateFromHistory;
 
                 if (isPageloadPopstate) {
                     return;
@@ -165,23 +175,28 @@ function handleHistory(Component, opts) {
             if (typeof window.onbeforeunload === 'function') {
                 try {
                     onBeforeUnloadText = window.onbeforeunload();
-                } catch(error) {
-                    console.warn('Warning: Call of window.onbeforeunload failed', error);
+                } catch (error) {
+                    console.warn(
+                        'Warning: Call of window.onbeforeunload failed',
+                        error
+                    );
                 }
             }
-            var confirmResult = onBeforeUnloadText ? window.confirm(onBeforeUnloadText) : true;
+            var confirmResult = onBeforeUnloadText
+                ? window.confirm(onBeforeUnloadText)
+                : true;
 
             var navParams = nav.params || {};
             var navQuery = nav.query || {};
             var historyState = {
                 query: navQuery,
-                params: navParams
+                params: navParams,
             };
 
             if (options.saveScrollInState) {
                 historyState.scroll = {
                     x: window.scrollX || window.pageXOffset,
-                    y: window.scrollY || window.pageYOffset
+                    y: window.scrollY || window.pageYOffset,
                 };
             }
 
@@ -198,26 +213,30 @@ function handleHistory(Component, opts) {
                     this.context.executeAction(navigateAction, {
                         type: TYPE_POPSTATE,
                         url: url,
-                        params: (e.state && e.state.params),
-                        query: (e.state && e.state.query),
+                        params: e.state && e.state.params,
+                        query: e.state && e.state.query,
                     });
                 }
             }
-
         }
 
         _saveScrollPosition(e) {
-            var historyState = (this._history.getState && this._history.getState()) || {};
+            var historyState =
+                (this._history.getState && this._history.getState()) || {};
             var scrollX = window.scrollX || window.pageXOffset;
             var scrollY = window.scrollY || window.pageYOffset;
             // reduce unused replaceState
             // also prevent IOS Safari reset scroll position to 0 with universal link bar showing
-            if (historyState.scroll && historyState.scroll.x === scrollX && historyState.scroll.y === scrollY) {
+            if (
+                historyState.scroll &&
+                historyState.scroll.x === scrollX &&
+                historyState.scroll.y === scrollY
+            ) {
                 return;
             }
             historyState.scroll = {
                 x: scrollX,
-                y: scrollY
+                y: scrollY,
             };
             this._history.replaceState(historyState);
         }
@@ -244,12 +263,12 @@ function handleHistory(Component, opts) {
                     if (nav.url === this._history.getUrl()) {
                         return;
                     }
-                    historyState = {params: navParams, query: navQuery};
+                    historyState = { params: navParams, query: navQuery };
                     if (nav.preserveScrollPosition) {
                         if (options.saveScrollInState) {
                             historyState.scroll = {
                                 x: window.scrollX || window.pageXOffset,
-                                y: window.scrollY || window.pageYOffset
+                                y: window.scrollY || window.pageYOffset,
                             };
                         }
                     } else {
@@ -257,20 +276,32 @@ function handleHistory(Component, opts) {
                             window.scrollTo(0, 0);
                         }
                         if (options.saveScrollInState) {
-                            historyState.scroll = {x: 0, y: 0};
+                            historyState.scroll = { x: 0, y: 0 };
                         }
                     }
                     var pageTitle = navParams.pageTitle || null;
                     if (navType === TYPE_REPLACESTATE) {
-                        this._history.replaceState(historyState, pageTitle, nav.url);
+                        this._history.replaceState(
+                            historyState,
+                            pageTitle,
+                            nav.url
+                        );
                     } else {
-                        this._history.pushState(historyState, pageTitle, nav.url);
+                        this._history.pushState(
+                            historyState,
+                            pageTitle,
+                            nav.url
+                        );
                     }
                     break;
                 case TYPE_POPSTATE:
                     if (options.enableScroll) {
-                        historyState = (this._history.getState && this._history.getState()) || {};
-                        var scroll = (historyState && historyState.scroll) || {};
+                        historyState =
+                            (this._history.getState &&
+                                this._history.getState()) ||
+                            {};
+                        var scroll =
+                            (historyState && historyState.scroll) || {};
                         window.scrollTo(scroll.x || 0, scroll.y || 0);
                     }
                     break;
@@ -288,17 +319,18 @@ function handleHistory(Component, opts) {
 
     HistoryHandler.defaultProps = {
         currentRoute: null,
-        currentNavigate: null
+        currentNavigate: null,
     };
 
     HistoryHandler.propTypes = {
         currentRoute: PropTypes.object,
-        currentNavigate: PropTypes.object
+        currentNavigate: PropTypes.object,
     };
 
     hoistNonReactStatics(HistoryHandler, Component);
 
-    HistoryHandler.wrappedComponent = HistoryHandler.WrappedComponent = Component;
+    HistoryHandler.wrappedComponent = HistoryHandler.WrappedComponent =
+        Component;
 
     return handleRoute(HistoryHandler);
 }

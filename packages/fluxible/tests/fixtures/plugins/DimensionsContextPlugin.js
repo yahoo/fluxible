@@ -25,12 +25,12 @@ module.exports = function (dims) {
         },
         dehydrate: function () {
             return {
-                dimensions: dimensions
+                dimensions: dimensions,
             };
         },
         rehydrate: function (state, done) {
             dimensions = state.dimensions;
             setImmediate(done);
-        }
-    }
+        },
+    };
 };

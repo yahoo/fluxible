@@ -17,26 +17,35 @@ module.exports = yeoman.generators.Base.extend({
     prompting: function () {
         var done = this.async();
 
-        this.log(yosay(
-            'Welcome to the riveting ' + chalk.red('Fluxible') + ' generator!'
-        ));
+        this.log(
+            yosay(
+                'Welcome to the riveting ' +
+                    chalk.red('Fluxible') +
+                    ' generator!'
+            )
+        );
 
-        var prompts = [{
-            type: 'input',
-            name: 'name',
-            default: this.appname,
-            message: 'Project name:',
-            validate: function(input) {
-                return !!input;
-            }
-        }];
+        var prompts = [
+            {
+                type: 'input',
+                name: 'name',
+                default: this.appname,
+                message: 'Project name:',
+                validate: function (input) {
+                    return !!input;
+                },
+            },
+        ];
 
-        this.prompt(prompts, function (props) {
-            this.displayName = props.name;
-            this.name = str.slugify(props.name);
-            this.buildSystem = str.slugify(props.buildSystem);
-            done();
-        }.bind(this));
+        this.prompt(
+            prompts,
+            function (props) {
+                this.displayName = props.name;
+                this.name = str.slugify(props.name);
+                this.buildSystem = str.slugify(props.buildSystem);
+                done();
+            }.bind(this)
+        );
     },
 
     writing: {
@@ -51,19 +60,23 @@ module.exports = yeoman.generators.Base.extend({
             this.template('app.js', 'app.js', this.context);
             this.template('client.js', 'client.js', this.context);
             this.template('server.js', 'server.js', this.context);
-            this.template('webpack.config.js', 'webpack.config.js', this.context);
+            this.template(
+                'webpack.config.js',
+                'webpack.config.js',
+                this.context
+            );
             this.directory('actions', 'actions', this.context);
             this.directory('components', 'components', this.context);
             this.directory('configs', 'configs', this.context);
             this.directory('stores', 'stores', this.context);
-        }
+        },
     },
 
     install: function () {
         this.installDependencies({
             npm: true,
             bower: false,
-            skipInstall: this.options['skip-install']
+            skipInstall: this.options['skip-install'],
         });
-    }
+    },
 });

@@ -24,13 +24,13 @@ export default function queryPlugin() {
                 },
                 dehydrate: function () {
                     return {
-                        query: query
+                        query: query,
                     };
                 },
                 rehydrate: function (state) {
                     query = state.query;
-                }
+                },
             };
-        }
+        },
     };
 }

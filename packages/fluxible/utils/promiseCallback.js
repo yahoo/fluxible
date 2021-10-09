@@ -11,31 +11,35 @@ require('setimmediate');
  * @param {Boolean} options.optimize Whether to optimize
  * @return {void}
  */
-function promiseCallback (promise, callbackFn, options) {
+function promiseCallback(promise, callbackFn, options) {
     if (!promise || typeof callbackFn !== 'function') {
         return;
     }
 
     if (options && options.optimize) {
-        promise.then(function (result) {
-            callbackFn(null, result);
-        }, callbackFn)
-        ['catch'](function (err) {
-            // Ensures that thrown errors in the `callbackFn()` callback above are
-            // not swallowed by promise
-            setImmediate(function doNotSwallowError() {
-                throw err;
+        promise
+            .then(function (result) {
+                callbackFn(null, result);
+            }, callbackFn)
+            .catch(function (err) {
+                // Ensures that thrown errors in the `callbackFn()` callback above are
+                // not swallowed by promise
+                setImmediate(function doNotSwallowError() {
+                    throw err;
+                });
             });
-        });
     } else {
-        promise.then(function(result) {
-            // Ensures that errors in callback are not swallowed by promise
-            setImmediate(callbackFn, null, result);
-        }, function (err) {
-            // Ensures that errors in callback are not swallowed by promise
-            setImmediate(callbackFn, err);
-        });
+        promise.then(
+            function (result) {
+                // Ensures that errors in callback are not swallowed by promise
+                setImmediate(callbackFn, null, result);
+            },
+            function (err) {
+                // Ensures that errors in callback are not swallowed by promise
+                setImmediate(callbackFn, err);
+            }
+        );
     }
-};
+}
 
 module.exports = promiseCallback;

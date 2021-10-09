@@ -4,5 +4,5 @@ module.exports = {
     recursive: true,
     reporter: 'spec',
     require: path.join(__dirname, './testSetup'),
-    timeout: 10000
+    timeout: 10000,
 };

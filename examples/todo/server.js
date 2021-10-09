@@ -15,15 +15,13 @@ const showTodos = require('./actions/showTodos');
 const HtmlComponent = React.createFactory(require('./components/Html'));
 const { createElementWithContext } = require('fluxible-addons-react');
 
-
 const server = express();
 server.set('state namespace', 'App');
-server.use('/public', express['static'](__dirname + '/build'));
-server.use('/assets', express['static'](__dirname + '/assets'));
+server.use('/public', express.static(__dirname + '/build'));
+server.use('/assets', express.static(__dirname + '/assets'));
 server.use(cookieParser());
 server.use(bodyParser.json());
-server.use(csrf({cookie: true}));
-
+server.use(csrf({ cookie: true }));
 
 // Get access to the fetchr plugin instance
 const fetchrPlugin = app.getPlugin('FetchrPlugin');
@@ -39,16 +37,15 @@ server.use(function (req, res, next) {
     const context = app.createContext({
         req: req, // The fetchr plugin depends on this
         xhrContext: {
-            _csrf: req.csrfToken() // Make sure all XHR requests have the CSRF token
-        }
+            _csrf: req.csrfToken(), // Make sure all XHR requests have the CSRF token
+        },
     });
 
     context.executeAction(showTodos, {}, function (err) {
         if (err) {
             if (err.statusCode && err.statusCode === 404) {
                 return next();
-            }
-            else {
+            } else {
                 return next(err);
             }
         }
@@ -56,11 +53,15 @@ server.use(function (req, res, next) {
         const exposed = 'window.App=' + serialize(app.dehydrate(context)) + ';';
 
         const componentContext = context.getComponentContext();
-        const html = ReactDOM.renderToStaticMarkup(HtmlComponent({
-            state: exposed,
-            markup: ReactDOM.renderToString(createElementWithContext(context)),
-            context: componentContext
-        }));
+        const html = ReactDOM.renderToStaticMarkup(
+            HtmlComponent({
+                state: exposed,
+                markup: ReactDOM.renderToString(
+                    createElementWithContext(context)
+                ),
+                context: componentContext,
+            })
+        );
 
         res.send(html);
     });

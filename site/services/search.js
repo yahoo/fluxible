@@ -6,7 +6,7 @@
 import debugLib from 'debug';
 import fs from 'fs';
 import getSearchIndexPath from '../utils/getSearchIndexPath';
-import {getDocuments, getLunrIndex} from './docs';
+import { getDocuments, getLunrIndex } from './docs';
 const debug = debugLib('SearchService');
 
 export default {
@@ -17,10 +17,10 @@ export default {
             debug('Index loaded');
             return callback(null, {
                 docs: getDocuments(),
-                index: getLunrIndex().toJSON()
+                index: getLunrIndex().toJSON(),
             });
         } catch (e) {
             callback(e);
         }
-    }
+    },
 };

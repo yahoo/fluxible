@@ -5,15 +5,14 @@
 
 import DocStore from '../stores/DocStore';
 
-function showDoc (context, route, done) {
-
+function showDoc(context, route, done) {
     if (!route.githubPath) {
         let err404 = new Error('Document not found');
         err404.statusCode = 404;
         return done(err404);
     }
 
-    let pageTitle = route.pageTitle || (route.pageTitlePrefix + ' | Fluxible');
+    let pageTitle = route.pageTitle || route.pageTitlePrefix + ' | Fluxible';
 
     // Load from cache
     let docFromCache = context.getStore(DocStore).get(route.name);
@@ -22,7 +21,7 @@ function showDoc (context, route, done) {
     if (docFromCache) {
         context.dispatch('RECEIVE_DOC_SUCCESS', docFromCache);
         context.dispatch('UPDATE_PAGE_TITLE', {
-            pageTitle: pageTitle
+            pageTitle: pageTitle,
         });
         return done();
     }
@@ -43,7 +42,7 @@ function showDoc (context, route, done) {
 
         context.dispatch('RECEIVE_DOC_SUCCESS', data);
         context.dispatch('UPDATE_PAGE_TITLE', {
-            pageTitle: pageTitle
+            pageTitle: pageTitle,
         });
         done();
     });

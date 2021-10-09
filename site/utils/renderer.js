@@ -10,11 +10,20 @@ renderer.heading = function (text, level) {
     let escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
 
     return (
-        '<h' + level + '>' +
-        '<a name="' + escapedText + '" class="anchor"></a>' +
-        text + ' ' +
-        '<a href="#' + escapedText + '" class="hash-link">#</a>' +
-        '</h' + level + '>'
+        '<h' +
+        level +
+        '>' +
+        '<a name="' +
+        escapedText +
+        '" class="anchor"></a>' +
+        text +
+        ' ' +
+        '<a href="#' +
+        escapedText +
+        '" class="hash-link">#</a>' +
+        '</h' +
+        level +
+        '>'
     );
 };
 

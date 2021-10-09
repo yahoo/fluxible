@@ -13,17 +13,21 @@ require('setimmediate');
  * If done callback supplied, that indicates non-Promise invocation expectation,
  * otherwise, Promise invocation.
  */
-function callAction (actionContext, action, payload, done) {
+function callAction(actionContext, action, payload, done) {
     var executeActionPromise = new Promise(function (resolve, reject) {
         setImmediate(function () {
             try {
-                var syncResult = action(actionContext, payload, function (err, result) {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(result);
+                var syncResult = action(
+                    actionContext,
+                    payload,
+                    function (err, result) {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve(result);
+                        }
                     }
-                });
+                );
                 if (isPromise(syncResult)) {
                     syncResult.then(resolve, reject);
                 } else if (action.length < 3) {
@@ -36,7 +40,9 @@ function callAction (actionContext, action, payload, done) {
     });
 
     if (done) {
-        promiseCallback(executeActionPromise, done, {optimize: actionContext.optimizePromiseCallback});
+        promiseCallback(executeActionPromise, done, {
+            optimize: actionContext.optimizePromiseCallback,
+        });
     }
 
     return executeActionPromise;

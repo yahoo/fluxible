@@ -26,7 +26,10 @@ export default function devToolsPlugin() {
          * @returns {Object}
          */
         plugContext: function plugContext(contextOptions, context) {
-            let enableDebug = typeof contextOptions.debug !== 'undefined' ? contextOptions.debug : false;
+            let enableDebug =
+                typeof contextOptions.debug !== 'undefined'
+                    ? contextOptions.debug
+                    : false;
             let actionHistory = [];
             /**
              * extends the input object with a `devtools` namespace which has
@@ -35,20 +38,20 @@ export default function devToolsPlugin() {
              * @param {Object} obj arbitrary input object
              * @return {void}
              */
-            function provideDevTools (obj) {
+            function provideDevTools(obj) {
                 obj.devtools = {
                     /**
-                    * Action history is preserved in a tree structure which maintains parent->child relationships.
-                    * Top level actions are actions that kick off the app (i.e. navigateAction) or actions executed by components.
-                    * All other actions will be under the `actionCalls` property of other actions.
-                    * This action history tree allows us to trace and even visualize actions for debugging.
-                    * @method getActionHistory
-                    * @return {Object} Array of top level actions.
-                    */
-                    getActionHistory: function getActionHistory () {
+                     * Action history is preserved in a tree structure which maintains parent->child relationships.
+                     * Top level actions are actions that kick off the app (i.e. navigateAction) or actions executed by components.
+                     * All other actions will be under the `actionCalls` property of other actions.
+                     * This action history tree allows us to trace and even visualize actions for debugging.
+                     * @method getActionHistory
+                     * @return {Object} Array of top level actions.
+                     */
+                    getActionHistory: function getActionHistory() {
                         return actionHistory;
-                    }
-                }
+                    },
+                };
             }
             provideDevTools(context);
             /**
@@ -65,35 +68,50 @@ export default function devToolsPlugin() {
                  * Override the _createSubActionContext method so we can track "parent" actions
                  * for each executed action. We can later use this to graph our the dependencies.
                  */
-                const createSubActionContext = context._createSubActionContext.bind(context);
-                context._createSubActionContext = function createDevSubActionContext(parentActionContext, action) {
-                    let subActionContext = createSubActionContext(parentActionContext, action);
-                    let actionReference = {
-                        rootId: subActionContext.rootId,
-                        name: subActionContext.displayName,
-                        type: ACTION
+                const createSubActionContext =
+                    context._createSubActionContext.bind(context);
+                context._createSubActionContext =
+                    function createDevSubActionContext(
+                        parentActionContext,
+                        action
+                    ) {
+                        let subActionContext = createSubActionContext(
+                            parentActionContext,
+                            action
+                        );
+                        let actionReference = {
+                            rootId: subActionContext.rootId,
+                            name: subActionContext.displayName,
+                            type: ACTION,
+                        };
+                        if (!parentActionContext.__actionReference) {
+                            // new top level action
+                            actionReference.context =
+                                typeof window === 'undefined'
+                                    ? 'server'
+                                    : 'client';
+                            actionHistory.push(actionReference);
+                        } else {
+                            // append child action
+                            const parentActionReference =
+                                parentActionContext.__actionReference;
+                            parentActionReference.actionCalls =
+                                parentActionReference.actionCalls || [];
+                            parentActionReference.actionCalls.push(
+                                actionReference
+                            );
+                            // TODO: perhaps also push to an parentActionReference.actions reference array.
+                            // This way we can still correctly detect leaf nodes. Actually are leaf nodes even useful?
+                            // If not, just color code the bars based on action vs dispatch calls.
+                            // Later, service calls.
+                            // Even later, arbitrary custom children.
+                            // No paths for dispatches? Or just show/hide dispatches
+                        }
+                        // for extablishing parent->child relationships
+                        // and updating start/end times of the actionReference
+                        subActionContext.__actionReference = actionReference;
+                        return subActionContext;
                     };
-                    if (!parentActionContext.__actionReference) {
-                        // new top level action
-                        actionReference.context = (typeof window === 'undefined') ? 'server' : 'client';
-                        actionHistory.push(actionReference);
-                    } else {
-                        // append child action
-                        const parentActionReference = parentActionContext.__actionReference;
-                        parentActionReference.actionCalls = parentActionReference.actionCalls || [];
-                        parentActionReference.actionCalls.push(actionReference);
-                        // TODO: perhaps also push to an parentActionReference.actions reference array.
-                        // This way we can still correctly detect leaf nodes. Actually are leaf nodes even useful?
-                        // If not, just color code the bars based on action vs dispatch calls.
-                        // Later, service calls.
-                        // Even later, arbitrary custom children.
-                        // No paths for dispatches? Or just show/hide dispatches
-                    }
-                    // for extablishing parent->child relationships
-                    // and updating start/end times of the actionReference
-                    subActionContext.__actionReference = actionReference;
-                    return subActionContext;
-                }
             }
             overrideCtx();
 
@@ -126,9 +144,10 @@ export default function devToolsPlugin() {
                             const dispatchRef = {
                                 name: actionName,
                                 payload: JSON.stringify(payload),
-                                type: DISPATCH
+                                type: DISPATCH,
                             };
-                            actionReference.dispatchCalls = actionReference.dispatchCalls || [];
+                            actionReference.dispatchCalls =
+                                actionReference.dispatchCalls || [];
                             actionReference.dispatchCalls.push(dispatchRef);
                             const startTime = Date.now();
                             dispatchRef.startTime = startTime;
@@ -156,9 +175,12 @@ export default function devToolsPlugin() {
 
                     return {
                         actionContext: actionContext,
-                        action: (action.length < 3) ? timedActionNoCallback : timedAction,
+                        action:
+                            action.length < 3
+                                ? timedActionNoCallback
+                                : timedAction,
                         payload: options.payload,
-                        done: timedCallback
+                        done: timedCallback,
                     };
                 },
                 /**
@@ -166,7 +188,9 @@ export default function devToolsPlugin() {
                  * @method @plugComponentContext
                  * @param componentContext
                  */
-                plugComponentContext: function plugComponentContext (componentContext) {
+                plugComponentContext: function plugComponentContext(
+                    componentContext
+                ) {
                     provideDevTools(componentContext);
                 },
                 /**
@@ -177,7 +201,7 @@ export default function devToolsPlugin() {
                 dehydrate: function dehydrate() {
                     return {
                         actionHistory: actionHistory,
-                        enableDebug: enableDebug
+                        enableDebug: enableDebug,
                     };
                 },
                 /**
@@ -189,8 +213,8 @@ export default function devToolsPlugin() {
                     actionHistory = state.actionHistory;
                     enableDebug = state.enableDebug;
                     overrideCtx();
-                }
+                },
             };
-        }
+        },
     };
 }

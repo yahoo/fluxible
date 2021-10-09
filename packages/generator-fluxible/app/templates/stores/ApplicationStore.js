@@ -19,7 +19,7 @@ class ApplicationStore extends BaseStore {
     }
     dehydrate() {
         return {
-            pageTitle: this.pageTitle
+            pageTitle: this.pageTitle,
         };
     }
     rehydrate(state) {
@@ -29,7 +29,7 @@ class ApplicationStore extends BaseStore {
 
 ApplicationStore.storeName = 'ApplicationStore';
 ApplicationStore.handlers = {
-    'NAVIGATE_SUCCESS': 'handlePageTitle'
+    NAVIGATE_SUCCESS: 'handlePageTitle',
 };
 
 export default ApplicationStore;

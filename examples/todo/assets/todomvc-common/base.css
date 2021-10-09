@@ -34,8 +34,8 @@ body {
 }
 
 button,
-input[type="checkbox"] {
-  outline: none;
+input[type='checkbox'] {
+    outline: none;
 }
 
 #todoapp {
@@ -47,7 +47,7 @@ input[type="checkbox"] {
     border-top-left-radius: 2px;
     border-top-right-radius: 2px;
     box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2),
-                0 25px 50px 0 rgba(0, 0, 0, 0.15);
+        0 25px 50px 0 rgba(0, 0, 0, 0.15);
 }
 
 #todoapp:before {
@@ -102,9 +102,23 @@ input[type="checkbox"] {
     z-index: 2;
     border-bottom: 1px solid #6c615c;
     background: #8d7d77;
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba(132, 110, 100, 0.8)),to(rgba(101, 84, 76, 0.8)));
-    background: -webkit-linear-gradient(top, rgba(132, 110, 100, 0.8), rgba(101, 84, 76, 0.8));
-    background: linear-gradient(top, rgba(132, 110, 100, 0.8), rgba(101, 84, 76, 0.8));
+    background: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        from(rgba(132, 110, 100, 0.8)),
+        to(rgba(101, 84, 76, 0.8))
+    );
+    background: -webkit-linear-gradient(
+        top,
+        rgba(132, 110, 100, 0.8),
+        rgba(101, 84, 76, 0.8)
+    );
+    background: linear-gradient(
+        top,
+        rgba(132, 110, 100, 0.8),
+        rgba(101, 84, 76, 0.8)
+    );
     filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#9d8b83', EndColorStr='#847670');
     border-top-left-radius: 1px;
     border-top-right-radius: 1px;
@@ -271,8 +285,7 @@ label[for='toggle-all'] {
 }
 
 #todo-list li .destroy:hover {
-    text-shadow: 0 0 1px #000,
-                 0 0 10px rgba(199, 107, 107, 0.8);
+    text-shadow: 0 0 1px #000, 0 0 10px rgba(199, 107, 107, 0.8);
     -webkit-transform: scale(1.3);
     transform: scale(1.3);
 }
@@ -314,10 +327,9 @@ label[for='toggle-all'] {
     height: 50px;
     z-index: -1;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3),
-                0 6px 0 -3px rgba(255, 255, 255, 0.8),
-                0 7px 1px -3px rgba(0, 0, 0, 0.3),
-                0 43px 0 -6px rgba(255, 255, 255, 0.8),
-                0 44px 2px -6px rgba(0, 0, 0, 0.2);
+        0 6px 0 -3px rgba(255, 255, 255, 0.8), 0 7px 1px -3px rgba(0, 0, 0, 0.3),
+        0 43px 0 -6px rgba(255, 255, 255, 0.8),
+        0 44px 2px -6px rgba(0, 0, 0, 0.2);
 }
 
 #todo-count {
@@ -382,7 +394,7 @@ label[for='toggle-all'] {
     Can't use it globally since it destroys checkboxes in Firefox and Opera
 */
 
-@media screen and (-webkit-min-device-pixel-ratio:0) {
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
     #toggle-all,
     #todo-list li .toggle {
         background: none;
@@ -411,8 +423,8 @@ label[for='toggle-all'] {
 hr {
     margin: 20px 0;
     border: 0;
-    border-top: 1px dashed #C5C5C5;
-    border-bottom: 1px dashed #F7F7F7;
+    border-top: 1px dashed #c5c5c5;
+    border-bottom: 1px dashed #f7f7f7;
 }
 
 .learn a {
@@ -477,7 +489,7 @@ hr {
 .quote p:before {
     content: '“';
     font-size: 50px;
-    opacity: .15;
+    opacity: 0.15;
     position: absolute;
     top: -20px;
     left: 3px;
@@ -486,7 +498,7 @@ hr {
 .quote p:after {
     content: '”';
     font-size: 50px;
-    opacity: .15;
+    opacity: 0.15;
     position: absolute;
     bottom: -42px;
     right: 3px;
@@ -510,7 +522,7 @@ hr {
 .speech-bubble {
     position: relative;
     padding: 10px;
-    background: rgba(0, 0, 0, .04);
+    background: rgba(0, 0, 0, 0.04);
     border-radius: 5px;
 }
 
@@ -520,7 +532,7 @@ hr {
     top: 100%;
     right: 30px;
     border: 13px solid transparent;
-    border-top-color: rgba(0, 0, 0, .04);
+    border-top-color: rgba(0, 0, 0, 0.04);
 }
 
 .learn-bar > .learn {
@@ -530,7 +542,7 @@ hr {
     left: -300px;
     padding: 10px;
     border-radius: 5px;
-    background-color: rgba(255, 255, 255, .6);
+    background-color: rgba(255, 255, 255, 0.6);
     -webkit-transition-property: left;
     transition-property: left;
     -webkit-transition-duration: 500ms;

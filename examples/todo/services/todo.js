@@ -4,12 +4,10 @@
  */
 'use strict';
 
-
 var _todos = [];
 var randomResponseTime = function (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 };
-
 
 module.exports = {
     name: 'todo',
@@ -21,7 +19,7 @@ module.exports = {
     create: function (req, resource, params, body, config, callback) {
         var newTodo = {
             id: params.id,
-            text: params.text
+            text: params.text,
         };
 
         if (params.text.indexOf('fail') > -1) {
@@ -30,8 +28,7 @@ module.exports = {
                 callback(err);
             }, randomResponseTime(800, 1000));
             return;
-        }
-        else {
+        } else {
             _todos.push(newTodo);
 
             setTimeout(function () {
@@ -48,8 +45,7 @@ module.exports = {
             setTimeout(function () {
                 callback(null, _todos);
             }, randomResponseTime(100, 1000));
-        }
-        else {
+        } else {
             var foundTodo;
 
             _todos.forEach(function (todo, index) {
@@ -66,7 +62,7 @@ module.exports = {
             }, randomResponseTime(100, 1000));
         }
     },
-    delete: function(req, resource, params, config, callback) {
+    delete: function (req, resource, params, config, callback) {
         _todos = _todos.filter(function (todo, index) {
             return params.ids.indexOf(todo.id) === -1;
         });
@@ -74,5 +70,5 @@ module.exports = {
         setTimeout(function () {
             callback(null, _todos);
         }, randomResponseTime(100, 1000));
-    }
+    },
 };

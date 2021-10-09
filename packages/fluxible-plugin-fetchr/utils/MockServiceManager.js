@@ -1,4 +1,4 @@
-function MockServiceManager () {
+function MockServiceManager() {
     this.services = {};
     this.serviceCalls = [];
 }
@@ -13,7 +13,9 @@ MockServiceManager.prototype.read = function (name) {
     args.unshift('read');
     this.serviceCalls.push(args.concat(name));
     if (!this.services[name]) {
-        throw new Error('Fetcher ' + name + ' has not been registered to mock fetcher');
+        throw new Error(
+            'Fetcher ' + name + ' has not been registered to mock fetcher'
+        );
     }
     this.services[name].apply(null, args);
 };
@@ -34,7 +36,7 @@ MockServiceManager.prototype.update = function (name) {
     this.services[name].apply(null, args);
 };
 
-MockServiceManager.prototype['delete'] = function (name) {
+MockServiceManager.prototype.delete = function (name) {
     var args = Array.prototype.slice.call(arguments);
     args.shift();
     args.unshift('del');

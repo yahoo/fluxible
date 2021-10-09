@@ -19,8 +19,8 @@ describe('site', () => {
         it('should execute the action', function (done) {
             const route = {
                 query: {
-                    q: 'foo'
-                }
+                    q: 'foo',
+                },
             };
 
             showSearch(context, route, function () {
@@ -32,4 +32,3 @@ describe('site', () => {
         });
     });
 });
-

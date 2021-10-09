@@ -4,124 +4,124 @@ export default [
         children: [
             {
                 label: 'Quick Start',
-                routeName: 'quickStart'
+                routeName: 'quickStart',
             },
             {
                 label: 'FAQ',
-                routeName: 'faq'
-            }
-        ]
+                routeName: 'faq',
+            },
+        ],
     },
     {
         category: 'API',
         children: [
             {
                 label: 'Actions',
-                routeName: 'actions'
+                routeName: 'actions',
             },
             {
                 label: 'Components',
-                routeName: 'components'
+                routeName: 'components',
             },
             {
                 label: 'Fluxible',
-                routeName: 'fluxible'
+                routeName: 'fluxible',
             },
             {
                 label: 'FluxibleContext',
-                routeName: 'fluxibleContext'
+                routeName: 'fluxibleContext',
             },
             {
                 label: 'Plugins',
-                routeName: 'plugins'
+                routeName: 'plugins',
             },
             {
                 label: 'Stores',
-                routeName: 'stores'
-            }
-        ]
+                routeName: 'stores',
+            },
+        ],
     },
     {
         category: 'Addons',
         children: [
             {
                 label: 'BaseStore',
-                routeName: 'baseStore'
+                routeName: 'baseStore',
             },
             {
                 label: 'FluxibleComponent',
-                routeName: 'fluxibleComponent'
+                routeName: 'fluxibleComponent',
             },
             {
                 label: 'batchedUpdatePlugin',
-                routeName: 'batchedUpdatePlugin'
+                routeName: 'batchedUpdatePlugin',
             },
             {
                 label: 'connectToStores',
-                routeName: 'connectToStores'
+                routeName: 'connectToStores',
             },
             {
                 label: 'createElementWithContext',
-                routeName: 'createElementWithContext'
+                routeName: 'createElementWithContext',
             },
             {
                 label: 'createStore',
-                routeName: 'createStore'
+                routeName: 'createStore',
             },
             {
                 label: 'createReducerStore',
-                routeName: 'createReducerStore'
+                routeName: 'createReducerStore',
             },
             {
                 label: 'devToolsPlugin',
-                routeName: 'devToolsPlugin'
+                routeName: 'devToolsPlugin',
             },
             {
                 label: 'provideContext',
-                routeName: 'provideContext'
+                routeName: 'provideContext',
             },
             {
                 label: 'useFluxible',
-                routeName: 'useFluxible'
+                routeName: 'useFluxible',
             },
             {
                 label: 'withFluxible',
-                routeName: 'withFluxible'
-            }
-        ]
+                routeName: 'withFluxible',
+            },
+        ],
     },
     {
         category: 'Extensions',
         children: [
             {
                 label: 'Data Services',
-                routeName: 'dataServices'
+                routeName: 'dataServices',
             },
             {
                 label: 'Routing',
-                routeName: 'routing'
-            }
-        ]
+                routeName: 'routing',
+            },
+        ],
     },
     {
         category: 'Community',
         children: [
             {
                 label: 'Articles',
-                routeName: 'articles'
+                routeName: 'articles',
             },
             {
                 label: 'Libraries',
-                routeName: 'libraries'
+                routeName: 'libraries',
             },
             {
                 label: 'Presentations',
-                routeName: 'presentations'
+                routeName: 'presentations',
             },
             {
                 label: 'Reference Applications',
-                routeName: 'referenceApplications'
-            }
-        ]
-    }
+                routeName: 'referenceApplications',
+            },
+        ],
+    },
 ];

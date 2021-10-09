@@ -25,11 +25,11 @@ module.exports = function (dims) {
         },
         dehydrate: function () {
             return {
-                dimensions: dimensions
+                dimensions: dimensions,
             };
         },
         rehydrate: function (state) {
             dimensions = state.dimensions;
-        }
-    }
+        },
+    };
 };

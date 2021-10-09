@@ -13,15 +13,33 @@ class Html extends React.Component {
                 <head>
                     <meta charSet="utf-8" />
                     <title>{this.props.currentTitle}</title>
-                    <meta name="viewport" content="width=device-width, initial-scale=1" />
-                    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" />
-                    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Nobile" />
-                    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat" />
+                    <meta
+                        name="viewport"
+                        content="width=device-width, initial-scale=1"
+                    />
+                    <link
+                        rel="stylesheet"
+                        href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css"
+                    />
+                    <link
+                        rel="stylesheet"
+                        href="//fonts.googleapis.com/css?family=Nobile"
+                    />
+                    <link
+                        rel="stylesheet"
+                        href="//fonts.googleapis.com/css?family=Montserrat"
+                    />
                     <link rel="stylesheet" href="/public/css/bundle.css" />
                 </head>
                 <body className="Mih(100%)">
-                    <div id="docsapp" className="H(100%)" dangerouslySetInnerHTML={{__html: this.props.markup}}></div>
-                    <script dangerouslySetInnerHTML={{__html: this.props.state}}></script>
+                    <div
+                        id="docsapp"
+                        className="H(100%)"
+                        dangerouslySetInnerHTML={{ __html: this.props.markup }}
+                    ></div>
+                    <script
+                        dangerouslySetInnerHTML={{ __html: this.props.state }}
+                    ></script>
                     <script src={this.props.assets.common}></script>
                     <script src={this.props.assets.main}></script>
                 </body>
@@ -33,7 +51,7 @@ class Html extends React.Component {
 Html = provideContext(
     connectToStores(Html, ['DocStore'], (context) => ({
         currentTitle: context.getStore('DocStore').getCurrentTitle() || '',
-        currentDoc: context.getStore('DocStore').getCurrent() || {}
+        currentDoc: context.getStore('DocStore').getCurrent() || {},
     }))
 );
 

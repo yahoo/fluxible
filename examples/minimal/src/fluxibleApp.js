@@ -1,6 +1,6 @@
-import Fluxible from "fluxible";
-import App from "./App";
-import AppStore from "./AppStore";
+import Fluxible from 'fluxible';
+import App from './App';
+import AppStore from './AppStore';
 
 const fluxibleApp = new Fluxible({ component: App });
 

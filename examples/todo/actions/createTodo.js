@@ -5,12 +5,11 @@
 'use strict';
 var TodoStore = require('../stores/TodoStore');
 
-
 module.exports = function (context, payload, done) {
     var todoStore = context.getStore(TodoStore);
     var newTodo = todoStore.createTodo({
         timestamp: Date.now(),
-        text: payload.text
+        text: payload.text,
     });
 
     context.dispatch('CREATE_TODO_START', newTodo);

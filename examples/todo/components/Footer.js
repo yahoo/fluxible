@@ -5,7 +5,7 @@
 'use strict';
 var React = require('react');
 
-function Component (props) {
+function Component(props) {
     var nowShowing = props.nowShowing;
     var onFilterChange = props.onFilterChange;
     var activeTodoLabel = 'item' + (props.count > 1 ? 's' : '');
@@ -13,10 +13,7 @@ function Component (props) {
 
     if (props.completedCount > 0) {
         clearButton = (
-            <button
-                id="clear-completed"
-                onClick={props.onClearCompleted}>
-
+            <button id="clear-completed" onClick={props.onClearCompleted}>
                 Clear completed ({props.completedCount})
             </button>
         );
@@ -32,28 +29,30 @@ function Component (props) {
                     <a
                         href="#"
                         onClick={onFilterChange.bind(null, 'ALL_TODOS')}
-                        className={nowShowing === 'ALL_TODOS' ? 'selected' : ''}>
-
+                        className={nowShowing === 'ALL_TODOS' ? 'selected' : ''}
+                    >
                         All
                     </a>
-                </li>
-                {' '}
+                </li>{' '}
                 <li>
                     <a
                         href="#"
                         onClick={onFilterChange.bind(null, 'ACTIVE_TODOS')}
-                        className={nowShowing === 'ACTIVE_TODOS' ? 'selected' : ''}>
-
+                        className={
+                            nowShowing === 'ACTIVE_TODOS' ? 'selected' : ''
+                        }
+                    >
                         Active
                     </a>
-                </li>
-                {' '}
+                </li>{' '}
                 <li>
                     <a
                         href="#"
                         onClick={onFilterChange.bind(null, 'COMPLETED_TODOS')}
-                        className={nowShowing === 'COMPLETED_TODOS' ? 'selected' : ''}>
-
+                        className={
+                            nowShowing === 'COMPLETED_TODOS' ? 'selected' : ''
+                        }
+                    >
                         Completed
                     </a>
                 </li>
@@ -61,7 +60,6 @@ function Component (props) {
             {clearButton}
         </footer>
     );
-};
-
+}
 
 module.exports = Component;

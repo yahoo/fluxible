@@ -27,9 +27,11 @@ const server = express();
 try {
     server.use(require('mod_status')());
     server.use(require('mod_akamai')());
-    server.use(require('mod_log')({
-        keep_days: 6
-    }));
+    server.use(
+        require('mod_log')({
+            keep_days: 6,
+        })
+    );
 } catch (ignore) {}
 
 server.use(
@@ -39,15 +41,18 @@ server.use(
         global_timeout: 5000,
         inc_req_timeout: 5000,
         out_req_timeout: 5000,
-        post_max_size: 2000000
+        post_max_size: 2000000,
     })
 );
 
 server.set('state namespace', 'App');
 server.use(favicon(path.join(__dirname, '/assets/images/favicon.ico')));
-server.use('/public', express['static'](path.join(__dirname, '/build'), {
-    maxAge: '1y'
-}));
+server.use(
+    '/public',
+    express.static(path.join(__dirname, '/build'), {
+        maxAge: '1y',
+    })
+);
 server.use(cookieParser());
 server.use(bodyParser.json());
 server.use(csrf({ cookie: true }));
@@ -84,12 +89,14 @@ function renderApp(res, context) {
     const exposed = 'window.App=' + serialize(app.dehydrate(context)) + ';';
     const doctype = '<!DOCTYPE html>';
     const componentContext = context.getComponentContext();
-    const html = renderToStaticMarkup(htmlComponent({
-        assets: assets,
-        context: componentContext,
-        state: exposed,
-        markup: renderedApp
-    }));
+    const html = renderToStaticMarkup(
+        htmlComponent({
+            assets: assets,
+            context: componentContext,
+            state: exposed,
+            markup: renderedApp,
+        })
+    );
 
     res.send(doctype + html);
 }
@@ -100,8 +107,8 @@ server.use(function (req, res, next) {
         req: req, // The fetchr plugin depends on this
         debug: req.query.debug,
         xhrContext: {
-            _csrf: req.csrfToken() // Make sure all XHR requests have the CSRF token
-        }
+            _csrf: req.csrfToken(), // Make sure all XHR requests have the CSRF token
+        },
     });
 
     context.executeAction(navigateAction, { url: req.url }, function (err) {

@@ -42,7 +42,9 @@ function FluxContext(app, options) {
     this._componentContext = null;
     this._storeContext = null;
 
-    this._optimizePromiseCallback = !!(options && options.optimizePromiseCallback);
+    this._optimizePromiseCallback = !!(
+        options && options.optimizePromiseCallback
+    );
 }
 
 /**
@@ -112,30 +114,43 @@ FluxContext.prototype.plug = function (plugin) {
 function executeActionProxy(context, actionContext, action, payload, done) {
     if (__DEV__) {
         if (!action) {
-            throw new Error('executeAction called with an invalid action. Action ' +
-                'must be a function.');
+            throw new Error(
+                'executeAction called with an invalid action. Action ' +
+                    'must be a function.'
+            );
         }
     }
     var displayName = action.displayName || action.name;
-    payload = (undefined !== payload) ? payload : {};
+    payload = undefined !== payload ? payload : {};
     if (__DEV__) {
         if (context._dispatcher && context._dispatcher.currentAction) {
-            var currentActionDisplayName = context._dispatcher.currentAction.displayName ||
+            var currentActionDisplayName =
+                context._dispatcher.currentAction.displayName ||
                 context._dispatcher.currentAction.name;
 
-            console.warn('Warning: executeAction for `' + displayName + '` was called, but `' +
-                currentActionDisplayName + '` is currently being dispatched. This could mean ' +
-                'there are cascading updates, which should be avoided. `' + displayName +
-                '` will only start after `' + currentActionDisplayName + '` is complete.');
+            console.warn(
+                'Warning: executeAction for `' +
+                    displayName +
+                    '` was called, but `' +
+                    currentActionDisplayName +
+                    '` is currently being dispatched. This could mean ' +
+                    'there are cascading updates, which should be avoided. `' +
+                    displayName +
+                    '` will only start after `' +
+                    currentActionDisplayName +
+                    '` is complete.'
+            );
         }
     }
 
-    context._executeActionPlugins.forEach(function pluginsEach(executeActionPlugin) {
+    context._executeActionPlugins.forEach(function pluginsEach(
+        executeActionPlugin
+    ) {
         var pluggedExecuteAction = executeActionPlugin({
             actionContext: actionContext,
             action: action,
             payload: payload,
-            done: done
+            done: done,
         });
         actionContext = pluggedExecuteAction.actionContext;
         action = pluggedExecuteAction.action;
@@ -154,8 +169,15 @@ function executeActionProxy(context, actionContext, action, payload, done) {
  * @param {Function} [done] Method to be called once action execution has completed
  * @return {Promise} executeActionPromise Resolved with action result or rejected with action error
  */
-FluxContext.prototype.executeAction = function executeAction(action, payload, done) {
-    var subActionContext = this._createSubActionContext(this.getActionContext(), action);
+FluxContext.prototype.executeAction = function executeAction(
+    action,
+    payload,
+    done
+) {
+    var subActionContext = this._createSubActionContext(
+        this.getActionContext(),
+        action
+    );
     return executeActionProxy(this, subActionContext, action, payload, done);
 };
 
@@ -165,7 +187,9 @@ FluxContext.prototype.executeAction = function executeAction(action, payload, do
  * @private
  */
 FluxContext.prototype._initializeDispatcher = function initializeDispatcher() {
-    this._dispatcher = this._app.createDispatcherInstance(this.getStoreContext());
+    this._dispatcher = this._app.createDispatcherInstance(
+        this.getStoreContext()
+    );
 };
 
 /**
@@ -178,7 +202,10 @@ FluxContext.prototype._initializeDispatcher = function initializeDispatcher() {
  * @param {Function} action The action to be executed to get the name from
  * @returns {Object}
  */
-FluxContext.prototype._createSubActionContext = function createSubActionContext(parentActionContext, action) {
+FluxContext.prototype._createSubActionContext = function createSubActionContext(
+    parentActionContext,
+    action
+) {
     /*
      * We store the action's stack array on the `stack` property
      * of the actionContext interface.
@@ -192,10 +219,11 @@ FluxContext.prototype._createSubActionContext = function createSubActionContext(
     var newActionContext = Object.assign({}, this.getActionContext(), {
         displayName: displayName,
         optimizePromiseCallback: this._optimizePromiseCallback,
-        rootId: (parentActionContext.rootId) || generateUUID(),
-        stack: (parentActionContext.stack || []).concat([displayName])
+        rootId: parentActionContext.rootId || generateUUID(),
+        stack: (parentActionContext.stack || []).concat([displayName]),
     });
-    newActionContext.executeAction = newActionContext.executeAction.bind(newActionContext);
+    newActionContext.executeAction =
+        newActionContext.executeAction.bind(newActionContext);
     return newActionContext;
 };
 
@@ -214,12 +242,21 @@ FluxContext.prototype.getActionContext = function getActionContext() {
 
         var actionContext = {
             dispatch: self._dispatcher.dispatch.bind(self._dispatcher),
-            executeAction: function executeAction (action, payload, callback) {
+            executeAction: function executeAction(action, payload, callback) {
                 // `this` will be the current action context
-                var subActionContext = self._createSubActionContext(this, action);
-                return executeActionProxy(self, subActionContext, action, payload, callback);
+                var subActionContext = self._createSubActionContext(
+                    this,
+                    action
+                );
+                return executeActionProxy(
+                    self,
+                    subActionContext,
+                    action,
+                    payload,
+                    callback
+                );
             },
-            getStore: self._dispatcher.getStore.bind(self._dispatcher)
+            getStore: self._dispatcher.getStore.bind(self._dispatcher),
         };
 
         self._plugins.forEach(function pluginsEach(plugin) {
@@ -255,22 +292,29 @@ FluxContext.prototype.getComponentContext = function getComponentContext() {
         executeAction: function componentExecuteAction(action, payload, done) {
             if (done) {
                 if (__DEV__) {
-                    console.warn('When calling executeAction from a component, ' +
-                        'a callback isn\'t allowed. See our docs for more info: ' +
-                        'http://fluxible.io/api/components.html#component-context');
+                    console.warn(
+                        'When calling executeAction from a component, ' +
+                            "a callback isn't allowed. See our docs for more info: " +
+                            'http://fluxible.io/api/components.html#component-context'
+                    );
                 }
             }
-            self.executeAction(action, payload) ['catch'](function actionHandlerWrapper(err) {
-                return self.executeAction(self._app._componentActionErrorHandler, {
-                    actionName: action.displayName || action.name,
-                    err: err
+            self.executeAction(action, payload)
+                .catch(function actionHandlerWrapper(err) {
+                    return self.executeAction(
+                        self._app._componentActionErrorHandler,
+                        {
+                            actionName: action.displayName || action.name,
+                            err: err,
+                        }
+                    );
+                })
+                .catch(function unhandledError(err) {
+                    setImmediate(function () {
+                        throw err;
+                    });
                 });
-            })['catch'](function unhandledError(err) {
-                setImmediate(function () {
-                    throw err;
-                });
-            });
-        }
+        },
     };
 
     self._plugins.forEach(function pluginsEach(plugin) {
@@ -317,9 +361,9 @@ FluxContext.prototype.dehydrate = function dehydrate() {
     var state = {
         dispatcher: (this._dispatcher && this._dispatcher.dehydrate()) || {},
         options: {
-            optimizePromiseCallback: this._optimizePromiseCallback
+            optimizePromiseCallback: this._optimizePromiseCallback,
         },
-        plugins: {}
+        plugins: {},
     };
 
     self._plugins.forEach(function pluginsEach(plugin) {
@@ -345,35 +389,48 @@ FluxContext.prototype.rehydrate = function rehydrate(obj) {
     var self = this;
     if (__DEV__) {
         if (typeof obj !== 'object') {
-            throw new Error('`rehydrate` called with a non-object. Ensure ' +
-                'that the parameter passed to rehydrate is a state object ' +
-                'produced by a dehydrate call.');
+            throw new Error(
+                '`rehydrate` called with a non-object. Ensure ' +
+                    'that the parameter passed to rehydrate is a state object ' +
+                    'produced by a dehydrate call.'
+            );
         }
     }
     obj.plugins = obj.plugins || {};
-    self._optimizePromiseCallback = !!(obj.options && obj.options.optimizePromiseCallback);
-    var pluginTasks = self._plugins.filter(function (plugin) {
-        return 'function' === typeof plugin.rehydrate
-            && obj.plugins[plugin.name];
-    }).map(function (plugin) {
-        return new Promise(function (resolve, reject) {
-            var result = plugin.rehydrate(obj.plugins[plugin.name], function (err) {
-                if (err) {
-                    reject(err);
-                } else {
+    self._optimizePromiseCallback = !!(
+        obj.options && obj.options.optimizePromiseCallback
+    );
+    var pluginTasks = self._plugins
+        .filter(function (plugin) {
+            return (
+                'function' === typeof plugin.rehydrate &&
+                obj.plugins[plugin.name]
+            );
+        })
+        .map(function (plugin) {
+            return new Promise(function (resolve, reject) {
+                var result = plugin.rehydrate(
+                    obj.plugins[plugin.name],
+                    function (err) {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve();
+                        }
+                    }
+                );
+                if (isPromise(result)) {
+                    result.then(resolve, reject);
+                } else if (plugin.rehydrate.length < 2) {
                     resolve();
                 }
             });
-            if (isPromise(result)) {
-                result.then(resolve, reject);
-            } else if (plugin.rehydrate.length < 2) {
-                resolve();
-            }
         });
-    });
 
     return Promise.all(pluginTasks).then(function rehydratePluginTasks() {
-        self._dispatcher = self._app.createDispatcherInstance(self.getStoreContext());
+        self._dispatcher = self._app.createDispatcherInstance(
+            self.getStoreContext()
+        );
         self._dispatcher.rehydrate(obj.dispatcher || {});
         return self;
     });

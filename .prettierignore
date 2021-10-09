@@ -1,0 +1,8 @@
+*.html
+*.json
+*.md
+*.yml
+.nyc_output
+build
+coverage
+dist

@@ -71,10 +71,10 @@
 /**
  * LOGO
  */
-#splash  h1 {
+#splash h1 {
     width: 640px !important;
     height: 92px;
-    background-image:url(../images/atomic-css-logo.png);
+    background-image: url(../images/atomic-css-logo.png);
 }
 #logo {
     display: none;

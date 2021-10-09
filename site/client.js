@@ -5,10 +5,13 @@
 /*global document, window */
 
 import React from 'react';
-import {render} from 'react-dom';
+import { render } from 'react-dom';
 import app from './app';
 import Debug from 'debug';
-import { batchedUpdatePlugin, createElementWithContext } from 'fluxible-addons-react';
+import {
+    batchedUpdatePlugin,
+    createElementWithContext,
+} from 'fluxible-addons-react';
 
 // Add batched update plugin on client only
 app.plug(batchedUpdatePlugin());
@@ -25,7 +28,8 @@ app.rehydrate(dehydratedState, function (err, context) {
 
     window.context = context;
 
-    render(createElementWithContext(context),
+    render(
+        createElementWithContext(context),
         document.getElementById('docsapp')
     );
 });

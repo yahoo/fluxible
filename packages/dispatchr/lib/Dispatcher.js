@@ -14,7 +14,7 @@ var DispatcherContext = require('./DispatcherContext');
  * @param {Function} options.errorHandler Called when an error occurrs. Allows user to handle/throw the error.
  * @constructor
  */
-function Dispatcher (options) {
+function Dispatcher(options) {
     options = options || {};
     options.stores = options.stores || [];
     this.stores = {};
@@ -25,7 +25,6 @@ function Dispatcher (options) {
     options.stores.forEach(function (store) {
         this.registerStore(store);
     }, this);
-
 }
 
 Dispatcher.prototype.createContext = function createContext(context) {
@@ -44,21 +43,33 @@ Dispatcher.prototype.createContext = function createContext(context) {
 Dispatcher.prototype.registerStore = function registerStore(store) {
     if ('function' !== typeof store) {
         var message = 'registerStore requires a constructor as first parameter';
-        return this._throwOrCallErrorHandler(message, 'REGISTER_STORE_NO_CONSTRUCTOR');
+        return this._throwOrCallErrorHandler(
+            message,
+            'REGISTER_STORE_NO_CONSTRUCTOR'
+        );
     }
     var storeName = this.getStoreName(store);
     if (!storeName) {
         var message = 'Store is required to have a `storeName` property.';
-        return this._throwOrCallErrorHandler(message, 'REGISTER_STORE_NO_STORENAME');
+        return this._throwOrCallErrorHandler(
+            message,
+            'REGISTER_STORE_NO_STORENAME'
+        );
     }
     if (this.stores[storeName]) {
         if (this.stores[storeName] === store) {
             // Store is already registered, nothing to do
             return;
         }
-        var message = 'Store with name `' + storeName + '` has already been registered. ' +
+        var message =
+            'Store with name `' +
+            storeName +
+            '` has already been registered. ' +
             'Make sure you do not have multiple copies of the store installed.';
-        return this._throwOrCallErrorHandler(message, 'REGISTER_STORE_DUPLICATE_REGISTERED');
+        return this._throwOrCallErrorHandler(
+            message,
+            'REGISTER_STORE_DUPLICATE_REGISTERED'
+        );
     }
     this.stores[storeName] = store;
     if (store.handlers) {
@@ -110,12 +121,14 @@ Dispatcher.prototype.getStoreName = function getStoreName(store) {
 
     if (process.env.NODE_ENV !== 'production') {
         if (store.name && !this.hasWarnedAboutNameProperty) {
-            console.warn('A store has been registered that relies on the ' +
-                'constructor\'s name property. This name may change when you ' +
-                'minify your stores during build time and could break string ' +
-                'references to your store. It is advised that you add a ' +
-                'static `storeName` property to your store to ensure the ' +
-                'store name does not change during your build.');
+            console.warn(
+                'A store has been registered that relies on the ' +
+                    "constructor's name property. This name may change when you " +
+                    'minify your stores during build time and could break string ' +
+                    'references to your store. It is advised that you add a ' +
+                    'static `storeName` property to your store to ensure the ' +
+                    'store name does not change during your build.'
+            );
             this.hasWarnedAboutNameProperty = true;
         }
     }
@@ -132,11 +145,15 @@ Dispatcher.prototype.getStoreName = function getStoreName(store) {
  * @param {String|Function} handler The function or name of the method that handles the action
  * @returns {number}
  */
-Dispatcher.prototype._registerHandler = function registerHandler(action, name, handler) {
+Dispatcher.prototype._registerHandler = function registerHandler(
+    action,
+    name,
+    handler
+) {
     this.handlers[action] = this.handlers[action] || [];
     this.handlers[action].push({
         name: this.getStoreName(name),
-        handler: handler
+        handler: handler,
     });
     return this.handlers.length - 1;
 };
@@ -154,25 +171,29 @@ Dispatcher.prototype._registerHandler = function registerHandler(action, name, h
  * @throws {Error} if `errorHandler` is not defined
  * @returns {void}
  */
-Dispatcher.prototype._throwOrCallErrorHandler = function throwOrCallErrorHandler(message, type, context, meta) {
-    if (this.errorHandler) {
-        meta = meta || {};
-        if (!meta.error) {
-            meta.error = new Error(message);
-        }
+Dispatcher.prototype._throwOrCallErrorHandler =
+    function throwOrCallErrorHandler(message, type, context, meta) {
+        if (this.errorHandler) {
+            meta = meta || {};
+            if (!meta.error) {
+                meta.error = new Error(message);
+            }
 
-        this.errorHandler({
-            message: message,
-            type: type || 'DISPATCHER_ERROR',
-            meta: meta
-        }, context);
-    } else {
-        throw new Error(message);
-    }
-};
+            this.errorHandler(
+                {
+                    message: message,
+                    type: type || 'DISPATCHER_ERROR',
+                    meta: meta,
+                },
+                context
+            );
+        } else {
+            throw new Error(message);
+        }
+    };
 
 module.exports = {
     createDispatcher: function (options) {
         return new Dispatcher(options);
-    }
+    },
 };

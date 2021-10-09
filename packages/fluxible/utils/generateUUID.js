@@ -11,6 +11,6 @@
  */
 var GLOBAL_UUID_MAX = Math.pow(2, 53);
 
-module.exports = function generateUUID () {
+module.exports = function generateUUID() {
     return Math.ceil(Math.random() * GLOBAL_UUID_MAX);
-}
+};

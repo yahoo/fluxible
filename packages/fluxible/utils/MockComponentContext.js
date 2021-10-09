@@ -5,9 +5,9 @@
 'use strict';
 
 var createMockActionContext = require('./createMockActionContext');
-function noop () {}
+function noop() {}
 
-function MockComponentContext (dispatcherContext) {
+function MockComponentContext(dispatcherContext) {
     this.dispatcherContext = dispatcherContext;
     this.executeActionCalls = [];
     this.getStore = this.getStore.bind(this);
@@ -21,11 +21,15 @@ MockComponentContext.prototype.getStore = function (name) {
 MockComponentContext.prototype.executeAction = function (action, payload) {
     this.executeActionCalls.push({
         action: action,
-        payload: payload
+        payload: payload,
     });
-    action(createMockActionContext({
-        dispatcherContext: this.dispatcherContext
-    }), payload, noop);
+    action(
+        createMockActionContext({
+            dispatcherContext: this.dispatcherContext,
+        }),
+        payload,
+        noop
+    );
 };
 
 module.exports = MockComponentContext;

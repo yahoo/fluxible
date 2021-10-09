@@ -4,7 +4,6 @@
  */
 'use strict';
 
-
 module.exports = function (context, payload, done) {
     context.dispatch('RECEIVE_TODOS_START', payload);
     context.dispatch('UPDATE_PAGE_TITLE', 'showTodos | flux-examples');

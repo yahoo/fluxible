@@ -7,7 +7,7 @@ var createStore = require('../../addons/createStore');
 module.exports = createStore({
     storeName: 'NoDehydrateStore',
     handlers: {
-        'NAVIGATE': 'navigate'
+        NAVIGATE: 'navigate',
     },
     initialize: function () {
         this.state = {};
@@ -28,5 +28,5 @@ module.exports = createStore({
     },
     rehydrate: function (state) {
         this.state = state;
-    }
+    },
 });

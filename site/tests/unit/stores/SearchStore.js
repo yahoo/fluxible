@@ -4,7 +4,7 @@
  */
 /* global describe, it, beforeEach, afterEach */
 'use strict';
-import {expect} from 'chai';
+import { expect } from 'chai';
 import SearchStore from '../../../stores/SearchStore';
 import mockIndex from '../../fixtures/index.json';
 
@@ -61,4 +61,3 @@ describe('site', () => {
         });
     });
 });
-

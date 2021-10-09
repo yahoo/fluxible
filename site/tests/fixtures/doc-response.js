@@ -4,7 +4,7 @@
  */
 
 export default {
-    'content': '<h1 id="quick-start">Quick Start</h1>',
-    'key': '/docs/quick-start.md',
-    'title': 'Quick Start'
+    content: '<h1 id="quick-start">Quick Start</h1>',
+    key: '/docs/quick-start.md',
+    title: 'Quick Start',
 };

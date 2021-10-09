@@ -18,7 +18,7 @@ import HtmlComponent from './components/Html';
 const debug = debugLib('Example');
 const server = express();
 
-server.use('/public', express['static'](__dirname + '/build'));
+server.use('/public', express.static(__dirname + '/build'));
 server.use((req, res, next) => {
     const context = app.createContext();
 

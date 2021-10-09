@@ -10,11 +10,10 @@ import lunr from 'lunr';
 const debug = debugLib('SearchStore');
 
 class SearchStore extends BaseStore {
-
     static storeName = 'SearchStore';
     static handlers = {
-        'RECEIVE_INDEX': '_receiveIndex',
-        'DO_SEARCH': '_doSearch'
+        RECEIVE_INDEX: '_receiveIndex',
+        DO_SEARCH: '_doSearch',
     };
 
     constructor(dispatcher) {
@@ -38,7 +37,10 @@ class SearchStore extends BaseStore {
         this.query = query;
         if (this.index) {
             // perform search, grab each doc and only return first 10
-            this.results = this.index.search(query).map(result => this.docs[result.ref]).slice(0, 10);
+            this.results = this.index
+                .search(query)
+                .map((result) => this.docs[result.ref])
+                .slice(0, 10);
             debug('Search complete');
         }
         this.emitChange();
@@ -61,7 +63,7 @@ class SearchStore extends BaseStore {
             docs: this.docs,
             index: this.index,
             query: this.query,
-            results: this.results
+            results: this.results,
         };
     }
 }

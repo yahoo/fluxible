@@ -11,12 +11,11 @@ import doSearch from '../actions/doSearch';
 import SearchStore from '../stores/SearchStore';
 
 class SearchResults extends React.Component {
-
     static contextType = FluxibleComponentContext;
 
     static propTypes = {
         currentRoute: PropTypes.object.isRequired,
-        results: PropTypes.array
+        results: PropTypes.array,
     };
 
     componentDidUpdate() {
@@ -29,12 +28,14 @@ class SearchResults extends React.Component {
     }
 
     showResults() {
-        let html = (<p>No results found</p>);
-        const results = this.props.results.map(result => {
+        let html = <p>No results found</p>;
+        const results = this.props.results.map((result) => {
             return (
                 <li key={result.id}>
                     <h3>
-                        <NavLink href={result.permalink}>{result.title}</NavLink>
+                        <NavLink href={result.permalink}>
+                            {result.title}
+                        </NavLink>
                     </h3>
                     <p className="M(0)">{result.description}</p>
                     <small className="C(#006621)">{result.permalink}</small>
@@ -43,7 +44,7 @@ class SearchResults extends React.Component {
         });
 
         if (results.length) {
-            html = (<ol className="List(dc)">{results}</ol>);
+            html = <ol className="List(dc)">{results}</ol>;
         }
 
         return html;

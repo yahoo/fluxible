@@ -23,13 +23,15 @@ const indexDb = getSearchIndexPath();
 marked.setOptions({
     highlight: (code) => {
         return highlight.highlightAuto(code).value;
-    }
+    },
 });
 
 if (secrets.github.accessToken) {
     console.log('All good! Found access token.');
 } else {
-    console.error('Not good! Missing access token. Will be rate-limited by github API.');
+    console.error(
+        'Not good! Missing access token. Will be rate-limited by github API.'
+    );
 }
 
 // Generate a hash of valid api routes, from the /configs/apis.js file
@@ -78,10 +80,7 @@ function fetchGitHubReposApi(params, cb) {
             .end(cb);
     } else {
         // still make call to github API, but will be rate limited.
-        request
-            .get(githubUrl)
-            .set('User-Agent', 'superagent')
-            .end(cb);
+        request.get(githubUrl).set('User-Agent', 'superagent').end(cb);
     }
 }
 
@@ -112,7 +111,7 @@ function fetchAPI(docParams, cb) {
         if (md) {
             let mdString = new Buffer(md, 'base64').toString(); // base64 decode
 
-            let output = marked(mdString, {renderer: renderer});
+            let output = marked(mdString, { renderer: renderer });
 
             // Replace all .md links
             let linkRegex = /href="([^"]+\.md)(:?#[^"]+)?"/g;
@@ -130,10 +129,13 @@ function fetchAPI(docParams, cb) {
                     let routeConfig = routes[routeName];
 
                     if (
-                        (fixedRelativePath === routeConfig.githubPath) ||
+                        fixedRelativePath === routeConfig.githubPath ||
                         // support absolute urls of links from different repositories
-                        (result[1].indexOf('http') !== -1
-                            && -1 !== result[1].indexOf(`/${routeConfig.githubRepo}/blob/${githubRef}${routeConfig.githubPath}`))
+                        (result[1].indexOf('http') !== -1 &&
+                            -1 !==
+                                result[1].indexOf(
+                                    `/${routeConfig.githubRepo}/blob/${githubRef}${routeConfig.githubPath}`
+                                ))
                     ) {
                         matchedDoc = routeConfig;
                         return;
@@ -143,8 +145,14 @@ function fetchAPI(docParams, cb) {
                 /*jshint ignore:end*/
                 if (!matchedDoc) {
                     if ('production' !== ENV) {
-                        console.log(githubRepo + ':' + githubPath + ' has a broken ' +
-                            'link to ' + fixedRelativePath);
+                        console.log(
+                            githubRepo +
+                                ':' +
+                                githubPath +
+                                ' has a broken ' +
+                                'link to ' +
+                                fixedRelativePath
+                        );
                     }
                     continue;
                 }
@@ -158,7 +166,7 @@ function fetchAPI(docParams, cb) {
 
             cache[key] = {
                 key: key,
-                content: output
+                content: output,
             };
 
             // index document for searching
@@ -168,29 +176,39 @@ function fetchAPI(docParams, cb) {
                 title: title,
                 body: output,
                 description: description,
-                permalink: docParams.path
+                permalink: docParams.path,
             };
             index.update(document);
             documents[document.id] = document;
 
             return cb(null, cache[key]);
         } else {
-            console.error('Doc not found for', githubRepo, githubPath, res.body);
+            console.error(
+                'Doc not found for',
+                githubRepo,
+                githubPath,
+                res.body
+            );
 
             cache[key] = {
                 key: key,
-                content: marked('# Doc Not Found: ' + key, {renderer: renderer})
+                content: marked('# Doc Not Found: ' + key, {
+                    renderer: renderer,
+                }),
             };
 
             return cb(null, cache[key]);
         }
     }
 
-    fetchGitHubReposApi({
-        repo: githubRepo,
-        type: 'contents/' + githubPath,
-        ref: githubRef
-    }, fetchCallback);
+    fetchGitHubReposApi(
+        {
+            repo: githubRepo,
+            type: 'contents/' + githubPath,
+            ref: githubRef,
+        },
+        fetchCallback
+    );
 }
 
 /**
@@ -219,52 +237,58 @@ function fetchGitBranch(pkg, cb) {
  * @function refreshCacheFromGithub
  */
 (function refreshCacheFromGithub() {
-    var repoList = Object.keys(routes).map((routeName) => {
-        return routes[routeName].githubRepo;
-    }).filter((repo, index, self) => {
-        return undefined !== repo && self.indexOf(repo) === index;
-    });
+    var repoList = Object.keys(routes)
+        .map((routeName) => {
+            return routes[routeName].githubRepo;
+        })
+        .filter((repo, index, self) => {
+            return undefined !== repo && self.indexOf(repo) === index;
+        });
 
     var branchHash = repoList.reduce((hash, repo) => {
         return {
             ...hash,
-            [repo]: null
+            [repo]: null,
         };
     }, {});
 
-    Promise.all(repoList.map((repo) => {
-        return new Promise((resolve, reject) => {
-            fetchGitBranch(repo.split('/')[1], (err, result) => {
-                if (err) {
-                    reject(err);
-                    return;
-                }
-                branchHash[repo] = result;
-                resolve(result);
-            });
-        });
-    }, {})).then(() => {
-        const fetches = [];
-        Object.keys(routes).forEach(function eachRoute(routeName) {
-            let routeConfig = {
-                ...routes[routeName],
-                // pass branch name to pull specific branch from github
-                githubRef: branchHash[routes[routeName].githubRepo]
-            };
-
-            if (routeConfig.githubPath) {
-                fetches.push(function eachTask(cb) {
-                    fetchAPI(routeConfig, cb);
+    Promise.all(
+        repoList.map((repo) => {
+            return new Promise((resolve, reject) => {
+                fetchGitBranch(repo.split('/')[1], (err, result) => {
+                    if (err) {
+                        reject(err);
+                        return;
+                    }
+                    branchHash[repo] = result;
+                    resolve(result);
                 });
-            }
-        });
+            });
+        }, {})
+    )
+        .then(() => {
+            const fetches = [];
+            Object.keys(routes).forEach(function eachRoute(routeName) {
+                let routeConfig = {
+                    ...routes[routeName],
+                    // pass branch name to pull specific branch from github
+                    githubRef: branchHash[routes[routeName].githubRepo],
+                };
 
-        async.parallel(fetches, function npmFetchesCallback(err) {
-            if (err) {
-                return console.error(err);
-            }
-        });
-    })['catch']();
+                if (routeConfig.githubPath) {
+                    fetches.push(function eachTask(cb) {
+                        fetchAPI(routeConfig, cb);
+                    });
+                }
+            });
+
+            async.parallel(fetches, function npmFetchesCallback(err) {
+                if (err) {
+                    return console.error(err);
+                }
+            });
+        })
+        .catch();
 
     setTimeout(refreshCacheFromGithub, 6 * 60 * 60 * 1000); // refresh cache every six hours
 })();
@@ -279,7 +303,7 @@ export default {
         } else {
             return fetchAPI(doc, callback);
         }
-    }
+    },
 };
 
 export function getLunrIndex() {

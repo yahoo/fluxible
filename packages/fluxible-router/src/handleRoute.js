@@ -6,7 +6,10 @@
 /* eslint-disable react/display-name */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connectToStores, FluxibleComponentContext } from 'fluxible-addons-react';
+import {
+    connectToStores,
+    FluxibleComponentContext,
+} from 'fluxible-addons-react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 
 function handleRoute(Component) {
@@ -14,12 +17,18 @@ function handleRoute(Component) {
         render() {
             const routeStore = this.context.getStore('RouteStore');
 
-            return React.createElement(Component, Object.assign({
-                isActive: routeStore.isActive.bind(routeStore),
-                makePath: routeStore.makePath.bind(routeStore)
-            }, this.props));
+            return React.createElement(
+                Component,
+                Object.assign(
+                    {
+                        isActive: routeStore.isActive.bind(routeStore),
+                        makePath: routeStore.makePath.bind(routeStore),
+                    },
+                    this.props
+                )
+            );
         }
-    }
+    };
 
     RouteHandler.displayName = 'RouteHandler';
     RouteHandler.contextType = FluxibleComponentContext;
@@ -27,19 +36,22 @@ function handleRoute(Component) {
         currentRoute: PropTypes.object,
         currentNavigate: PropTypes.object,
         currentNavigateError: PropTypes.object,
-        isNavigateComplete: PropTypes.bool
+        isNavigateComplete: PropTypes.bool,
     };
 
-
-    RouteHandler = connectToStores(RouteHandler, ['RouteStore'], function (context) {
-        const routeStore = context.getStore('RouteStore');
-        return {
-            currentNavigate: routeStore.getCurrentNavigate(),
-            currentNavigateError: routeStore.getCurrentNavigateError(),
-            isNavigateComplete: routeStore.isNavigateComplete(),
-            currentRoute: routeStore.getCurrentRoute()
-        };
-    });
+    RouteHandler = connectToStores(
+        RouteHandler,
+        ['RouteStore'],
+        function (context) {
+            const routeStore = context.getStore('RouteStore');
+            return {
+                currentNavigate: routeStore.getCurrentNavigate(),
+                currentNavigateError: routeStore.getCurrentNavigateError(),
+                isNavigateComplete: routeStore.isNavigateComplete(),
+                currentRoute: routeStore.getCurrentRoute(),
+            };
+        }
+    );
 
     hoistNonReactStatics(RouteHandler, Component);
 

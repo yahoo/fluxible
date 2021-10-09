@@ -18,7 +18,7 @@ module.exports = function (grunt) {
         project: {
             build: './build',
             public: '/public',
-            cdnPath: 'http://l.yimg.com/os/flx/'
+            cdnPath: 'http://l.yimg.com/os/flx/',
         },
 
         // clean build
@@ -30,13 +30,15 @@ module.exports = function (grunt) {
 
         copy: {
             images: {
-                files: [{
-                    expand: true,
-                    cwd: 'assets/',
-                    src: ['images/**'],
-                    dest: '<%= project.build %>/'
-                }]
-            }
+                files: [
+                    {
+                        expand: true,
+                        cwd: 'assets/',
+                        src: ['images/**'],
+                        dest: '<%= project.build %>/',
+                    },
+                ],
+            },
         },
 
         // atomizer: initial task to generate the config
@@ -44,15 +46,15 @@ module.exports = function (grunt) {
             app: {
                 options: {
                     namespace: '#atomic',
-                    configFile: './configs/atomic.js'
+                    configFile: './configs/atomic.js',
                 },
                 files: [
                     {
                         src: ['./components/*.js'],
-                        dest: '<%= project.build %>/css/atomic.css'
-                    }
-                ]
-            }
+                        dest: '<%= project.build %>/css/atomic.css',
+                    },
+                ],
+            },
         },
 
         // cssmin for production (atomizer needs to run first)
@@ -61,44 +63,50 @@ module.exports = function (grunt) {
                 options: {
                     report: 'gzip',
                     compatibility: 'ie8',
-                    sourceMap: true
+                    sourceMap: true,
                 },
-                files: [{
-                    src: [
-                        '<%= project.build %>/css/atomic.css',
-                        './assets/css/base.css',
-                        './assets/css/helpers.css',
-                        './assets/css/custom.css',
-                        './assets/css/mq.css',
-                        './assets/css/syntax.css'
-                    ],
-                    dest: '<%= project.build %>/css/bundle.css'
-                }, {
-                    src: [ './assets/css/ie.css'],
-                    dest: '<%= project.build %>/css/ie.css'
-                }]
+                files: [
+                    {
+                        src: [
+                            '<%= project.build %>/css/atomic.css',
+                            './assets/css/base.css',
+                            './assets/css/helpers.css',
+                            './assets/css/custom.css',
+                            './assets/css/mq.css',
+                            './assets/css/syntax.css',
+                        ],
+                        dest: '<%= project.build %>/css/bundle.css',
+                    },
+                    {
+                        src: ['./assets/css/ie.css'],
+                        dest: '<%= project.build %>/css/ie.css',
+                    },
+                ],
             },
             prod: {
                 options: {
                     report: 'gzip',
                     compatibility: 'ie8',
-                    sourceMap: false
+                    sourceMap: false,
                 },
-                files: [{
-                    src: [
-                        '<%= project.build %>/css/atomic.css',
-                        './assets/css/base.css',
-                        './assets/css/helpers.css',
-                        './assets/css/custom.css',
-                        './assets/css/mq.css',
-                        './assets/css/syntax.css'
-                    ],
-                    dest: '<%= project.build %>/css/bundle.css'
-                }, {
-                    src: [ './assets/css/ie.css'],
-                    dest: '<%= project.build %>/css/ie.css'
-                }]
-            }
+                files: [
+                    {
+                        src: [
+                            '<%= project.build %>/css/atomic.css',
+                            './assets/css/base.css',
+                            './assets/css/helpers.css',
+                            './assets/css/custom.css',
+                            './assets/css/mq.css',
+                            './assets/css/syntax.css',
+                        ],
+                        dest: '<%= project.build %>/css/bundle.css',
+                    },
+                    {
+                        src: ['./assets/css/ie.css'],
+                        dest: '<%= project.build %>/css/ie.css',
+                    },
+                ],
+            },
         },
 
         // webpack bundling
@@ -106,14 +114,14 @@ module.exports = function (grunt) {
             dev: {
                 mode: 'development',
                 resolve: {
-                    extensions: ['.js', '.jsx']
+                    extensions: ['.js', '.jsx'],
                 },
                 entry: './client.js',
                 output: {
                     path: __dirname + '/build/js',
                     publicPath: '/public/js/',
                     filename: '[name].js',
-                    chunkFilename: '[name].[chunkhash].js'
+                    chunkFilename: '[name].[chunkhash].js',
                 },
                 module: {
                     rules: [
@@ -124,30 +132,30 @@ module.exports = function (grunt) {
                             use: {
                                 loader: 'babel-loader',
                                 options: {
-                                    presets: ['@babel/preset-env']
-                                }
-                            }
+                                    presets: ['@babel/preset-env'],
+                                },
+                            },
                         },
-                        { test: /\.json$/, use: 'json-loader'}
-                    ]
+                        { test: /\.json$/, use: 'json-loader' },
+                    ],
                 },
                 stats: {
-                    colors: true
+                    colors: true,
                 },
                 devtool: 'source-map',
-                keepalive: true
+                keepalive: true,
             },
             prod: {
                 mode: 'production',
                 resolve: {
-                    extensions: ['.js', '.jsx']
+                    extensions: ['.js', '.jsx'],
                 },
                 entry: './client.js',
                 output: {
                     path: __dirname + '/build/js',
                     publicPath: '<%= project.cdnPath %>js/',
                     filename: '[name].[chunkhash].min.js',
-                    chunkFilename: '[name].[chunkhash].min.js'
+                    chunkFilename: '[name].[chunkhash].min.js',
                 },
                 module: {
                     rules: [
@@ -158,23 +166,25 @@ module.exports = function (grunt) {
                             use: {
                                 loader: 'babel-loader',
                                 options: {
-                                    presets: ['@babel/preset-env']
-                                }
-                            }
+                                    presets: ['@babel/preset-env'],
+                                },
+                            },
                         },
-                        { test: /\.json$/, use: 'json-loader'}
-                    ]
+                        { test: /\.json$/, use: 'json-loader' },
+                    ],
                 },
                 plugins: [
                     new StatsWriterPlugin({
                         filename: path.join('..', 'assets.json'),
-                        transform: function(data, opts) {
+                        transform: function (data, opts) {
                             var assets = data.assetsByChunkName;
                             var output = {
-                                assets: {}
+                                assets: {},
                             };
 
-                            Object.keys(assets).forEach(function eachAsset(key) {
+                            Object.keys(assets).forEach(function eachAsset(
+                                key
+                            ) {
                                 var value = assets[key];
 
                                 // if `*.[chunkhash].min.js` regex matched, then use file name for key
@@ -186,12 +196,12 @@ module.exports = function (grunt) {
                                 output.assets[key] = value;
                             });
                             return JSON.stringify(output, null, 4);
-                        }
-                    })
+                        },
+                    }),
                 ],
-                progress: false
-            }
-        }
+                progress: false,
+            },
+        },
     });
 
     // libs
@@ -203,6 +213,18 @@ module.exports = function (grunt) {
 
     // tasks
     grunt.registerTask('default', 'dev');
-    grunt.registerTask('dev', ['clean', 'copy', 'atomizer:app', 'cssmin:dev', 'webpack:dev']);
-    grunt.registerTask('build', ['clean', 'copy', 'atomizer:app', 'cssmin:prod', 'webpack:prod']);
+    grunt.registerTask('dev', [
+        'clean',
+        'copy',
+        'atomizer:app',
+        'cssmin:dev',
+        'webpack:dev',
+    ]);
+    grunt.registerTask('build', [
+        'clean',
+        'copy',
+        'atomizer:app',
+        'cssmin:prod',
+        'webpack:prod',
+    ]);
 };

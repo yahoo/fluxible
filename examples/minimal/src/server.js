@@ -1,26 +1,26 @@
-import path from "path";
-import ReactDOMServer from "react-dom/server";
-import express from "express";
-import { createElementWithContext } from "fluxible-addons-react";
-import serialize from "serialize-javascript";
-import fluxibleApp from "./fluxibleApp";
-import * as actions from "./actions";
+import path from 'path';
+import ReactDOMServer from 'react-dom/server';
+import express from 'express';
+import { createElementWithContext } from 'fluxible-addons-react';
+import serialize from 'serialize-javascript';
+import fluxibleApp from './fluxibleApp';
+import * as actions from './actions';
 
 const app = express();
 
-app.use("/assets", express.static(path.join(__dirname, "assets")));
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
-app.get("*", (req, res) => {
-  const context = fluxibleApp.createContext();
+app.get('*', (req, res) => {
+    const context = fluxibleApp.createContext();
 
-  context
-    .executeAction(actions.setRandomNumber)
-    .then(() => {
-      const element = createElementWithContext(context);
-      const markup = ReactDOMServer.renderToString(element);
-      const state = serialize(fluxibleApp.dehydrate(context));
+    context
+        .executeAction(actions.setRandomNumber)
+        .then(() => {
+            const element = createElementWithContext(context);
+            const markup = ReactDOMServer.renderToString(element);
+            const state = serialize(fluxibleApp.dehydrate(context));
 
-      res.send(`
+            res.send(`
 <!doctype html>
 <html>
   <head>
@@ -34,13 +34,13 @@ app.get("*", (req, res) => {
   </body>
 </html>
 `);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.send("Something went wrong");
-    });
+        })
+        .catch((err) => {
+            console.error(err);
+            res.send('Something went wrong');
+        });
 });
 
 app.listen(8080, () => {
-  console.log("Listening on http://localhost:8080");
+    console.log('Listening on http://localhost:8080');
 });

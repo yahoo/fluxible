@@ -4,10 +4,10 @@
 'use strict';
 
 var expect = require('chai').expect;
-var createMockComponentContext = require('../../../utils').createMockComponentContext;
+var createMockComponentContext =
+    require('../../../utils').createMockComponentContext;
 
 describe('createMockComponentContext', function () {
-
     describe('instance', function () {
         var context;
 
@@ -16,7 +16,9 @@ describe('createMockComponentContext', function () {
         });
 
         it('should have the following properties: dispatcher, executeActionCalls', function () {
-            expect(context).to.have.property('executeActionCalls').that.is.an('array').and.empty;
+            expect(context)
+                .to.have.property('executeActionCalls')
+                .that.is.an('array').and.empty;
         });
 
         describe('#getStore', function () {
@@ -33,10 +35,10 @@ describe('createMockComponentContext', function () {
             it('should execute the action and pass a MockActionContext', function () {
                 var mockPayload = {
                     foo: 'bar',
-                    baz: 'fubar'
+                    baz: 'fubar',
                 };
 
-                function mockAction (ctx, payload, done) {
+                function mockAction(ctx, payload, done) {
                     expect(ctx).to.be.an('object');
                     expect(ctx.dispatch).to.be.a('function');
                     expect(ctx.executeAction).to.be.a('function');

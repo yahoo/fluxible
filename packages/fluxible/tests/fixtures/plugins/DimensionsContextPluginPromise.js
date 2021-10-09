@@ -25,7 +25,7 @@ module.exports = function (dims) {
         },
         dehydrate: function () {
             return {
-                dimensions: dimensions
+                dimensions: dimensions,
             };
         },
         rehydrate: function (state) {
@@ -33,6 +33,6 @@ module.exports = function (dims) {
                 dimensions = state.dimensions;
                 resolve();
             });
-        }
-    }
+        },
+    };
 };

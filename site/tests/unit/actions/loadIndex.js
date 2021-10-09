@@ -17,12 +17,15 @@ describe('site', () => {
 
         beforeEach(function () {
             context = createMockActionContext({
-                stores: [SearchStore]
+                stores: [SearchStore],
             });
             context.service = new MockService();
-            context.service.setService('search', function (method, params, config, callback) {
-                callback(null, mockIndex);
-            });
+            context.service.setService(
+                'search',
+                function (method, params, config, callback) {
+                    callback(null, mockIndex);
+                }
+            );
         });
 
         it('should load index from the service', function (done) {
@@ -35,4 +38,3 @@ describe('site', () => {
         });
     });
 });
-

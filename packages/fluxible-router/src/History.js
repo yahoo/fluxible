@@ -20,7 +20,11 @@ function isUndefined(v) {
  */
 function History(options) {
     this.win = (options && options.win) || window;
-    this._hasPushState = !!(this.win && this.win.history && this.win.history.pushState);
+    this._hasPushState = !!(
+        this.win &&
+        this.win.history &&
+        this.win.history.pushState
+    );
 }
 
 History.prototype = {
@@ -101,7 +105,10 @@ History.prototype = {
 
             // remember the original url in state, so that it can be used by getUrl()
             // remember the referrer url in state, so that it can be used for back navigations
-            var _state = Object.assign({origUrl: url, referrerUrl: win.location.href}, state);
+            var _state = Object.assign(
+                { origUrl: url, referrerUrl: win.location.href },
+                state
+            );
 
             try {
                 win.history.pushState(_state, title, url);
@@ -130,10 +137,10 @@ History.prototype = {
             url = isUndefined(url) ? win.location.href : url;
 
             // remember the original url in state, so that it can be used by getUrl()
-            var _state = Object.assign({origUrl: url}, state);
+            var _state = Object.assign({ origUrl: url }, state);
             try {
                 win.history.replaceState(_state, title, url);
-            } catch(_) {
+            } catch (_) {
                 // Handle errors by refreshing
                 // See https://bugs.webkit.org/show_bug.cgi?id=155901
                 win.location.replace(url);
@@ -152,7 +159,7 @@ History.prototype = {
         if (title && title !== this.win.document.title) {
             this.win.document.title = title;
         }
-    }
+    },
 };
 
 export default History;

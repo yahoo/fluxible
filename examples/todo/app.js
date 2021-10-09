@@ -7,18 +7,17 @@ var React = require('react');
 var Fluxible = require('fluxible');
 var fetchrPlugin = require('fluxible-plugin-fetchr');
 
-
 var app = new Fluxible({
-    component: require('./components/TodoApp')
+    component: require('./components/TodoApp'),
 });
 
-app.plug(fetchrPlugin({
-    xhrPath: '/api'
-}));
-
+app.plug(
+    fetchrPlugin({
+        xhrPath: '/api',
+    })
+);
 
 app.registerStore(require('./stores/TodoStore'));
 app.registerStore(require('./stores/PageStore'));
-
 
 module.exports = app;

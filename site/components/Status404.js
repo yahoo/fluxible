@@ -14,7 +14,11 @@ class Status404 extends React.Component {
                     <div className="Mx(a) W(65%) Pos(r) Ov(h) Fw(300)">
                         <h1>Not found</h1>
                         <p>Sorry we could not find that resource.</p>
-                        <p><NavLink routeName="home">Back to the home page.</NavLink></p>
+                        <p>
+                            <NavLink routeName="home">
+                                Back to the home page.
+                            </NavLink>
+                        </p>
                     </div>
                 </div>
             </div>

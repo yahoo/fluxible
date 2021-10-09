@@ -9,9 +9,11 @@ export default {
         handler: Home,
         label: 'Home',
         action: (context, payload, done) => {
-            context.dispatch('UPDATE_PAGE_TITLE', { pageTitle: 'Home | flux-examples | routing' });
+            context.dispatch('UPDATE_PAGE_TITLE', {
+                pageTitle: 'Home | flux-examples | routing',
+            });
             done();
-        }
+        },
     },
     about: {
         path: '/about',
@@ -19,9 +21,11 @@ export default {
         handler: About,
         label: 'About',
         action: (context, payload, done) => {
-            context.dispatch('UPDATE_PAGE_TITLE', { pageTitle: 'About | flux-examples | routing' });
+            context.dispatch('UPDATE_PAGE_TITLE', {
+                pageTitle: 'About | flux-examples | routing',
+            });
             done();
-        }
+        },
     },
     internal: {
         path: '/internalPage',
@@ -30,9 +34,11 @@ export default {
         label: 'Internal',
         action: (context, payload, done) => {
             context.dispatch('LOAD_PAGE', { id: 'Internal Page' });
-            context.dispatch('UPDATE_PAGE_TITLE', { pageTitle: 'Internal Page | flux-examples | routing' });
+            context.dispatch('UPDATE_PAGE_TITLE', {
+                pageTitle: 'Internal Page | flux-examples | routing',
+            });
             done();
-        }
+        },
     },
     dynamicpage: {
         path: '/page/:id',
@@ -41,8 +47,10 @@ export default {
         action: (context, payload, done) => {
             var pageId = payload.params.id;
             context.dispatch('LOAD_PAGE', { id: pageId });
-            context.dispatch('UPDATE_PAGE_TITLE', { pageTitle: pageId + ' [Dynamic Page] | flux-examples | routing' });
+            context.dispatch('UPDATE_PAGE_TITLE', {
+                pageTitle: pageId + ' [Dynamic Page] | flux-examples | routing',
+            });
             done();
-        }
-    }
+        },
+    },
 };

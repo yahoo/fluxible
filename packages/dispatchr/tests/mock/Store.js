@@ -16,7 +16,7 @@ util.inherits(Store, BaseStore);
 
 Store.prototype.initialize = function () {
     this.state = {
-        called: false
+        called: false,
     };
 };
 
@@ -25,8 +25,8 @@ Store.prototype.delay = function (payload) {
     self.state.called = true;
     self.dispatcher.waitFor(DelayedStore, function () {
         var delayedStore = self.dispatcher.getStore(DelayedStore);
-        if (!delayedStore.getState()['final']) {
-            throw new Error('Delayed store didn\'t finish first!');
+        if (!delayedStore.getState().final) {
+            throw new Error("Delayed store didn't finish first!");
         }
         self.state.page = 'delay';
         self.emitChange();
@@ -63,16 +63,16 @@ Store.prototype.exception = function () {
 };
 
 Store.handlers = {
-    'NAVIGATE': function navigate() {
+    NAVIGATE: function navigate() {
         this.state.called = true;
         this.state.page = 'home';
         this.emitChange();
     },
-    'DELAY': 'delay',
-    'ERROR': 'error',
-    'DISPATCH': 'dispatch',
-    'WAITFOR': 'waitFor',
-    'EXCEPTION': 'exception'
+    DELAY: 'delay',
+    ERROR: 'error',
+    DISPATCH: 'dispatch',
+    WAITFOR: 'waitFor',
+    EXCEPTION: 'exception',
 };
 
 module.exports = Store;

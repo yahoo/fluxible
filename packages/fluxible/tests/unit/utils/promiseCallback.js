@@ -15,7 +15,7 @@ function customSetImmediate() {
 }
 
 describe('#promiseCallback', function () {
-    before(function() {
+    before(function () {
         global.setImmediate = customSetImmediate;
     });
 
@@ -23,7 +23,7 @@ describe('#promiseCallback', function () {
         setImmediateFuncNames = [];
     });
 
-    after(function() {
+    after(function () {
         global.setImmediate = originalSetImmediate;
     });
 
@@ -99,29 +99,41 @@ describe('#promiseCallback', function () {
             var promise = new Promise(function (resolve, reject) {
                 resolve('resolved');
             });
-            promiseCallback(promise, function (err, result) {
-                expect(err).to.equal(null);
-                expect(result).to.equal('resolved');
-                expect(setImmediateFuncNames.length).to.equal(0,
-                    'no setImmediate for successful callback');
-                done();
-            }, {
-                optimize: true
-            });
+            promiseCallback(
+                promise,
+                function (err, result) {
+                    expect(err).to.equal(null);
+                    expect(result).to.equal('resolved');
+                    expect(setImmediateFuncNames.length).to.equal(
+                        0,
+                        'no setImmediate for successful callback'
+                    );
+                    done();
+                },
+                {
+                    optimize: true,
+                }
+            );
         });
         it('should call callback when promise rejects', function (done) {
             var promise = new Promise(function (resolve, reject) {
                 reject('rejected');
             });
-            promiseCallback(promise, function (err, result) {
-                expect(err).to.equal('rejected');
-                expect(result).to.equal(undefined);
-                expect(setImmediateFuncNames.length).to.equal(0,
-                    'no setImmediate for successful callback');
-                done();
-            }, {
-                optimize: true
-            });
+            promiseCallback(
+                promise,
+                function (err, result) {
+                    expect(err).to.equal('rejected');
+                    expect(result).to.equal(undefined);
+                    expect(setImmediateFuncNames.length).to.equal(
+                        0,
+                        'no setImmediate for successful callback'
+                    );
+                    done();
+                },
+                {
+                    optimize: true,
+                }
+            );
         });
         it.skip('should not throw error from success callback in same cycle', function (done) {
             var promise = new Promise(function (resolve, reject) {
@@ -129,17 +141,23 @@ describe('#promiseCallback', function () {
             });
             var caughtError = null;
             try {
-                promiseCallback(promise, function callbackFn(err, result) {
-                    throw new Error('callback error');
-                }, {
-                    optimize: true
-                });
+                promiseCallback(
+                    promise,
+                    function callbackFn(err, result) {
+                        throw new Error('callback error');
+                    },
+                    {
+                        optimize: true,
+                    }
+                );
             } catch (e) {
                 caughtError = e;
             }
             originalSetImmediate(function () {
-                expect(setImmediateFuncNames.length).to.equal(1,
-                    '1 setImmediate for bad callback');
+                expect(setImmediateFuncNames.length).to.equal(
+                    1,
+                    '1 setImmediate for bad callback'
+                );
                 expect(setImmediateFuncNames[0]).to.equal('doNotSwallowError');
                 expect(caughtError).to.equal(null);
                 done();
@@ -151,19 +169,25 @@ describe('#promiseCallback', function () {
             });
             var caughtError = null;
             try {
-                promiseCallback(promise, function callbackFn(err, result) {
-                    if (err) {
-                        throw new Error('callback error');
+                promiseCallback(
+                    promise,
+                    function callbackFn(err, result) {
+                        if (err) {
+                            throw new Error('callback error');
+                        }
+                    },
+                    {
+                        optimize: true,
                     }
-                }, {
-                    optimize: true
-                });
+                );
             } catch (e) {
                 caughtError = e;
             }
             originalSetImmediate(function () {
-                expect(setImmediateFuncNames.length).to.equal(1,
-                    '1 setImmediate for bad callback');
+                expect(setImmediateFuncNames.length).to.equal(
+                    1,
+                    '1 setImmediate for bad callback'
+                );
                 expect(setImmediateFuncNames[0]).to.equal('doNotSwallowError');
                 expect(caughtError).to.equal(null);
                 done();

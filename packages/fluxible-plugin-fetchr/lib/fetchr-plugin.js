@@ -70,33 +70,55 @@ module.exports = function fetchrPlugin(options) {
                         xhrTimeout: xhrTimeout,
                         corsPath: corsPath,
                         context: xhrContext,
-                        contextPicker: options.contextPicker
+                        contextPicker: options.contextPicker,
                     };
                     if (typeof options.statsCollector === 'function') {
-                        fetchrOptions.statsCollector = function collectFetcherStats(stats) {
-                            options.statsCollector(actionContext, stats);
-                        };
+                        fetchrOptions.statsCollector =
+                            function collectFetcherStats(stats) {
+                                options.statsCollector(actionContext, stats);
+                            };
                     }
                     var service = new Fetchr(fetchrOptions);
                     actionContext.service = {
                         create: service.create.bind(service),
                         read: service.read.bind(service),
                         update: service.update.bind(service),
-                        'delete': service['delete'].bind(service),
-                        constructGetXhrUri: function constructGetXhrUri(resource, params, config) {
+                        delete: service.delete.bind(service),
+                        constructGetXhrUri: function constructGetXhrUri(
+                            resource,
+                            params,
+                            config
+                        ) {
                             config = config || {};
                             uri = config.cors ? corsPath : currentXhrPath;
-                            var getUriFn = config.constructGetUri || defaultConstructGetUri;
-                            return getUriFn.call(service, uri, resource, params, config, xhrContext);
+                            var getUriFn =
+                                config.constructGetUri ||
+                                defaultConstructGetUri;
+                            return getUriFn.call(
+                                service,
+                                uri,
+                                resource,
+                                params,
+                                config,
+                                xhrContext
+                            );
                         },
                         updateOptions: function (options) {
-                            currentXhrPath = options.xhrPath ? options.xhrPath : currentXhrPath;
-                            xhrTimeout = options.xhrTimeout ? options.xhrTimeout : xhrTimeout;
-                            corsPath = options.corsPath ? options.corsPath : corsPath;
-                            service.updateOptions && service.updateOptions(options);
-                        }
+                            currentXhrPath = options.xhrPath
+                                ? options.xhrPath
+                                : currentXhrPath;
+                            xhrTimeout = options.xhrTimeout
+                                ? options.xhrTimeout
+                                : xhrTimeout;
+                            corsPath = options.corsPath
+                                ? options.corsPath
+                                : corsPath;
+                            service.updateOptions &&
+                                service.updateOptions(options);
+                        },
                     };
-                    actionContext.getServiceMeta = service.getServiceMeta.bind(service);
+                    actionContext.getServiceMeta =
+                        service.getServiceMeta.bind(service);
                 },
                 /**
                  * Called to dehydrate plugin options
@@ -108,7 +130,7 @@ module.exports = function fetchrPlugin(options) {
                         xhrContext: contextOptions.xhrContext,
                         xhrPath: currentXhrPath,
                         xhrTimeout: xhrTimeout,
-                        corsPath: corsPath
+                        corsPath: corsPath,
                     };
                 },
                 /**
@@ -121,7 +143,7 @@ module.exports = function fetchrPlugin(options) {
                     currentXhrPath = state.xhrPath;
                     xhrTimeout = state.xhrTimeout;
                     corsPath = state.corsPath;
-                }
+                },
             };
         },
         /**
@@ -148,6 +170,6 @@ module.exports = function fetchrPlugin(options) {
          */
         getXhrPath: function getXhrPath() {
             return xhrPath;
-        }
+        },
     };
 };

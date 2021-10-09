@@ -11,15 +11,15 @@ var PageStore = createStore({
         this.content = 'initial content...';
     },
     handleContentChange: function (payload) {
-        this.content = 'content for page with id '+payload.id;
+        this.content = 'content for page with id ' + payload.id;
         this.emitChange();
     },
     handlers: {
-        'LOAD_PAGE': 'handleContentChange'
+        LOAD_PAGE: 'handleContentChange',
     },
     getState: function () {
         return {
-            content: this.content
+            content: this.content,
         };
     },
     dehydrate: function () {
@@ -27,7 +27,7 @@ var PageStore = createStore({
     },
     rehydrate: function (state) {
         this.content = state.content;
-    }
+    },
 });
 
 module.exports = PageStore;

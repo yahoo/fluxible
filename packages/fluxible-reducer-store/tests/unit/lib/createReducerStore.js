@@ -1,22 +1,22 @@
 /*global describe,it,beforeEach */
 
-import {expect} from 'chai';
+import { expect } from 'chai';
 import MessageStore from '../../fixtures/stores/MessageStore';
 import SingleReducerStore from '../../fixtures/stores/SingleReducerStore';
 import messages from '../../fixtures/data/messages';
-import {createMockActionContext} from 'fluxible/utils';
+import { createMockActionContext } from 'fluxible/utils';
 
 describe('fluxible-reducer-store', () => {
     var context;
     beforeEach(() => {
         context = createMockActionContext({
-            stores: [MessageStore, SingleReducerStore]
+            stores: [MessageStore, SingleReducerStore],
         });
     });
     it('should receive messages', () => {
         const messageStore = context.getStore(MessageStore);
         const singleStore = context.getStore(SingleReducerStore);
-        expect(messageStore).to.be['instanceof'](MessageStore);
+        expect(messageStore).to.be.instanceof(MessageStore);
         context.dispatch('RECEIVE_MESSAGES', messages);
         const threadMessages = messageStore.getAllForThread('t_1');
         expect(singleStore.getState().count).to.equal(7);
@@ -32,7 +32,7 @@ describe('fluxible-reducer-store', () => {
             expect(message.isRead).to.equal(false);
         });
         context.dispatch('OPEN_THREAD', {
-            threadID: 't_1'
+            threadID: 't_1',
         });
         expect(singleStore.getState().count).to.equal(7);
         const newThreadMessages = store.getAllForThread('t_1');

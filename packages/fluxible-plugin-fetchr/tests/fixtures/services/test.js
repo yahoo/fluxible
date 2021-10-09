@@ -7,8 +7,8 @@ module.exports = {
     read: function read(req, resource, params, config, callback) {
         callback(null, 'read', {
             headers: {
-                'Cache-Control': 'private'
-            }
+                'Cache-Control': 'private',
+            },
         });
     },
     create: function create(req, resource, params, config, body, callback) {
@@ -17,7 +17,7 @@ module.exports = {
     update: function update(req, resource, params, config, body, callback) {
         callback(null, 'update');
     },
-    'delete': function del(req, resource, params, config, callback) {
+    delete: function del(req, resource, params, config, callback) {
         callback(null, 'delete');
-    }
+    },
 };

@@ -17,7 +17,12 @@ class Nav extends React.Component {
 
             return (
                 <li className={className} key={link.path}>
-                    <NavLink routeName={link.page} activeStyle={{backgroundColor: '#eee'}}>{link.title}</NavLink>
+                    <NavLink
+                        routeName={link.page}
+                        activeStyle={{ backgroundColor: '#eee' }}
+                    >
+                        {link.title}
+                    </NavLink>
                 </li>
             );
         });
@@ -32,12 +37,12 @@ class Nav extends React.Component {
 
 Nav.defaultProps = {
     selected: null,
-    links: {}
+    links: {},
 };
 
 Nav.propTypes = {
     currentRoute: PropTypes.object,
-    links: PropTypes.object
+    links: PropTypes.object,
 };
 
 export default Nav;

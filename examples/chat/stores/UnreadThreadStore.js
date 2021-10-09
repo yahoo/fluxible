@@ -6,12 +6,11 @@
 var createStore = require('fluxible/addons').createStore;
 var ThreadStore = require('./ThreadStore');
 
-
 var UnreadThreadStore = createStore({
     storeName: 'UnreadThreadStore',
     handlers: {
-        'RECEIVE_MESSAGES': 'receiveMessages',
-        'OPEN_THREAD': 'openThread'
+        RECEIVE_MESSAGES: 'receiveMessages',
+        OPEN_THREAD: 'openThread',
     },
     initialize: function () {
         this.messages = {};
@@ -37,8 +36,7 @@ var UnreadThreadStore = createStore({
     },
     rehydrate: function (state) {
         return;
-    }
+    },
 });
-
 
 module.exports = UnreadThreadStore;
