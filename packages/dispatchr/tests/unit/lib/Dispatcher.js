@@ -16,7 +16,7 @@ describe('Dispatchr', function () {
 
     beforeEach(function () {
         dispatcher = dispatchr.createDispatcher({
-            stores: [mockStore, delayedStore, noDehydrateStore]
+            stores: [mockStore, delayedStore, noDehydrateStore],
         });
     });
 
@@ -39,7 +39,7 @@ describe('Dispatchr', function () {
 
     describe('#registerStore', function () {
         it('should throw if store name is already registered', function () {
-            var NewStore = function Store () {};
+            var NewStore = function Store() {};
             NewStore.storeName = 'Store';
             expect(function () {
                 dispatcher.registerStore(NewStore);
@@ -61,7 +61,7 @@ describe('Dispatchr', function () {
         it('should warn if registering store that relies on name property', function () {
             var oldWarn = console.warn;
             var warning;
-            console.warn = function(message) {
+            console.warn = function (message) {
                 warning = message;
             };
             dispatcher.registerStore(function NewStore() {});
@@ -93,7 +93,9 @@ describe('Dispatchr', function () {
 
             expect(mockStoreInstance).to.be.an('object');
 
-            expect(dispatcherContext.getStore('Store')).to.equal(mockStoreInstance);
+            expect(dispatcherContext.getStore('Store')).to.equal(
+                mockStoreInstance
+            );
         });
         it('should allow passing constructor instead of class name', function () {
             var dispatcherContext = dispatcher.createContext({}),
@@ -101,7 +103,9 @@ describe('Dispatchr', function () {
 
             expect(mockStoreInstance).to.be.an('object');
 
-            expect(dispatcherContext.getStore('Store')).to.equal(mockStoreInstance);
+            expect(dispatcherContext.getStore('Store')).to.equal(
+                mockStoreInstance
+            );
         });
         it('should throw if name is invalid', function () {
             var dispatcherContext = dispatcher.createContext({});
@@ -114,7 +118,7 @@ describe('Dispatchr', function () {
 
     describe('#dispatch', function () {
         it('should dispatch to store', function () {
-            var context = {test: 'test'},
+            var context = { test: 'test' },
                 dispatcherContext = dispatcher.createContext(context);
 
             dispatcherContext.dispatch('NAVIGATE', {});
@@ -130,49 +134,65 @@ describe('Dispatchr', function () {
         });
 
         it('should allow stores to wait for other stores', function () {
-            var context = {test: 'test'},
+            var context = { test: 'test' },
                 dispatcherContext = dispatcher.createContext(context);
 
             dispatcherContext.dispatch('DELAY', {});
-            expect(dispatcherContext.getStore('Store').getState().page).to.equal('delay');
+            expect(
+                dispatcherContext.getStore('Store').getState().page
+            ).to.equal('delay');
         });
 
         it('should allow stores to wait for other stores even if they do not handle that action', function () {
-            var context = {test: 'test'},
+            var context = { test: 'test' },
                 dispatcherContext = dispatcher.createContext(context);
 
             dispatcherContext.dispatch('WAITFOR', {});
-            expect(dispatcherContext.getStore('Store').getState().called).to.equal(true);
+            expect(
+                dispatcherContext.getStore('Store').getState().called
+            ).to.equal(true);
         });
 
         it('should call stores that registered a default action', function () {
-            var context = {test: 'test'},
+            var context = { test: 'test' },
                 dispatcherContext = dispatcher.createContext(context);
 
             dispatcherContext.dispatch('NAVIGATE', {});
-            expect(dispatcherContext.getStore(delayedStore).defaultCalled).to.equal(true);
-            expect(dispatcherContext.getStore(delayedStore).actionHandled).to.equal('NAVIGATE');
+            expect(
+                dispatcherContext.getStore(delayedStore).defaultCalled
+            ).to.equal(true);
+            expect(
+                dispatcherContext.getStore(delayedStore).actionHandled
+            ).to.equal('NAVIGATE');
         });
 
         it('should call stores that registered a default action that has no other handlers', function () {
-            var context = {test: 'test'},
+            var context = { test: 'test' },
                 dispatcherContext = dispatcher.createContext(context);
 
             dispatcherContext.dispatch('FOO', {});
-            expect(dispatcherContext.getStore(delayedStore).defaultCalled).to.equal(true);
-            expect(dispatcherContext.getStore(delayedStore).actionHandled).to.equal('FOO');
+            expect(
+                dispatcherContext.getStore(delayedStore).defaultCalled
+            ).to.equal(true);
+            expect(
+                dispatcherContext.getStore(delayedStore).actionHandled
+            ).to.equal('FOO');
         });
 
         it('should not call the default handler if store has explicit action handler', function () {
-            var context = {test: 'test'},
+            var context = { test: 'test' },
                 dispatcherContext = dispatcher.createContext(context);
             dispatcherContext.dispatch('DELAY', {});
-            expect(dispatcherContext.getStore(delayedStore).defaultCalled).to.equal(false);
-            expect(dispatcherContext.getStore(delayedStore).actionHandled).to.equal(null);
+            expect(
+                dispatcherContext.getStore(delayedStore).defaultCalled
+            ).to.equal(false);
+            expect(
+                dispatcherContext.getStore(delayedStore).actionHandled
+            ).to.equal(null);
         });
 
         it('should not swallow errors raised by store handler', function () {
-            var context = {test: 'test'},
+            var context = { test: 'test' },
                 dispatcherContext = dispatcher.createContext(context);
             expect(function () {
                 dispatcherContext.dispatch('ERROR', {});
@@ -182,45 +202,43 @@ describe('Dispatchr', function () {
         });
 
         it('should throw if a dispatch called with falsy actionName parameter', function () {
-            var context = {test: 'test'},
+            var context = { test: 'test' },
                 dispatcherContext = dispatcher.createContext(context);
 
             expect(function () {
                 dispatcherContext.dispatch(undefined, {
-                    dispatcher: dispatcherContext
+                    dispatcher: dispatcherContext,
                 });
             }).to.throw();
         });
 
         it('should throw if a dispatch called within dispatch', function () {
-            var context = {test: 'test'},
+            var context = { test: 'test' },
                 dispatcherContext = dispatcher.createContext(context);
 
             expect(function () {
                 dispatcherContext.dispatch('DISPATCH', {
-                    dispatcher: dispatcherContext
+                    dispatcher: dispatcherContext,
                 });
             }).to.throw();
         });
     });
 
     describe('#dehydrate', function () {
-        var context,
-            expectedState,
-            dispatcherContext;
+        var context, expectedState, dispatcherContext;
         beforeEach(function () {
             context = { test: 'test' };
             expectedState = {
                 stores: {
                     Store: {
                         called: true,
-                        page: 'delay'
+                        page: 'delay',
                     },
                     DelayedStore: {
                         final: true,
-                        page: 'delay'
-                    }
-                }
+                        page: 'delay',
+                    },
+                },
             };
             dispatcherContext = dispatcher.createContext(context);
         });
@@ -262,10 +280,12 @@ describe('Dispatchr', function () {
                 errorHandler: function (info, context) {
                     expect(info).to.be.an('object');
                     expect(info.type).equal('REGISTER_STORE_NO_CONSTRUCTOR');
-                    expect(info.message).equal('registerStore requires a constructor as first parameter');
+                    expect(info.message).equal(
+                        'registerStore requires a constructor as first parameter'
+                    );
                     expect(info.meta.error).to.be.an.instanceOf(Error);
                     done();
-                }
+                },
             });
             dispatcher.registerStore('DoesNotExist');
         });
@@ -274,7 +294,7 @@ describe('Dispatchr', function () {
             var dispatcher = dispatchr.createDispatcher({
                 errorHandler: function (info, context) {
                     throw new Error(info.message);
-                }
+                },
             });
             expect(function () {
                 dispatcher.registerStore('DoesNotExist');
@@ -282,7 +302,7 @@ describe('Dispatchr', function () {
         });
 
         it('should expose context and handle additional meta data', function (done) {
-            var NewStore = function Store () {};
+            var NewStore = function Store() {};
             NewStore.storeName = 'NewStore';
 
             var dispatcher = dispatchr.createDispatcher({
@@ -291,13 +311,15 @@ describe('Dispatchr', function () {
                         expect(context.test).equal('test');
                         expect(info).to.be.an('object');
                         expect(info.type).equal('STORE_UNREGISTERED');
-                        expect(info.message).equal('Store NewStore was not registered.');
+                        expect(info.message).equal(
+                            'Store NewStore was not registered.'
+                        );
                         expect(info.meta.storeName).equal('NewStore');
                         expect(info.meta.error).to.be.an.instanceOf(Error);
                         done();
-                    }
+                    },
                 }),
-                context = {test: 'test'},
+                context = { test: 'test' },
                 dispatcherContext = dispatcher.createContext(context);
 
             dispatcherContext.getStore(NewStore);
@@ -308,16 +330,17 @@ describe('Dispatchr', function () {
                     stores: [mockStore],
                     errorHandler: function (info, context) {
                         expect(info.type).equal('DISPATCH_EXCEPTION');
-                        expect(info.message).equal('Store handler error thrown');
+                        expect(info.message).equal(
+                            'Store handler error thrown'
+                        );
                         expect(info.meta.error).to.be.an.instanceOf(Error);
                         done();
-                    }
+                    },
                 }),
-                context = {test: 'test'},
+                context = { test: 'test' },
                 dispatcherContext = dispatcher.createContext(context);
 
             dispatcherContext.dispatch('EXCEPTION', {});
-        })
+        });
     });
-
 });

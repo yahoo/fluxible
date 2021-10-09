@@ -5,12 +5,12 @@ var expect = require('chai').expect;
 var BaseStore = require('../../../addons/BaseStore');
 
 var contextMock = {
-    dimensions: {}
+    dimensions: {},
 };
 var dispatcherMock = {
     getContext: function () {
         return contextMock;
-    }
+    },
 };
 
 describe('BaseStore', function () {
@@ -23,7 +23,7 @@ describe('BaseStore', function () {
     it('allows listening for changes', function (done) {
         var store = new BaseStore(dispatcherMock);
         var payloadMock = {
-            foo: 'bar'
+            foo: 'bar',
         };
         store.addChangeListener(function (payload) {
             expect(payload.foo).to.equal('bar');

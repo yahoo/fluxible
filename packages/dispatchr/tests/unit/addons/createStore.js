@@ -7,21 +7,21 @@ var expect = require('chai').expect,
 describe('createStore', function () {
     it('should return a valid Constructor', function () {
         var mock = {
-                dispatcher: {dispatcher: true},
-                param: {c: 3},
-                handlers: {'TEST': 'test'}
+                dispatcher: { dispatcher: true },
+                param: { c: 3 },
+                handlers: { TEST: 'test' },
             },
             ExampleStore = createStore({
                 statics: {
                     storeName: 'ExampleStore',
-                    handlers: mock.handlers
+                    handlers: mock.handlers,
                 },
-                initialize: function() {
+                initialize: function () {
                     expect(this.dispatcher).to.deep.equal(mock.dispatcher);
                 },
-                test: function(param) {
+                test: function (param) {
                     expect(param).to.equal(mock.param);
-                }
+                },
             }),
             store = new ExampleStore(mock.dispatcher);
 
@@ -34,29 +34,29 @@ describe('createStore', function () {
         var mixin_initialize_called = false,
             base_initialize_called = false,
             mock = {
-                dispatcher: {dispatcher: true},
-                param: {c: 3}
+                dispatcher: { dispatcher: true },
+                param: { c: 3 },
             },
             ExampleMixin = {
-                initialize: function() {
+                initialize: function () {
                     mixin_initialize_called = true;
                 },
-                mixin_test: function(param) {
+                mixin_test: function (param) {
                     expect(param).to.equal(mock.param);
-                }
+                },
             },
             ExampleStore = createStore({
                 statics: {
                     storeName: 'ExampleStore',
-                    mixins: [ExampleMixin]
+                    mixins: [ExampleMixin],
                 },
-                initialize: function() {
+                initialize: function () {
                     expect(mixin_initialize_called).to.equal(true);
                     base_initialize_called = true;
                 },
-                test: function(param) {
+                test: function (param) {
                     expect(param).to.equal(mock.param);
-                }
+                },
             }),
             store = new ExampleStore(mock.dispatcher);
 
@@ -69,20 +69,20 @@ describe('createStore', function () {
 
     it('should error on mixin conflict', function () {
         var mock = {
-                dispatcher: {dispatcher: true}
+                dispatcher: { dispatcher: true },
             },
             ExampleMixin = {
-                test: function() {}
+                test: function () {},
             },
             ExampleStore;
 
-        expect(function() {
+        expect(function () {
             ExampleStore = createStore({
                 statics: {
                     storeName: 'ExampleStore',
-                    mixins: [ExampleMixin]
+                    mixins: [ExampleMixin],
                 },
-                test: function() {}
+                test: function () {},
             });
         }).to.throw(Error);
     });

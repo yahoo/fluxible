@@ -8,16 +8,15 @@ import { RouteStore } from '../../';
 var StaticRouteStore = RouteStore.withStaticRoutes({
     foo: {
         path: '/foo',
-        method: 'get'
+        method: 'get',
     },
-    bar : {
+    bar: {
         path: '/bar',
-        method: 'get'
-    }
+        method: 'get',
+    },
 });
 
 describe('RouteStore', function () {
-
     describe('withStaticRoutes', function () {
         var routeStore;
         beforeEach(function () {
@@ -25,7 +24,7 @@ describe('RouteStore', function () {
             routeStore._handleNavigateStart({
                 transactionId: 'first',
                 url: '/foo',
-                method: 'get'
+                method: 'get',
             });
         });
         describe('dehydrate', function () {
@@ -45,11 +44,17 @@ describe('RouteStore', function () {
                 var newStore = new StaticRouteStore();
                 newStore.rehydrate({
                     currentUrl: '/foo',
-                    currentNavigate: { transactionId: 'first', url: '/foo', method: 'get' },
-                    routes: null
+                    currentNavigate: {
+                        transactionId: 'first',
+                        url: '/foo',
+                        method: 'get',
+                    },
+                    routes: null,
                 });
                 expect(newStore.getCurrentRoute()).to.be.an('object');
-                expect(newStore.getCurrentNavigate().transactionId).to.equal('first');
+                expect(newStore.getCurrentNavigate().transactionId).to.equal(
+                    'first'
+                );
                 expect(newStore.getCurrentNavigate().url).to.equal('/foo');
                 expect(newStore.getCurrentNavigate().method).to.equal('get');
                 expect(newStore._routes).to.equal(null);
@@ -66,23 +71,23 @@ describe('RouteStore', function () {
             routeStore._handleNavigateStart({
                 transactionId: 'second',
                 url: '/bar',
-                method: 'get'
+                method: 'get',
             });
             expect(routeStore.isNavigateComplete()).to.equal(false);
             routeStore._handleNavigateSuccess({
                 transactionId: 'first',
                 route: {
                     url: '/bar',
-                    method: 'get'
-                }
+                    method: 'get',
+                },
             });
             expect(routeStore.isNavigateComplete()).to.equal(false);
             routeStore._handleNavigateSuccess({
                 transactionId: 'second',
                 route: {
                     url: '/bar',
-                    method: 'get'
-                }
+                    method: 'get',
+                },
             });
             expect(routeStore.isNavigateComplete()).to.equal(true);
         });
@@ -91,23 +96,23 @@ describe('RouteStore', function () {
             routeStore._handleNavigateStart({
                 transactionId: 'second',
                 url: '/bar',
-                method: 'get'
+                method: 'get',
             });
             expect(routeStore.isNavigateComplete()).to.equal(false);
             routeStore._handleNavigateFailure({
                 transactionId: 'first',
                 error: {
                     statusCode: 404,
-                    message: 'Url /unknown does not match any routes'
-                }
+                    message: 'Url /unknown does not match any routes',
+                },
             });
             expect(routeStore.isNavigateComplete()).to.equal(false);
             routeStore._handleNavigateFailure({
                 transactionId: 'second',
                 error: {
                     statusCode: 404,
-                    message: 'Url /unknown does not match any routes'
-                }
+                    message: 'Url /unknown does not match any routes',
+                },
             });
             expect(routeStore.isNavigateComplete()).to.equal(true);
         });
@@ -115,17 +120,21 @@ describe('RouteStore', function () {
             routeStore._handleNavigateStart({
                 transactionId: 'second',
                 url: '/bar',
-                method: 'get'
+                method: 'get',
             });
-            expect(routeStore.getCurrentNavigate().transactionId).to.equal('second');
+            expect(routeStore.getCurrentNavigate().transactionId).to.equal(
+                'second'
+            );
         });
         it('should update transactionId with same url navigation', function () {
             routeStore._handleNavigateStart({
                 transactionId: 'second',
                 url: '/foo',
-                method: 'get'
+                method: 'get',
             });
-            expect(routeStore.getCurrentNavigate().transactionId).to.equal('second');
+            expect(routeStore.getCurrentNavigate().transactionId).to.equal(
+                'second'
+            );
         });
     });
 
@@ -134,19 +143,19 @@ describe('RouteStore', function () {
         var routes = {
             foo: {
                 path: '/foo',
-                method: 'get'
+                method: 'get',
             },
             bar: {
                 path: '/bar',
-                method: 'post'
-            }
+                method: 'post',
+            },
         };
         beforeEach(function () {
             routeStore = new RouteStore();
             routeStore._handleReceiveRoutes(routes);
             routeStore._handleNavigateStart({
                 url: '/foo',
-                method: 'get'
+                method: 'get',
             });
         });
         describe('dehydrate', function () {
@@ -164,7 +173,7 @@ describe('RouteStore', function () {
                 newStore.rehydrate({
                     currentUrl: '/foo',
                     currentNavigate: { url: '/foo', method: 'get' },
-                    routes: routes
+                    routes: routes,
                 });
                 expect(newStore.getCurrentRoute()).to.be.an('object');
                 expect(newStore.getCurrentNavigate().url).to.equal('/foo');
@@ -172,11 +181,11 @@ describe('RouteStore', function () {
                 expect(newStore._routes).to.deep.equal(routes);
             });
 
-            it('should rehydrate POST routes correctly', function() {
+            it('should rehydrate POST routes correctly', function () {
                 var newStore = new StaticRouteStore();
                 newStore.rehydrate({
                     currentNavigate: { url: '/bar', method: 'post' },
-                    routes: routes
+                    routes: routes,
                 });
                 expect(newStore.getCurrentRoute()).to.be.an('object');
                 expect(newStore.getCurrentNavigate().url).to.equal('/bar');
@@ -194,7 +203,7 @@ describe('RouteStore', function () {
                     name: 'foo',
                     url: '/foo',
                     params: {},
-                    query: {}
+                    query: {},
                 };
 
                 route = routeStore.getRoute('/foo');
@@ -216,7 +225,7 @@ describe('RouteStore', function () {
                     name: 'bar',
                     url: '/bar',
                     params: {},
-                    query: {}
+                    query: {},
                 };
 
                 route = routeStore.getRoute('/bar');
@@ -241,17 +250,17 @@ describe('RouteStore', function () {
         var routes = {
             foo: {
                 path: '/foo',
-                method: 'get'
+                method: 'get',
             },
             bar: {
                 path: '/bar',
-                method: 'post'
-            }
+                method: 'post',
+            },
         };
         routeStore._handleReceiveRoutes(routes);
         routeStore._handleNavigateStart({
             url: '/foo',
-            method: 'get'
+            method: 'get',
         });
         expect(routeStore.getCurrentNavigate().url).to.equal('/foo');
         expect(routeStore.getCurrentNavigate().method).to.equal('get');
@@ -260,12 +269,12 @@ describe('RouteStore', function () {
             transactionId: 'first',
             route: {
                 url: '/foo',
-                method: 'get'
-            }
+                method: 'get',
+            },
         });
         routeStore._handleNavigateStart({
             url: '/bar',
-            method: 'get'
+            method: 'get',
         });
         expect(routeStore.getCurrentNavigate().url).to.equal('/bar');
         expect(routeStore.getCurrentNavigate().method).to.equal('get');
@@ -285,12 +294,12 @@ describe('RouteStore', function () {
         var routes = {
             foo: {
                 path: '/foo',
-                method: 'get'
+                method: 'get',
             },
             bar: {
                 path: '/bar',
-                method: 'post'
-            }
+                method: 'post',
+            },
         };
         routeStore._handleReceiveRoutes(routes);
         var state = routeStore.dehydrate();
@@ -300,8 +309,8 @@ describe('RouteStore', function () {
         var newRoutes = {
             baz: {
                 path: '/baz',
-                method: 'get'
-            }
+                method: 'get',
+            },
         };
         routeStore._handleResetRoutes(newRoutes);
         var newState = routeStore.dehydrate();

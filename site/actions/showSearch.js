@@ -6,7 +6,7 @@
 import debugLib from 'debug';
 const debug = debugLib('showSearch');
 
-function showSearch (context, route, done) {
+function showSearch(context, route, done) {
     debug('show search page');
     context.dispatch('DO_SEARCH', route.query.q);
     done();

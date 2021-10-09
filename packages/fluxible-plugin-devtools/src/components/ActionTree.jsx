@@ -45,10 +45,10 @@ class ActionTree extends React.Component {
         var head = document.getElementsByTagName('head')[0];
         var style = document.createElement('style');
         style.type = 'text/css';
-        if (style.styleSheet){
-          style.styleSheet.cssText = css;
+        if (style.styleSheet) {
+            style.styleSheet.cssText = css;
         } else {
-          style.appendChild(document.createTextNode(css));
+            style.appendChild(document.createTextNode(css));
         }
 
         head.appendChild(style);
@@ -59,21 +59,26 @@ class ActionTree extends React.Component {
         script.type = 'text/javascript';
         document.getElementsByTagName('body')[0].appendChild(script);
         if (callback) {
-            if (script.readyState) { // IE
+            if (script.readyState) {
+                // IE
                 script.onreadystatechange = () => {
-                    if (script.readyState === 'loaded' || script.readyState === 'complete') {
+                    if (
+                        script.readyState === 'loaded' ||
+                        script.readyState === 'complete'
+                    ) {
                         script.onreadystatechange = null;
                         callback();
                     }
                 };
-            } else { // Others
+            } else {
+                // Others
                 script.onload = callback;
             }
         }
         script.src = url;
     }
 
-    graph () {
+    graph() {
         if (!this.props.action) {
             return;
         }
@@ -85,15 +90,16 @@ class ActionTree extends React.Component {
             filters.push('dispatchCalls');
         }
         const root = this.props.action;
-        var margin = {top: 30, right: 20, bottom: 30, left: 20};
+        var margin = { top: 30, right: 20, bottom: 30, left: 20 };
         var width = 960 - margin.left - margin.right;
         var barHeight = 20;
-        var barWidth = width * .8;
+        var barWidth = width * 0.8;
 
         var i = 0;
         var duration = 300;
 
-        var tree = d3.layout.tree()
+        var tree = d3.layout
+            .tree()
             .nodeSize([0, 20])
             .children((node) => {
                 if (node.collapsed) {
@@ -101,16 +107,19 @@ class ActionTree extends React.Component {
                 }
                 return filters
                     .reduce((children, filter) => {
-                        return node[filter] ? children.concat(node[filter]): children;
+                        return node[filter]
+                            ? children.concat(node[filter])
+                            : children;
                     }, [])
-                    .sort((a,b) => a.startTime - b.startTime);
+                    .sort((a, b) => a.startTime - b.startTime);
             });
 
-        var diagonal = d3.svg.diagonal()
-            .projection(d => [d.x, d.y]);
+        var diagonal = d3.svg.diagonal().projection((d) => [d.x, d.y]);
 
         var wrapper = this.refs.svgWrapper;
-        var svg = d3.select(wrapper).append('svg')
+        var svg = d3
+            .select(wrapper)
+            .append('svg')
             .attr('width', width + margin.left + margin.right)
             .append('g')
             .attr('transform', `translate(${margin.left},${margin.top})`);
@@ -118,32 +127,35 @@ class ActionTree extends React.Component {
             // Compute the flattened node list.
             let nodes = tree.nodes(source);
 
-
-            const height = nodes.length * barHeight + margin.top + margin.bottom;
+            const height =
+                nodes.length * barHeight + margin.top + margin.bottom;
 
             d3.select(wrapper).select('svg').attr('height', height);
 
             // Compute the 'layout'.
             nodes.forEach((n, i) => {
-                const startPercent = n.parent ? ((n.startTime - source.startTime) / source.duration) : 0;
+                const startPercent = n.parent
+                    ? (n.startTime - source.startTime) / source.duration
+                    : 0;
                 const x = startPercent * barWidth;
-                n.x = relativeWidth ? Math.round(x) : n.depth*barHeight;
-                const durPercent = n.parent ? (n.duration / source.duration) : 1;
+                n.x = relativeWidth ? Math.round(x) : n.depth * barHeight;
+                const durPercent = n.parent ? n.duration / source.duration : 1;
                 const width = Math.round(durPercent * barWidth) || 1; // minimum 1 pixel width
                 n.width = relativeWidth ? width : barWidth;
                 n.y = i * barHeight;
             });
 
             // Update the nodes…
-            var node = svg.selectAll('g.node')
-                .data(nodes, d => {
-                    var id = ++i;
-                    d.id = d.id || id;
-                    return d.id;
-                });
-            var nodeEnter = node.enter().append('g')
+            var node = svg.selectAll('g.node').data(nodes, (d) => {
+                var id = ++i;
+                d.id = d.id || id;
+                return d.id;
+            });
+            var nodeEnter = node
+                .enter()
+                .append('g')
                 .attr('class', 'node')
-                .attr('transform', d => {
+                .attr('transform', (d) => {
                     const y = d.parent ? d.parent.y : source.y;
                     const x = d.parent ? d.parent.x : source.x;
                     return `translate(${x},${y})`;
@@ -151,85 +163,107 @@ class ActionTree extends React.Component {
                 .style('opacity', 1e-6);
 
             // Enter any new nodes at the parent's previous position.
-            nodeEnter.append('rect')
+            nodeEnter
+                .append('rect')
                 .attr('class', 'bar')
                 .attr('y', -barHeight / 2)
                 .attr('height', barHeight)
-                .attr('width', d => d.width)
-                .attr('x', d => d.x)
+                .attr('width', (d) => d.width)
+                .attr('x', (d) => d.x)
                 .style('fill', color)
                 .on('click', toggleCollapse)
                 .on('mouseover', showCurrentPath)
                 .on('mouseout', showAllPaths)
-                .append('title').text(d => 'Click to collapse ' + d.name +'. Hover to see path to parent.');
-            nodeEnter.append('text')
+                .append('title')
+                .text(
+                    (d) =>
+                        'Click to collapse ' +
+                        d.name +
+                        '. Hover to see path to parent.'
+                );
+            nodeEnter
+                .append('text')
                 .attr('class', 'displayLabel')
                 .attr('dy', 3.5)
                 .attr('dx', 5.5)
-                .attr('x', d => d.x + barHeight)
+                .attr('x', (d) => d.x + barHeight)
                 .text(createDisplayName)
                 .on('click', toggleCollapse)
                 .on('mouseover', showCurrentPath)
                 .on('mouseout', showAllPaths);
 
-            nodeEnter.append('text')
+            nodeEnter
+                .append('text')
                 .attr('class', 'payload-label')
                 .attr('height', barHeight)
                 .attr('width', barHeight)
                 .attr('dy', '3.5')
                 .attr('dx', '2')
-                .attr('x', d => d.x)
+                .attr('x', (d) => d.x)
                 .text('{...}');
-            nodeEnter.append('rect')
+            nodeEnter
+                .append('rect')
                 .attr('class', 'log')
                 .attr('height', barHeight)
                 .attr('width', barHeight)
-                .attr('y', -barHeight/2)
-                .attr('x', d => d.x)
+                .attr('y', -barHeight / 2)
+                .attr('x', (d) => d.x)
                 .on('click', log)
-                .append('title').text(d => 'Open your javascript console and click here to inspect the payload of ' + d.name);
+                .append('title')
+                .text(
+                    (d) =>
+                        'Open your javascript console and click here to inspect the payload of ' +
+                        d.name
+                );
 
             // Transition nodes to their new position.
-            nodeEnter.transition()
+            nodeEnter
+                .transition()
                 .duration(duration)
-                .attr('transform', d => `translate(0,${d.y})`)
+                .attr('transform', (d) => `translate(0,${d.y})`)
                 .style('opacity', 1);
 
             node.transition()
                 .duration(duration)
-                .attr('transform', d => `translate(0,${d.y})`)
+                .attr('transform', (d) => `translate(0,${d.y})`)
                 .style('opacity', 1)
                 .select('rect')
                 .style('fill', color);
 
             // Transition exiting nodes to the parent's new position.
-            node.exit().transition()
+            node.exit()
+                .transition()
                 .duration(duration)
-                .attr('transform', d => `translate(0,${d.parent.y})`)
+                .attr('transform', (d) => `translate(0,${d.parent.y})`)
                 .style('opacity', 1e-6)
                 .remove();
 
             // Update the links…
-            var link = svg.selectAll('path.link')
-                .data(tree.links(nodes));
+            var link = svg.selectAll('path.link').data(tree.links(nodes));
 
             // Enter any new links at the parent's previous position.
-            link.enter().insert('path', 'g')
+            link.enter()
+                .insert('path', 'g')
                 .attr('class', 'link')
-                .attr('d', d => diagonal({source: d.source, target: d.source}))
+                .attr('d', (d) =>
+                    diagonal({ source: d.source, target: d.source })
+                )
                 .transition()
                 .duration(duration)
-                .attr('d', d => diagonal({source: d.source, target: d.target}));
+                .attr('d', (d) =>
+                    diagonal({ source: d.source, target: d.target })
+                );
 
             // Transition links to their new position.
-            link.transition()
-                .duration(duration)
-                .attr('d', diagonal);
+            link.transition().duration(duration).attr('d', diagonal);
 
             // Transition exiting nodes to the parent's new position.
-            link.exit().transition()
+            link.exit()
+                .transition()
                 .duration(duration)
-                .attr('d', d => diagonal({source: d.source, target: d.source}))
+                .attr('d', (d) =>
+                    diagonal({ source: d.source, target: d.source })
+                )
                 .remove();
         }
         /*
@@ -238,15 +272,14 @@ class ActionTree extends React.Component {
          * @method showCurrentPath
          */
         function showCurrentPath(node) {
-            svg
-            .selectAll('path.link')
-            .filter(path => {
-                if (path.target !== node) {
-                    return true;
-                }
-                return false;
-            })
-            .style('display', 'none');
+            svg.selectAll('path.link')
+                .filter((path) => {
+                    if (path.target !== node) {
+                        return true;
+                    }
+                    return false;
+                })
+                .style('display', 'none');
         }
 
         function showAllPaths() {
@@ -290,10 +323,16 @@ class ActionTree extends React.Component {
             console.log(prefix + ' : ' + createDisplayName(d));
             console.log('-> Payload: %o', JSON.parse(d.payload));
             if (d.dispatchCalls) {
-                console.log('-> Dispatch Calls: %o', d.dispatchCalls.map(c => c.name));
+                console.log(
+                    '-> Dispatch Calls: %o',
+                    d.dispatchCalls.map((c) => c.name)
+                );
             }
             if (d.actionCalls) {
-                console.log('-> Action Calls: %o', d.actionCalls.map(c => c.name));
+                console.log(
+                    '-> Action Calls: %o',
+                    d.actionCalls.map((c) => c.name)
+                );
             }
             console.log('===');
         }
@@ -314,7 +353,6 @@ class ActionTree extends React.Component {
         }
 
         update(root);
-
     }
 
     componentDidMount() {
@@ -336,9 +374,7 @@ class ActionTree extends React.Component {
     }
 
     render() {
-        return (
-            <div ref='svgWrapper'></div>
-        );
+        return <div ref="svgWrapper"></div>;
     }
 }
 

@@ -12,7 +12,7 @@ import routes from '../../../configs/routes.js';
 import docResponse from '../../fixtures/doc-response.js';
 
 let MockContext = createMockActionContext({
-    stores: [DocStore]
+    stores: [DocStore],
 });
 
 describe('site', () => {
@@ -21,28 +21,34 @@ describe('site', () => {
 
         beforeEach(function () {
             context = createMockActionContext({
-                stores: [DocStore]
+                stores: [DocStore],
             });
             context.service = new MockService();
-            context.service.setService('docs', function (method, params, config, callback) {
-                if (params.emulateError) {
-                    return callback(new Error('Things went sour.'));
-                }
+            context.service.setService(
+                'docs',
+                function (method, params, config, callback) {
+                    if (params.emulateError) {
+                        return callback(new Error('Things went sour.'));
+                    }
 
-                callback(null, docResponse);
-            });
-            context.service.setService('api', function (method, params, config, callback) {
-                if (params.emulateError) {
-                    return callback(new Error('Things went sour.'));
+                    callback(null, docResponse);
                 }
+            );
+            context.service.setService(
+                'api',
+                function (method, params, config, callback) {
+                    if (params.emulateError) {
+                        return callback(new Error('Things went sour.'));
+                    }
 
-                callback(null, docResponse);
-            });
+                    callback(null, docResponse);
+                }
+            );
         });
 
         it('should execute the home action', function (done) {
             let params = {
-                githubPath: 'foo/bar.md'
+                githubPath: 'foo/bar.md',
             };
 
             context.executeAction(routes.home.action, params, function (err) {
@@ -58,18 +64,22 @@ describe('site', () => {
 
         it('should execute the docs action (without type param)', function (done) {
             let params = {
-                githubPath: 'foo/bar.md'
+                githubPath: 'foo/bar.md',
             };
 
-            context.executeAction(routes.quickStart.action, params, function (err) {
-                if (err) {
-                    return done(err);
-                }
+            context.executeAction(
+                routes.quickStart.action,
+                params,
+                function (err) {
+                    if (err) {
+                        return done(err);
+                    }
 
-                let docs = context.getStore(DocStore).getAll();
-                expect(docs).to.be.an('object');
-                done();
-            });
+                    let docs = context.getStore(DocStore).getAll();
+                    expect(docs).to.be.an('object');
+                    done();
+                }
+            );
         });
     });
 });

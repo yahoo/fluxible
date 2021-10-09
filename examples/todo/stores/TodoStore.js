@@ -5,18 +5,17 @@
 'use strict';
 var createStore = require('fluxible/addons').createStore;
 
-
 module.exports = createStore({
     storeName: 'TodoStore',
     handlers: {
-        'RECEIVE_TODOS_SUCCESS': '_receiveTodos',
-        'CREATE_TODO_START': '_createTodoStart',
-        'CREATE_TODO_FAILURE': '_createTodoFailure',
-        'CREATE_TODO_SUCCESS': '_createTodoSuccess',
-        'UPDATE_TODO_START': '_updateTodoStart',
-        'UPDATE_TODO_SUCCESS': '_updateTodoSuccess',
-        'DELETE_TODO_SUCCESS': '_receiveTodos',
-        'TOGGLE_ALL_TODO_SUCCESS': '_receiveTodos'
+        RECEIVE_TODOS_SUCCESS: '_receiveTodos',
+        CREATE_TODO_START: '_createTodoStart',
+        CREATE_TODO_FAILURE: '_createTodoFailure',
+        CREATE_TODO_SUCCESS: '_createTodoSuccess',
+        UPDATE_TODO_START: '_updateTodoStart',
+        UPDATE_TODO_SUCCESS: '_updateTodoSuccess',
+        DELETE_TODO_SUCCESS: '_receiveTodos',
+        TOGGLE_ALL_TODO_SUCCESS: '_receiveTodos',
     },
     initialize: function () {
         this.todos = [];
@@ -68,21 +67,21 @@ module.exports = createStore({
     getAll: function () {
         return this.todos;
     },
-    createTodo: function(details) {
+    createTodo: function (details) {
         return {
             id: String('td_' + details.timestamp),
             editing: false,
             completed: false,
             text: String(details.text),
-            pending: true
+            pending: true,
         };
     },
     dehydrate: function () {
         return {
-            todos: this.todos
+            todos: this.todos,
         };
     },
     rehydrate: function (state) {
         this.todos = state.todos;
-    }
+    },
 });

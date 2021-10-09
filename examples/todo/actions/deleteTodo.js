@@ -4,7 +4,6 @@
  */
 'use strict';
 
-
 module.exports = function (context, payload, done) {
     context.dispatch('DELETE_TODO_START', payload);
 

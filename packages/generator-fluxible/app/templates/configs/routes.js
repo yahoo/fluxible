@@ -7,13 +7,13 @@ export default {
         method: 'get',
         page: 'home',
         title: 'Home',
-        handler: Home
+        handler: Home,
     },
     about: {
         path: '/about',
         method: 'get',
         page: 'about',
         title: 'About',
-        handler: About
-    }
+        handler: About,
+    },
 };

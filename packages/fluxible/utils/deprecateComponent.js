@@ -23,7 +23,7 @@ module.exports = function deprecateComponent(Component, warningMessage) {
 
         render: function () {
             return React.createElement(Component, this.props);
-        }
+        },
     });
 
     return DeprecationComponent;

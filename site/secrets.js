@@ -6,6 +6,6 @@
  */
 export default {
     github: {
-        accessToken: process.env.GITHUB_ACCESS_TOKEN || ''
-    }
+        accessToken: process.env.GITHUB_ACCESS_TOKEN || '',
+    },
 };

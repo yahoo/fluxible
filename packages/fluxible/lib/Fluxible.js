@@ -64,7 +64,8 @@ Fluxible.prototype.createContext = function createContext(options) {
     // Plug context with app plugins that implement plugContext method
     this._plugins.forEach(function eachPlugin(plugin) {
         if (plugin.plugContext) {
-            var contextPlugin = plugin.plugContext(options, context, self) || {};
+            var contextPlugin =
+                plugin.plugContext(options, context, self) || {};
             contextPlugin.name = contextPlugin.name || plugin.name;
             context.plug(contextPlugin);
         }
@@ -80,7 +81,9 @@ Fluxible.prototype.createContext = function createContext(options) {
  * @param {Object} contextOptions The context options to be provided to each store instance
  * @returns {Dispatcher}
  */
-Fluxible.prototype.createDispatcherInstance = function createDispatcherInstance(contextOptions) {
+Fluxible.prototype.createDispatcherInstance = function createDispatcherInstance(
+    contextOptions
+) {
     return this._dispatcher.createContext(contextOptions);
 };
 
@@ -148,7 +151,7 @@ Fluxible.prototype.dehydrate = function dehydrate(context) {
     var self = this;
     var state = {
         context: context.dehydrate(),
-        plugins: {}
+        plugins: {},
     };
 
     this._plugins.forEach(function (plugin) {
@@ -175,39 +178,50 @@ Fluxible.prototype.rehydrate = function rehydrate(obj, callback) {
     var self = this;
     if (__DEV__) {
         if (typeof obj !== 'object') {
-            throw new Error('`rehydrate` called with a non-object. Ensure ' +
-                'that the parameter passed to rehydrate is a state object ' +
-                'produced by a dehydrate call.');
+            throw new Error(
+                '`rehydrate` called with a non-object. Ensure ' +
+                    'that the parameter passed to rehydrate is a state object ' +
+                    'produced by a dehydrate call.'
+            );
         }
     }
     obj.plugins = obj.plugins || {};
-    var pluginTasks = self._plugins.filter(function (plugin) {
-        return 'function' === typeof plugin.rehydrate
-            && obj.plugins[plugin.name];
-    }).map(function (plugin) {
-        return new Promise(function (resolve, reject) {
-            var result = plugin.rehydrate(obj.plugins[plugin.name], function (err) {
-                if (err) {
-                    reject(err);
-                } else {
+    var pluginTasks = self._plugins
+        .filter(function (plugin) {
+            return (
+                'function' === typeof plugin.rehydrate &&
+                obj.plugins[plugin.name]
+            );
+        })
+        .map(function (plugin) {
+            return new Promise(function (resolve, reject) {
+                var result = plugin.rehydrate(
+                    obj.plugins[plugin.name],
+                    function (err) {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve();
+                        }
+                    }
+                );
+                if (isPromise(result)) {
+                    result.then(resolve, reject);
+                } else if (plugin.rehydrate.length < 2) {
                     resolve();
                 }
             });
-            if (isPromise(result)) {
-                result.then(resolve, reject);
-            } else if (plugin.rehydrate.length < 2) {
-                resolve();
-            }
         });
-    });
 
     var context = self.createContext(obj.context && obj.context.options);
-    var rehydratePromise = Promise.all(pluginTasks).then(function rehydratePluginTasks() {
-        return context.rehydrate(obj.context || {});
-    });
+    var rehydratePromise = Promise.all(pluginTasks).then(
+        function rehydratePluginTasks() {
+            return context.rehydrate(obj.context || {});
+        }
+    );
 
     if (callback) {
-        promiseCallback(rehydratePromise, callback, {optimize: true});
+        promiseCallback(rehydratePromise, callback, { optimize: true });
     }
 
     return rehydratePromise;

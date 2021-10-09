@@ -2,7 +2,7 @@
  * Copyright 2014, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-import {BaseStore} from 'fluxible/addons';
+import { BaseStore } from 'fluxible/addons';
 
 class PageStore extends BaseStore {
     constructor(dispatcher) {
@@ -10,12 +10,12 @@ class PageStore extends BaseStore {
         this.content = 'initial content...';
     }
     handleContentChange(payload) {
-        this.content = 'content for page with id '+payload.id;
+        this.content = 'content for page with id ' + payload.id;
         this.emitChange();
     }
     getState() {
         return {
-            content: this.content
+            content: this.content,
         };
     }
     dehydrate() {
@@ -28,7 +28,7 @@ class PageStore extends BaseStore {
 
 PageStore.storeName = 'PageStore';
 PageStore.handlers = {
-    'LOAD_PAGE': 'handleContentChange'
+    LOAD_PAGE: 'handleContentChange',
 };
 
 export default PageStore;

@@ -8,12 +8,19 @@ import ActionTree from './ActionTree';
 
 export default class Actions extends React.Component {
     static contextTypes = {
-        devtools: PropTypes.object
-    }
+        devtools: PropTypes.object,
+    };
 
     render() {
-        var actions = this.context.devtools.getActionHistory()
-            .map(action => <ActionTree {...this.props} action={action} key={action.rootId} />);
-        return (<div>{actions}</div>);
+        var actions = this.context.devtools
+            .getActionHistory()
+            .map((action) => (
+                <ActionTree
+                    {...this.props}
+                    action={action}
+                    key={action.rootId}
+                />
+            ));
+        return <div>{actions}</div>;
     }
-};
+}

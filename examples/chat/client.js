@@ -32,9 +32,16 @@ app.rehydrate(dehydratedState, function (err, context) {
     // If server did not load data, fire off the navigateAction
     if (!context.getStore(RouteStore).getCurrentRoute()) {
         setTimeout(function () {
-            context.executeAction(navigateAction, { url: window.location.pathname + window.location.search, type: 'pageload' }, function (err) {
-                throw err;
-            });
+            context.executeAction(
+                navigateAction,
+                {
+                    url: window.location.pathname + window.location.search,
+                    type: 'pageload',
+                },
+                function (err) {
+                    throw err;
+                }
+            );
         }, 1000);
     }
 });

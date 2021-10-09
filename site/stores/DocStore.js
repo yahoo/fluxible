@@ -6,12 +6,11 @@
 import { BaseStore } from 'fluxible/addons';
 
 class DocStore extends BaseStore {
-
     static storeName = 'DocStore';
     static handlers = {
-        'UPDATE_PAGE_TITLE': '_receiveTitle',
-        'RECEIVE_DOC_START': '_receiveDocStart',
-        'RECEIVE_DOC_SUCCESS': '_receiveDocSuccess'
+        UPDATE_PAGE_TITLE: '_receiveTitle',
+        RECEIVE_DOC_START: '_receiveDocStart',
+        RECEIVE_DOC_SUCCESS: '_receiveDocSuccess',
     };
 
     constructor(dispatcher) {
@@ -69,7 +68,7 @@ class DocStore extends BaseStore {
     dehydrate() {
         return {
             docs: this.docs,
-            current: this.current
+            current: this.current,
         };
     }
 

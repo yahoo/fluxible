@@ -6,7 +6,9 @@
 var createStore = require('fluxible/addons').createStore;
 var __DEV__ = process.env.NODE_ENV !== 'production';
 
-function stateIdentity(state) { return state; }
+function stateIdentity(state) {
+    return state;
+}
 
 module.exports = function createReducerStore(spec) {
     spec = spec || {};
@@ -24,7 +26,7 @@ module.exports = function createReducerStore(spec) {
         },
         rehydrate: function (state) {
             this.state = (spec.rehydrate || stateIdentity)(state);
-        }
+        },
     });
 
     function replaceReducers(reducers) {
@@ -32,7 +34,7 @@ module.exports = function createReducerStore(spec) {
         // Allow a single reducer function
         if (spec.reducer) {
             spec.reducers = {
-                'default': spec.reducer
+                default: spec.reducer,
             };
         }
         // Create a handler proxy for each reducer so that the store can
@@ -40,18 +42,29 @@ module.exports = function createReducerStore(spec) {
         Object.keys(spec.reducers).forEach(function eachReducer(eventName) {
             var reducer = spec.reducers[eventName];
             if (!ReducerStore.handlers[eventName]) {
-                ReducerStore.handlers[eventName] = function (payload, dispatchedEventName) {
+                ReducerStore.handlers[eventName] = function (
+                    payload,
+                    dispatchedEventName
+                ) {
                     if (__DEV__) {
                         if (!spec.reducers[eventName]) {
                             // Calling a reducer that has been removed should be
                             // non-fatal, but warning may help with bugs.
-                            console.warn(eventName + ' reducer on ' + spec.storeName +
-                                ' has been removed.');
+                            console.warn(
+                                eventName +
+                                    ' reducer on ' +
+                                    spec.storeName +
+                                    ' has been removed.'
+                            );
                             return;
                         }
                     }
                     var startingState = this.state;
-                    this.state = spec.reducers[eventName](this.state, payload, dispatchedEventName);
+                    this.state = spec.reducers[eventName](
+                        this.state,
+                        payload,
+                        dispatchedEventName
+                    );
                     if (this.state !== startingState) {
                         this.emitChange();
                     }
@@ -72,12 +85,18 @@ module.exports = function createReducerStore(spec) {
                             // Calling a method that has been removed would be
                             // fatal, so let's throw a more useful error than
                             // "undefined is not a function"
-                            throw new Error(methodName + ' on ' + storeName +
-                                ' has been removed but was still called.');
+                            throw new Error(
+                                methodName +
+                                    ' on ' +
+                                    storeName +
+                                    ' has been removed but was still called.'
+                            );
                         }
                     }
                     var state = this.state;
-                    var args = [state].concat(Array.prototype.slice.call(arguments));
+                    var args = [state].concat(
+                        Array.prototype.slice.call(arguments)
+                    );
                     return spec.getters[methodName].apply(null, args);
                 };
             }

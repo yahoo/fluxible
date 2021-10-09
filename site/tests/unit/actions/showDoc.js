@@ -17,21 +17,24 @@ describe('site', () => {
 
         beforeEach(function () {
             context = createMockActionContext({
-                stores: [DocStore]
+                stores: [DocStore],
             });
             context.service = new MockService();
-            context.service.setService('docs', function (method, params, config, callback) {
-                if (params.emulateError) {
-                    return callback(new Error('Things went sour.'));
-                }
+            context.service.setService(
+                'docs',
+                function (method, params, config, callback) {
+                    if (params.emulateError) {
+                        return callback(new Error('Things went sour.'));
+                    }
 
-                callback(null, docResponse);
-            });
+                    callback(null, docResponse);
+                }
+            );
         });
 
         it('should load data from the service', function (done) {
             let params = {
-                githubPath: '/docs/quick-start.md'
+                githubPath: '/docs/quick-start.md',
             };
 
             context.executeAction(showDoc, params, function (err) {
@@ -48,7 +51,7 @@ describe('site', () => {
 
         it('should load data from the cache', function (done) {
             let params = {
-                githubPath: '/docs/quick-start.md'
+                githubPath: '/docs/quick-start.md',
             };
 
             context.executeAction(showDoc, params, function (err) {
@@ -74,7 +77,7 @@ describe('site', () => {
             let params = {
                 resource: 'docs',
                 key: '/docs/slow-start.md',
-                emulateError: true
+                emulateError: true,
             };
 
             context.executeAction(showDoc, params, function (err) {

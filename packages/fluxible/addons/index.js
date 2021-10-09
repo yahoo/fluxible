@@ -6,5 +6,5 @@
 
 module.exports = {
     BaseStore: require('./BaseStore'),
-    createStore: require('./createStore')
+    createStore: require('./createStore'),
 };

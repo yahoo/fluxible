@@ -30,7 +30,11 @@ function HistoryWithHash(options) {
     options = options || {};
     this.win = options.win || window;
 
-    this._hasPushState = !!(this.win && this.win.history && this.win.history.pushState);
+    this._hasPushState = !!(
+        this.win &&
+        this.win.history &&
+        this.win.history.pushState
+    );
     this._popstateEvt = this._hasPushState ? 'popstate' : 'hashchange';
 
     // check whether to use hash for routing
@@ -82,7 +86,9 @@ HistoryWithHash.prototype = {
         // remove the '#' prefix
         hash = hash.substring(1) || this._defaultHashRoute;
 
-        return (transformer && transformer.reverse) ? transformer.reverse(hash) : hash;
+        return transformer && transformer.reverse
+            ? transformer.reverse(hash)
+            : hash;
     },
 
     /**
@@ -125,7 +131,10 @@ HistoryWithHash.prototype = {
             transformer = this._hashRouteTransformer;
 
         if (this._useHashRoute) {
-            hash = (transformer && transformer.transform) ? transformer.transform(url) : url;
+            hash =
+                transformer && transformer.transform
+                    ? transformer.transform(url)
+                    : url;
             if (hash) {
                 hash = '#' + hash;
             }
@@ -163,12 +172,15 @@ HistoryWithHash.prototype = {
             transformer = this._hashRouteTransformer;
 
         if (this._useHashRoute) {
-            hash = (transformer && transformer.transform) ? transformer.transform(url) : url;
+            hash =
+                transformer && transformer.transform
+                    ? transformer.transform(url)
+                    : url;
             if (hash) {
                 hash = '#' + hash;
             }
             if (this._hasPushState) {
-                url = hash ? (location.pathname + location.search + hash) : null;
+                url = hash ? location.pathname + location.search + hash : null;
                 history.replaceState(state, title, url);
                 this.setTitle(title);
             } else if (url) {
@@ -195,7 +207,7 @@ HistoryWithHash.prototype = {
         if (title) {
             this.win.document.title = title;
         }
-    }
+    },
 };
 
 export default HistoryWithHash;

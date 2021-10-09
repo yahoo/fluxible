@@ -4,7 +4,7 @@
  */
 /* global describe, it, beforeEach */
 'use strict';
-import {expect} from 'chai';
+import { expect } from 'chai';
 import DocStore from '../../../stores/DocStore';
 
 describe('site', () => {
@@ -13,12 +13,12 @@ describe('site', () => {
         let doc1 = {
             key: '/docs/quick-start.md',
             content: '<h1>Quick Start</h1>',
-            title: 'Quick Start'
+            title: 'Quick Start',
         };
         let doc2 = {
             key: '/docs/slow-start.md',
             content: '<h1>Slow Start</h1>',
-            title: 'Slow Start'
+            title: 'Slow Start',
         };
 
         beforeEach(function () {
@@ -48,7 +48,7 @@ describe('site', () => {
 
         it('should skip receiving a malformatted doc', function (done) {
             let badDoc = {
-                foo: 'bar'
+                foo: 'bar',
             };
 
             storeInstance._receiveDocSuccess(badDoc);
@@ -88,7 +88,7 @@ describe('site', () => {
         it('should rehydrate', function (done) {
             let state = {
                 docs: {},
-                current: undefined
+                current: undefined,
             };
             state.docs[doc1.key] = doc1;
             state.docs[doc2.key] = doc2;
@@ -101,4 +101,3 @@ describe('site', () => {
         });
     });
 });
-

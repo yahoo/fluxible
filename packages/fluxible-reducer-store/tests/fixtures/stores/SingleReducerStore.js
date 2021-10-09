@@ -1,4 +1,4 @@
-import {createReducerStore} from '../../../index';
+import { createReducerStore } from '../../../index';
 
 var SingleReducerStore = createReducerStore({
     storeName: 'SingleReducerStore',
@@ -6,14 +6,14 @@ var SingleReducerStore = createReducerStore({
         if ('RECEIVE_MESSAGES' === type) {
             return {
                 ...state,
-                count: state.count + (payload.length)
+                count: state.count + payload.length,
             };
         }
         return state;
     },
     initialState: {
-        count: 0
-    }
+        count: 0,
+    },
 });
 
 export default SingleReducerStore;

@@ -48,7 +48,9 @@ BaseStore.prototype.addChangeListener = function addChangeListener(callback) {
  * @method removeChangeListener
  * @param {Function} callback
  */
-BaseStore.prototype.removeChangeListener = function removeChangeListener(callback) {
+BaseStore.prototype.removeChangeListener = function removeChangeListener(
+    callback
+) {
     this.removeListener(CHANGE_EVENT, callback);
 };
 

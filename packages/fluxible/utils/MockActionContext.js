@@ -6,7 +6,7 @@
 var callAction = require('./callAction');
 var generateUUID = require('./generateUUID');
 
-function MockActionContext (dispatcherContext) {
+function MockActionContext(dispatcherContext) {
     this.dispatcherContext = dispatcherContext;
     this.executeActionCalls = [];
     this.dispatchCalls = [];
@@ -20,15 +20,19 @@ MockActionContext.prototype.getStore = function (name) {
 MockActionContext.prototype.dispatch = function (name, payload) {
     this.dispatchCalls.push({
         name: name,
-        payload: payload
+        payload: payload,
     });
     this.dispatcherContext.dispatch(name, payload);
 };
 
-MockActionContext.prototype.executeAction = function (action, payload, callback) {
+MockActionContext.prototype.executeAction = function (
+    action,
+    payload,
+    callback
+) {
     this.executeActionCalls.push({
         action: action,
-        payload: payload
+        payload: payload,
     });
     return callAction(this, action, payload, callback);
 };

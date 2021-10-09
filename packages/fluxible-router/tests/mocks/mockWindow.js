@@ -11,87 +11,90 @@ module.exports = function mockWindow(testResult) {
                     testResult.pushState = {
                         state: state,
                         title: title,
-                        url: url
+                        url: url,
                     };
                 },
                 replaceState: function (state, title, url) {
                     testResult.replaceState = {
                         state: state,
                         title: title,
-                        url: url
+                        url: url,
                     };
-                }
+                },
             },
             addEventListener: function (evt, listener) {
                 testResult.addEventListener = {
                     evt: evt,
-                    listener: listener
+                    listener: listener,
                 };
             },
             removeEventListener: function (evt, listener) {
                 testResult.removeEventListener = {
                     evt: evt,
-                    listener: listener
+                    listener: listener,
                 };
-            }
+            },
         },
         Firefox: {
             document: {},
             history: {
                 pushState: function (state, title, url) {
                     if (arguments.length < 3) {
-                        throw new TypeError('Not enough arguments to History.pushState.');
+                        throw new TypeError(
+                            'Not enough arguments to History.pushState.'
+                        );
                     }
                     testResult.pushState = {
                         state: state,
                         title: title,
-                        url: url
+                        url: url,
                     };
                 },
                 replaceState: function (state, title, url) {
                     if (arguments.length < 3) {
-                        throw new TypeError('Not enough arguments to History.replaceState.');
+                        throw new TypeError(
+                            'Not enough arguments to History.replaceState.'
+                        );
                     }
                     testResult.pushState = {
                         state: state,
                         title: title,
-                        url: url
+                        url: url,
                     };
                     testResult.replaceState = {
                         state: state,
                         title: title,
-                        url: url
+                        url: url,
                     };
-                }
+                },
             },
             addEventListener: function (evt, listener) {
                 testResult.addEventListener = {
                     evt: evt,
-                    listener: listener
+                    listener: listener,
                 };
             },
             removeEventListener: function (evt, listener) {
                 testResult.removeEventListener = {
                     evt: evt,
-                    listener: listener
+                    listener: listener,
                 };
-            }
+            },
         },
         OLD: {
             document: {},
             addEventListener: function (evt, listener) {
                 testResult.addEventListener = {
                     evt: evt,
-                    listener: listener
+                    listener: listener,
                 };
             },
             removeEventListener: function (evt, listener) {
                 testResult.removeEventListener = {
                     evt: evt,
-                    listener: listener
+                    listener: listener,
                 };
-            }
-        }
+            },
+        },
     };
-
 };

@@ -8,12 +8,14 @@ var Fluxible = require('fluxible');
 var fetchrPlugin = require('fluxible-plugin-fetchr');
 
 var app = new Fluxible({
-    component: require('./components/ChatApp')
+    component: require('./components/ChatApp'),
 });
 
-app.plug(fetchrPlugin({
-    xhrPath: '/api'
-}));
+app.plug(
+    fetchrPlugin({
+        xhrPath: '/api',
+    })
+);
 
 app.registerStore(require('./stores/RouteStore'));
 app.registerStore(require('./stores/MessageStore'));

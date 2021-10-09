@@ -19,7 +19,9 @@ module.exports = function TestApplicationPlugin(initialFoo, initialBar) {
                         return bar;
                     };
                 },
-                plugComponentContext: function plugComponentContext(componentContext) {
+                plugComponentContext: function plugComponentContext(
+                    componentContext
+                ) {
                     componentContext.getFoo = function () {
                         return foo;
                     };
@@ -31,23 +33,23 @@ module.exports = function TestApplicationPlugin(initialFoo, initialBar) {
                 },
                 dehydrate: function () {
                     return {
-                        bar: bar
+                        bar: bar,
                     };
                 },
                 rehydrate: function (state, done) {
                     bar = state.bar;
                     setImmediate(done);
-                }
+                },
             };
         },
         dehydrate: function dehydrate() {
             return {
-                foo: foo
+                foo: foo,
             };
         },
         rehydrate: function rehydrate(state, done) {
             foo = state.foo;
             setImmediate(done);
-        }
-    }
+        },
+    };
 };

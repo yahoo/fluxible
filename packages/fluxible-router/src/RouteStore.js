@@ -8,11 +8,11 @@ import Router from 'routr';
 const RouteStore = createStore({
     storeName: 'RouteStore',
     handlers: {
-        'NAVIGATE_START': '_handleNavigateStart',
-        'NAVIGATE_SUCCESS': '_handleNavigateSuccess',
-        'NAVIGATE_FAILURE': '_handleNavigateFailure',
-        'RECEIVE_ROUTES': '_handleReceiveRoutes',
-        'RESET_ROUTES': '_handleResetRoutes'
+        NAVIGATE_START: '_handleNavigateStart',
+        NAVIGATE_SUCCESS: '_handleNavigateSuccess',
+        NAVIGATE_FAILURE: '_handleNavigateFailure',
+        RECEIVE_ROUTES: '_handleReceiveRoutes',
+        RESET_ROUTES: '_handleResetRoutes',
     },
     initialize: function () {
         this._routes = null;
@@ -24,7 +24,7 @@ const RouteStore = createStore({
         var currentRoute = this._currentNavigate && this._currentNavigate.route;
         var matchedRoute = this._matchRoute(navigate.url, {
             navigate: navigate,
-            method: navigate.method
+            method: navigate.method,
         });
 
         // Check for equality and only update the route if it has changed
@@ -37,7 +37,7 @@ const RouteStore = createStore({
         this._currentNavigate = Object.assign({}, navigate, {
             route: matchedRoute,
             error: null,
-            isComplete: false
+            isComplete: false,
         });
 
         this.emitChange();
@@ -54,7 +54,7 @@ const RouteStore = createStore({
         }
 
         this._currentNavigate = Object.assign({}, curNav, {
-            isComplete: true
+            isComplete: true,
         });
         this.emitChange();
     },
@@ -71,7 +71,7 @@ const RouteStore = createStore({
 
         this._currentNavigate = Object.assign({}, curNav, {
             isComplete: true,
-            error: navigate.error
+            error: navigate.error,
         });
         this.emitChange();
     },
@@ -102,7 +102,7 @@ const RouteStore = createStore({
             name: route.name,
             url: route.url,
             params: route.params,
-            query: route.query
+            query: route.query,
         });
 
         return newRoute;
@@ -149,10 +149,12 @@ const RouteStore = createStore({
     dehydrate: function () {
         // no need to dehydrate this._prevNavigate, because it will always
         // be null on server request
-        var currentNavigate = Object.assign({}, this._currentNavigate, {route: null});
+        var currentNavigate = Object.assign({}, this._currentNavigate, {
+            route: null,
+        });
         return {
             currentNavigate: currentNavigate,
-            routes: this._routes
+            routes: this._routes,
         };
     },
     rehydrate: function (state) {
@@ -163,10 +165,15 @@ const RouteStore = createStore({
             this._router = null;
         }
         this._currentNavigate = state.currentNavigate;
-        this._currentNavigate.route = this._matchRoute(this._currentNavigate.url, {
-            method: state.currentNavigate && state.currentNavigate.method || 'GET'
-        });
-    }
+        this._currentNavigate.route = this._matchRoute(
+            this._currentNavigate.url,
+            {
+                method:
+                    (state.currentNavigate && state.currentNavigate.method) ||
+                    'GET',
+            }
+        );
+    },
 });
 
 RouteStore.withStaticRoutes = function (staticRoutes) {
@@ -179,7 +186,11 @@ RouteStore.withStaticRoutes = function (staticRoutes) {
         }
 
         getRoutes() {
-            return Object.assign({}, StaticRouteStore.routes, this._routes || {});
+            return Object.assign(
+                {},
+                StaticRouteStore.routes,
+                this._routes || {}
+            );
         }
     }
 

@@ -56,7 +56,9 @@ Action.prototype._callHandler = function callHandler(storeName) {
     var self = this,
         handlerFn = self._handlers[storeName];
     if (!handlerFn) {
-        throw new Error(storeName + ' does not have a handler for action ' + self.name);
+        throw new Error(
+            storeName + ' does not have a handler for action ' + self.name
+        );
     }
     if (self._isCompleted[storeName]) {
         return;
@@ -77,7 +79,9 @@ Action.prototype._callHandler = function callHandler(storeName) {
 Action.prototype.waitFor = function waitFor(stores, callback) {
     var self = this;
     if (!self._isExecuting) {
-        throw new Error('waitFor called even though there is no action being executed!');
+        throw new Error(
+            'waitFor called even though there is no action being executed!'
+        );
     }
     if (!Array.isArray(stores)) {
         stores = [stores];

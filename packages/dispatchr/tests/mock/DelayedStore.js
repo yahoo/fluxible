@@ -7,8 +7,8 @@ var createStore = require('../../addons/createStore');
 module.exports = createStore({
     storeName: 'DelayedStore',
     handlers: {
-        'DELAY': 'delay',
-        'default': 'default'
+        DELAY: 'delay',
+        default: 'default',
     },
     initialize: function () {
         this.state = {};
@@ -16,7 +16,7 @@ module.exports = createStore({
         this.defaultCalled = false;
         this.actionHandled = null;
     },
-    'default': function (payload, actionName) {
+    default: function (payload, actionName) {
         this.defaultCalled = true;
         this.actionHandled = actionName;
         this.emitChange();
@@ -35,5 +35,5 @@ module.exports = createStore({
     },
     rehydrate: function (state) {
         this.state = state;
-    }
+    },
 });

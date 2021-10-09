@@ -28,7 +28,9 @@ function mixInto(dest, src) {
             }
         } else {
             if (dest.hasOwnProperty(prop)) {
-                throw new Error('Mixin property collision for property "' + prop + '"');
+                throw new Error(
+                    'Mixin property collision for property "' + prop + '"'
+                );
             }
             dest[prop] = src[prop];
         }
@@ -65,7 +67,7 @@ module.exports = function createStore(spec) {
     Store.mixins = spec.mixins || Store.mixins;
 
     if (Store.mixins) {
-        Store.mixins.forEach(function(mixin) {
+        Store.mixins.forEach(function (mixin) {
             mixInto(Store.prototype, mixin);
         });
     }

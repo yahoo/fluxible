@@ -26,11 +26,11 @@ function objectWithoutProperties(obj, keys) {
     return target;
 }
 
-function isLeftClickEvent (e) {
+function isLeftClickEvent(e) {
     return e.button === 0;
 }
 
-function isModifiedEvent (e) {
+function isModifiedEvent(e) {
     return !!(e.metaKey || e.altKey || e.ctrlKey || e.shiftKey);
 }
 
@@ -55,7 +55,7 @@ function getRelativeHref(href) {
     }
 
     var location = window.location;
-    var origin = location.origin || (location.protocol + '//' + location.host);
+    var origin = location.origin || location.protocol + '//' + location.host;
     if (href.indexOf(origin) !== 0) {
         return null;
     }
@@ -64,33 +64,34 @@ function getRelativeHref(href) {
 }
 
 class NavLink extends React.Component {
-    constructor (props, context) {
-        super(props, context)
+    constructor(props, context) {
+        super(props, context);
 
-        this.state = this._getState(this.props)
+        this.state = this._getState(this.props);
     }
-    startListening () {
+    startListening() {
         var routeStore = this.context.getStore(RouteStore);
-        this._onRouteStoreChange = this.constructor.prototype._onRouteStoreChange.bind(this);
+        this._onRouteStoreChange =
+            this.constructor.prototype._onRouteStoreChange.bind(this);
         routeStore.addChangeListener(this._onRouteStoreChange);
     }
-    stopListening () {
+    stopListening() {
         var routeStore = this.context.getStore(RouteStore);
         routeStore.removeChangeListener(this._onRouteStoreChange);
     }
-    componentDidMount () {
+    componentDidMount() {
         this._isMounted = true;
         if (this.props.activeClass || this.props.activeStyle) {
             this.startListening();
         }
     }
-    componentWillUnmount () {
+    componentWillUnmount() {
         this._isMounted = false;
         if (this.props.activeClass || this.props.activeStyle) {
             this.stopListening();
         }
     }
-    componentDidUpdate (prevProps, prevState) {
+    componentDidUpdate(prevProps, prevState) {
         var prevListening = shouldListen(prevProps);
         var shouldBeListening = shouldListen(this.props);
         if (prevListening && !shouldBeListening) {
@@ -102,29 +103,29 @@ class NavLink extends React.Component {
             this._onRouteStoreChange();
         }
     }
-    shouldComponentUpdate (nextProps, nextState) {
+    shouldComponentUpdate(nextProps, nextState) {
         return (
             nextProps !== this.props ||
             this.state.currentRoute !== nextState.currentRoute
         );
     }
-    UNSAFE_componentWillReceiveProps (nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         this.setState(this._getState(nextProps));
     }
-    _onRouteStoreChange () {
+    _onRouteStoreChange() {
         if (this._isMounted) {
             this.setState(this._getState(this.props));
         }
     }
-    _getState (props) {
+    _getState(props) {
         var routeStore = this.context.getStore(RouteStore);
         var href = this._getHrefFromProps(props);
         return {
             href: href,
-            currentRoute: routeStore.getCurrentRoute()
+            currentRoute: routeStore.getCurrentRoute(),
         };
     }
-    _getHrefFromProps (props) {
+    _getHrefFromProps(props) {
         var href = props.href;
         var routeName = props.routeName;
         var routeStore = this.context.getStore(RouteStore);
@@ -140,7 +141,7 @@ class NavLink extends React.Component {
      * @method getDefaultChildProps
      * @return {Object} default child props
      */
-    getDefaultChildProps () {
+    getDefaultChildProps() {
         return {};
     }
     /**
@@ -148,7 +149,7 @@ class NavLink extends React.Component {
      * @method getChildClassName
      * @return {String} the classname string
      */
-    getChildClassName () {
+    getChildClassName() {
         return this.props.className;
     }
     /**
@@ -157,7 +158,7 @@ class NavLink extends React.Component {
      * @method getFilteredProps
      * @returns {Array} filteredProps
      */
-    getFilteredProps () {
+    getFilteredProps() {
         return [];
     }
     /**
@@ -166,7 +167,7 @@ class NavLink extends React.Component {
      * @param {Object} props props object
      * @return {Object} nav params
      */
-    getNavParams (props) {
+    getNavParams(props) {
         return props.navParams;
     }
     /**
@@ -175,7 +176,7 @@ class NavLink extends React.Component {
      * @param {Object} props props object
      * @return {Object} query params
      */
-    getQueryParams (props) {
+    getQueryParams(props) {
         return props.queryParams;
     }
     /**
@@ -184,7 +185,7 @@ class NavLink extends React.Component {
      * @param {Object} props props object
      * @return {Boolean} should follow link value
      */
-    shouldFollowLink (props) {
+    shouldFollowLink(props) {
         props = props || this.props;
         return props.followLink;
     }
@@ -194,7 +195,7 @@ class NavLink extends React.Component {
      * @return {Object} The state object
      * @private
      */
-    _getClientState () {
+    _getClientState() {
         if (this._clientState && this._clientState.href === this.state.href) {
             // use cached state object
             return this._clientState;
@@ -207,8 +208,10 @@ class NavLink extends React.Component {
             href: href,
             relativeHref: relativeHref,
             isHashHref: relativeHref && relativeHref[0] === '#',
-            isValidRoute: !!(relativeHref &&
-                this.context.getStore(RouteStore).getRoute(relativeHref))
+            isValidRoute: !!(
+                relativeHref &&
+                this.context.getStore(RouteStore).getRoute(relativeHref)
+            ),
         };
         return this._clientState;
     }
@@ -222,7 +225,7 @@ class NavLink extends React.Component {
      *      before client side nav and no matching route found;
      *      true otherwise.
      */
-    isRoutable () {
+    isRoutable() {
         var clientState = this._getClientState();
         if (clientState.isHashHref || !clientState.relativeHref) {
             return false;
@@ -232,7 +235,7 @@ class NavLink extends React.Component {
         }
         return true;
     }
-    dispatchNavAction (e) {
+    dispatchNavAction(e) {
         if (this.props.stopPropagation) {
             e.stopPropagation();
         }
@@ -253,11 +256,16 @@ class NavLink extends React.Component {
         if (typeof window.onbeforeunload === 'function') {
             try {
                 onBeforeUnloadText = window.onbeforeunload();
-            } catch(error) {
-                console.warn('Warning: Call of window.onbeforeunload failed', error);
+            } catch (error) {
+                console.warn(
+                    'Warning: Call of window.onbeforeunload failed',
+                    error
+                );
             }
         }
-        var confirmResult = onBeforeUnloadText ? window.confirm(onBeforeUnloadText) : true;
+        var confirmResult = onBeforeUnloadText
+            ? window.confirm(onBeforeUnloadText)
+            : true;
 
         if (confirmResult) {
             // Removes the window.onbeforeunload method so that the next page will not be affected
@@ -272,22 +280,29 @@ class NavLink extends React.Component {
                 type: navType,
                 url: clientState.relativeHref,
                 preserveScrollPosition: this.props.preserveScrollPosition,
-                params: navParams
+                params: navParams,
             });
         }
     }
-    clickHandler (e) {
+    clickHandler(e) {
         this.dispatchNavAction(e);
     }
-    render () {
+    render() {
         var props = this.props;
         var href = this._getHrefFromProps(props);
         if (!href) {
             if (__DEV__) {
-                throw new Error('NavLink created with empty or missing href \'' + props.href +
-                    '\'or unresolvable routeName \'' + props.routeName);
+                throw new Error(
+                    "NavLink created with empty or missing href '" +
+                        props.href +
+                        "'or unresolvable routeName '" +
+                        props.routeName
+                );
             } else {
-                console.error('Error: Render NavLink with empty or missing href', props);
+                console.error(
+                    'Error: Render NavLink with empty or missing href',
+                    props
+                );
             }
         }
 
@@ -295,20 +310,23 @@ class NavLink extends React.Component {
         var activeStyle = props.activeStyle;
         var activeElement = props.activeElement;
 
-        var childProps = objectWithoutProperties(props, [
-            'activeClass',
-            'activeElement',
-            'activeStyle',
-            'currentRoute',
-            'followLink',
-            'navParams',
-            'preserveScrollPosition',
-            'queryParams',
-            'replaceState',
-            'routeName',
-            'stopPropagation',
-            'validate'
-        ].concat(this.getFilteredProps()));
+        var childProps = objectWithoutProperties(
+            props,
+            [
+                'activeClass',
+                'activeElement',
+                'activeStyle',
+                'currentRoute',
+                'followLink',
+                'navParams',
+                'preserveScrollPosition',
+                'queryParams',
+                'replaceState',
+                'routeName',
+                'stopPropagation',
+                'validate',
+            ].concat(this.getFilteredProps())
+        );
 
         var isActive = false;
         if (activeClass || activeStyle || activeElement) {
@@ -320,7 +338,7 @@ class NavLink extends React.Component {
         var className = this.getChildClassName();
         if (isActive) {
             if (activeClass) {
-                className = className ? (className + ' ') : '';
+                className = className ? className + ' ' : '';
                 className += activeClass;
             }
             if (activeStyle) {
@@ -336,7 +354,7 @@ class NavLink extends React.Component {
 
         childProps = Object.assign(defaultProps, childProps, {
             className: className,
-            style: style
+            style: style,
         });
 
         if (!(isActive && activeElement)) {
@@ -345,11 +363,7 @@ class NavLink extends React.Component {
 
         var childElement = isActive ? activeElement || 'a' : 'a';
 
-        return React.createElement(
-            childElement,
-            childProps,
-            props.children
-        );
+        return React.createElement(childElement, childProps, props.children);
     }
 }
 
@@ -369,22 +383,22 @@ NavLink.propTypes = {
     validate: PropTypes.bool,
     activeClass: PropTypes.string,
     activeElement: PropTypes.string,
-    activeStyle: PropTypes.object
-}
+    activeStyle: PropTypes.object,
+};
 
 /**
  * create NavLink component with custom options
  * @param {Object} overwriteSpec spec to overwrite the default spec to create NavLink
  * @returns {React.Component} NavLink component
  */
-function createNavLinkComponent (overwriteSpec) {
+function createNavLinkComponent(overwriteSpec) {
     if (!overwriteSpec) return NavLink;
 
     class ExendedNavLink extends NavLink {}
 
-    Object.keys(overwriteSpec).forEach(function(key) {
+    Object.keys(overwriteSpec).forEach(function (key) {
         ExendedNavLink.prototype[key] = overwriteSpec[key];
-    })
+    });
 
     return ExendedNavLink;
 }

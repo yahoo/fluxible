@@ -4,7 +4,6 @@
  */
 'use strict';
 
-
 module.exports = function (context, payload, done) {
     var todo = payload;
     todo.pending = true;

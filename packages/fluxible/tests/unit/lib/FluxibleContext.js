@@ -19,7 +19,7 @@ describe('FluxibleContext', function () {
 
     beforeEach(function () {
         app = new Fluxible({
-            component: MockComponent
+            component: MockComponent,
         });
         context = app.createContext();
     });
@@ -33,7 +33,7 @@ describe('FluxibleContext', function () {
     describe('getStore', function () {
         it('should provide access to registered store instance', function () {
             var store = createStore({
-                storeName: 'TestStore'
+                storeName: 'TestStore',
             });
 
             app.registerStore(store);
@@ -42,7 +42,9 @@ describe('FluxibleContext', function () {
 
             var storeInstance = context.getStore(store);
             expect(storeInstance).to.be.an('object');
-            expect(storeInstance.constructor.storeName).to.equal(store.storeName);
+            expect(storeInstance.constructor.storeName).to.equal(
+                store.storeName
+            );
         });
     });
 
@@ -55,7 +57,9 @@ describe('FluxibleContext', function () {
         });
         describe('#executeAction', function () {
             it('should return a promise', function (done) {
-                var promise = actionContext.executeAction(function () {}, {}).catch(done);
+                var promise = actionContext
+                    .executeAction(function () {}, {})
+                    .catch(done);
                 expect(isPromise(promise)).to.equal(true);
                 done();
             });
@@ -64,25 +68,29 @@ describe('FluxibleContext', function () {
                 var action = function (context, payload) {
                     return payload;
                 };
-                actionContext.executeAction(action)
+                actionContext
+                    .executeAction(action)
                     .then(function (result) {
                         expect(result).to.be.an('object');
                         done();
-                    }).catch(done);
+                    })
+                    .catch(done);
             });
 
             it('should execute the action', function (done) {
                 var action = function (context, payload, callback) {
                     actionCalls.push({
                         context: context,
-                        payload: payload
+                        payload: payload,
                     });
                     callback();
                 };
                 var payload = {};
                 var callback = function () {
                     expect(actionCalls.length).to.equal(1);
-                    expect(actionCalls[0].context).to.contain.keys(Object.keys(actionContext));
+                    expect(actionCalls[0].context).to.contain.keys(
+                        Object.keys(actionContext)
+                    );
                     expect(actionCalls[0].payload).to.equal(payload);
                     done();
                 };
@@ -93,31 +101,50 @@ describe('FluxibleContext', function () {
                 var actionOne = function (context, payload, callback) {
                     actionCalls.push({
                         context: context,
-                        payload: payload
+                        payload: payload,
                     });
-                    async.series([
-                        function (cb) {
-                            context.executeAction(actionTwo, payload, function actionOneFirstCallback () {
-                                context.executeAction(actionTwo, payload, function actionOneSecondCallback () {
-                                    cb();
-                                });
-                            });
-                        },
-                        function (cb) {
-                            context.executeAction(actionThree, payload, function actionOneThirdcallback () {
-                                cb();
-                            });
-                        },
-                        async.apply(context.executeAction, actionFour, payload)
-                    ], function (err) {
-                        callback(err)
-                    });
+                    async.series(
+                        [
+                            function (cb) {
+                                context.executeAction(
+                                    actionTwo,
+                                    payload,
+                                    function actionOneFirstCallback() {
+                                        context.executeAction(
+                                            actionTwo,
+                                            payload,
+                                            function actionOneSecondCallback() {
+                                                cb();
+                                            }
+                                        );
+                                    }
+                                );
+                            },
+                            function (cb) {
+                                context.executeAction(
+                                    actionThree,
+                                    payload,
+                                    function actionOneThirdcallback() {
+                                        cb();
+                                    }
+                                );
+                            },
+                            async.apply(
+                                context.executeAction,
+                                actionFour,
+                                payload
+                            ),
+                        ],
+                        function (err) {
+                            callback(err);
+                        }
+                    );
                 };
                 actionOne.displayName = 'One';
                 var actionTwo = function (context, payload, callback) {
                     actionCalls.push({
                         context: context,
-                        payload: payload
+                        payload: payload,
                     });
                     callback();
                 };
@@ -125,7 +152,7 @@ describe('FluxibleContext', function () {
                 var actionThree = function (context, payload, callback) {
                     actionCalls.push({
                         context: context,
-                        payload: payload
+                        payload: payload,
                     });
                     callback();
                 };
@@ -133,7 +160,7 @@ describe('FluxibleContext', function () {
                 var actionFour = function (context, payload, callback) {
                     actionCalls.push({
                         context: context,
-                        payload: payload
+                        payload: payload,
                     });
                     context.executeAction(actionFive, payload, callback);
                 };
@@ -141,7 +168,7 @@ describe('FluxibleContext', function () {
                 var actionFive = function (context, payload, callback) {
                     actionCalls.push({
                         context: context,
-                        payload: payload
+                        payload: payload,
                     });
                     callback();
                 };
@@ -149,35 +176,77 @@ describe('FluxibleContext', function () {
                 var payload = {};
                 var callback = function () {
                     expect(actionCalls.length).to.equal(6);
-                    expect(actionCalls[0].context).to.contain.keys(Object.keys(actionContext));
-                    expect(actionCalls[0].context).to.contain.keys(['rootId','stack']);
+                    expect(actionCalls[0].context).to.contain.keys(
+                        Object.keys(actionContext)
+                    );
+                    expect(actionCalls[0].context).to.contain.keys([
+                        'rootId',
+                        'stack',
+                    ]);
                     var firstId = actionCalls[0].context.rootId;
-                    expect(actionCalls[0].context.stack.join('.')).to.equal('One');
+                    expect(actionCalls[0].context.stack.join('.')).to.equal(
+                        'One'
+                    );
                     expect(actionCalls[0].payload).to.equal(payload);
-                    expect(actionCalls[1].context).to.contain.keys(Object.keys(actionContext));
-                    expect(actionCalls[1].context).to.contain.keys(['rootId','stack']);
+                    expect(actionCalls[1].context).to.contain.keys(
+                        Object.keys(actionContext)
+                    );
+                    expect(actionCalls[1].context).to.contain.keys([
+                        'rootId',
+                        'stack',
+                    ]);
                     expect(actionCalls[1].context.rootId).to.equal(firstId);
-                    expect(actionCalls[1].context.stack.join('.')).to.equal('One.Two');
+                    expect(actionCalls[1].context.stack.join('.')).to.equal(
+                        'One.Two'
+                    );
                     expect(actionCalls[1].payload).to.equal(payload);
-                    expect(actionCalls[2].context).to.contain.keys(Object.keys(actionContext));
-                    expect(actionCalls[2].context).to.contain.keys(['rootId','stack']);
+                    expect(actionCalls[2].context).to.contain.keys(
+                        Object.keys(actionContext)
+                    );
+                    expect(actionCalls[2].context).to.contain.keys([
+                        'rootId',
+                        'stack',
+                    ]);
                     expect(actionCalls[2].context.rootId).to.equal(firstId);
-                    expect(actionCalls[2].context.stack.join('.')).to.equal('One.Two');
+                    expect(actionCalls[2].context.stack.join('.')).to.equal(
+                        'One.Two'
+                    );
                     expect(actionCalls[2].payload).to.equal(payload);
-                    expect(actionCalls[3].context).to.contain.keys(Object.keys(actionContext));
-                    expect(actionCalls[3].context).to.contain.keys(['rootId','stack']);
+                    expect(actionCalls[3].context).to.contain.keys(
+                        Object.keys(actionContext)
+                    );
+                    expect(actionCalls[3].context).to.contain.keys([
+                        'rootId',
+                        'stack',
+                    ]);
                     expect(actionCalls[3].context.rootId).to.equal(firstId);
-                    expect(actionCalls[3].context.stack.join('.')).to.equal('One.Three');
+                    expect(actionCalls[3].context.stack.join('.')).to.equal(
+                        'One.Three'
+                    );
                     expect(actionCalls[3].payload).to.equal(payload);
-                    expect(actionCalls[4].context).to.contain.keys(Object.keys(actionContext));
-                    expect(actionCalls[4].context).to.contain.keys(['rootId','stack']);
+                    expect(actionCalls[4].context).to.contain.keys(
+                        Object.keys(actionContext)
+                    );
+                    expect(actionCalls[4].context).to.contain.keys([
+                        'rootId',
+                        'stack',
+                    ]);
                     expect(actionCalls[4].context.rootId).to.equal(firstId);
-                    expect(actionCalls[4].context.stack.join('.')).to.equal('One.Four');
+                    expect(actionCalls[4].context.stack.join('.')).to.equal(
+                        'One.Four'
+                    );
                     expect(actionCalls[4].payload).to.equal(payload);
-                    expect(actionCalls[5].context).to.contain.keys(Object.keys(actionContext));
-                    expect(actionCalls[5].context).to.contain.keys(['rootId','stack']);
+                    expect(actionCalls[5].context).to.contain.keys(
+                        Object.keys(actionContext)
+                    );
+                    expect(actionCalls[5].context).to.contain.keys([
+                        'rootId',
+                        'stack',
+                    ]);
                     expect(actionCalls[5].context.rootId).to.equal(firstId);
-                    expect(actionCalls[5].context.stack.join('.')).to.equal('One.Four.Five');
+                    expect(actionCalls[5].context.stack.join('.')).to.equal(
+                        'One.Four.Five'
+                    );
                     expect(actionCalls[5].payload).to.equal(payload);
                     done();
                 };
@@ -190,10 +259,14 @@ describe('FluxibleContext', function () {
                 var action = function (context, payload, callback) {
                     callback(err);
                 };
-                actionContext.executeAction(action, {}, function (executeActionError) {
-                    expect(executeActionError).to.equal(err);
-                    done();
-                });
+                actionContext.executeAction(
+                    action,
+                    {},
+                    function (executeActionError) {
+                        expect(executeActionError).to.equal(err);
+                        done();
+                    }
+                );
             });
 
             // Broken due to domain and Promise interaction in node 4+
@@ -236,11 +309,15 @@ describe('FluxibleContext', function () {
                 var action = function (context, payload) {
                     return payload;
                 };
-                actionContext.executeAction(action, payload, function (err, result) {
-                    expect(err).to.equal(null);
-                    expect(result).to.equal(payload);
-                    done();
-                });
+                actionContext.executeAction(
+                    action,
+                    payload,
+                    function (err, result) {
+                        expect(err).to.equal(null);
+                        expect(result).to.equal(payload);
+                        done();
+                    }
+                );
             });
 
             it('should reject promise if callback is called with first param', function (done) {
@@ -248,11 +325,12 @@ describe('FluxibleContext', function () {
                 var action = function (context, payload, callback) {
                     callback(err);
                 };
-                actionContext.executeAction(action, {})
-                .catch(function (callbackError) {
-                    expect(callbackError).to.equal(err);
-                    done();
-                });
+                actionContext
+                    .executeAction(action, {})
+                    .catch(function (callbackError) {
+                        expect(callbackError).to.equal(err);
+                        done();
+                    });
             });
 
             it('should resolve promise if callback is called with second param', function (done) {
@@ -260,11 +338,13 @@ describe('FluxibleContext', function () {
                 var action = function (context, payload, callback) {
                     callback(null, payload);
                 };
-                actionContext.executeAction(action, payload)
+                actionContext
+                    .executeAction(action, payload)
                     .then(function (promiseResult) {
                         expect(promiseResult).to.equal(promiseResult);
                         done();
-                    }).catch(done);
+                    })
+                    .catch(done);
             });
 
             it('should wait for returned promise', function (done) {
@@ -276,11 +356,13 @@ describe('FluxibleContext', function () {
                     }).catch(done);
                 };
                 var payload = {};
-                actionContext.executeAction(action, payload)
+                actionContext
+                    .executeAction(action, payload)
                     .then(function (result) {
                         expect(result).to.equal(payload);
                         done();
-                    }).catch(done);
+                    })
+                    .catch(done);
             });
 
             it('should resolve promise with returned non-promise value', function (done) {
@@ -288,11 +370,13 @@ describe('FluxibleContext', function () {
                     return payload;
                 };
                 var payload = {};
-                actionContext.executeAction(action, payload)
+                actionContext
+                    .executeAction(action, payload)
                     .then(function (promiseResult) {
                         expect(promiseResult).to.equal(payload);
                         done();
-                    }).catch(done);
+                    })
+                    .catch(done);
             });
 
             it('should reject promise with thrown error', function (done) {
@@ -300,23 +384,26 @@ describe('FluxibleContext', function () {
                 var action = function (context, payload) {
                     actionCalls.push({
                         context: context,
-                        payload: payload
+                        payload: payload,
                     });
                     throw err;
                 };
                 var payload = {};
-                actionContext.executeAction(action, payload)
-                .catch(function (actionError) {
-                    try {
-                        expect(actionError).to.equal(err);
-                        expect(actionCalls.length).to.equal(1);
-                        expect(actionCalls[0].context).to.contain.keys(Object.keys(actionContext));
-                        expect(actionCalls[0].payload).to.equal(payload);
-                        done();
-                    } catch (e) {
-                        done(e);
-                    }
-                });
+                actionContext
+                    .executeAction(action, payload)
+                    .catch(function (actionError) {
+                        try {
+                            expect(actionError).to.equal(err);
+                            expect(actionCalls.length).to.equal(1);
+                            expect(actionCalls[0].context).to.contain.keys(
+                                Object.keys(actionContext)
+                            );
+                            expect(actionCalls[0].payload).to.equal(payload);
+                            done();
+                        } catch (e) {
+                            done(e);
+                        }
+                    });
             });
 
             it('should execute the action asynchronously when using a callback', function (done) {
@@ -328,7 +415,11 @@ describe('FluxibleContext', function () {
                 var payload = {};
                 var callback = function () {
                     try {
-                        expect(log).to.deep.equal(['start', 'after executeAction', 'action']);
+                        expect(log).to.deep.equal([
+                            'start',
+                            'after executeAction',
+                            'action',
+                        ]);
                         done();
                     } catch (e) {
                         done(e);
@@ -336,7 +427,7 @@ describe('FluxibleContext', function () {
                 };
                 log.push('start');
                 actionContext.executeAction(action, payload, callback);
-                log.push('after executeAction')
+                log.push('after executeAction');
             });
 
             it('should execute the action asynchronously when using a promise', function (done) {
@@ -350,16 +441,19 @@ describe('FluxibleContext', function () {
                 var payload = {};
 
                 log.push('start');
-                actionContext.executeAction(action, payload)
-                    .then(function () {
-                        try {
-                            expect(log).to.deep.equal(['start', 'after executeAction', 'action']);
-                            done();
-                        } catch (e) {
-                            done(e);
-                        }
-                    });
-                log.push('after executeAction')
+                actionContext.executeAction(action, payload).then(function () {
+                    try {
+                        expect(log).to.deep.equal([
+                            'start',
+                            'after executeAction',
+                            'action',
+                        ]);
+                        done();
+                    } catch (e) {
+                        done(e);
+                    }
+                });
+                log.push('after executeAction');
             });
 
             it('should not coerce non-objects', function (done) {
@@ -368,7 +462,7 @@ describe('FluxibleContext', function () {
                     actionCalls.push({
                         context: context,
                         payload: payload,
-                        callback: callback
+                        callback: callback,
                     });
                     callback();
                 };
@@ -386,22 +480,22 @@ describe('FluxibleContext', function () {
                 var store;
 
                 beforeEach(function () {
-
                     originalWarn = console.warn;
                     warningCalls = [];
                     console.warn = function () {
-                        warningCalls.push(Array.prototype.slice.call(arguments));
+                        warningCalls.push(
+                            Array.prototype.slice.call(arguments)
+                        );
                     };
 
                     store = createStore({
-
                         storeName: 'TestStore',
 
                         handlers: {
-                            'TEST': function () {
+                            TEST: function () {
                                 this.emitChange();
-                            }
-                        }
+                            },
+                        },
                     });
 
                     app.registerStore(store);
@@ -412,7 +506,6 @@ describe('FluxibleContext', function () {
                 });
 
                 it('should output a warning when an action is currently being dispatched', function (done) {
-
                     var action1ExecuteCount = 0;
                     var action2ExecuteCount = 0;
                     var payload = {};
@@ -426,29 +519,34 @@ describe('FluxibleContext', function () {
 
                     var action2 = function action2(context, payload, callback) {
                         action2ExecuteCount++;
-                        callback()
+                        callback();
                     };
 
                     var storeInstance = actionContext.getStore(store);
                     storeInstance.addChangeListener(function () {
-                        actionContext.executeAction(action2, payload, function () {
-                            try {
-                                expect(warningCalls.length).to.equal(1);
-                                expect(warningCalls[0][0]).to.equal('Warning: executeAction for `action2` was ' +
-                                'called, but `TEST` is currently being dispatched. This could mean there are ' +
-                                'cascading updates, which should be avoided. `action2` will only start after ' +
-                                '`TEST` is complete.');
-                                expect(action1ExecuteCount).to.equal(1);
-                                expect(action2ExecuteCount).to.equal(1);
-                                done();
-                            } catch (e) {
-                                done(e);
+                        actionContext.executeAction(
+                            action2,
+                            payload,
+                            function () {
+                                try {
+                                    expect(warningCalls.length).to.equal(1);
+                                    expect(warningCalls[0][0]).to.equal(
+                                        'Warning: executeAction for `action2` was ' +
+                                            'called, but `TEST` is currently being dispatched. This could mean there are ' +
+                                            'cascading updates, which should be avoided. `action2` will only start after ' +
+                                            '`TEST` is complete.'
+                                    );
+                                    expect(action1ExecuteCount).to.equal(1);
+                                    expect(action2ExecuteCount).to.equal(1);
+                                    done();
+                                } catch (e) {
+                                    done(e);
+                                }
                             }
-                        });
+                        );
                     });
 
-                    actionContext.executeAction(action1)
-
+                    actionContext.executeAction(action1);
                 });
             });
         });
@@ -468,7 +566,9 @@ describe('FluxibleContext', function () {
                         throw new Error('This should not be called');
                     };
                     var action = function (actionContext, payload, cb) {
-                        expect(actionContext).to.contain.keys(Object.keys(context.getActionContext()));
+                        expect(actionContext).to.contain.keys(
+                            Object.keys(context.getActionContext())
+                        );
                         expect(payload).to.equal(payload);
                         expect(callback).to.not.equal(cb);
                         done();
@@ -485,60 +585,118 @@ describe('FluxibleContext', function () {
                 var actionOne = function (context, payload, callback) {
                     actionCalls.push({
                         context: context,
-                        payload: payload
+                        payload: payload,
                     });
-                    async.series([
-                        function (cb) {
-                            context.executeAction(actionTwo, payload, function actionOneFirstCallback () {
-                                context.executeAction(actionTwo, payload, function actionOneSecondCallback () {
-                                    cb();
-                                });
-                            });
-                        },
-                        function (cb) {
-                            context.executeAction(actionThree, payload, function actionOneThirdcallback () {
-                                cb();
-                            });
-                        }
-                    ], function (err) {
-                        if (err) {
-                            done(err);
-                        }
+                    async.series(
+                        [
+                            function (cb) {
+                                context.executeAction(
+                                    actionTwo,
+                                    payload,
+                                    function actionOneFirstCallback() {
+                                        context.executeAction(
+                                            actionTwo,
+                                            payload,
+                                            function actionOneSecondCallback() {
+                                                cb();
+                                            }
+                                        );
+                                    }
+                                );
+                            },
+                            function (cb) {
+                                context.executeAction(
+                                    actionThree,
+                                    payload,
+                                    function actionOneThirdcallback() {
+                                        cb();
+                                    }
+                                );
+                            },
+                        ],
+                        function (err) {
+                            if (err) {
+                                done(err);
+                            }
 
-                        expect(actionCalls.length).to.equal(5);
-                        expect(actionCalls[0].context).to.contain.keys(Object.keys(actionContext));
-                        expect(actionCalls[0].context).to.contain.keys(['rootId','stack']);
-                        var firstId = actionCalls[0].context.rootId;
-                        expect(actionCalls[0].context.stack.join('.')).to.equal('One');
-                        expect(actionCalls[0].payload).to.equal(payload);
-                        expect(actionCalls[1].context).to.contain.keys(Object.keys(actionContext));
-                        expect(actionCalls[1].context).to.contain.keys(['rootId','stack']);
-                        expect(actionCalls[1].context.rootId).to.equal(firstId);
-                        expect(actionCalls[1].context.stack.join('.')).to.equal('One.Two');
-                        expect(actionCalls[1].payload).to.equal(payload);
-                        expect(actionCalls[2].context).to.contain.keys(Object.keys(actionContext));
-                        expect(actionCalls[2].context).to.contain.keys(['rootId','stack']);
-                        expect(actionCalls[2].context.rootId).to.equal(firstId);
-                        expect(actionCalls[2].context.stack.join('.')).to.equal('One.Two');
-                        expect(actionCalls[2].payload).to.equal(payload);
-                        expect(actionCalls[3].context).to.contain.keys(Object.keys(actionContext));
-                        expect(actionCalls[3].context).to.contain.keys(['rootId','stack']);
-                        expect(actionCalls[3].context.rootId).to.equal(firstId);
-                        expect(actionCalls[3].context.stack.join('.')).to.equal('One.Three');
-                        expect(actionCalls[3].payload).to.equal(payload);
-                        expect(actionCalls[4].context).to.contain.keys(Object.keys(actionContext));
-                        expect(actionCalls[4].context).to.contain.keys(['rootId','stack']);
-                        expect(actionCalls[4].context.rootId).to.equal(firstId);
-                        expect(actionCalls[4].context.stack.join('.')).to.equal('One.Three.Four');
-                        expect(actionCalls[4].payload).to.equal(payload);
-                        done();
-                    });
+                            expect(actionCalls.length).to.equal(5);
+                            expect(actionCalls[0].context).to.contain.keys(
+                                Object.keys(actionContext)
+                            );
+                            expect(actionCalls[0].context).to.contain.keys([
+                                'rootId',
+                                'stack',
+                            ]);
+                            var firstId = actionCalls[0].context.rootId;
+                            expect(
+                                actionCalls[0].context.stack.join('.')
+                            ).to.equal('One');
+                            expect(actionCalls[0].payload).to.equal(payload);
+                            expect(actionCalls[1].context).to.contain.keys(
+                                Object.keys(actionContext)
+                            );
+                            expect(actionCalls[1].context).to.contain.keys([
+                                'rootId',
+                                'stack',
+                            ]);
+                            expect(actionCalls[1].context.rootId).to.equal(
+                                firstId
+                            );
+                            expect(
+                                actionCalls[1].context.stack.join('.')
+                            ).to.equal('One.Two');
+                            expect(actionCalls[1].payload).to.equal(payload);
+                            expect(actionCalls[2].context).to.contain.keys(
+                                Object.keys(actionContext)
+                            );
+                            expect(actionCalls[2].context).to.contain.keys([
+                                'rootId',
+                                'stack',
+                            ]);
+                            expect(actionCalls[2].context.rootId).to.equal(
+                                firstId
+                            );
+                            expect(
+                                actionCalls[2].context.stack.join('.')
+                            ).to.equal('One.Two');
+                            expect(actionCalls[2].payload).to.equal(payload);
+                            expect(actionCalls[3].context).to.contain.keys(
+                                Object.keys(actionContext)
+                            );
+                            expect(actionCalls[3].context).to.contain.keys([
+                                'rootId',
+                                'stack',
+                            ]);
+                            expect(actionCalls[3].context.rootId).to.equal(
+                                firstId
+                            );
+                            expect(
+                                actionCalls[3].context.stack.join('.')
+                            ).to.equal('One.Three');
+                            expect(actionCalls[3].payload).to.equal(payload);
+                            expect(actionCalls[4].context).to.contain.keys(
+                                Object.keys(actionContext)
+                            );
+                            expect(actionCalls[4].context).to.contain.keys([
+                                'rootId',
+                                'stack',
+                            ]);
+                            expect(actionCalls[4].context.rootId).to.equal(
+                                firstId
+                            );
+                            expect(
+                                actionCalls[4].context.stack.join('.')
+                            ).to.equal('One.Three.Four');
+                            expect(actionCalls[4].payload).to.equal(payload);
+                            done();
+                        }
+                    );
                 };
                 actionOne.displayName = 'One';
                 var actionTwo = function (context, payload, callback) {
                     actionCalls.push({
                         context: context,
-                        payload: payload
+                        payload: payload,
                     });
                     callback();
                 };
@@ -546,7 +704,7 @@ describe('FluxibleContext', function () {
                 var actionThree = function (context, payload, callback) {
                     actionCalls.push({
                         context: context,
-                        payload: payload
+                        payload: payload,
                     });
                     context.executeAction(actionFour, payload, callback);
                 };
@@ -554,7 +712,7 @@ describe('FluxibleContext', function () {
                 var actionFour = function (context, payload, callback) {
                     actionCalls.push({
                         context: context,
-                        payload: payload
+                        payload: payload,
                     });
                     callback();
                 };
@@ -571,7 +729,7 @@ describe('FluxibleContext', function () {
                 };
                 var app2 = new Fluxible({
                     component: MockComponent,
-                    componentActionErrorHandler: myActionHandler
+                    componentActionErrorHandler: myActionHandler,
                 });
                 var context2 = app2.createContext();
                 var componentContext2 = context2.getComponentContext();
@@ -597,14 +755,18 @@ describe('FluxibleContext', function () {
                     global.Promise = oldPromise;
                 });
                 d.run(function () {
-                    var componentActionErrorHandler = function (context, payload) {
+                    var componentActionErrorHandler = function (
+                        context,
+                        payload
+                    ) {
                         throw payload.err;
                     };
                     var action = function () {
                         throw actionError;
                     };
                     var app2 = new Fluxible({
-                        componentActionErrorHandler: componentActionErrorHandler
+                        componentActionErrorHandler:
+                            componentActionErrorHandler,
                     });
                     var context2 = app2.createContext();
                     var componentContext2 = context2.getComponentContext();
@@ -628,7 +790,7 @@ describe('FluxibleContext', function () {
         it('should dehydrate and rehydrate with the same context', function (done) {
             var json = app.dehydrate(context);
             var newApp = new Fluxible({
-                component: MockComponent
+                component: MockComponent,
             });
             newApp.rehydrate(json, function (err, newContext) {
                 if (err) {
@@ -646,7 +808,7 @@ describe('FluxibleContext', function () {
             dimensionsPluginSync = require('../../fixtures/plugins/DimensionsContextPluginSync'),
             dimensionsPluginPromise = require('../../fixtures/plugins/DimensionsContextPluginPromise'),
             dimensions = {
-                foo: 'bar'
+                foo: 'bar',
             };
         beforeEach(function () {
             context.plug(dimensionsPlugin(dimensions));
@@ -679,7 +841,7 @@ describe('FluxibleContext', function () {
             expect(newContext._executeActionPlugins).to.have.lengthOf(0);
             var plugin = {
                 name: 'plugin',
-                plugExecuteAction: function plugExecuteAction() {}
+                plugExecuteAction: function plugExecuteAction() {},
             };
             newContext.plug(plugin);
             expect(newContext._executeActionPlugins).to.have.lengthOf(1);
@@ -692,18 +854,26 @@ describe('FluxibleContext', function () {
                 name: 'plugin',
                 plugExecuteAction: function plugExecuteAction(args) {
                     return {
-                        action: function modifiedAction(context, payload, callback) {
+                        action: function modifiedAction(
+                            context,
+                            payload,
+                            callback
+                        ) {
                             modifiedActionCalled = true;
                             args.action(context, payload, callback);
                         },
-                        actionContext: Object.assign(args.actionContext, {modified: true}),
-                        payload: Object.assign(args.payload, {modified: true}),
+                        actionContext: Object.assign(args.actionContext, {
+                            modified: true,
+                        }),
+                        payload: Object.assign(args.payload, {
+                            modified: true,
+                        }),
                         done: function modifedCallback(err) {
                             modifiedCallbackCalled = true;
                             args.done && args.done(err);
-                        }
-                    }
-                }
+                        },
+                    };
+                },
             };
             var contextModified = false;
             var payloadModified = false;
@@ -717,7 +887,7 @@ describe('FluxibleContext', function () {
                 }
                 callback();
             };
-            newContext.executeAction(action, {}, function end () {
+            newContext.executeAction(action, {}, function end() {
                 var err = null;
                 try {
                     expect(modifiedActionCalled).to.equal(true);
@@ -729,9 +899,8 @@ describe('FluxibleContext', function () {
                 } finally {
                     done(err);
                 }
-
             });
-        })
+        });
         it('should dehydrate and rehydrate the async plugin correctly', function (done) {
             // Create a copy of the state
             var state = JSON.parse(JSON.stringify(context.dehydrate()));
@@ -739,15 +908,25 @@ describe('FluxibleContext', function () {
             expect(state.dispatcher).to.be.an('object');
             expect(state.plugins).to.be.an('object');
             expect(state.plugins.DimensionsPlugin).to.be.an('object');
-            expect(state.plugins.DimensionsPlugin.dimensions).to.deep.equal(dimensions);
+            expect(state.plugins.DimensionsPlugin.dimensions).to.deep.equal(
+                dimensions
+            );
             var newContext = app.createContext();
             newContext.plug(dimensionsPlugin());
-            var rehydratePromise = newContext.rehydrate(state).then(function () {
-                expect(newContext.getActionContext().getDimensions()).to.deep.equal(dimensions);
-                expect(newContext.getComponentContext().getDimensions()).to.deep.equal(dimensions);
-                expect(newContext.getStoreContext().getDimensions()).to.deep.equal(dimensions);
-                done();
-            }, done);
+            var rehydratePromise = newContext
+                .rehydrate(state)
+                .then(function () {
+                    expect(
+                        newContext.getActionContext().getDimensions()
+                    ).to.deep.equal(dimensions);
+                    expect(
+                        newContext.getComponentContext().getDimensions()
+                    ).to.deep.equal(dimensions);
+                    expect(
+                        newContext.getStoreContext().getDimensions()
+                    ).to.deep.equal(dimensions);
+                    done();
+                }, done);
             expect(isPromise(rehydratePromise));
         });
         it('should dehydrate and rehydrate the sync plugin correctly', function (done) {
@@ -757,15 +936,25 @@ describe('FluxibleContext', function () {
             expect(state.dispatcher).to.be.an('object');
             expect(state.plugins).to.be.an('object');
             expect(state.plugins.DimensionsPlugin).to.be.an('object');
-            expect(state.plugins.DimensionsPlugin.dimensions).to.deep.equal(dimensions);
+            expect(state.plugins.DimensionsPlugin.dimensions).to.deep.equal(
+                dimensions
+            );
             var newContext = app.createContext();
             newContext.plug(dimensionsPluginSync());
-            var rehydratePromise = newContext.rehydrate(state).then(function () {
-                expect(newContext.getActionContext().getDimensions()).to.deep.equal(dimensions);
-                expect(newContext.getComponentContext().getDimensions()).to.deep.equal(dimensions);
-                expect(newContext.getStoreContext().getDimensions()).to.deep.equal(dimensions);
-                done();
-            }, done);
+            var rehydratePromise = newContext
+                .rehydrate(state)
+                .then(function () {
+                    expect(
+                        newContext.getActionContext().getDimensions()
+                    ).to.deep.equal(dimensions);
+                    expect(
+                        newContext.getComponentContext().getDimensions()
+                    ).to.deep.equal(dimensions);
+                    expect(
+                        newContext.getStoreContext().getDimensions()
+                    ).to.deep.equal(dimensions);
+                    done();
+                }, done);
             expect(isPromise(rehydratePromise));
         });
         it('should dehydrate and rehydrate the promise plugin correctly', function (done) {
@@ -775,17 +964,26 @@ describe('FluxibleContext', function () {
             expect(state.dispatcher).to.be.an('object');
             expect(state.plugins).to.be.an('object');
             expect(state.plugins.DimensionsPlugin).to.be.an('object');
-            expect(state.plugins.DimensionsPlugin.dimensions).to.deep.equal(dimensions);
+            expect(state.plugins.DimensionsPlugin.dimensions).to.deep.equal(
+                dimensions
+            );
             var newContext = app.createContext();
             newContext.plug(dimensionsPluginPromise());
-            var rehydratePromise = newContext.rehydrate(state).then(function () {
-                expect(newContext.getActionContext().getDimensions()).to.deep.equal(dimensions);
-                expect(newContext.getComponentContext().getDimensions()).to.deep.equal(dimensions);
-                expect(newContext.getStoreContext().getDimensions()).to.deep.equal(dimensions);
-                done();
-            }, done);
+            var rehydratePromise = newContext
+                .rehydrate(state)
+                .then(function () {
+                    expect(
+                        newContext.getActionContext().getDimensions()
+                    ).to.deep.equal(dimensions);
+                    expect(
+                        newContext.getComponentContext().getDimensions()
+                    ).to.deep.equal(dimensions);
+                    expect(
+                        newContext.getStoreContext().getDimensions()
+                    ).to.deep.equal(dimensions);
+                    done();
+                }, done);
             expect(isPromise(rehydratePromise));
         });
     });
-
 });

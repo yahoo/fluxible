@@ -12,7 +12,7 @@ module.exports = function (context, payload, done) {
     /* If thread Id isn't provided make it the latest thread.
      * Called if page loaded at root (/)
      */
-    if(!payload.threadID) {
+    if (!payload.threadID) {
         debug('opening most recent thread');
         var threadStore = context.getStore(ThreadStore);
         var allChrono = threadStore.getAllChrono();

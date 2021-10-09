@@ -31,16 +31,20 @@ class Application extends React.Component {
 
 Application.propTypes = {
     currentRoute: PropTypes.object,
-    pageTitle: PropTypes.string
+    pageTitle: PropTypes.string,
 };
 
-export default provideContext(handleHistory(connectToStores(
-    Application,
-    [ApplicationStore],
-    function (context, props) {
-        var appStore = context.getStore(ApplicationStore);
-        return {
-            pageTitle: appStore.getPageTitle()
-        };
-    }
-)));
+export default provideContext(
+    handleHistory(
+        connectToStores(
+            Application,
+            [ApplicationStore],
+            function (context, props) {
+                var appStore = context.getStore(ApplicationStore);
+                return {
+                    pageTitle: appStore.getPageTitle(),
+                };
+            }
+        )
+    )
+);

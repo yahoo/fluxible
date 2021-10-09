@@ -12,7 +12,7 @@ module.exports = function (context, payload, done) {
         timestamp: Date.now(),
         authorName: 'Bill', // hard coded for the example
         isRead: true,
-        text: payload.text
+        text: payload.text,
     });
     debug('dispatching RECEIVE_MESSAGES', message);
     context.dispatch('RECEIVE_MESSAGES', [message]);

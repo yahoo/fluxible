@@ -14,43 +14,52 @@ import { connectToStores } from 'fluxible-addons-react';
 import SearchStore from '../stores/SearchStore';
 
 class Docs extends React.Component {
-
     static propTypes = {
         currentDoc: PropTypes.object,
-        currentRoute: PropTypes.object.isRequired
+        currentRoute: PropTypes.object.isRequired,
     };
 
     constructor(props, context) {
         super(props, context);
         this.state = {
-            isMenuVisible: false
+            isMenuVisible: false,
         };
     }
 
     handleMenuToggle() {
         this.setState({
-            isMenuVisible: !this.state.isMenuVisible
+            isMenuVisible: !this.state.isMenuVisible,
         });
     }
 
     hideMenu() {
         this.setState({
-            isMenuVisible: false
+            isMenuVisible: false,
         });
     }
 
     render() {
         let wrapperClasses = cx({
             'menu-on': this.state.isMenuVisible,
-            'docs-page innerwrapper D(tb)--sm Tbl(f) Pt(20px) Mb(50px) Mx(a)--sm W(90%)--sm': true
+            'docs-page innerwrapper D(tb)--sm Tbl(f) Pt(20px) Mb(50px) Mx(a)--sm W(90%)--sm': true,
         });
         let page;
         const currentRoute = this.props.currentRoute;
 
         if ('search' === currentRoute.name) {
-            page = (<SearchResults results={this.props.search.results} currentRoute={currentRoute} />);
+            page = (
+                <SearchResults
+                    results={this.props.search.results}
+                    currentRoute={currentRoute}
+                />
+            );
         } else {
-            page = (<Doc currentDoc={this.props.currentDoc} currentRoute={currentRoute} />);
+            page = (
+                <Doc
+                    currentDoc={this.props.currentDoc}
+                    currentRoute={currentRoute}
+                />
+            );
         }
 
         return (
@@ -64,17 +73,25 @@ class Docs extends React.Component {
                     <i className="fa fa-bars"></i>
                     <b className="hidden">Toggle the menu</b>
                 </button>
-                <Menu selected={this.props.currentRoute && this.props.currentRoute.name} onClickEvent={this.hideMenu.bind(this)} />
+                <Menu
+                    selected={
+                        this.props.currentRoute && this.props.currentRoute.name
+                    }
+                    onClickEvent={this.hideMenu.bind(this)}
+                />
                 {page}
-                <div id="overlay" className="D(n) Z(3) Pos(f) T(0) Start(0) W(100%) H(100%)"></div>
+                <div
+                    id="overlay"
+                    className="D(n) Z(3) Pos(f) T(0) Start(0) W(100%) H(100%)"
+                ></div>
             </div>
         );
     }
 }
 
 Docs = handleRoute(
-    connectToStores(Docs, [ SearchStore ], (context) => ({
-        search: context.getStore(SearchStore).getState()
+    connectToStores(Docs, [SearchStore], (context) => ({
+        search: context.getStore(SearchStore).getState(),
     }))
 );
 

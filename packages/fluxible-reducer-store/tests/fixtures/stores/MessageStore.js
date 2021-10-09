@@ -1,13 +1,13 @@
-import {createReducerStore} from '../../../index';
+import { createReducerStore } from '../../../index';
 
 const reducers = {
     RECEIVE_MESSAGES: (state, messages) => {
         var oldMessages = state.messages;
-        var newMessages = {...oldMessages};
+        var newMessages = { ...oldMessages };
         messages.forEach(function (message) {
             newMessages[message.id] = {
                 ...message,
-                isRead: false
+                isRead: false,
             };
         });
         var sortedByDate = (newMessages && Object.keys(newMessages)) || [];
@@ -22,14 +22,14 @@ const reducers = {
 
         return {
             messages: newMessages,
-            sortedByDate
+            sortedByDate,
         };
     },
     OPEN_THREAD: (state, payload) => {
         // Mark all read
         var oldMessages = state.messages;
         var newMessages = {
-            ...oldMessages
+            ...oldMessages,
         };
         Object.keys(state.messages).forEach((key) => {
             var message = state.messages[key];
@@ -37,15 +37,15 @@ const reducers = {
                 newMessages[key] = {
                     ...message,
                     text: message.text + 'foo',
-                    isRead: true
+                    isRead: true,
                 };
             }
         });
         return {
             ...state,
-            messages: newMessages
+            messages: newMessages,
         };
-    }
+    },
 };
 
 var getters = {
@@ -64,17 +64,17 @@ var getters = {
             }
         });
         return threadMessages;
-    }
+    },
 };
 
 var MessageStore = createReducerStore({
     storeName: 'MessageStore',
     initialState: {
         messages: {},
-        sortedByDate: []
+        sortedByDate: [],
     },
     reducers: reducers,
-    getters: getters
+    getters: getters,
 });
 
 export default MessageStore;

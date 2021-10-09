@@ -16,11 +16,13 @@ function createBatchedUpdatePlugin() {
                 plugActionContext(actionContext) {
                     const oldDispatch = actionContext.dispatch;
                     actionContext.dispatch = (...args) => {
-                        unstable_batchedUpdates(() => { oldDispatch.apply(actionContext, args); });
+                        unstable_batchedUpdates(() => {
+                            oldDispatch.apply(actionContext, args);
+                        });
                     };
-                }
+                },
             };
-        }
+        },
     };
 }
 

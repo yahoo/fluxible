@@ -16,7 +16,7 @@ describe('Fluxible', function () {
         FooStore = function () {};
         FooStore.storeName = 'FooStore';
         app = new Fluxible({
-            component: MockComponent
+            component: MockComponent,
         });
     });
 
@@ -46,7 +46,7 @@ describe('Fluxible', function () {
             var context = app.createContext();
             var json = app.dehydrate(context);
             var newApp = new Fluxible({
-                component: MockComponent
+                component: MockComponent,
             });
             newApp.rehydrate(json, function (err, newContext) {
                 if (err) {
@@ -62,7 +62,7 @@ describe('Fluxible', function () {
     describe('rehydrate', function () {
         it('should rehydrate with empty object', function (done) {
             var newApp = new Fluxible({
-                component: MockComponent
+                component: MockComponent,
             });
             newApp.rehydrate({}, function (err, newContext) {
                 if (err) {
@@ -97,7 +97,7 @@ describe('Fluxible', function () {
             expect(function () {
                 app.plug({
                     name: 'OnlyPlugContextPlugin',
-                    plugContext: function () {}
+                    plugContext: function () {},
                 });
                 context = app.createContext();
             }).not.to.throw();
@@ -134,7 +134,7 @@ describe('Fluxible', function () {
             expect(state.plugins.TestAppPlugin).to.be.an('object');
             expect(state.plugins.TestAppPlugin.foo).to.equal(foo);
             var newApp = new Fluxible({
-                component: MockComponent
+                component: MockComponent,
             });
             newApp.plug(testPlugin());
             newApp.rehydrate(state, function (err, newContext) {
@@ -160,7 +160,7 @@ describe('Fluxible', function () {
             expect(state.plugins.TestAppPlugin).to.be.an('object');
             expect(state.plugins.TestAppPlugin.foo).to.equal(foo);
             var newApp = new Fluxible({
-                component: MockComponent
+                component: MockComponent,
             });
             newApp.plug(testPluginSync());
             newApp.rehydrate(state, function (err, newContext) {
@@ -186,7 +186,7 @@ describe('Fluxible', function () {
             expect(state.plugins.TestAppPlugin).to.be.an('object');
             expect(state.plugins.TestAppPlugin.foo).to.equal(foo);
             var newApp = new Fluxible({
-                component: MockComponent
+                component: MockComponent,
             });
             newApp.plug(testPluginPromise());
             newApp.rehydrate(state, function (err, newContext) {
@@ -202,5 +202,4 @@ describe('Fluxible', function () {
             });
         });
     });
-
 });

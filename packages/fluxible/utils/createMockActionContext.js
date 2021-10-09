@@ -9,12 +9,16 @@ var MockActionContextClass = require('./MockActionContext');
 
 module.exports = function createMockActionContext(options) {
     options = options || {};
-    options.mockActionContextClass = options.mockActionContextClass || MockActionContextClass;
+    options.mockActionContextClass =
+        options.mockActionContextClass || MockActionContextClass;
     options.stores = options.stores || [];
-    options.dispatcher = options.dispatcher || dispatchr.createDispatcher({
-        stores: options.stores
-    });
-    options.dispatcherContext = options.dispatcherContext || options.dispatcher.createContext();
+    options.dispatcher =
+        options.dispatcher ||
+        dispatchr.createDispatcher({
+            stores: options.stores,
+        });
+    options.dispatcherContext =
+        options.dispatcherContext || options.dispatcher.createContext();
 
     return new options.mockActionContextClass(options.dispatcherContext);
 };

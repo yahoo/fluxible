@@ -2,34 +2,45 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-function navigateAction (context, payload, done) {
+function navigateAction(context, payload, done) {
     var routeStore = context.getStore('RouteStore');
 
-    var navigate = Object.assign({
-        transactionId: context.rootId
-    }, payload);
+    var navigate = Object.assign(
+        {
+            transactionId: context.rootId,
+        },
+        payload
+    );
     if (!payload.url && payload.routeName) {
-        navigate.url = routeStore.makePath(payload.routeName, payload.params, payload.query);
+        navigate.url = routeStore.makePath(
+            payload.routeName,
+            payload.params,
+            payload.query
+        );
         navigate.routeName = null;
     }
 
     context.dispatch('NAVIGATE_START', navigate);
 
     if (!routeStore.getCurrentRoute) {
-        done(new Error('RouteStore has not implemented `getCurrentRoute` method.'));
+        done(
+            new Error(
+                'RouteStore has not implemented `getCurrentRoute` method.'
+            )
+        );
         return;
     }
 
     var route = routeStore.getCurrentRoute();
     var completionPayload = Object.assign({}, navigate, {
         err: null,
-        route: route
+        route: route,
     });
 
     if (!route) {
         completionPayload.error = {
             statusCode: 404,
-            message: 'Url \'' + payload.url + '\' does not match any routes'
+            message: "Url '" + payload.url + "' does not match any routes",
         };
 
         context.dispatch('NAVIGATE_FAILURE', completionPayload);
@@ -51,7 +62,7 @@ function navigateAction (context, payload, done) {
     if (!action || 'function' !== typeof action) {
         completionPayload.error = {
             statusCode: 500,
-            message: 'Action for ' + payload.url + ' can not be resolved'
+            message: 'Action for ' + payload.url + ' can not be resolved',
         };
         context.dispatch('NAVIGATE_FAILURE', completionPayload);
         done(completionPayload.error);
@@ -62,7 +73,7 @@ function navigateAction (context, payload, done) {
         if (err) {
             completionPayload.error = {
                 statusCode: err.statusCode || 500,
-                message: err.message
+                message: err.message,
             };
 
             context.dispatch('NAVIGATE_FAILURE', completionPayload);

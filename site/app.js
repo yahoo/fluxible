@@ -23,8 +23,7 @@ const app = new Fluxible({
         if (payload.err) {
             if (payload.err.statusCode === 404) {
                 debug('component 404 error', payload.err);
-            }
-            else {
+            } else {
                 debug('component exception', payload.err);
             }
 
@@ -32,7 +31,7 @@ const app = new Fluxible({
         }
 
         done();
-    }
+    },
 });
 
 app.plug(queryPlugin());

@@ -6,12 +6,11 @@
 var createStore = require('fluxible/addons').createStore;
 var ThreadStore = require('./ThreadStore');
 
-
 var MessageStore = createStore({
     storeName: 'MessageStore',
     handlers: {
-        'RECEIVE_MESSAGES': 'receiveMessages',
-        'OPEN_THREAD': 'openThread'
+        RECEIVE_MESSAGES: 'receiveMessages',
+        OPEN_THREAD: 'openThread',
     },
     initialize: function () {
         this.messages = {};
@@ -23,7 +22,7 @@ var MessageStore = createStore({
             self.messages[message.id] = message;
         });
         self.sortedByDate = Object.keys(self.messages);
-        self.sortedByDate.sort(function(a, b) {
+        self.sortedByDate.sort(function (a, b) {
             if (self.messages[a].date < self.messages[b].date) {
                 return -1;
             } else if (self.messages[a].date > self.messages[b].date) {
@@ -50,7 +49,7 @@ var MessageStore = createStore({
     get: function (id) {
         return this.messages[id];
     },
-    getAllForThread: function(threadID) {
+    getAllForThread: function (threadID) {
         var self = this;
         var threadMessages = [];
         self.sortedByDate.forEach(function (key) {
@@ -61,21 +60,22 @@ var MessageStore = createStore({
         });
         return threadMessages;
     },
-    getAllForCurrentThread: function() {
-        var currentThreadID = this.dispatcher.getStore(ThreadStore).getCurrentID();
+    getAllForCurrentThread: function () {
+        var currentThreadID = this.dispatcher
+            .getStore(ThreadStore)
+            .getCurrentID();
         return this.getAllForThread(currentThreadID);
     },
     dehydrate: function () {
         return {
             messages: this.messages,
-            sortedByDate: this.sortedByDate
+            sortedByDate: this.sortedByDate,
         };
     },
     rehydrate: function (state) {
         this.messages = state.messages;
         this.sortedByDate = state.sortedByDate;
-    }
+    },
 });
-
 
 module.exports = MessageStore;
