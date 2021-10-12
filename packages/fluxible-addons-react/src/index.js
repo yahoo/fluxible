@@ -12,3 +12,4 @@ export { default as provideContext } from './provideContext';
 export { default as useFluxible } from './useFluxible';
 export { default as withFluxible } from './withFluxible';
 export { default as useStore } from './useStore';
+export { default as useExecuteAction } from './useExecuteAction';
