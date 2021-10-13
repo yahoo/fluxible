@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { expect } from 'chai';
 import TestRenderer from 'react-test-renderer';
 import createMockComponentContext from 'fluxible/utils/createMockComponentContext';
@@ -8,8 +8,8 @@ import BarStore from '../../fixtures/stores/BarStore';
 
 const DumbComponent = () => {
 
-    const foo = useStore(FooStore).getFoo();
-    const bar = useStore(BarStore).getBar();
+    const foo = useStore(FooStore, store => store.getFoo());
+    const bar = useStore(BarStore, store => store.getBar());
     const executeAction = useExecuteAction();
     const onClick = () => executeAction((context) => context.dispatch('DOUBLE_UP'))
 
@@ -43,7 +43,7 @@ describe('fluxible-addons-react', () => {
     describe('useStore', () => {
         it('returns fluxible store', () => {
             const FooComponent = () => {
-                const foo = useStore('FooStore').getFoo();
+                const foo = useStore('FooStore', store => store.getFoo())
                 return <p id={foo} />;
             };
 
@@ -72,6 +72,18 @@ describe('fluxible-addons-react', () => {
 
             expect(barStore.listeners('change').length).to.equal(0);
             expect(fooStore.listeners('change').length).to.equal(0);
+        });
+        it('should listen to store changes', () => {
+            const { app } = renderComponent(DumbComponent);
+            const button = app.root.findByProps({ id: 'button' })
+            const foo = app.root.findByProps({ id: 'foo' })
+            const bar = app.root.findByProps({ id: 'bar' })
+
+            button.props.onClick();
+            console.error(foo)
+
+            expect(foo.props.children).to.equal('barbar');
+            expect(bar.props.children).to.equal('bazbaz');
         });
     });
 });

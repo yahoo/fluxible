@@ -11,7 +11,7 @@ import useFluxible from './useFluxible'
  *     return <p id={foo} onClick={() => excuteAction(...)} />;
  * };
  *
- * @function useFluxible
+ * @function useExecuteAction
  * @returns {Function} - executeAction handler
  */
 const useExecuteAction = () => {
