@@ -10,7 +10,6 @@ import RouteStore from '../../dist/cjs/RouteStore';
 
 var React;
 var ReactDOM;
-var createReactClass;
 var MockAppComponentLib;
 var ReactTestUtils;
 
@@ -82,7 +81,6 @@ describe('handleHistory', function () {
 
         React = require('react');
         ReactDOM = require('react-dom');
-        createReactClass = require('create-react-class');
         provideContext = require('fluxible-addons-react').provideContext;
         handleHistory = require('../../dist/cjs/handleHistory').default;
         MockAppComponentLib = require('../mocks/MockAppComponent');
@@ -101,15 +99,15 @@ describe('handleHistory', function () {
 
     describe('statics', function () {
         it('should hoist non-react statics to wrapper', function () {
-            var App = createReactClass({
-                displayName: 'Child',
-                statics: {
-                    initAction: function () {},
-                },
-                render: function () {
+            class App extends React.Component {
+                static displayName = 'Child';
+                static initAction() {}
+
+                render() {
                     return null;
-                },
-            });
+                }
+            }
+
             var Wrapper = handleHistory(App);
             expect(Wrapper.displayName).to.not.equal(App.displayName);
             expect(Wrapper.initAction).to.be.a('function');
@@ -129,18 +127,17 @@ describe('handleHistory', function () {
                 var rendered = false;
                 var routeStore = mockContext.getStore('RouteStore');
                 routeStore._handleNavigateStart({ url: '/foo', method: 'GET' });
-                var Child = createReactClass({
-                    displayName: 'Child',
-                    propTypes: {
-                        currentRoute: PropTypes.object,
-                    },
-                    render: function () {
+
+                class Child extends React.Component {
+                    render() {
                         rendered = true;
                         expect(this.props.currentRoute).to.be.an('object');
                         expect(this.props.currentRoute.url).to.equal('/foo');
                         return null;
-                    },
-                });
+                    }
+                }
+                Child.propTypes = { currentRoute: PropTypes.object };
+
                 var MockAppComponent = mockCreator();
                 ReactTestUtils.renderIntoDocument(
                     <MockAppComponent context={mockContext}>

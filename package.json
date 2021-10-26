@@ -30,7 +30,6 @@
     "babel-plugin-istanbul": "^6.0.0",
     "chai": "^4.0.2",
     "coveralls": "^3.1.0",
-    "create-react-class": "^15.5.1",
     "es6-promise": "^4.0.2",
     "eslint": "^8.0.0",
     "eslint-plugin-react": "^7.0.0",
