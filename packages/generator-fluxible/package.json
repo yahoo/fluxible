@@ -9,9 +9,9 @@
     "email": "sbertal@yahoo-inc.com"
   },
   "scripts": {
-    "cover": "BABEL_ENV=test ../../node_modules/.bin/nyc ../../node_modules/.bin/_mocha tests/unit --recursive --reporter spec",
+    "cover": "../../node_modules/.bin/jest --coverage",
     "lint": "../../node_modules/.bin/eslint app/ tests/",
-    "test": "../../node_modules/.bin/mocha tests/unit --recursive --reporter=spec"
+    "test": "../../node_modules/.bin/jest"
   },
   "precommit": [
     "lint",
