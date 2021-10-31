@@ -3,7 +3,6 @@ module.exports = {
         browser: true,
         es2020: true,
         jest: true,
-        mocha: true,
         node: true,
     },
     extends: ['eslint:recommended', 'plugin:react/recommended'],
