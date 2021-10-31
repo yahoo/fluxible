@@ -1,19 +1,16 @@
 /* globals describe, it, afterEach, beforeEach, document */
 /* eslint react/prop-types:0 react/no-render-return-value:0 */
-import { expect } from 'chai';
-import sinon from 'sinon';
-import TestRenderer from 'react-test-renderer';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Fluxible from 'fluxible';
-
-import {
+const TestRenderer = require('react-test-renderer');
+const React = require('react');
+const ReactDOM = require('react-dom');
+const Fluxible = require('fluxible');
+const {
     batchedUpdatePlugin,
     connectToStores,
     provideContext,
-} from '../../../';
-import FooStore from '../../fixtures/stores/FooStore';
-import BarStore from '../../fixtures/stores/BarStore';
+} = require('../../../');
+const FooStore = require('../../fixtures/stores/FooStore');
+const BarStore = require('../../fixtures/stores/BarStore');
 
 class DumbComponent extends React.Component {
     componentDidUpdate() {
@@ -41,7 +38,7 @@ const createComponent = (context) => {
     );
 
     const props = {
-        spy: sinon.stub(),
+        spy: jest.fn(),
         context: context.getComponentContext(),
     };
 
@@ -54,18 +51,19 @@ const createComponent = (context) => {
 
 describe('fluxible-addons-react', () => {
     describe('batchedUpdatePlugin', () => {
-        let clock;
+        let spy;
 
         beforeEach(() => {
-            clock = sinon.useFakeTimers();
-            sinon
-                .stub(ReactDOM, 'unstable_batchedUpdates')
-                .callsFake(TestRenderer.unstable_batchedUpdates);
+            jest.useFakeTimers();
+
+            spy = jest
+                .spyOn(ReactDOM, 'unstable_batchedUpdates')
+                .mockImplementation(TestRenderer.unstable_batchedUpdates);
         });
 
         afterEach(() => {
-            clock.restore();
-            ReactDOM.unstable_batchedUpdates.restore();
+            jest.clearAllTimers();
+            spy.mockRestore();
         });
 
         it('can mock unstable_batchedUpdates', () => {
@@ -75,16 +73,16 @@ describe('fluxible-addons-react', () => {
             component.setState({ foo: 'far', bar: 'baz' });
             component.setState({ foo: 'far', bar: 'baz' });
 
-            expect(spy.callCount).to.equal(2);
+            expect(spy).toHaveBeenCalledTimes(2);
 
-            spy.reset();
+            spy.mockReset();
 
             ReactDOM.unstable_batchedUpdates(() => {
                 component.setState({ foo: 'far', bar: 'baz' });
                 component.setState({ foo: 'far', bar: 'baz' });
             });
 
-            expect(spy.callCount).to.equal(1);
+            expect(spy).toHaveBeenCalledTimes(1);
         });
 
         it('updates component only once when two stores emit changes', () => {
@@ -94,11 +92,11 @@ describe('fluxible-addons-react', () => {
 
             context.executeAction((context) => context.dispatch('DOUBLE_UP'));
 
-            clock.tick(1);
+            jest.runAllTimers();
 
-            expect(component.props.bar).to.equal('bazbaz');
-            expect(component.props.foo).to.equal('barbar');
-            expect(spy.callCount).to.equal(1);
+            expect(component.props.bar).toBe('bazbaz');
+            expect(component.props.foo).toBe('barbar');
+            expect(spy).toHaveBeenCalledTimes(1);
         });
 
         it('updates component twice if plugin is not used', () => {
@@ -107,11 +105,11 @@ describe('fluxible-addons-react', () => {
 
             context.executeAction((context) => context.dispatch('DOUBLE_UP'));
 
-            clock.tick(1);
+            jest.runAllTimers();
 
-            expect(component.props.bar).to.equal('bazbaz');
-            expect(component.props.foo).to.equal('barbar');
-            expect(spy.callCount).to.equal(2);
+            expect(component.props.bar).toBe('bazbaz');
+            expect(component.props.foo).toBe('barbar');
+            expect(spy).toHaveBeenCalledTimes(2);
         });
     });
 });

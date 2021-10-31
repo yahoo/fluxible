@@ -1,12 +1,16 @@
 /* eslint-disable react/prop-types */
-import { expect } from 'chai';
-import React, { forwardRef, useImperativeHandle } from 'react';
-import TestRenderer from 'react-test-renderer';
-import createMockComponentContext from 'fluxible/utils/createMockComponentContext';
-
-import { connectToStores, FluxibleComponent } from '../../../';
-import FooStore from '../../fixtures/stores/FooStore';
-import BarStore from '../../fixtures/stores/BarStore';
+const React = require('react');
+const {
+    forwardRef,
+    useImperativeHandle,
+    Component,
+    createRef,
+} = require('react');
+const TestRenderer = require('react-test-renderer');
+const createMockComponentContext = require('fluxible/utils/createMockComponentContext');
+const { connectToStores, FluxibleComponent } = require('../../../');
+const FooStore = require('../../fixtures/stores/FooStore');
+const BarStore = require('../../fixtures/stores/BarStore');
 
 const DumbComponent = ({ foo, bar, onClick }) => (
     <div>
@@ -49,12 +53,12 @@ const getComponent = (app) => app.root.findByType(DumbComponent);
 describe('fluxible-addons-react', () => {
     describe('connectToStores', () => {
         it('should hoist and set static properties properly', () => {
-            expect(ConnectedComponent.displayName).to.equal(
+            expect(ConnectedComponent.displayName).toBe(
                 'storeConnector(DumbComponent)'
             );
-            expect(ConnectedComponent.WrappedComponent).to.equal(DumbComponent);
-            expect(ConnectedComponent.initAction).to.be.a('function');
-            expect(ConnectedComponent.initAction).to.equal(
+            expect(ConnectedComponent.WrappedComponent).toBe(DumbComponent);
+            expect(ConnectedComponent.initAction).toBeInstanceOf(Function);
+            expect(ConnectedComponent.initAction).toBe(
                 DumbComponent.initAction
             );
         });
@@ -65,22 +69,22 @@ describe('fluxible-addons-react', () => {
             const barStore = context.getStore(BarStore);
             const fooStore = context.getStore(FooStore);
 
-            expect(barStore.listeners('change').length).to.equal(1);
-            expect(fooStore.listeners('change').length).to.equal(1);
+            expect(barStore.listeners('change').length).toBe(1);
+            expect(fooStore.listeners('change').length).toBe(1);
 
             app.unmount();
 
-            expect(barStore.listeners('change').length).to.equal(0);
-            expect(fooStore.listeners('change').length).to.equal(0);
+            expect(barStore.listeners('change').length).toBe(0);
+            expect(fooStore.listeners('change').length).toBe(0);
         });
 
         it('should forward props from getStateFromStores to component', () => {
             const { app } = renderComponent(ConnectedComponent);
             const component = getComponent(app);
 
-            expect(component.props.foo).to.equal('bar');
-            expect(component.props.bar).to.equal('baz');
-            expect(component.props.onClick).to.be.a('function');
+            expect(component.props.foo).toBe('bar');
+            expect(component.props.bar).toBe('baz');
+            expect(component.props.onClick).toBeInstanceOf(Function);
         });
 
         it('should listen to store changes', () => {
@@ -89,12 +93,12 @@ describe('fluxible-addons-react', () => {
 
             component.props.onClick();
 
-            expect(component.props.foo).to.equal('barbar');
-            expect(component.props.bar).to.equal('bazbaz');
+            expect(component.props.foo).toBe('barbar');
+            expect(component.props.bar).toBe('bazbaz');
         });
 
         describe('ref support', () => {
-            class ClassComponent extends React.Component {
+            class ClassComponent extends Component {
                 constructor() {
                     super();
                     this.number = 42;
@@ -132,25 +136,25 @@ describe('fluxible-addons-react', () => {
             );
 
             it('should not forward ref by default', () => {
-                const ref = React.createRef(null);
+                const ref = createRef(null);
                 renderComponent(ConnectedComponent, ref);
-                expect(ref.current).to.equal(null);
+                expect(ref.current).toBeNull();
             });
 
             it('should not forward ref if options.forwardRef is false', () => {
-                const ref = React.createRef(null);
+                const ref = createRef(null);
                 renderComponent(WithoutRefComponent, ref);
-                expect(ref.current).to.equal(null);
+                expect(ref.current).toBeNull();
             });
 
             it('should forward ref if options.forwardRef is true', () => {
-                const ref1 = React.createRef(null);
+                const ref1 = createRef(null);
                 renderComponent(ConnectedClassComponent, ref1);
-                expect(ref1.current.number).to.equal(42);
+                expect(ref1.current.number).toBe(42);
 
-                const ref2 = React.createRef(null);
+                const ref2 = createRef(null);
                 renderComponent(ConnectedForwardComponent, ref2);
-                expect(ref2.current.number).to.equal(24);
+                expect(ref2.current.number).toBe(24);
             });
         });
     });
