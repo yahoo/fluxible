@@ -3,7 +3,7 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 module.exports = {
-    name: 'test',
+    resource: 'test',
     read: function read(req, resource, params, config, callback) {
         callback(null, 'read', {
             headers: {
