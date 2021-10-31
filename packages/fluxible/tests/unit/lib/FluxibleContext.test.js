@@ -1,7 +1,6 @@
 /*globals describe,it,beforeEach */
 'use strict';
 
-var expect = require('chai').expect;
 var async = require('async');
 var Fluxible = require('../../../');
 var FluxibleContext = require('../../../lib/FluxibleContext');
@@ -12,6 +11,16 @@ var es6Promise = require('es6-promise').Promise;
 
 var MockComponent = function () {};
 MockComponent.displayName = 'Application';
+
+const buildContextPropertyAssertions =
+    (referenceContext) =>
+    ({ context }) => {
+        Object.keys(referenceContext).forEach((key) => {
+            expect(context).toHaveProperty(key);
+        });
+        expect(context).toHaveProperty('rootId');
+        expect(context).toHaveProperty('stack');
+    };
 
 describe('FluxibleContext', function () {
     var app;
@@ -26,7 +35,7 @@ describe('FluxibleContext', function () {
 
     describe('getComponent', function () {
         it('should return the app component', function () {
-            expect(context.getComponent()).to.equal(MockComponent);
+            expect(context.getComponent()).toBe(MockComponent);
         });
     });
 
@@ -41,26 +50,30 @@ describe('FluxibleContext', function () {
             var context = app.createContext();
 
             var storeInstance = context.getStore(store);
-            expect(storeInstance).to.be.an('object');
-            expect(storeInstance.constructor.storeName).to.equal(
-                store.storeName
-            );
+            expect(storeInstance).toBeInstanceOf(Object);
+            expect(storeInstance.constructor.storeName).toBe(store.storeName);
         });
     });
 
     describe('actionContext', function () {
-        var actionContext;
-        var actionCalls;
+        let actionContext;
+        let actionCalls;
+        let expectToHaveActionContextProperties;
+
         beforeEach(function () {
             actionContext = context.getActionContext();
             actionCalls = [];
+
+            expectToHaveActionContextProperties =
+                buildContextPropertyAssertions(actionContext);
         });
+
         describe('#executeAction', function () {
             it('should return a promise', function (done) {
                 var promise = actionContext
                     .executeAction(function () {}, {})
                     .catch(done);
-                expect(isPromise(promise)).to.equal(true);
+                expect(isPromise(promise)).toBe(true);
                 done();
             });
 
@@ -71,7 +84,7 @@ describe('FluxibleContext', function () {
                 actionContext
                     .executeAction(action)
                     .then(function (result) {
-                        expect(result).to.be.an('object');
+                        expect(result).toBeInstanceOf(Object);
                         done();
                     })
                     .catch(done);
@@ -87,11 +100,9 @@ describe('FluxibleContext', function () {
                 };
                 var payload = {};
                 var callback = function () {
-                    expect(actionCalls.length).to.equal(1);
-                    expect(actionCalls[0].context).to.contain.keys(
-                        Object.keys(actionContext)
-                    );
-                    expect(actionCalls[0].payload).to.equal(payload);
+                    expect(actionCalls.length).toBe(1);
+                    expectToHaveActionContextProperties(actionCalls[0]);
+                    expect(actionCalls[0].payload).toBe(payload);
                     done();
                 };
                 actionContext.executeAction(action, payload, callback);
@@ -175,79 +186,47 @@ describe('FluxibleContext', function () {
                 actionFive.displayName = 'Five';
                 var payload = {};
                 var callback = function () {
-                    expect(actionCalls.length).to.equal(6);
-                    expect(actionCalls[0].context).to.contain.keys(
-                        Object.keys(actionContext)
-                    );
-                    expect(actionCalls[0].context).to.contain.keys([
-                        'rootId',
-                        'stack',
-                    ]);
+                    expect(actionCalls.length).toBe(6);
+
+                    expectToHaveActionContextProperties(actionCalls[0]);
                     var firstId = actionCalls[0].context.rootId;
-                    expect(actionCalls[0].context.stack.join('.')).to.equal(
-                        'One'
-                    );
-                    expect(actionCalls[0].payload).to.equal(payload);
-                    expect(actionCalls[1].context).to.contain.keys(
-                        Object.keys(actionContext)
-                    );
-                    expect(actionCalls[1].context).to.contain.keys([
-                        'rootId',
-                        'stack',
-                    ]);
-                    expect(actionCalls[1].context.rootId).to.equal(firstId);
-                    expect(actionCalls[1].context.stack.join('.')).to.equal(
+                    expect(actionCalls[0].context.stack.join('.')).toBe('One');
+                    expect(actionCalls[0].payload).toBe(payload);
+
+                    expectToHaveActionContextProperties(actionCalls[1]);
+                    expect(actionCalls[1].context.rootId).toBe(firstId);
+                    expect(actionCalls[1].context.stack.join('.')).toBe(
                         'One.Two'
                     );
-                    expect(actionCalls[1].payload).to.equal(payload);
-                    expect(actionCalls[2].context).to.contain.keys(
-                        Object.keys(actionContext)
-                    );
-                    expect(actionCalls[2].context).to.contain.keys([
-                        'rootId',
-                        'stack',
-                    ]);
-                    expect(actionCalls[2].context.rootId).to.equal(firstId);
-                    expect(actionCalls[2].context.stack.join('.')).to.equal(
+                    expect(actionCalls[1].payload).toBe(payload);
+
+                    expectToHaveActionContextProperties(actionCalls[2]);
+                    expect(actionCalls[2].context.rootId).toBe(firstId);
+                    expect(actionCalls[2].context.stack.join('.')).toBe(
                         'One.Two'
                     );
-                    expect(actionCalls[2].payload).to.equal(payload);
-                    expect(actionCalls[3].context).to.contain.keys(
-                        Object.keys(actionContext)
-                    );
-                    expect(actionCalls[3].context).to.contain.keys([
-                        'rootId',
-                        'stack',
-                    ]);
-                    expect(actionCalls[3].context.rootId).to.equal(firstId);
-                    expect(actionCalls[3].context.stack.join('.')).to.equal(
+                    expect(actionCalls[2].payload).toBe(payload);
+
+                    expectToHaveActionContextProperties(actionCalls[3]);
+                    expect(actionCalls[3].context.rootId).toBe(firstId);
+                    expect(actionCalls[3].context.stack.join('.')).toBe(
                         'One.Three'
                     );
-                    expect(actionCalls[3].payload).to.equal(payload);
-                    expect(actionCalls[4].context).to.contain.keys(
-                        Object.keys(actionContext)
-                    );
-                    expect(actionCalls[4].context).to.contain.keys([
-                        'rootId',
-                        'stack',
-                    ]);
-                    expect(actionCalls[4].context.rootId).to.equal(firstId);
-                    expect(actionCalls[4].context.stack.join('.')).to.equal(
+                    expect(actionCalls[3].payload).toBe(payload);
+
+                    expectToHaveActionContextProperties(actionCalls[4]);
+                    expect(actionCalls[4].context.rootId).toBe(firstId);
+                    expect(actionCalls[4].context.stack.join('.')).toBe(
                         'One.Four'
                     );
-                    expect(actionCalls[4].payload).to.equal(payload);
-                    expect(actionCalls[5].context).to.contain.keys(
-                        Object.keys(actionContext)
-                    );
-                    expect(actionCalls[5].context).to.contain.keys([
-                        'rootId',
-                        'stack',
-                    ]);
-                    expect(actionCalls[5].context.rootId).to.equal(firstId);
-                    expect(actionCalls[5].context.stack.join('.')).to.equal(
+                    expect(actionCalls[4].payload).toBe(payload);
+
+                    expectToHaveActionContextProperties(actionCalls[5]);
+                    expect(actionCalls[5].context.rootId).toBe(firstId);
+                    expect(actionCalls[5].context.stack.join('.')).toBe(
                         'One.Four.Five'
                     );
-                    expect(actionCalls[5].payload).to.equal(payload);
+                    expect(actionCalls[5].payload).toBe(payload);
                     done();
                 };
                 actionContext = context.getActionContext();
@@ -263,7 +242,7 @@ describe('FluxibleContext', function () {
                     action,
                     {},
                     function (executeActionError) {
-                        expect(executeActionError).to.equal(err);
+                        expect(executeActionError).toBe(err);
                         done();
                     }
                 );
@@ -280,7 +259,7 @@ describe('FluxibleContext', function () {
                 var testError = new Error('test');
                 var d = domain.create();
                 d.on('error', function (e) {
-                    expect(e).to.equal(testError);
+                    expect(e).toBe(testError);
                     d.exit();
                     done();
                     global.Promise = oldPromise;
@@ -313,8 +292,8 @@ describe('FluxibleContext', function () {
                     action,
                     payload,
                     function (err, result) {
-                        expect(err).to.equal(null);
-                        expect(result).to.equal(payload);
+                        expect(err).toBeNull();
+                        expect(result).toBe(payload);
                         done();
                     }
                 );
@@ -328,7 +307,7 @@ describe('FluxibleContext', function () {
                 actionContext
                     .executeAction(action, {})
                     .catch(function (callbackError) {
-                        expect(callbackError).to.equal(err);
+                        expect(callbackError).toBe(err);
                         done();
                     });
             });
@@ -341,7 +320,7 @@ describe('FluxibleContext', function () {
                 actionContext
                     .executeAction(action, payload)
                     .then(function (promiseResult) {
-                        expect(promiseResult).to.equal(promiseResult);
+                        expect(promiseResult).toBe(promiseResult);
                         done();
                     })
                     .catch(done);
@@ -359,7 +338,7 @@ describe('FluxibleContext', function () {
                 actionContext
                     .executeAction(action, payload)
                     .then(function (result) {
-                        expect(result).to.equal(payload);
+                        expect(result).toBe(payload);
                         done();
                     })
                     .catch(done);
@@ -373,7 +352,7 @@ describe('FluxibleContext', function () {
                 actionContext
                     .executeAction(action, payload)
                     .then(function (promiseResult) {
-                        expect(promiseResult).to.equal(payload);
+                        expect(promiseResult).toBe(payload);
                         done();
                     })
                     .catch(done);
@@ -389,16 +368,15 @@ describe('FluxibleContext', function () {
                     throw err;
                 };
                 var payload = {};
+
                 actionContext
                     .executeAction(action, payload)
                     .catch(function (actionError) {
                         try {
-                            expect(actionError).to.equal(err);
-                            expect(actionCalls.length).to.equal(1);
-                            expect(actionCalls[0].context).to.contain.keys(
-                                Object.keys(actionContext)
-                            );
-                            expect(actionCalls[0].payload).to.equal(payload);
+                            expect(actionError).toBe(err);
+                            expect(actionCalls.length).toBe(1);
+                            expectToHaveActionContextProperties(actionCalls[0]);
+                            expect(actionCalls[0].payload).toBe(payload);
                             done();
                         } catch (e) {
                             done(e);
@@ -415,7 +393,7 @@ describe('FluxibleContext', function () {
                 var payload = {};
                 var callback = function () {
                     try {
-                        expect(log).to.deep.equal([
+                        expect(log).toEqual([
                             'start',
                             'after executeAction',
                             'action',
@@ -443,7 +421,7 @@ describe('FluxibleContext', function () {
                 log.push('start');
                 actionContext.executeAction(action, payload).then(function () {
                     try {
-                        expect(log).to.deep.equal([
+                        expect(log).toEqual([
                             'start',
                             'after executeAction',
                             'action',
@@ -468,7 +446,7 @@ describe('FluxibleContext', function () {
                 };
                 var payload = false;
                 actionContext.executeAction(action, payload, function () {
-                    expect(actionCalls[0].payload).to.equal(false);
+                    expect(actionCalls[0].payload).toBe(false);
                     done();
                 });
             });
@@ -529,15 +507,15 @@ describe('FluxibleContext', function () {
                             payload,
                             function () {
                                 try {
-                                    expect(warningCalls.length).to.equal(1);
-                                    expect(warningCalls[0][0]).to.equal(
+                                    expect(warningCalls.length).toBe(1);
+                                    expect(warningCalls[0][0]).toBe(
                                         'Warning: executeAction for `action2` was ' +
                                             'called, but `TEST` is currently being dispatched. This could mean there are ' +
                                             'cascading updates, which should be avoided. `action2` will only start after ' +
                                             '`TEST` is complete.'
                                     );
-                                    expect(action1ExecuteCount).to.equal(1);
-                                    expect(action2ExecuteCount).to.equal(1);
+                                    expect(action1ExecuteCount).toBe(1);
+                                    expect(action2ExecuteCount).toBe(1);
                                     done();
                                 } catch (e) {
                                     done(e);
@@ -553,10 +531,15 @@ describe('FluxibleContext', function () {
     });
 
     describe('componentContext', function () {
-        var componentContext;
+        let componentContext;
+        let expectToHaveActionContextProperties;
+
         beforeEach(function () {
             componentContext = context.getComponentContext();
+            expectToHaveActionContextProperties =
+                buildContextPropertyAssertions(context.getActionContext());
         });
+
         describe('#executeAction', function () {
             it('should execute the action', function (done) {
                 var oldWarn = console.warn;
@@ -566,11 +549,12 @@ describe('FluxibleContext', function () {
                         throw new Error('This should not be called');
                     };
                     var action = function (actionContext, payload, cb) {
-                        expect(actionContext).to.contain.keys(
-                            Object.keys(context.getActionContext())
-                        );
-                        expect(payload).to.equal(payload);
-                        expect(callback).to.not.equal(cb);
+                        expectToHaveActionContextProperties({
+                            context: actionContext,
+                        });
+
+                        expect(payload).toBe(payload);
+                        expect(callback).not.toBe(cb);
                         done();
                     };
                     var payload = {};
@@ -579,8 +563,8 @@ describe('FluxibleContext', function () {
                     console.warn = oldWarn;
                 }
             });
+
             it('should trace executeAction calls and pass `id` along', function (done) {
-                var actionContext = context.getActionContext();
                 var actionCalls = [];
                 var actionOne = function (context, payload, callback) {
                     actionCalls.push({
@@ -619,75 +603,41 @@ describe('FluxibleContext', function () {
                                 done(err);
                             }
 
-                            expect(actionCalls.length).to.equal(5);
-                            expect(actionCalls[0].context).to.contain.keys(
-                                Object.keys(actionContext)
-                            );
-                            expect(actionCalls[0].context).to.contain.keys([
-                                'rootId',
-                                'stack',
-                            ]);
+                            expect(actionCalls.length).toBe(5);
+                            expectToHaveActionContextProperties(actionCalls[0]);
                             var firstId = actionCalls[0].context.rootId;
-                            expect(
-                                actionCalls[0].context.stack.join('.')
-                            ).to.equal('One');
-                            expect(actionCalls[0].payload).to.equal(payload);
-                            expect(actionCalls[1].context).to.contain.keys(
-                                Object.keys(actionContext)
+                            expect(actionCalls[0].context.stack.join('.')).toBe(
+                                'One'
                             );
-                            expect(actionCalls[1].context).to.contain.keys([
-                                'rootId',
-                                'stack',
-                            ]);
-                            expect(actionCalls[1].context.rootId).to.equal(
-                                firstId
+                            expect(actionCalls[0].payload).toBe(payload);
+
+                            expectToHaveActionContextProperties(actionCalls[1]);
+                            expect(actionCalls[1].context.rootId).toBe(firstId);
+                            expect(actionCalls[1].context.stack.join('.')).toBe(
+                                'One.Two'
                             );
-                            expect(
-                                actionCalls[1].context.stack.join('.')
-                            ).to.equal('One.Two');
-                            expect(actionCalls[1].payload).to.equal(payload);
-                            expect(actionCalls[2].context).to.contain.keys(
-                                Object.keys(actionContext)
+                            expect(actionCalls[1].payload).toBe(payload);
+
+                            expectToHaveActionContextProperties(actionCalls[2]);
+                            expect(actionCalls[2].context.rootId).toBe(firstId);
+                            expect(actionCalls[2].context.stack.join('.')).toBe(
+                                'One.Two'
                             );
-                            expect(actionCalls[2].context).to.contain.keys([
-                                'rootId',
-                                'stack',
-                            ]);
-                            expect(actionCalls[2].context.rootId).to.equal(
-                                firstId
+                            expect(actionCalls[2].payload).toBe(payload);
+
+                            expectToHaveActionContextProperties(actionCalls[3]);
+                            expect(actionCalls[3].context.rootId).toBe(firstId);
+                            expect(actionCalls[3].context.stack.join('.')).toBe(
+                                'One.Three'
                             );
-                            expect(
-                                actionCalls[2].context.stack.join('.')
-                            ).to.equal('One.Two');
-                            expect(actionCalls[2].payload).to.equal(payload);
-                            expect(actionCalls[3].context).to.contain.keys(
-                                Object.keys(actionContext)
+                            expect(actionCalls[3].payload).toBe(payload);
+
+                            expectToHaveActionContextProperties(actionCalls[4]);
+                            expect(actionCalls[4].context.rootId).toBe(firstId);
+                            expect(actionCalls[4].context.stack.join('.')).toBe(
+                                'One.Three.Four'
                             );
-                            expect(actionCalls[3].context).to.contain.keys([
-                                'rootId',
-                                'stack',
-                            ]);
-                            expect(actionCalls[3].context.rootId).to.equal(
-                                firstId
-                            );
-                            expect(
-                                actionCalls[3].context.stack.join('.')
-                            ).to.equal('One.Three');
-                            expect(actionCalls[3].payload).to.equal(payload);
-                            expect(actionCalls[4].context).to.contain.keys(
-                                Object.keys(actionContext)
-                            );
-                            expect(actionCalls[4].context).to.contain.keys([
-                                'rootId',
-                                'stack',
-                            ]);
-                            expect(actionCalls[4].context.rootId).to.equal(
-                                firstId
-                            );
-                            expect(
-                                actionCalls[4].context.stack.join('.')
-                            ).to.equal('One.Three.Four');
-                            expect(actionCalls[4].payload).to.equal(payload);
+                            expect(actionCalls[4].payload).toBe(payload);
                             done();
                         }
                     );
@@ -720,10 +670,11 @@ describe('FluxibleContext', function () {
                 var payload = {};
                 componentContext.executeAction(actionOne, payload);
             });
+
             it('should use the defined component action handler', function (done) {
                 var actionError = new Error('something went wrong');
                 var myActionHandler = function (context, payload, cb) {
-                    expect(payload.err).to.equal(actionError);
+                    expect(payload.err).toBe(actionError);
                     cb();
                     done();
                 };
@@ -749,7 +700,7 @@ describe('FluxibleContext', function () {
                 var actionError = new Error('action error');
                 var d = domain.create();
                 d.on('error', function (e) {
-                    expect(e).to.equal(actionError);
+                    expect(e).toBe(actionError);
                     d.exit();
                     done();
                     global.Promise = oldPromise;
@@ -782,7 +733,7 @@ describe('FluxibleContext', function () {
             storeContext = context.getStoreContext();
         });
         it('should be an object', function () {
-            expect(storeContext).to.be.an('object');
+            expect(storeContext).toBeInstanceOf(Object);
         });
     });
 
@@ -797,7 +748,7 @@ describe('FluxibleContext', function () {
                     done(err);
                     return;
                 }
-                expect(newContext).to.be.an('object');
+                expect(newContext).toBeInstanceOf(Object);
                 done();
             });
         });
@@ -816,35 +767,35 @@ describe('FluxibleContext', function () {
         it('should throw if the plugin does not have a name', function () {
             expect(function () {
                 context.plug({});
-            }).to.throw();
+            }).toThrowError();
         });
         it('should add the getDimensions function to the action context', function () {
             var actionContext = context.getActionContext();
-            expect(actionContext).to.be.an('object');
-            expect(actionContext.getDimensions).to.be.a('function');
-            expect(actionContext.getDimensions()).to.deep.equal(dimensions);
+            expect(actionContext).toBeInstanceOf(Object);
+            expect(actionContext.getDimensions).toBeInstanceOf(Function);
+            expect(actionContext.getDimensions()).toEqual(dimensions);
         });
         it('should add the getDimensions function to the component context', function () {
             var componentContext = context.getComponentContext();
-            expect(componentContext).to.be.an('object');
-            expect(componentContext.getDimensions).to.be.a('function');
-            expect(componentContext.getDimensions()).to.deep.equal(dimensions);
+            expect(componentContext).toBeInstanceOf(Object);
+            expect(componentContext.getDimensions).toBeInstanceOf(Function);
+            expect(componentContext.getDimensions()).toEqual(dimensions);
         });
         it('should add the getDimensions function to the store context', function () {
             var storeContext = context.getStoreContext();
-            expect(storeContext).to.be.an('object');
-            expect(storeContext.getDimensions).to.be.a('function');
-            expect(storeContext.getDimensions()).to.deep.equal(dimensions);
+            expect(storeContext).toBeInstanceOf(Object);
+            expect(storeContext.getDimensions).toBeInstanceOf(Function);
+            expect(storeContext.getDimensions()).toEqual(dimensions);
         });
         it('#plug should collect list of executeActionPlugins', function () {
             var newContext = app.createContext();
-            expect(newContext._executeActionPlugins).to.have.lengthOf(0);
+            expect(newContext._executeActionPlugins).toHaveLength(0);
             var plugin = {
                 name: 'plugin',
                 plugExecuteAction: function plugExecuteAction() {},
             };
             newContext.plug(plugin);
-            expect(newContext._executeActionPlugins).to.have.lengthOf(1);
+            expect(newContext._executeActionPlugins).toHaveLength(1);
         });
         it('should call executeActionPlugins', function (done) {
             var newContext = app.createContext();
@@ -890,10 +841,10 @@ describe('FluxibleContext', function () {
             newContext.executeAction(action, {}, function end() {
                 var err = null;
                 try {
-                    expect(modifiedActionCalled).to.equal(true);
-                    expect(contextModified).to.equal(true);
-                    expect(payloadModified).to.equal(true);
-                    expect(modifiedCallbackCalled).to.equal(true);
+                    expect(modifiedActionCalled).toBe(true);
+                    expect(contextModified).toBe(true);
+                    expect(payloadModified).toBe(true);
+                    expect(modifiedCallbackCalled).toBe(true);
                 } catch (e) {
                     err = e;
                 } finally {
@@ -904,11 +855,11 @@ describe('FluxibleContext', function () {
         it('should dehydrate and rehydrate the async plugin correctly', function (done) {
             // Create a copy of the state
             var state = JSON.parse(JSON.stringify(context.dehydrate()));
-            expect(state).to.be.an('object');
-            expect(state.dispatcher).to.be.an('object');
-            expect(state.plugins).to.be.an('object');
-            expect(state.plugins.DimensionsPlugin).to.be.an('object');
-            expect(state.plugins.DimensionsPlugin.dimensions).to.deep.equal(
+            expect(state).toBeInstanceOf(Object);
+            expect(state.dispatcher).toBeInstanceOf(Object);
+            expect(state.plugins).toBeInstanceOf(Object);
+            expect(state.plugins.DimensionsPlugin).toBeInstanceOf(Object);
+            expect(state.plugins.DimensionsPlugin.dimensions).toEqual(
                 dimensions
             );
             var newContext = app.createContext();
@@ -918,13 +869,13 @@ describe('FluxibleContext', function () {
                 .then(function () {
                     expect(
                         newContext.getActionContext().getDimensions()
-                    ).to.deep.equal(dimensions);
+                    ).toEqual(dimensions);
                     expect(
                         newContext.getComponentContext().getDimensions()
-                    ).to.deep.equal(dimensions);
+                    ).toEqual(dimensions);
                     expect(
                         newContext.getStoreContext().getDimensions()
-                    ).to.deep.equal(dimensions);
+                    ).toEqual(dimensions);
                     done();
                 }, done);
             expect(isPromise(rehydratePromise));
@@ -932,11 +883,11 @@ describe('FluxibleContext', function () {
         it('should dehydrate and rehydrate the sync plugin correctly', function (done) {
             // Create a copy of the state
             var state = JSON.parse(JSON.stringify(context.dehydrate()));
-            expect(state).to.be.an('object');
-            expect(state.dispatcher).to.be.an('object');
-            expect(state.plugins).to.be.an('object');
-            expect(state.plugins.DimensionsPlugin).to.be.an('object');
-            expect(state.plugins.DimensionsPlugin.dimensions).to.deep.equal(
+            expect(state).toBeInstanceOf(Object);
+            expect(state.dispatcher).toBeInstanceOf(Object);
+            expect(state.plugins).toBeInstanceOf(Object);
+            expect(state.plugins.DimensionsPlugin).toBeInstanceOf(Object);
+            expect(state.plugins.DimensionsPlugin.dimensions).toEqual(
                 dimensions
             );
             var newContext = app.createContext();
@@ -946,13 +897,13 @@ describe('FluxibleContext', function () {
                 .then(function () {
                     expect(
                         newContext.getActionContext().getDimensions()
-                    ).to.deep.equal(dimensions);
+                    ).toEqual(dimensions);
                     expect(
                         newContext.getComponentContext().getDimensions()
-                    ).to.deep.equal(dimensions);
+                    ).toEqual(dimensions);
                     expect(
                         newContext.getStoreContext().getDimensions()
-                    ).to.deep.equal(dimensions);
+                    ).toEqual(dimensions);
                     done();
                 }, done);
             expect(isPromise(rehydratePromise));
@@ -960,11 +911,11 @@ describe('FluxibleContext', function () {
         it('should dehydrate and rehydrate the promise plugin correctly', function (done) {
             // Create a copy of the state
             var state = JSON.parse(JSON.stringify(context.dehydrate()));
-            expect(state).to.be.an('object');
-            expect(state.dispatcher).to.be.an('object');
-            expect(state.plugins).to.be.an('object');
-            expect(state.plugins.DimensionsPlugin).to.be.an('object');
-            expect(state.plugins.DimensionsPlugin.dimensions).to.deep.equal(
+            expect(state).toBeInstanceOf(Object);
+            expect(state.dispatcher).toBeInstanceOf(Object);
+            expect(state.plugins).toBeInstanceOf(Object);
+            expect(state.plugins.DimensionsPlugin).toBeInstanceOf(Object);
+            expect(state.plugins.DimensionsPlugin.dimensions).toEqual(
                 dimensions
             );
             var newContext = app.createContext();
@@ -974,13 +925,13 @@ describe('FluxibleContext', function () {
                 .then(function () {
                     expect(
                         newContext.getActionContext().getDimensions()
-                    ).to.deep.equal(dimensions);
+                    ).toEqual(dimensions);
                     expect(
                         newContext.getComponentContext().getDimensions()
-                    ).to.deep.equal(dimensions);
+                    ).toEqual(dimensions);
                     expect(
                         newContext.getStoreContext().getDimensions()
-                    ).to.deep.equal(dimensions);
+                    ).toEqual(dimensions);
                     done();
                 }, done);
             expect(isPromise(rehydratePromise));

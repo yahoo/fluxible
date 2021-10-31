@@ -3,7 +3,6 @@
 
 'use strict';
 
-var expect = require('chai').expect;
 var createMockComponentContext =
     require('../../../utils').createMockComponentContext;
 
@@ -11,25 +10,23 @@ describe('createMockComponentContext', function () {
     describe('instance', function () {
         var context;
 
-        before(function () {
+        beforeAll(function () {
             context = createMockComponentContext();
         });
 
         it('should have the following properties: dispatcher, executeActionCalls', function () {
-            expect(context)
-                .to.have.property('executeActionCalls')
-                .that.is.an('array').and.empty;
+            expect(context.executeActionCalls).toEqual([]);
         });
 
         describe('#getStore', function () {
             it('should delegate to the dispatcher getStore method', function () {
-                expect(context).to.have.property('getStore');
+                expect(context).toHaveProperty('getStore');
             });
         });
 
         describe('#executeAction', function () {
             it('should provide an executeAction method', function () {
-                expect(context).to.respondTo('executeAction');
+                expect(context.executeAction).toBeInstanceOf(Function);
             });
 
             it('should execute the action and pass a MockActionContext', function () {
@@ -39,20 +36,20 @@ describe('createMockComponentContext', function () {
                 };
 
                 function mockAction(ctx, payload, done) {
-                    expect(ctx).to.be.an('object');
-                    expect(ctx.dispatch).to.be.a('function');
-                    expect(ctx.executeAction).to.be.a('function');
-                    expect(payload).to.equal(mockPayload);
+                    expect(ctx).toBeInstanceOf(Object);
+                    expect(ctx.dispatch).toBeInstanceOf(Function);
+                    expect(ctx.executeAction).toBeInstanceOf(Function);
+                    expect(payload).toBe(mockPayload);
                     done();
                 }
 
                 context.executeAction(mockAction, mockPayload);
 
-                expect(context.executeActionCalls).to.have.length(1);
+                expect(context.executeActionCalls).toHaveLength(1);
 
                 var call = context.executeActionCalls[0];
-                expect(call).to.have.property('action', mockAction);
-                expect(call).to.have.property('payload', mockPayload);
+                expect(call).toHaveProperty('action', mockAction);
+                expect(call).toHaveProperty('payload', mockPayload);
             });
         });
     });

@@ -3,7 +3,6 @@
 
 'use strict';
 
-var expect = require('chai').expect;
 var createMockActionContext = require('../../../utils').createMockActionContext;
 
 describe('createMockActionContext', function () {
@@ -15,30 +14,24 @@ describe('createMockActionContext', function () {
         });
 
         it('should have executeActionCalls property', function () {
-            expect(context)
-                .to.have.property('executeActionCalls')
-                .that.is.an('array').and.empty;
+            expect(context.executeActionCalls).toEqual([]);
         });
 
         it('should have dispatchCalls property', function () {
-            expect(context)
-                .to.have.property('dispatchCalls')
-                .that.is.an('array').and.empty;
+            expect(context.dispatchCalls).toEqual([]);
         });
 
         it('should have dispatcherContext property', function () {
-            expect(context)
-                .to.have.property('dispatcherContext')
-                .that.is.an('object');
+            expect(context.dispatcherContext).toBeInstanceOf(Object);
         });
 
         it('should have rootId property', function () {
-            expect(context).to.have.property('rootId').that.is.a('number');
+            expect(context.rootId).toEqual(expect.any(Number));
         });
 
         describe('#getStore', function () {
             it('should delegate to the dispatcher getStore method', function () {
-                expect(context).to.have.property('getStore');
+                expect(context).toHaveProperty('getStore');
             });
         });
 
@@ -49,26 +42,26 @@ describe('createMockActionContext', function () {
             };
 
             function mockAction(ctx, payload, cb) {
-                expect(ctx).to.be.an('object');
-                expect(ctx.dispatch).to.be.a('function');
-                expect(ctx.executeAction).to.be.a('function');
-                expect(payload).to.equal(mockPayload);
+                expect(ctx).toBeInstanceOf(Object);
+                expect(ctx.dispatch).toBeInstanceOf(Function);
+                expect(ctx.executeAction).toBeInstanceOf(Function);
+                expect(payload).toBe(mockPayload);
                 return cb();
             }
 
             function cbResult(done) {
                 return function cb() {
-                    expect(context.executeActionCalls).to.have.length(1);
+                    expect(context.executeActionCalls).toHaveLength(1);
 
                     var call = context.executeActionCalls[0];
-                    expect(call).to.have.property('action', mockAction);
-                    expect(call).to.have.property('payload', mockPayload);
+                    expect(call).toHaveProperty('action', mockAction);
+                    expect(call).toHaveProperty('payload', mockPayload);
                     return done();
                 };
             }
 
             it('should provide an executeAction method', function () {
-                expect(context).to.respondTo('executeAction');
+                expect(context.executeAction).toBeInstanceOf(Function);
             });
 
             it('should execute the action and infer to return a Promise, success', function (done) {
@@ -90,7 +83,7 @@ describe('createMockActionContext', function () {
                         );
                     })
                     .catch(function (error) {
-                        expect(error).to.be.an('Error');
+                        expect(error).toBeInstanceOf(Error);
                         done();
                     });
             });
@@ -105,10 +98,10 @@ describe('createMockActionContext', function () {
                     fn(null, returnValue);
                 },
                 mockPayload);
-                expect(result.then).to.be.a('function');
+                expect(result.then).toBeInstanceOf(Function);
                 result
                     .then(function (r) {
-                        expect(r).to.equal(returnValue);
+                        expect(r).toBe(returnValue);
                         done();
                     })
                     .catch(done);
