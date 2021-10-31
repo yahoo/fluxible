@@ -2,21 +2,18 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-import { JSDOM } from 'jsdom';
-import { expect } from 'chai';
-import sinon from 'sinon';
-import fs from 'fs';
-import resolve from 'resolve';
-import createMockComponentContext from 'fluxible/utils/createMockComponentContext';
-import { navigateAction, RouteStore } from '../../';
+const { JSDOM } = require('jsdom');
+const createMockComponentContext = require('fluxible/utils/createMockComponentContext');
+const React = require('react');
+const ReactDOM = require('react-dom');
+const ReactTestUtils = require('react-dom/test-utils');
+const { RouteStore } = require('../../');
 
 const ORIG_NODE_ENV = process.env.NODE_ENV;
 
-let React;
-let ReactDOM;
 let NavLink;
+let navigateAction;
 let createNavLinkComponent;
-let ReactTestUtils;
 
 let container = null;
 
@@ -69,13 +66,10 @@ const simulateClick = (link) => {
 function setup(options) {
     if (options?.nodeEnv) {
         process.env.NODE_ENV = options.nodeEnv;
+    } else {
+        process.env.NODE_ENV = 'test';
     }
-    let path = fs.realpathSync(
-        resolve.sync('../../dist/cjs/createNavLinkComponent')
-    );
-    delete require.cache[path];
-    path = fs.realpathSync(resolve.sync('../../dist/cjs/NavLink'));
-    delete require.cache[path];
+    jest.resetModules();
 
     const jsdom = new JSDOM('<html><body></body></html>', {
         url: 'http://yahoo.com',
@@ -88,13 +82,9 @@ function setup(options) {
     container = document.createElement('div');
     document.body.appendChild(container);
 
-    React = require('react');
-    ReactDOM = require('react-dom');
-    ReactTestUtils = require('react-dom/test-utils');
-    NavLink = require('../../dist/cjs/NavLink').default;
-    createNavLinkComponent = require('../../dist/cjs/createNavLinkComponent')[
-        'default'
-    ];
+    navigateAction = require('../../').navigateAction;
+    NavLink = require('../../').NavLink;
+    createNavLinkComponent = require('../../').createNavLinkComponent;
 }
 
 function tearDown() {
@@ -119,30 +109,30 @@ describe('NavLink', () => {
     describe('render()', () => {
         it('should set href correctly', () => {
             const { link } = renderNavLink({ href: '/foo', children: 'bar' });
-            expect(link.getAttribute('href')).to.equal('/foo');
-            expect(link.textContent).to.equal('bar');
+            expect(link.getAttribute('href')).toBe('/foo');
+            expect(link.textContent).toBe('bar');
         });
 
         it('should prefer href over routeName', () => {
             const { link } = renderNavLink({ routeName: 'fooo', href: '/foo' });
-            expect(link.getAttribute('href')).to.equal('/foo');
+            expect(link.getAttribute('href')).toBe('/foo');
         });
 
         it('should create href from routeName and parameters', () => {
             const navParams = { a: 1, b: 2 };
             const { link } = renderNavLink({ navParams, routeName: 'fooAB' });
-            expect(link.getAttribute('href')).to.equal('/foo/1/2');
+            expect(link.getAttribute('href')).toBe('/foo/1/2');
         });
 
         it('should have routeName mapped to the correct path', () => {
             const { link } = renderNavLink({ routeName: 'int' });
-            expect(link.getAttribute('href')).to.equal('/internal');
+            expect(link.getAttribute('href')).toBe('/internal');
         });
 
         it('should create href with query params', () => {
             const queryParams = { a: 1, b: 2 };
             const { link } = renderNavLink({ queryParams, routeName: 'foo' });
-            expect(link.getAttribute('href')).to.equal('/foo?a=1&b=2');
+            expect(link.getAttribute('href')).toBe('/foo?a=1&b=2');
         });
 
         it('should set style and className properties', () => {
@@ -151,8 +141,10 @@ describe('NavLink', () => {
                 className: 'foo',
                 style: { backgroundColor: '#000000' },
             });
-            expect(link.getAttribute('class')).to.equal('foo');
-            expect(link.getAttribute('style')).to.contain('background-color');
+            expect(link.getAttribute('class')).toBe('foo');
+            expect(link.getAttribute('style')).toEqual(
+                'background-color: rgb(0, 0, 0);'
+            );
         });
 
         it('should set active state if href matches current route', () => {
@@ -160,7 +152,7 @@ describe('NavLink', () => {
                 routeName: 'foo',
                 activeClass: 'active',
             });
-            expect(link.getAttribute('class')).to.equal('active');
+            expect(link.getAttribute('class')).toBe('active');
         });
 
         it('should set active state by tag name if the optional activeElement property is set', () => {
@@ -168,7 +160,7 @@ describe('NavLink', () => {
                 activeElement: 'span',
                 routeName: 'foo',
             });
-            expect(link.nodeName.toLowerCase()).to.equal('span');
+            expect(link.nodeName.toLowerCase()).toBe('span');
         });
 
         it('should set active state with custom class and style', () => {
@@ -177,8 +169,8 @@ describe('NavLink', () => {
                 activeClass: 'bar',
                 activeStyle: { color: 'red' },
             });
-            expect(link.getAttribute('class')).to.equal('bar');
-            expect(link.getAttribute('style').replace(/ /g, '')).to.equal(
+            expect(link.getAttribute('class')).toBe('bar');
+            expect(link.getAttribute('style').replace(/ /g, '')).toBe(
                 'color:red;'
             );
         });
@@ -192,8 +184,8 @@ describe('NavLink', () => {
                 style: { background: 'blue' },
             });
 
-            expect(link.getAttribute('class')).to.equal('bar active2');
-            expect(link.getAttribute('style').replace(/ /g, '')).to.equal(
+            expect(link.getAttribute('class')).toBe('bar active2');
+            expect(link.getAttribute('style').replace(/ /g, '')).toBe(
                 'background:blue;color:red;'
             );
         });
@@ -205,7 +197,7 @@ describe('NavLink', () => {
                 navParams,
                 activeClass: 'active',
             });
-            expect(link.getAttribute('class')).to.equal(null);
+            expect(link.getAttribute('class')).toBeNull();
         });
 
         it('should able to get additional child props by dynamical getDefaultChildProps function', () => {
@@ -223,8 +215,8 @@ describe('NavLink', () => {
             renderComponent(component, context);
 
             const link = document.getElementById('other-link');
-            expect(link.getAttribute('data-foo')).to.equal('foo');
-            expect(link.getAttribute('data-bar')).to.equal('bar');
+            expect(link.getAttribute('data-foo')).toBe('foo');
+            expect(link.getAttribute('data-bar')).toBe('bar');
         });
     });
 
@@ -239,17 +231,13 @@ describe('NavLink', () => {
 
             simulateClick(link);
 
-            expect(context.executeActionCalls[0].action).to.equal(
-                navigateAction
-            );
-            expect(context.executeActionCalls[0].payload.type).to.equal(
-                'click'
-            );
-            expect(context.executeActionCalls[0].payload.url).to.equal('/foo');
+            expect(context.executeActionCalls[0].action).toBe(navigateAction);
+            expect(context.executeActionCalls[0].payload.type).toBe('click');
+            expect(context.executeActionCalls[0].payload.url).toBe('/foo');
             expect(
                 context.executeActionCalls[0].payload.preserveScrollPosition
-            ).to.equal(true);
-            expect(context.executeActionCalls[0].payload.params).to.eql({
+            ).toBe(true);
+            expect(context.executeActionCalls[0].payload.params).toEqual({
                 a: 1,
                 b: true,
             });
@@ -276,17 +264,13 @@ describe('NavLink', () => {
 
             simulateClick(link);
 
-            expect(context.executeActionCalls[0].action).to.equal(
-                navigateAction
-            );
-            expect(context.executeActionCalls[0].payload.type).to.equal(
-                'click'
-            );
-            expect(context.executeActionCalls[0].payload.url).to.equal('/foo');
+            expect(context.executeActionCalls[0].action).toBe(navigateAction);
+            expect(context.executeActionCalls[0].payload.type).toBe('click');
+            expect(context.executeActionCalls[0].payload.url).toBe('/foo');
             expect(
                 context.executeActionCalls[0].payload.preserveScrollPosition
-            ).to.equal(true);
-            expect(context.executeActionCalls[0].payload.params).to.eql({
+            ).toBe(true);
+            expect(context.executeActionCalls[0].payload.params).toEqual({
                 a: 2,
                 b: false,
             });
@@ -294,7 +278,7 @@ describe('NavLink', () => {
 
         it('stopPropagation stops event propagation', () => {
             const propagateFail = (e) => {
-                expect(e.isPropagationStopped()).to.eql(true);
+                expect(e.isPropagationStopped()).toBe(true);
             };
             const navParams = { a: 1, b: true };
             const context = createContext();
@@ -314,10 +298,8 @@ describe('NavLink', () => {
             const link = document.getElementById('link');
             simulateClick(link);
 
-            expect(context.executeActionCalls.length).to.equal(1);
-            expect(context.executeActionCalls[0].action).to.equal(
-                navigateAction
-            );
+            expect(context.executeActionCalls.length).toBe(1);
+            expect(context.executeActionCalls[0].action).toBe(navigateAction);
         });
 
         it('context.executeAction called for relative urls', () => {
@@ -329,15 +311,11 @@ describe('NavLink', () => {
 
             simulateClick(link);
 
-            expect(context.executeActionCalls.length).to.equal(1);
-            expect(context.executeActionCalls[0].action).to.equal(
-                navigateAction
-            );
-            expect(context.executeActionCalls[0].payload.type).to.equal(
-                'click'
-            );
-            expect(context.executeActionCalls[0].payload.url).to.equal('/foo');
-            expect(context.executeActionCalls[0].payload.params).to.eql({
+            expect(context.executeActionCalls.length).toBe(1);
+            expect(context.executeActionCalls[0].action).toBe(navigateAction);
+            expect(context.executeActionCalls[0].payload.type).toBe('click');
+            expect(context.executeActionCalls[0].payload.url).toBe('/foo');
+            expect(context.executeActionCalls[0].payload.params).toEqual({
                 a: 1,
                 b: true,
             });
@@ -353,17 +331,11 @@ describe('NavLink', () => {
 
             simulateClick(link);
 
-            expect(context.executeActionCalls.length).to.equal(1);
-            expect(context.executeActionCalls[0].action).to.equal(
-                navigateAction
-            );
-            expect(context.executeActionCalls[0].payload.type).to.equal(
-                'click'
-            );
-            expect(context.executeActionCalls[0].payload.url).to.equal(
-                '/internal'
-            );
-            expect(context.executeActionCalls[0].payload.params).to.eql({
+            expect(context.executeActionCalls.length).toBe(1);
+            expect(context.executeActionCalls[0].action).toBe(navigateAction);
+            expect(context.executeActionCalls[0].payload.type).toBe('click');
+            expect(context.executeActionCalls[0].payload.url).toBe('/internal');
+            expect(context.executeActionCalls[0].payload.params).toEqual({
                 a: 1,
                 b: true,
             });
@@ -377,7 +349,7 @@ describe('NavLink', () => {
 
             simulateClick(link);
 
-            expect(context.executeActionCalls.length).to.equal(0);
+            expect(context.executeActionCalls.length).toBe(0);
         });
 
         it('context.executeAction called for external href when validate is false', () => {
@@ -385,16 +357,10 @@ describe('NavLink', () => {
 
             simulateClick(link);
 
-            expect(context.executeActionCalls.length).to.equal(1);
-            expect(context.executeActionCalls[0].action).to.equal(
-                navigateAction
-            );
-            expect(context.executeActionCalls[0].payload.type).to.equal(
-                'click'
-            );
-            expect(context.executeActionCalls[0].payload.url).to.equal(
-                '/external'
-            );
+            expect(context.executeActionCalls.length).toBe(1);
+            expect(context.executeActionCalls[0].action).toBe(navigateAction);
+            expect(context.executeActionCalls[0].payload.type).toBe('click');
+            expect(context.executeActionCalls[0].payload.url).toBe('/external');
         });
 
         it('context.executeAction not called for href when validate is true but href is not registered', () => {
@@ -405,7 +371,7 @@ describe('NavLink', () => {
 
             simulateClick(link);
 
-            expect(context.executeActionCalls.length).to.equal(0);
+            expect(context.executeActionCalls.length).toBe(0);
         });
 
         it('context.executeAction called for routeNames', () => {
@@ -414,14 +380,10 @@ describe('NavLink', () => {
             link.context = context;
             simulateClick(link);
 
-            expect(context.executeActionCalls.length).to.equal(1);
-            expect(context.executeActionCalls[0].action).to.equal(
-                navigateAction
-            );
-            expect(context.executeActionCalls[0].payload.type).to.equal(
-                'click'
-            );
-            expect(context.executeActionCalls[0].payload.url).to.equal('/foo');
+            expect(context.executeActionCalls.length).toBe(1);
+            expect(context.executeActionCalls[0].action).toBe(navigateAction);
+            expect(context.executeActionCalls[0].payload.type).toBe('click');
+            expect(context.executeActionCalls[0].payload.url).toBe('/foo');
         });
 
         it('context.executeAction called for absolute urls from same origin', () => {
@@ -434,17 +396,11 @@ describe('NavLink', () => {
 
             simulateClick(link);
 
-            expect(context.executeActionCalls.length).to.equal(1);
-            expect(context.executeActionCalls[0].action).to.equal(
-                navigateAction
-            );
-            expect(context.executeActionCalls[0].payload.type).to.equal(
-                'click'
-            );
-            expect(context.executeActionCalls[0].payload.url).to.equal(
-                '/foo?x=y'
-            );
-            expect(context.executeActionCalls[0].payload.params).to.eql({
+            expect(context.executeActionCalls.length).toBe(1);
+            expect(context.executeActionCalls[0].action).toBe(navigateAction);
+            expect(context.executeActionCalls[0].payload.type).toBe('click');
+            expect(context.executeActionCalls[0].payload.url).toBe('/foo?x=y');
+            expect(context.executeActionCalls[0].payload.params).toEqual({
                 a: 1,
                 b: true,
             });
@@ -457,7 +413,7 @@ describe('NavLink', () => {
 
             simulateClick(link);
 
-            expect(context.executeActionCalls.length).to.equal(0);
+            expect(context.executeActionCalls.length).toBe(0);
         });
 
         it('context.executeAction not called for external urls when validate is true', () => {
@@ -468,7 +424,7 @@ describe('NavLink', () => {
 
             simulateClick(link);
 
-            expect(context.executeActionCalls.length).to.equal(0);
+            expect(context.executeActionCalls.length).toBe(0);
         });
 
         it('context.executeAction not called for # urls', () => {
@@ -476,7 +432,7 @@ describe('NavLink', () => {
 
             simulateClick(link);
 
-            expect(context.executeActionCalls.length).to.equal(0);
+            expect(context.executeActionCalls.length).toBe(0);
         });
 
         it('context.executeAction not called if followLink=true', () => {
@@ -487,7 +443,7 @@ describe('NavLink', () => {
 
             simulateClick(link);
 
-            expect(context.executeActionCalls.length).to.equal(0);
+            expect(context.executeActionCalls.length).toBe(0);
         });
 
         it('context.executeAction called if followLink=false', () => {
@@ -498,14 +454,10 @@ describe('NavLink', () => {
 
             simulateClick(link);
 
-            expect(context.executeActionCalls.length).to.equal(1);
-            expect(context.executeActionCalls[0].action).to.equal(
-                navigateAction
-            );
-            expect(context.executeActionCalls[0].payload.type).to.equal(
-                'click'
-            );
-            expect(context.executeActionCalls[0].payload.url).to.equal('/foo');
+            expect(context.executeActionCalls.length).toBe(1);
+            expect(context.executeActionCalls[0].action).toBe(navigateAction);
+            expect(context.executeActionCalls[0].payload.type).toBe('click');
+            expect(context.executeActionCalls[0].payload.url).toBe('/foo');
         });
 
         it('context.executeAction not called if validate=true and route is invalid', () => {
@@ -517,7 +469,7 @@ describe('NavLink', () => {
 
             simulateClick(link);
 
-            expect(context.executeActionCalls.length).to.equal(0);
+            expect(context.executeActionCalls.length).toBe(0);
         });
 
         describe('window.onbeforeunload', () => {
@@ -532,7 +484,7 @@ describe('NavLink', () => {
 
                 simulateClick(link);
 
-                expect(context.executeActionCalls.length).to.equal(0);
+                expect(context.executeActionCalls.length).toBe(0);
             });
 
             it('should ignore any error which happens when calling onbeforeunload', () => {
@@ -551,11 +503,11 @@ describe('NavLink', () => {
 
                 simulateClick(link);
 
-                expect(loggerWarning[0]).to.equal(
+                expect(loggerWarning[0]).toBe(
                     'Warning: Call of window.onbeforeunload failed'
                 );
-                expect(loggerWarning[1].message).to.equal('Test error');
-                expect(context.executeActionCalls.length).to.equal(1);
+                expect(loggerWarning[1].message).toBe('Test error');
+                expect(context.executeActionCalls.length).toBe(1);
             });
         });
 
@@ -564,7 +516,7 @@ describe('NavLink', () => {
                 ReactTestUtils.renderIntoDocument(
                     <NavLink href="/foo" followLink={false} />
                 );
-            }).to.throw();
+            }).toThrowError();
         });
 
         describe('click type', () => {
@@ -574,11 +526,11 @@ describe('NavLink', () => {
 
                 simulateClick(link);
 
-                expect(context.executeActionCalls.length).to.equal(1);
-                expect(context.executeActionCalls[0].action).to.equal(
+                expect(context.executeActionCalls.length).toBe(1);
+                expect(context.executeActionCalls[0].action).toBe(
                     navigateAction
                 );
-                expect(context.executeActionCalls[0].payload.type).to.equal(
+                expect(context.executeActionCalls[0].payload.type).toBe(
                     'click'
                 );
             });
@@ -592,10 +544,10 @@ describe('NavLink', () => {
 
                 simulateClick(link);
 
-                expect(context.executeActionCalls[0].action).to.equal(
+                expect(context.executeActionCalls[0].action).toBe(
                     navigateAction
                 );
-                expect(context.executeActionCalls[0].payload.type).to.equal(
+                expect(context.executeActionCalls[0].payload.type).toBe(
                     'replacestate'
                 );
             });
@@ -609,20 +561,20 @@ describe('NavLink', () => {
 
                     ReactTestUtils.Simulate.click(link, eventData);
 
-                    expect(context.executeActionCalls.length).to.equal(0);
+                    expect(context.executeActionCalls.length).toBe(0);
                 });
             });
         });
 
         it('allow overriding onClick', () => {
-            const onClickMock = sinon.spy();
+            const onClickMock = jest.fn();
             const { link } = renderNavLink({
                 href: '#here',
                 onClick: onClickMock,
             });
             simulateClick(link);
 
-            expect(onClickMock.calledOnce).to.equal(true);
+            expect(onClickMock).toHaveBeenCalledTimes(1);
         });
     });
 
@@ -634,18 +586,18 @@ describe('NavLink', () => {
                 children: 'bar',
             });
 
-            expect(link.getAttribute('href')).to.equal('/foo');
-            expect(link.textContent).to.equal('bar');
-            expect(link.getAttribute('class')).to.equal('active');
+            expect(link.getAttribute('href')).toBe('/foo');
+            expect(link.textContent).toBe('bar');
+            expect(link.getAttribute('class')).toBe('active');
 
             context.getStore('RouteStore')._handleNavigateStart({
                 url: '/bar',
                 method: 'GET',
             });
 
-            expect(link.getAttribute('href')).to.equal('/foo');
-            expect(link.textContent).to.equal('bar');
-            expect(!link.getAttribute('class')).to.equal(true);
+            expect(link.getAttribute('href')).toBe('/foo');
+            expect(link.textContent).toBe('bar');
+            expect(!link.getAttribute('class')).toBe(true);
         });
     });
 
@@ -654,9 +606,9 @@ describe('NavLink', () => {
             const { context } = renderNavLink({ href: '/foo' });
             const routeStore = context.getStore('RouteStore');
 
-            expect(routeStore.listeners('change').length).to.equal(1);
+            expect(routeStore.listeners('change').length).toBe(1);
             ReactDOM.unmountComponentAtNode(container);
-            expect(routeStore.listeners('change').length).to.equal(0);
+            expect(routeStore.listeners('change').length).toBe(0);
         });
     });
 
@@ -668,9 +620,9 @@ describe('NavLink', () => {
             });
             const routeStore = context.getStore('RouteStore');
 
-            expect(routeStore.listeners('change').length).to.equal(2);
+            expect(routeStore.listeners('change').length).toBe(2);
             ReactDOM.unmountComponentAtNode(container);
-            expect(routeStore.listeners('change').length).to.equal(0);
+            expect(routeStore.listeners('change').length).toBe(0);
         });
     });
 });
@@ -684,38 +636,40 @@ describe('NavLink NODE_ENV === development', () => {
 
     it('should throw if href and routeName undefined', () => {
         const navParams = {};
-        expect(() => renderNavLink({ navParams })).to.throw();
+        expect(() => renderNavLink({ navParams })).toThrowError();
     });
 });
 
 describe('NavLink NODE_ENV === production', () => {
-    let loggerError;
+    let spy;
 
     beforeEach(() => {
-        global.console.error = (...args) => {
-            loggerError = args;
-        };
-
+        spy = jest.spyOn(global.console, 'error');
         setup({ nodeEnv: 'production' });
     });
 
-    afterEach(tearDown);
+    afterEach(() => {
+        tearDown();
+        spy.mockRestore();
+    });
 
     it('should render link with missing href with console error', () => {
         const { link } = renderNavLink({ children: 'bar' });
-        expect(link.getAttribute('href')).to.equal(null, link.outerHTML);
-        expect(link.textContent).to.equal('bar', link.outerHTML);
-        expect(loggerError[0]).to.contain(
-            'Error: Render NavLink with empty or missing href'
+        expect(link.getAttribute('href')).toBe(null);
+        expect(link.textContent).toBe('bar');
+        expect(spy).toHaveBeenCalledWith(
+            'Error: Render NavLink with empty or missing href',
+            expect.anything()
         );
     });
 
     it('should render link with empty href with console error', () => {
         const { link } = renderNavLink({ href: '', children: 'bar' });
-        expect(link.getAttribute('href')).to.equal('', link.outerHTML);
-        expect(link.textContent).to.equal('bar', link.outerHTML);
-        expect(loggerError[0]).to.contain(
-            'Error: Render NavLink with empty or missing href'
+        expect(link.getAttribute('href')).toBe('');
+        expect(link.textContent).toBe('bar');
+        expect(spy).toHaveBeenCalledWith(
+            'Error: Render NavLink with empty or missing href',
+            expect.anything()
         );
     });
 });

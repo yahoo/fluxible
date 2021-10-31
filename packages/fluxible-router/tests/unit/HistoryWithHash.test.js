@@ -2,9 +2,8 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-import _ from 'lodash';
-import { expect } from 'chai';
-import HistoryWithHash from '../../dist/cjs/HistoryWithHash';
+const _ = require('lodash');
+const { HistoryWithHash } = require('../../');
 
 let windowMock;
 let testResult;
@@ -18,35 +17,35 @@ describe('HistoryWithHash', function () {
     describe('constructor', function () {
         it('no useHashRoute; has pushState', function () {
             var history = new HistoryWithHash({ win: windowMock.HTML5 });
-            expect(history.win).to.equal(windowMock.HTML5);
-            expect(history._hasPushState).to.equal(true);
-            expect(history._popstateEvt).to.equal('popstate');
-            expect(history._useHashRoute).to.equal(false);
+            expect(history.win).toBe(windowMock.HTML5);
+            expect(history._hasPushState).toBe(true);
+            expect(history._popstateEvt).toBe('popstate');
+            expect(history._useHashRoute).toBe(false);
         });
         it('no useHashRoute; no pushState', function () {
             var history = new HistoryWithHash({ win: windowMock.OLD });
-            expect(history.win).to.equal(windowMock.OLD);
-            expect(history._hasPushState).to.equal(false);
-            expect(history._popstateEvt).to.equal('hashchange');
-            expect(history._useHashRoute).to.equal(true);
+            expect(history.win).toBe(windowMock.OLD);
+            expect(history._hasPushState).toBe(false);
+            expect(history._popstateEvt).toBe('hashchange');
+            expect(history._useHashRoute).toBe(true);
         });
         it('useHashRoute=true; has pushState', function () {
             var history = new HistoryWithHash({
                 win: windowMock.HTML5,
                 useHashRoute: true,
             });
-            expect(history.win).to.equal(windowMock.HTML5);
-            expect(history._hasPushState).to.equal(true);
-            expect(history._useHashRoute).to.equal(true);
+            expect(history.win).toBe(windowMock.HTML5);
+            expect(history._hasPushState).toBe(true);
+            expect(history._useHashRoute).toBe(true);
         });
         it('useHashRoute=false; no pushState', function () {
             var history = new HistoryWithHash({
                 win: windowMock.OLD,
                 useHashRoute: false,
             });
-            expect(history.win).to.equal(windowMock.OLD);
-            expect(history._hasPushState).to.equal(false);
-            expect(history._useHashRoute).to.equal(false);
+            expect(history.win).toBe(windowMock.OLD);
+            expect(history._hasPushState).toBe(false);
+            expect(history._useHashRoute).toBe(false);
         });
     });
 
@@ -55,7 +54,7 @@ describe('HistoryWithHash', function () {
             var history = new HistoryWithHash({ win: windowMock.HTML5 });
             var listener = function () {};
             history.on(listener);
-            expect(testResult.addEventListener).to.eql({
+            expect(testResult.addEventListener).toEqual({
                 evt: 'popstate',
                 listener: listener,
             });
@@ -64,7 +63,7 @@ describe('HistoryWithHash', function () {
             var history = new HistoryWithHash({ win: windowMock.OLD });
             var listener = function () {};
             history.on(listener);
-            expect(testResult.addEventListener).to.eql({
+            expect(testResult.addEventListener).toEqual({
                 evt: 'hashchange',
                 listener: listener,
             });
@@ -76,7 +75,7 @@ describe('HistoryWithHash', function () {
             var history = new HistoryWithHash({ win: windowMock.HTML5 });
             var listener = function () {};
             history.off(listener);
-            expect(testResult.removeEventListener).to.eql({
+            expect(testResult.removeEventListener).toEqual({
                 evt: 'popstate',
                 listener: listener,
             });
@@ -85,7 +84,7 @@ describe('HistoryWithHash', function () {
             var history = new HistoryWithHash({ win: windowMock.OLD });
             var listener = function () {};
             history.off(listener);
-            expect(testResult.removeEventListener).to.eql({
+            expect(testResult.removeEventListener).toEqual({
                 evt: 'hashchange',
                 listener: listener,
             });
@@ -100,11 +99,11 @@ describe('HistoryWithHash', function () {
                     windowMock.HTML5
                 ),
             });
-            expect(history.getState()).to.eql({ foo: 'bar' });
+            expect(history.getState()).toEqual({ foo: 'bar' });
         });
         it('no pushState', function () {
             var history = new HistoryWithHash({ win: windowMock.OLD });
-            expect(history.getState()).to.eql(null);
+            expect(history.getState()).toBe(null);
         });
     });
 
@@ -119,7 +118,7 @@ describe('HistoryWithHash', function () {
             });
             var history = new HistoryWithHash({ win: win });
             var url = history.getUrl();
-            expect(url).to.equal('/path/to/page');
+            expect(url).toBe('/path/to/page');
         });
         it('has pushState with query', function () {
             var win = _.extend({}, windowMock.HTML5, {
@@ -130,7 +129,7 @@ describe('HistoryWithHash', function () {
             });
             var history = new HistoryWithHash({ win: win });
             var url = history.getUrl();
-            expect(url).to.equal('/path/to/page?foo=bar&x=y');
+            expect(url).toBe('/path/to/page?foo=bar&x=y');
         });
         it('no pushState', function () {
             var win, history, path;
@@ -143,7 +142,7 @@ describe('HistoryWithHash', function () {
             });
             history = new HistoryWithHash({ win: win });
             var url = history.getUrl();
-            expect(url).to.equal('/path/to/abc');
+            expect(url).toBe('/path/to/abc');
 
             win = _.extend({}, windowMock.OLD, {
                 location: {
@@ -154,7 +153,7 @@ describe('HistoryWithHash', function () {
             });
             history = new HistoryWithHash({ win: win });
             url = history.getUrl();
-            expect(url).to.equal('/', 'hash=#');
+            expect(url).toBe('/');
 
             win = _.extend({}, windowMock.OLD, {
                 location: {
@@ -165,14 +164,14 @@ describe('HistoryWithHash', function () {
             });
             history = new HistoryWithHash({ win: win });
             url = history.getUrl();
-            expect(url).to.equal('/');
+            expect(url).toBe('/');
 
             history = new HistoryWithHash({
                 win: win,
                 defaultHashRoute: '/default',
             });
             url = history.getUrl();
-            expect(url).to.equal('/default');
+            expect(url).toBe('/default');
         });
         it('no pushState, with query', function () {
             var win, history, url;
@@ -184,7 +183,7 @@ describe('HistoryWithHash', function () {
             });
             history = new HistoryWithHash({ win: win });
             url = history.getUrl();
-            expect(url).to.equal('/path/to/abc?foo=bar&x=y');
+            expect(url).toBe('/path/to/abc?foo=bar&x=y');
 
             win = _.extend({}, windowMock.OLD, {
                 location: {
@@ -194,7 +193,7 @@ describe('HistoryWithHash', function () {
             });
             history = new HistoryWithHash({ win: win });
             url = history.getUrl();
-            expect(url).to.equal('/?foo=bar&x=y');
+            expect(url).toBe('/?foo=bar&x=y');
         });
     });
 
@@ -211,21 +210,21 @@ describe('HistoryWithHash', function () {
             var history = new HistoryWithHash({ win: win });
 
             history.pushState({ foo: 'bar' });
-            expect(testResult.pushState.state).to.eql({ foo: 'bar' });
-            expect(testResult.pushState.title).to.equal('current title');
-            expect(testResult.pushState.url).to.equal('/currentUrl');
+            expect(testResult.pushState.state).toEqual({ foo: 'bar' });
+            expect(testResult.pushState.title).toBe('current title');
+            expect(testResult.pushState.url).toBe('/currentUrl');
 
             history.pushState({ foo: 'bar' }, 't', '/url');
-            expect(testResult.pushState.state).to.eql({ foo: 'bar' });
-            expect(testResult.pushState.title).to.equal('t');
-            expect(testResult.pushState.url).to.equal('/url');
-            expect(windowMock.HTML5.document.title).to.equal('t');
+            expect(testResult.pushState.state).toEqual({ foo: 'bar' });
+            expect(testResult.pushState.title).toBe('t');
+            expect(testResult.pushState.url).toBe('/url');
+            expect(windowMock.HTML5.document.title).toBe('t');
 
             history.pushState({ foo: 'bar' }, 'tt', '/url?a=b&x=y');
-            expect(testResult.pushState.state).to.eql({ foo: 'bar' });
-            expect(testResult.pushState.title).to.equal('tt');
-            expect(testResult.pushState.url).to.equal('/url?a=b&x=y');
-            expect(windowMock.HTML5.document.title).to.equal('tt');
+            expect(testResult.pushState.state).toEqual({ foo: 'bar' });
+            expect(testResult.pushState.title).toBe('tt');
+            expect(testResult.pushState.url).toBe('/url?a=b&x=y');
+            expect(windowMock.HTML5.document.title).toBe('tt');
         });
         it('useHashRoute=false; has pushState; Firefox', function () {
             var win = _.extend(windowMock.Firefox, {
@@ -239,14 +238,14 @@ describe('HistoryWithHash', function () {
             var history = new HistoryWithHash({ win: win });
 
             history.pushState({ foo: 'bar' });
-            expect(testResult.pushState.state).to.eql({ foo: 'bar' });
-            expect(testResult.pushState.title).to.equal('current title');
-            expect(testResult.pushState.url).to.equal('/currentUrl');
+            expect(testResult.pushState.state).toEqual({ foo: 'bar' });
+            expect(testResult.pushState.title).toBe('current title');
+            expect(testResult.pushState.url).toBe('/currentUrl');
 
             history.pushState({ foo: 'bar' }, 't', '/url');
-            expect(testResult.pushState.state).to.eql({ foo: 'bar' });
-            expect(testResult.pushState.title).to.equal('t');
-            expect(testResult.pushState.url).to.equal('/url');
+            expect(testResult.pushState.state).toEqual({ foo: 'bar' });
+            expect(testResult.pushState.title).toBe('t');
+            expect(testResult.pushState.url).toBe('/url');
         });
         it('useHashRoute=false; no pushState', function () {
             var win = _.extend({}, windowMock.OLD, { location: {} });
@@ -256,10 +255,10 @@ describe('HistoryWithHash', function () {
             });
 
             history.pushState({ foo: 'bar' }, 't', '/url');
-            expect(win.location.href).to.equal('/url');
+            expect(win.location.href).toBe('/url');
 
             history.pushState({ foo: 'bar' }, 't', '/url?a=b&x=y');
-            expect(win.location.href).to.equal('/url?a=b&x=y');
+            expect(win.location.href).toBe('/url?a=b&x=y');
         });
         it('useHashRoute=true; has pushState', function () {
             var win = _.extend({}, windowMock.HTML5, {
@@ -271,14 +270,14 @@ describe('HistoryWithHash', function () {
             var history = new HistoryWithHash({ win: win, useHashRoute: true });
 
             history.pushState({ foo: 'bar' }, 't', '/url');
-            expect(testResult.pushState.state).to.eql({ foo: 'bar' });
-            expect(testResult.pushState.title).to.equal('t');
-            expect(testResult.pushState.url).to.equal('/path?a=b#/url');
+            expect(testResult.pushState.state).toEqual({ foo: 'bar' });
+            expect(testResult.pushState.title).toBe('t');
+            expect(testResult.pushState.url).toBe('/path?a=b#/url');
 
             history.pushState({ foo: 'bar' }, 't', '/url?a=b&x=y');
-            expect(testResult.pushState.state).to.eql({ foo: 'bar' });
-            expect(testResult.pushState.title).to.equal('t');
-            expect(testResult.pushState.url).to.equal('/path?a=b#/url?a=b&x=y');
+            expect(testResult.pushState.state).toEqual({ foo: 'bar' });
+            expect(testResult.pushState.title).toBe('t');
+            expect(testResult.pushState.url).toBe('/path?a=b#/url?a=b&x=y');
         });
         it('useHashRoute=true; has pushState; has hashRouteTransformer', function () {
             var win = _.extend({}, windowMock.HTML5, {
@@ -298,14 +297,14 @@ describe('HistoryWithHash', function () {
             });
 
             history.pushState({ foo: 'bar' }, 't', '/url');
-            expect(testResult.pushState.state).to.eql({ foo: 'bar' });
-            expect(testResult.pushState.title).to.equal('t');
-            expect(testResult.pushState.url).to.equal('/path?a=b#-url');
+            expect(testResult.pushState.state).toEqual({ foo: 'bar' });
+            expect(testResult.pushState.title).toBe('t');
+            expect(testResult.pushState.url).toBe('/path?a=b#-url');
 
             history.pushState({ foo: 'bar' }, 't', '/url?a=b&x=y');
-            expect(testResult.pushState.state).to.eql({ foo: 'bar' });
-            expect(testResult.pushState.title).to.equal('t');
-            expect(testResult.pushState.url).to.equal('/path?a=b#-url?a=b&x=y');
+            expect(testResult.pushState.state).toEqual({ foo: 'bar' });
+            expect(testResult.pushState.title).toBe('t');
+            expect(testResult.pushState.url).toBe('/path?a=b#-url?a=b&x=y');
         });
         it('useHashRoute=true; no pushState', function () {
             var win = _.extend({}, windowMock.OLD, {
@@ -314,10 +313,10 @@ describe('HistoryWithHash', function () {
             var history = new HistoryWithHash({ win: win, useHashRoute: true });
 
             history.pushState({ foo: 'bar' }, 't', '/url');
-            expect(win.location.hash).to.equal('#/url');
+            expect(win.location.hash).toBe('#/url');
 
             history.pushState({ foo: 'bar' }, 't', '/url?a=b&x=y');
-            expect(win.location.hash).to.equal('#/url?a=b&x=y');
+            expect(win.location.hash).toBe('#/url?a=b&x=y');
         });
     });
 
@@ -335,24 +334,21 @@ describe('HistoryWithHash', function () {
             var history = new HistoryWithHash({ win: win });
 
             history.replaceState({ foo: 'bar' });
-            expect(testResult.replaceState.state).to.eql({ foo: 'bar' });
-            expect(testResult.replaceState.title).to.equal('current title');
-            expect(testResult.replaceState.url).to.equal('/currentUrl');
+            expect(testResult.replaceState.state).toEqual({ foo: 'bar' });
+            expect(testResult.replaceState.title).toBe('current title');
+            expect(testResult.replaceState.url).toBe('/currentUrl');
 
             history.replaceState({ foo: 'bar' }, 't', '/url');
-            expect(testResult.replaceState.state).to.eql({ foo: 'bar' });
-            expect(testResult.replaceState.title).to.equal('t');
-            expect(testResult.replaceState.url).to.equal('/url');
-            expect(windowMock.HTML5.document.title).to.equal('t');
+            expect(testResult.replaceState.state).toEqual({ foo: 'bar' });
+            expect(testResult.replaceState.title).toBe('t');
+            expect(testResult.replaceState.url).toBe('/url');
+            expect(windowMock.HTML5.document.title).toBe('t');
 
             history.replaceState({ foo: 'bar' }, 'tt', '/url?a=b&x=y');
-            expect(testResult.replaceState.state).to.eql({ foo: 'bar' });
-            expect(testResult.replaceState.title).to.equal('tt');
-            expect(testResult.replaceState.url).to.equal(
-                '/url?a=b&x=y',
-                'url has query'
-            );
-            expect(windowMock.HTML5.document.title).to.equal('tt');
+            expect(testResult.replaceState.state).toEqual({ foo: 'bar' });
+            expect(testResult.replaceState.title).toBe('tt');
+            expect(testResult.replaceState.url).toBe('/url?a=b&x=y');
+            expect(windowMock.HTML5.document.title).toBe('tt');
         });
         it('useHashRouter=false; has pushState; Firefox', function () {
             var win = _.extend(windowMock.Firefox, {
@@ -366,14 +362,14 @@ describe('HistoryWithHash', function () {
             var history = new HistoryWithHash({ win: win });
 
             history.replaceState({ foo: 'bar' });
-            expect(testResult.replaceState.state).to.eql({ foo: 'bar' });
-            expect(testResult.replaceState.title).to.equal('current title');
-            expect(testResult.replaceState.url).to.equal('/currentUrl');
+            expect(testResult.replaceState.state).toEqual({ foo: 'bar' });
+            expect(testResult.replaceState.title).toBe('current title');
+            expect(testResult.replaceState.url).toBe('/currentUrl');
 
             history.replaceState({ foo: 'bar' }, 't', '/url');
-            expect(testResult.replaceState.state).to.eql({ foo: 'bar' });
-            expect(testResult.replaceState.title).to.equal('t');
-            expect(testResult.replaceState.url).to.equal('/url');
+            expect(testResult.replaceState.state).toEqual({ foo: 'bar' });
+            expect(testResult.replaceState.title).toBe('t');
+            expect(testResult.replaceState.url).toBe('/url');
         });
         it('useHashRouter=false; no pushState', function () {
             var win = _.extend({}, windowMock.OLD, {
@@ -390,14 +386,14 @@ describe('HistoryWithHash', function () {
                 useHashRoute: false,
             });
             history.replaceState({ foo: 'bar' }, 't', '/url');
-            expect(testResult.locationReplace.url).to.equal('/url');
+            expect(testResult.locationReplace.url).toBe('/url');
 
             history.replaceState({ foo: 'bar' }, 't', '/url?a=b&x=y');
-            expect(testResult.locationReplace.url).to.equal('/url?a=b&x=y');
+            expect(testResult.locationReplace.url).toBe('/url?a=b&x=y');
 
             testResult.locationReplace.url = null;
             history.replaceState({ foo: 'bar' });
-            expect(testResult.locationReplace.url).to.equal(null);
+            expect(testResult.locationReplace.url).toBeNull();
         });
         it('useHashRouter=true; has pushState', function () {
             var win = _.extend({}, windowMock.HTML5, {
@@ -408,16 +404,15 @@ describe('HistoryWithHash', function () {
             });
             var history = new HistoryWithHash({ win: win, useHashRoute: true });
             history.replaceState({ foo: 'bar' }, 't', '/url');
-            expect(testResult.replaceState.state).to.eql({ foo: 'bar' });
-            expect(testResult.replaceState.title).to.equal('t');
-            expect(testResult.replaceState.url).to.equal('/path?foo=bar#/url');
+            expect(testResult.replaceState.state).toEqual({ foo: 'bar' });
+            expect(testResult.replaceState.title).toBe('t');
+            expect(testResult.replaceState.url).toBe('/path?foo=bar#/url');
 
             history.replaceState({ foo: 'bar' }, 't', '/url?a=b&x=y');
-            expect(testResult.replaceState.state).to.eql({ foo: 'bar' });
-            expect(testResult.replaceState.title).to.equal('t');
-            expect(testResult.replaceState.url).to.equal(
-                '/path?foo=bar#/url?a=b&x=y',
-                'url has query'
+            expect(testResult.replaceState.state).toEqual({ foo: 'bar' });
+            expect(testResult.replaceState.title).toBe('t');
+            expect(testResult.replaceState.url).toBe(
+                '/path?foo=bar#/url?a=b&x=y'
             );
         });
         it('useHashRouter=true; has pushState; has hashRouteTransformer', function () {
@@ -437,16 +432,15 @@ describe('HistoryWithHash', function () {
                 },
             });
             history.replaceState({ foo: 'bar' }, 't', '/url');
-            expect(testResult.replaceState.state).to.eql({ foo: 'bar' });
-            expect(testResult.replaceState.title).to.equal('t');
-            expect(testResult.replaceState.url).to.equal('/path?foo=bar#-url');
+            expect(testResult.replaceState.state).toEqual({ foo: 'bar' });
+            expect(testResult.replaceState.title).toBe('t');
+            expect(testResult.replaceState.url).toBe('/path?foo=bar#-url');
 
             history.replaceState({ foo: 'bar' }, 't', '/url?a=b&x=y');
-            expect(testResult.replaceState.state).to.eql({ foo: 'bar' });
-            expect(testResult.replaceState.title).to.equal('t');
-            expect(testResult.replaceState.url).to.equal(
-                '/path?foo=bar#-url+a=b&x=y',
-                'url has query'
+            expect(testResult.replaceState.state).toEqual({ foo: 'bar' });
+            expect(testResult.replaceState.title).toBe('t');
+            expect(testResult.replaceState.url).toBe(
+                '/path?foo=bar#-url+a=b&x=y'
             );
         });
         it('useHashRoute=true; no pushState', function () {
@@ -461,16 +455,14 @@ describe('HistoryWithHash', function () {
             });
             var history = new HistoryWithHash({ win: win, useHashRoute: true });
             history.replaceState({ foo: 'bar' }, 't', '/url');
-            expect(testResult.locationReplace.url).to.equal(
-                '/path?foo=bar#/url'
-            );
+            expect(testResult.locationReplace.url).toBe('/path?foo=bar#/url');
             history.replaceState({ foo: 'bar' }, 't', '/url?a=b&x=y');
-            expect(testResult.locationReplace.url).to.equal(
+            expect(testResult.locationReplace.url).toBe(
                 '/path?foo=bar#/url?a=b&x=y'
             );
             testResult.locationReplace.url = null;
             history.replaceState({ foo: 'bar' });
-            expect(testResult.locationReplace.url).to.equal(null);
+            expect(testResult.locationReplace.url).toBeNull();
         });
     });
 });
