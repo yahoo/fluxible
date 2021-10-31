@@ -10,13 +10,13 @@
   "scripts": {
     "build": "lerna bootstrap --hoist --since --include-filtered-dependencies --no-ci",
     "clean": "lerna exec -- rm -rf node_modules dist",
-    "cover": "lerna run cover --since",
+    "cover": "jest --coverage",
     "dev:lint": "lerna run lint --since master --stream",
     "dev:test": "lerna run test --since master --stream",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
-    "test": "lerna run lint --since --stream && lerna run test --since --stream"
+    "test": "lerna run lint --since --stream && jest"
   },
   "devDependencies": {
     "@babel/cli": "^7.11.6",
