@@ -9,9 +9,9 @@
   },
   "scripts": {
     "pretest": "npm run dist",
-    "test": "../../node_modules/.bin/mocha tests/unit/",
+    "test": "../../node_modules/.bin/jest",
     "precover": "npm run dist",
-    "cover": "BABEL_ENV=test ../../node_modules/.bin/nyc ../../node_modules/.bin/_mocha tests/unit/",
+    "cover": "../../node_modules/.bin/jest --coverage",
     "lint": "../../node_modules/.bin/eslint src/ index.js",
     "dist": "../../node_modules/.bin/babel --root-mode upward src -d dist",
     "prepublish": "npm run dist"
