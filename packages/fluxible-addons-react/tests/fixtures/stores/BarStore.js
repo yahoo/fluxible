@@ -1,6 +1,6 @@
-import createStore from 'fluxible/addons/createStore';
+const createStore = require('fluxible/addons/createStore');
 
-export default createStore({
+module.exports = createStore({
     storeName: 'BarStore',
     handlers: {
         DOUBLE_UP: function () {

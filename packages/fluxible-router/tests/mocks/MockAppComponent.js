@@ -3,10 +3,10 @@
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import { provideContext } from 'fluxible-addons-react';
-import handleHistory from '../../dist/cjs/handleHistory';
+const React = require('react');
+const PropTypes = require('prop-types');
+const { provideContext } = require('fluxible-addons-react');
+const { handleHistory } = require('../../');
 
 class MockAppComponent extends React.Component {
     render() {
@@ -24,13 +24,14 @@ MockAppComponent.propTypes = {
     currentRoute: PropTypes.object,
 };
 
-export default provideContext(
+module.exports.default = provideContext(
     handleHistory(MockAppComponent, {
         checkRouteOnPageLoad: false,
         enableScroll: true,
     })
 );
 
-export function createWrappedMockAppComponent(opts) {
-    return provideContext(handleHistory(MockAppComponent, opts));
-}
+module.exports.createWrappedMockAppComponent =
+    function createWrappedMockAppComponent(opts) {
+        return provideContext(handleHistory(MockAppComponent, opts));
+    };

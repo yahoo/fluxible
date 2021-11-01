@@ -1,9 +1,8 @@
-import React from 'react';
-import { expect } from 'chai';
-import TestRenderer from 'react-test-renderer';
-import createMockComponentContext from 'fluxible/utils/createMockComponentContext';
-import FooStore from '../../fixtures/stores/FooStore';
-import { useFluxible, FluxibleProvider } from '../../../';
+const React = require('react');
+const TestRenderer = require('react-test-renderer');
+const createMockComponentContext = require('fluxible/utils/createMockComponentContext');
+const FooStore = require('../../fixtures/stores/FooStore');
+const { useFluxible, FluxibleProvider } = require('../../../');
 
 describe('fluxible-addons-react', () => {
     describe('useFluxible', () => {
@@ -24,7 +23,7 @@ describe('fluxible-addons-react', () => {
 
             const component = testRenderer.root.findByType('p');
 
-            expect(component.props.id).to.deep.equal('bar');
+            expect(component.props.id).toEqual('bar');
         });
     });
 });

@@ -2,8 +2,7 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-import { expect } from 'chai';
-import { RouteStore } from '../../';
+const { RouteStore } = require('../../');
 
 var StaticRouteStore = RouteStore.withStaticRoutes({
     foo: {
@@ -30,13 +29,13 @@ describe('RouteStore', function () {
         describe('dehydrate', function () {
             it('should dehydrate correctly', function () {
                 var state = routeStore.dehydrate();
-                expect(state).to.be.an('object');
-                expect(state.currentNavigate).to.be.an('object');
-                expect(state.currentNavigate.transactionId).to.equal('first');
-                expect(state.currentNavigate.url).to.equal('/foo');
-                expect(state.currentNavigate.method).to.equal('get');
-                expect(state.currentNavigate.route).to.equal(null);
-                expect(state.routes).to.equal(null);
+                expect(state).toBeInstanceOf(Object);
+                expect(state.currentNavigate).toBeInstanceOf(Object);
+                expect(state.currentNavigate.transactionId).toBe('first');
+                expect(state.currentNavigate.url).toBe('/foo');
+                expect(state.currentNavigate.method).toBe('get');
+                expect(state.currentNavigate.route).toBeNull();
+                expect(state.routes).toBeNull();
             });
         });
         describe('rehydrate', function () {
@@ -51,19 +50,19 @@ describe('RouteStore', function () {
                     },
                     routes: null,
                 });
-                expect(newStore.getCurrentRoute()).to.be.an('object');
-                expect(newStore.getCurrentNavigate().transactionId).to.equal(
+                expect(newStore.getCurrentRoute()).toBeInstanceOf(Object);
+                expect(newStore.getCurrentNavigate().transactionId).toBe(
                     'first'
                 );
-                expect(newStore.getCurrentNavigate().url).to.equal('/foo');
-                expect(newStore.getCurrentNavigate().method).to.equal('get');
-                expect(newStore._routes).to.equal(null);
+                expect(newStore.getCurrentNavigate().url).toBe('/foo');
+                expect(newStore.getCurrentNavigate().method).toBe('get');
+                expect(newStore._routes).toBeNull();
             });
         });
 
         it('should reuse static router between instances', function () {
             var newStore = new StaticRouteStore();
-            expect(newStore._router).to.equal(routeStore._router);
+            expect(newStore._router).toBe(routeStore._router);
         });
 
         it('should only use the latest navigate on success', function () {
@@ -73,7 +72,7 @@ describe('RouteStore', function () {
                 url: '/bar',
                 method: 'get',
             });
-            expect(routeStore.isNavigateComplete()).to.equal(false);
+            expect(routeStore.isNavigateComplete()).toBe(false);
             routeStore._handleNavigateSuccess({
                 transactionId: 'first',
                 route: {
@@ -81,7 +80,7 @@ describe('RouteStore', function () {
                     method: 'get',
                 },
             });
-            expect(routeStore.isNavigateComplete()).to.equal(false);
+            expect(routeStore.isNavigateComplete()).toBe(false);
             routeStore._handleNavigateSuccess({
                 transactionId: 'second',
                 route: {
@@ -89,7 +88,7 @@ describe('RouteStore', function () {
                     method: 'get',
                 },
             });
-            expect(routeStore.isNavigateComplete()).to.equal(true);
+            expect(routeStore.isNavigateComplete()).toBe(true);
         });
         it('should only use the latest navigate on failure', function () {
             // Start a new navigate before first has completed
@@ -98,7 +97,7 @@ describe('RouteStore', function () {
                 url: '/bar',
                 method: 'get',
             });
-            expect(routeStore.isNavigateComplete()).to.equal(false);
+            expect(routeStore.isNavigateComplete()).toBe(false);
             routeStore._handleNavigateFailure({
                 transactionId: 'first',
                 error: {
@@ -106,7 +105,7 @@ describe('RouteStore', function () {
                     message: 'Url /unknown does not match any routes',
                 },
             });
-            expect(routeStore.isNavigateComplete()).to.equal(false);
+            expect(routeStore.isNavigateComplete()).toBe(false);
             routeStore._handleNavigateFailure({
                 transactionId: 'second',
                 error: {
@@ -114,7 +113,7 @@ describe('RouteStore', function () {
                     message: 'Url /unknown does not match any routes',
                 },
             });
-            expect(routeStore.isNavigateComplete()).to.equal(true);
+            expect(routeStore.isNavigateComplete()).toBe(true);
         });
         it('should update transactionId', function () {
             routeStore._handleNavigateStart({
@@ -122,7 +121,7 @@ describe('RouteStore', function () {
                 url: '/bar',
                 method: 'get',
             });
-            expect(routeStore.getCurrentNavigate().transactionId).to.equal(
+            expect(routeStore.getCurrentNavigate().transactionId).toBe(
                 'second'
             );
         });
@@ -132,7 +131,7 @@ describe('RouteStore', function () {
                 url: '/foo',
                 method: 'get',
             });
-            expect(routeStore.getCurrentNavigate().transactionId).to.equal(
+            expect(routeStore.getCurrentNavigate().transactionId).toBe(
                 'second'
             );
         });
@@ -161,10 +160,10 @@ describe('RouteStore', function () {
         describe('dehydrate', function () {
             it('should dehydrate correctly', function () {
                 var state = routeStore.dehydrate();
-                expect(state).to.be.an('object');
-                expect(state.currentNavigate.url).to.equal('/foo');
-                expect(state.currentNavigate.method).to.equal('get');
-                expect(state.routes).to.deep.equal(routes);
+                expect(state).toBeInstanceOf(Object);
+                expect(state.currentNavigate.url).toBe('/foo');
+                expect(state.currentNavigate.method).toBe('get');
+                expect(state.routes).toEqual(routes);
             });
         });
         describe('rehydrate', function () {
@@ -175,10 +174,10 @@ describe('RouteStore', function () {
                     currentNavigate: { url: '/foo', method: 'get' },
                     routes: routes,
                 });
-                expect(newStore.getCurrentRoute()).to.be.an('object');
-                expect(newStore.getCurrentNavigate().url).to.equal('/foo');
-                expect(newStore.getCurrentNavigate().method).to.equal('get');
-                expect(newStore._routes).to.deep.equal(routes);
+                expect(newStore.getCurrentRoute()).toBeInstanceOf(Object);
+                expect(newStore.getCurrentNavigate().url).toBe('/foo');
+                expect(newStore.getCurrentNavigate().method).toBe('get');
+                expect(newStore._routes).toEqual(routes);
             });
 
             it('should rehydrate POST routes correctly', function () {
@@ -187,10 +186,10 @@ describe('RouteStore', function () {
                     currentNavigate: { url: '/bar', method: 'post' },
                     routes: routes,
                 });
-                expect(newStore.getCurrentRoute()).to.be.an('object');
-                expect(newStore.getCurrentNavigate().url).to.equal('/bar');
-                expect(newStore.getCurrentNavigate().method).to.equal('post');
-                expect(newStore._routes).to.deep.equal(routes);
+                expect(newStore.getCurrentRoute()).toBeInstanceOf(Object);
+                expect(newStore.getCurrentNavigate().url).toBe('/bar');
+                expect(newStore.getCurrentNavigate().method).toBe('post');
+                expect(newStore._routes).toEqual(routes);
             });
         });
 
@@ -207,15 +206,15 @@ describe('RouteStore', function () {
                 };
 
                 route = routeStore.getRoute('/foo');
-                expect(route).to.deep.equal(expected);
+                expect(route).toEqual(expected);
 
                 route = routeStore.getRoute('/foo?test=1', { method: 'GET' });
                 expected.query.test = '1';
                 expected.url = '/foo?test=1';
-                expect(route).to.deep.equal(expected);
+                expect(route).toEqual(expected);
 
                 route = routeStore.getRoute('/foo', { method: 'POST' });
-                expect(route).to.equal(null);
+                expect(route).toBeNull();
             });
             it('should handle POST routes', function () {
                 var route;
@@ -229,18 +228,18 @@ describe('RouteStore', function () {
                 };
 
                 route = routeStore.getRoute('/bar');
-                expect(route).to.equal(null);
+                expect(route).toBeNull();
 
                 route = routeStore.getRoute('/bar', { method: 'GET' });
-                expect(route).to.equal(null);
+                expect(route).toBeNull();
 
                 route = routeStore.getRoute('/bar', { method: 'POST' });
-                expect(route).to.deep.equal(expected);
+                expect(route).toEqual(expected);
 
                 route = routeStore.getRoute('/bar?test=1', { method: 'POST' });
                 expected.query.test = '1';
                 expected.url = '/bar?test=1';
-                expect(route).to.deep.equal(expected);
+                expect(route).toEqual(expected);
             });
         });
     });
@@ -262,9 +261,9 @@ describe('RouteStore', function () {
             url: '/foo',
             method: 'get',
         });
-        expect(routeStore.getCurrentNavigate().url).to.equal('/foo');
-        expect(routeStore.getCurrentNavigate().method).to.equal('get');
-        expect(routeStore.getPrevNavigate()).to.equal(null);
+        expect(routeStore.getCurrentNavigate().url).toBe('/foo');
+        expect(routeStore.getCurrentNavigate().method).toBe('get');
+        expect(routeStore.getPrevNavigate()).toBeNull();
         routeStore._handleNavigateSuccess({
             transactionId: 'first',
             route: {
@@ -276,17 +275,17 @@ describe('RouteStore', function () {
             url: '/bar',
             method: 'get',
         });
-        expect(routeStore.getCurrentNavigate().url).to.equal('/bar');
-        expect(routeStore.getCurrentNavigate().method).to.equal('get');
-        expect(routeStore.getPrevNavigate().url).to.equal('/foo');
-        expect(routeStore.getPrevNavigate().method).to.equal('get');
+        expect(routeStore.getCurrentNavigate().url).toBe('/bar');
+        expect(routeStore.getCurrentNavigate().method).toBe('get');
+        expect(routeStore.getPrevNavigate().url).toBe('/foo');
+        expect(routeStore.getPrevNavigate().method).toBe('get');
 
         var state = routeStore.dehydrate();
-        expect(state).to.be.an('object');
-        expect(state.currentNavigate.url).to.equal('/bar');
-        expect(state.currentNavigate.method).to.equal('get');
-        expect(state.prevNavigate).to.equal(undefined);
-        expect(state.routes).to.deep.equal(routes);
+        expect(state).toBeInstanceOf(Object);
+        expect(state.currentNavigate.url).toBe('/bar');
+        expect(state.currentNavigate.method).toBe('get');
+        expect(state.prevNavigate).toBeUndefined();
+        expect(state.routes).toEqual(routes);
     });
 
     it('reset routes', function () {
@@ -303,8 +302,8 @@ describe('RouteStore', function () {
         };
         routeStore._handleReceiveRoutes(routes);
         var state = routeStore.dehydrate();
-        expect(state).to.be.an('object');
-        expect(state.routes).to.deep.equal(routes);
+        expect(state).toBeInstanceOf(Object);
+        expect(state.routes).toEqual(routes);
 
         var newRoutes = {
             baz: {
@@ -314,7 +313,7 @@ describe('RouteStore', function () {
         };
         routeStore._handleResetRoutes(newRoutes);
         var newState = routeStore.dehydrate();
-        expect(newState).to.be.an('object');
-        expect(newState.routes).to.deep.equal(newRoutes);
+        expect(newState).toBeInstanceOf(Object);
+        expect(newState.routes).toEqual(newRoutes);
     });
 });

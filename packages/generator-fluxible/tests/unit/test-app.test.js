@@ -11,7 +11,7 @@ var os = require('os');
 
 describe('generator-fluxible', function () {
     describe('app', function () {
-        before(function (done) {
+        beforeAll(function (done) {
             helpers
                 .run(path.join(__dirname, '../../app'))
                 .inDir(path.join(os.tmpdir(), './temp-test'))

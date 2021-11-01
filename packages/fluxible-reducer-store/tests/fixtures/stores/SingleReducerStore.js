@@ -1,4 +1,4 @@
-import { createReducerStore } from '../../../index';
+const { createReducerStore } = require('../../../');
 
 var SingleReducerStore = createReducerStore({
     storeName: 'SingleReducerStore',
@@ -16,4 +16,4 @@ var SingleReducerStore = createReducerStore({
     },
 });
 
-export default SingleReducerStore;
+module.exports = SingleReducerStore;

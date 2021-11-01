@@ -2,10 +2,8 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-import { expect } from 'chai';
-import createMockActionContext from 'fluxible/utils/createMockActionContext';
-import navigateAction from '../../dist/cjs/navigateAction';
-import { RouteStore } from '../../';
+const createMockActionContext = require('fluxible/utils/createMockActionContext');
+const { RouteStore, navigateAction } = require('../../');
 
 describe('navigateAction', function () {
     var mockContext;
@@ -73,16 +71,16 @@ describe('navigateAction', function () {
                 url: '/',
             },
             function (err) {
-                expect(err).to.equal(undefined);
-                expect(mockContext.dispatchCalls.length).to.equal(2);
-                expect(mockContext.dispatchCalls[0].name).to.equal(
+                expect(err).toBeUndefined();
+                expect(mockContext.dispatchCalls.length).toBe(2);
+                expect(mockContext.dispatchCalls[0].name).toBe(
                     'NAVIGATE_START'
                 );
-                expect(mockContext.dispatchCalls[0].payload.url).to.equal('/');
-                expect(mockContext.dispatchCalls[1].name).to.equal(
+                expect(mockContext.dispatchCalls[0].payload.url).toBe('/');
+                expect(mockContext.dispatchCalls[1].name).toBe(
                     'NAVIGATE_SUCCESS'
                 );
-                expect(mockContext.dispatchCalls[1].payload.url).to.equal('/');
+                expect(mockContext.dispatchCalls[1].payload.url).toBe('/');
                 done();
             }
         );
@@ -96,25 +94,25 @@ describe('navigateAction', function () {
                 url: url,
             },
             function (err) {
-                expect(err).to.equal(undefined);
-                expect(mockContext.dispatchCalls.length).to.equal(2);
-                expect(mockContext.dispatchCalls[0].name).to.equal(
+                expect(err).toBeUndefined();
+                expect(mockContext.dispatchCalls.length).toBe(2);
+                expect(mockContext.dispatchCalls[0].name).toBe(
                     'NAVIGATE_START'
                 );
                 var route = mockContext
                     .getStore('RouteStore')
                     .getCurrentRoute();
-                expect(route.query).to.eql(
-                    { foo: 'bar', a: ['b', 'c'], bool: '' },
-                    'query added to route payload for NAVIGATE_START' +
-                        JSON.stringify(route)
-                );
-                expect(mockContext.dispatchCalls[1].name).to.equal(
+                expect(route.query).toEqual({
+                    foo: 'bar',
+                    a: ['b', 'c'],
+                    bool: '',
+                });
+                expect(mockContext.dispatchCalls[1].name).toBe(
                     'NAVIGATE_SUCCESS'
                 );
                 var navigateSuccessPayload =
                     mockContext.dispatchCalls[1].payload;
-                expect(navigateSuccessPayload.route.url).to.equal(
+                expect(navigateSuccessPayload.route.url).toBe(
                     url.split('#')[0]
                 );
                 done();
@@ -133,17 +131,15 @@ describe('navigateAction', function () {
             },
         };
         navigateAction(mockContext, nav, function (err) {
-            expect(err).to.equal(undefined);
-            expect(mockContext.dispatchCalls.length).to.equal(2);
-            expect(mockContext.dispatchCalls[0].name).to.equal(
-                'NAVIGATE_START'
-            );
+            expect(err).toBeUndefined();
+            expect(mockContext.dispatchCalls.length).toBe(2);
+            expect(mockContext.dispatchCalls[0].name).toBe('NAVIGATE_START');
             var navigate = mockContext
                 .getStore('RouteStore')
                 .getCurrentNavigate();
-            expect(navigate).to.be.an('object');
+            expect(navigate).toBeInstanceOf(Object);
             Object.keys(nav).forEach(function (navKey) {
-                expect(navigate[navKey]).to.eql(nav[navKey]);
+                expect(navigate[navKey]).toEqual(nav[navKey]);
             });
             done();
         });
@@ -156,7 +152,7 @@ describe('navigateAction', function () {
                 url: '/',
             },
             function () {
-                expect(mockContext.executeActionCalls.length).to.equal(0);
+                expect(mockContext.executeActionCalls.length).toBe(0);
                 done();
             }
         );
@@ -169,19 +165,19 @@ describe('navigateAction', function () {
                 url: '/action',
             },
             function (err) {
-                expect(err).to.equal(undefined);
-                expect(mockContext.dispatchCalls.length).to.equal(2);
-                expect(mockContext.dispatchCalls[1].name).to.equal(
+                expect(err).toBeUndefined();
+                expect(mockContext.dispatchCalls.length).toBe(2);
+                expect(mockContext.dispatchCalls[1].name).toBe(
                     'NAVIGATE_SUCCESS'
                 );
-                expect(mockContext.dispatchCalls[1].payload.url).to.equal(
+                expect(mockContext.dispatchCalls[1].payload.url).toBe(
                     '/action'
                 );
-                expect(mockContext.executeActionCalls.length).to.equal(1);
-                expect(mockContext.executeActionCalls[0].action).to.equal(
+                expect(mockContext.executeActionCalls.length).toBe(1);
+                expect(mockContext.executeActionCalls[0].action).toBe(
                     routes.action.action
                 );
-                expect(mockContext.executeActionCalls[0].payload.url).to.equal(
+                expect(mockContext.executeActionCalls[0].payload.url).toBe(
                     '/action'
                 );
                 done();
@@ -196,19 +192,19 @@ describe('navigateAction', function () {
                 url: '/string',
             },
             function (err) {
-                expect(err).to.equal(undefined);
-                expect(mockContext.dispatchCalls.length).to.equal(2);
-                expect(mockContext.dispatchCalls[1].name).to.equal(
+                expect(err).toBeUndefined();
+                expect(mockContext.dispatchCalls.length).toBe(2);
+                expect(mockContext.dispatchCalls[1].name).toBe(
                     'NAVIGATE_SUCCESS'
                 );
-                expect(mockContext.dispatchCalls[1].payload.url).to.equal(
+                expect(mockContext.dispatchCalls[1].payload.url).toBe(
                     '/string'
                 );
-                expect(mockContext.executeActionCalls.length).to.equal(1);
-                expect(mockContext.executeActionCalls[0].action).to.equal(
+                expect(mockContext.executeActionCalls.length).toBe(1);
+                expect(mockContext.executeActionCalls[0].action).toBe(
                     fooAction
                 );
-                expect(mockContext.executeActionCalls[0].payload.url).to.equal(
+                expect(mockContext.executeActionCalls[0].payload.url).toBe(
                     '/string'
                 );
                 done();
@@ -223,20 +219,20 @@ describe('navigateAction', function () {
                 url: '/fail',
             },
             function (err) {
-                expect(err).to.be.instanceof(Error);
-                expect(mockContext.dispatchCalls.length).to.equal(2);
-                expect(mockContext.dispatchCalls[1].name).to.equal(
+                expect(err).toBeInstanceOf(Error);
+                expect(mockContext.dispatchCalls.length).toBe(2);
+                expect(mockContext.dispatchCalls[1].name).toBe(
                     'NAVIGATE_FAILURE'
                 );
-                expect(mockContext.dispatchCalls[1].payload.error).to.be.an(
-                    'object'
+                expect(
+                    mockContext.dispatchCalls[1].payload.error
+                ).toBeInstanceOf(Object);
+                expect(mockContext.dispatchCalls[1].payload.error.message).toBe(
+                    err.message
                 );
                 expect(
-                    mockContext.dispatchCalls[1].payload.error.message
-                ).to.equal(err.message);
-                expect(
                     mockContext.getStore(RouteStore).isNavigateComplete()
-                ).to.equal(true);
+                ).toBe(true);
                 done();
             }
         );
@@ -249,8 +245,8 @@ describe('navigateAction', function () {
                 url: '/404',
             },
             function (err) {
-                expect(err).to.be.instanceof(Error);
-                expect(err.statusCode).to.equal(404);
+                expect(err).toBeInstanceOf(Error);
+                expect(err.statusCode).toBe(404);
                 done();
             }
         );
@@ -264,8 +260,8 @@ describe('navigateAction', function () {
                 method: 'get',
             },
             function (err) {
-                expect(err).to.be.instanceof(Error);
-                expect(err.statusCode).to.equal(404);
+                expect(err).toBeInstanceOf(Error);
+                expect(err.statusCode).toBe(404);
                 done();
             }
         );
@@ -279,20 +275,16 @@ describe('navigateAction', function () {
                 method: 'post',
             },
             function (err) {
-                expect(err).to.equal(undefined);
-                expect(mockContext.dispatchCalls.length).to.equal(2);
-                expect(mockContext.dispatchCalls[0].name).to.equal(
+                expect(err).toBeUndefined();
+                expect(mockContext.dispatchCalls.length).toBe(2);
+                expect(mockContext.dispatchCalls[0].name).toBe(
                     'NAVIGATE_START'
                 );
-                expect(mockContext.dispatchCalls[0].payload.url).to.equal(
-                    '/post'
-                );
-                expect(mockContext.dispatchCalls[1].name).to.equal(
+                expect(mockContext.dispatchCalls[0].payload.url).toBe('/post');
+                expect(mockContext.dispatchCalls[1].name).toBe(
                     'NAVIGATE_SUCCESS'
                 );
-                expect(mockContext.dispatchCalls[1].payload.url).to.equal(
-                    '/post'
-                );
+                expect(mockContext.dispatchCalls[1].payload.url).toBe('/post');
                 done();
             }
         );
@@ -306,21 +298,21 @@ describe('navigateAction', function () {
                 method: 'get',
             },
             function (err) {
-                expect(err.statusCode).to.equal(500);
-                expect(err.message).to.equal(
+                expect(err.statusCode).toBe(500);
+                expect(err.message).toBe(
                     'Action for /noMatchedAction can not be resolved'
                 );
-                expect(mockContext.dispatchCalls.length).to.equal(2);
-                expect(mockContext.dispatchCalls[0].name).to.equal(
+                expect(mockContext.dispatchCalls.length).toBe(2);
+                expect(mockContext.dispatchCalls[0].name).toBe(
                     'NAVIGATE_START'
                 );
-                expect(mockContext.dispatchCalls[0].payload.url).to.equal(
+                expect(mockContext.dispatchCalls[0].payload.url).toBe(
                     '/noMatchedAction'
                 );
-                expect(mockContext.dispatchCalls[1].name).to.equal(
+                expect(mockContext.dispatchCalls[1].name).toBe(
                     'NAVIGATE_FAILURE'
                 );
-                expect(mockContext.dispatchCalls[1].payload.url).to.equal(
+                expect(mockContext.dispatchCalls[1].payload.url).toBe(
                     '/noMatchedAction'
                 );
                 done();
@@ -335,16 +327,16 @@ describe('navigateAction', function () {
                 routeName: 'home',
             },
             function (err) {
-                expect(err).to.equal(undefined);
-                expect(mockContext.dispatchCalls.length).to.equal(2);
-                expect(mockContext.dispatchCalls[0].name).to.equal(
+                expect(err).toBeUndefined();
+                expect(mockContext.dispatchCalls.length).toBe(2);
+                expect(mockContext.dispatchCalls[0].name).toBe(
                     'NAVIGATE_START'
                 );
-                expect(mockContext.dispatchCalls[0].payload.url).to.equal('/');
-                expect(mockContext.dispatchCalls[1].name).to.equal(
+                expect(mockContext.dispatchCalls[0].payload.url).toBe('/');
+                expect(mockContext.dispatchCalls[1].name).toBe(
                     'NAVIGATE_SUCCESS'
                 );
-                expect(mockContext.dispatchCalls[1].payload.url).to.equal('/');
+                expect(mockContext.dispatchCalls[1].payload.url).toBe('/');
                 done();
             }
         );
@@ -358,18 +350,18 @@ describe('navigateAction', function () {
                 params: { id: 5 },
             },
             function (err) {
-                expect(err).to.equal(undefined);
-                expect(mockContext.dispatchCalls.length).to.equal(2);
-                expect(mockContext.dispatchCalls[0].name).to.equal(
+                expect(err).toBeUndefined();
+                expect(mockContext.dispatchCalls.length).toBe(2);
+                expect(mockContext.dispatchCalls[0].name).toBe(
                     'NAVIGATE_START'
                 );
-                expect(mockContext.dispatchCalls[0].payload.url).to.equal(
+                expect(mockContext.dispatchCalls[0].payload.url).toBe(
                     '/withParams/5'
                 );
-                expect(mockContext.dispatchCalls[1].name).to.equal(
+                expect(mockContext.dispatchCalls[1].name).toBe(
                     'NAVIGATE_SUCCESS'
                 );
-                expect(mockContext.dispatchCalls[1].payload.url).to.equal(
+                expect(mockContext.dispatchCalls[1].payload.url).toBe(
                     '/withParams/5'
                 );
                 done();
@@ -386,18 +378,18 @@ describe('navigateAction', function () {
                 query: { foo: 'bar' },
             },
             function (err) {
-                expect(err).to.equal(undefined);
-                expect(mockContext.dispatchCalls.length).to.equal(2);
-                expect(mockContext.dispatchCalls[0].name).to.equal(
+                expect(err).toBeUndefined();
+                expect(mockContext.dispatchCalls.length).toBe(2);
+                expect(mockContext.dispatchCalls[0].name).toBe(
                     'NAVIGATE_START'
                 );
-                expect(mockContext.dispatchCalls[0].payload.url).to.equal(
+                expect(mockContext.dispatchCalls[0].payload.url).toBe(
                     '/withParams/5?foo=bar'
                 );
-                expect(mockContext.dispatchCalls[1].name).to.equal(
+                expect(mockContext.dispatchCalls[1].name).toBe(
                     'NAVIGATE_SUCCESS'
                 );
-                expect(mockContext.dispatchCalls[1].payload.url).to.equal(
+                expect(mockContext.dispatchCalls[1].payload.url).toBe(
                     '/withParams/5?foo=bar'
                 );
                 done();
@@ -420,8 +412,8 @@ describe('navigateAction', function () {
                 method: 'get',
             },
             function (err) {
-                expect(err).to.be.instanceof(Error);
-                expect(err.message).to.equal(
+                expect(err).toBeInstanceOf(Error);
+                expect(err.message).toBe(
                     'RouteStore has not implemented `getCurrentRoute` method.'
                 );
                 done();

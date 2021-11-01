@@ -2,9 +2,8 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-import _ from 'lodash';
-import { expect } from 'chai';
-import History from '../../dist/cjs/History';
+const _ = require('lodash');
+const { History } = require('../../');
 
 let windowMock;
 let testResult;
@@ -18,13 +17,13 @@ describe('History', function () {
     describe('constructor', function () {
         it('has pushState', function () {
             var history = new History({ win: windowMock.HTML5 });
-            expect(history.win).to.equal(windowMock.HTML5);
-            expect(history._hasPushState).to.equal(true);
+            expect(history.win).toBe(windowMock.HTML5);
+            expect(history._hasPushState).toBe(true);
         });
         it('no pushState', function () {
             var history = new History({ win: windowMock.OLD });
-            expect(history.win).to.equal(windowMock.OLD);
-            expect(history._hasPushState).to.equal(false);
+            expect(history.win).toBe(windowMock.OLD);
+            expect(history._hasPushState).toBe(false);
         });
     });
 
@@ -33,7 +32,7 @@ describe('History', function () {
             var history = new History({ win: windowMock.HTML5 });
             var listener = function () {};
             history.on(listener);
-            expect(testResult.addEventListener).to.eql({
+            expect(testResult.addEventListener).toEqual({
                 evt: 'popstate',
                 listener: listener,
             });
@@ -42,7 +41,7 @@ describe('History', function () {
             var history = new History({ win: windowMock.OLD });
             var listener = function () {};
             history.on(listener);
-            expect(testResult.addEventListener).to.eql(undefined);
+            expect(testResult.addEventListener).toEqual(undefined);
         });
     });
 
@@ -51,7 +50,7 @@ describe('History', function () {
             var history = new History({ win: windowMock.HTML5 });
             var listener = function () {};
             history.off(listener);
-            expect(testResult.removeEventListener).to.eql({
+            expect(testResult.removeEventListener).toEqual({
                 evt: 'popstate',
                 listener: listener,
             });
@@ -60,7 +59,7 @@ describe('History', function () {
             var history = new History({ win: windowMock.OLD });
             var listener = function () {};
             history.off(listener);
-            expect(testResult.removeEventListener).to.eql(undefined);
+            expect(testResult.removeEventListener).toEqual(undefined);
         });
     });
 
@@ -72,11 +71,11 @@ describe('History', function () {
                     windowMock.HTML5
                 ),
             });
-            expect(history.getState()).to.eql({ foo: 'bar' });
+            expect(history.getState()).toEqual({ foo: 'bar' });
         });
         it('no pushState', function () {
             var history = new History({ win: windowMock.OLD });
-            expect(history.getState()).to.eql(null);
+            expect(history.getState()).toBe(null);
         });
     });
 
@@ -91,7 +90,7 @@ describe('History', function () {
             });
             var history = new History({ win: win });
             var url = history.getUrl();
-            expect(url).to.equal('/path/to/page');
+            expect(url).toBe('/path/to/page');
         });
         it('has pushState, should use history.state.origUrl over location', function () {
             var win = _.extend(windowMock.HTML5, {
@@ -108,7 +107,7 @@ describe('History', function () {
             });
             var history = new History({ win: win });
             var url = history.getUrl();
-            expect(url).to.equal('/_url');
+            expect(url).toBe('/_url');
         });
         it('has pushState, should remove hostname from history.state.origUrl', function () {
             var win = _.extend(windowMock.HTML5, {
@@ -126,16 +125,16 @@ describe('History', function () {
                 },
             });
             var history = new History({ win: win });
-            expect(history.getUrl()).to.equal('/_url');
+            expect(history.getUrl()).toBe('/_url');
 
             win.history.state.origUrl = 'https://foo.com:4080/_something?a=b';
-            expect(history.getUrl()).to.equal('/_something?a=b');
+            expect(history.getUrl()).toBe('/_something?a=b');
 
             win.history.state.origUrl = 'https://foo.com:4080';
-            expect(history.getUrl()).to.equal('/');
+            expect(history.getUrl()).toBe('/');
 
             win.history.state.origUrl = 'https://foo.com:4080/';
-            expect(history.getUrl()).to.equal('/');
+            expect(history.getUrl()).toBe('/');
         });
         it('has pushState with query', function () {
             var win = _.extend(windowMock.HTML5, {
@@ -146,7 +145,7 @@ describe('History', function () {
             });
             var history = new History({ win: win });
             var url = history.getUrl();
-            expect(url).to.equal('/path/to/page?foo=bar&x=y');
+            expect(url).toBe('/path/to/page?foo=bar&x=y');
         });
         it('no pushState', function () {
             var win, history, url;
@@ -159,7 +158,7 @@ describe('History', function () {
             });
             history = new History({ win: win });
             url = history.getUrl();
-            expect(url).to.equal('/path/to/page');
+            expect(url).toBe('/path/to/page');
 
             win = _.extend(windowMock.OLD, {
                 location: {
@@ -170,7 +169,7 @@ describe('History', function () {
             });
             history = new History({ win: win });
             url = history.getUrl();
-            expect(url).to.equal('/path/to/page', 'hash=#');
+            expect(url).toBe('/path/to/page');
 
             win = _.extend(windowMock.OLD, {
                 location: {
@@ -181,7 +180,7 @@ describe('History', function () {
             });
             history = new History({ win: win });
             url = history.getUrl();
-            expect(url).to.equal('/path/to/page');
+            expect(url).toBe('/path/to/page');
         });
         it('no pushState, with query', function () {
             var win, history, url;
@@ -194,7 +193,7 @@ describe('History', function () {
             });
             history = new History({ win: win });
             url = history.getUrl();
-            expect(url).to.equal('/path/to/page?foo=bar&x=y');
+            expect(url).toBe('/path/to/page?foo=bar&x=y');
         });
     });
 
@@ -211,54 +210,54 @@ describe('History', function () {
             var history = new History({ win: win });
 
             history.pushState({ foo: 'bar' });
-            expect(testResult.pushState.state).to.eql({
+            expect(testResult.pushState.state).toEqual({
                 origUrl: '/currentUrl',
                 referrerUrl: '/currentUrl',
                 foo: 'bar',
             });
-            expect(testResult.pushState.title).to.equal('current title');
-            expect(testResult.pushState.url).to.equal('/currentUrl');
+            expect(testResult.pushState.title).toBe('current title');
+            expect(testResult.pushState.url).toBe('/currentUrl');
 
             history.pushState({ foo: 'bar' }, 't');
-            expect(testResult.pushState.state).to.eql({
+            expect(testResult.pushState.state).toEqual({
                 origUrl: '/currentUrl',
                 referrerUrl: '/currentUrl',
                 foo: 'bar',
             });
-            expect(testResult.pushState.title).to.equal('t');
-            expect(testResult.pushState.url).to.equal('/currentUrl');
+            expect(testResult.pushState.title).toBe('t');
+            expect(testResult.pushState.url).toBe('/currentUrl');
 
             history.pushState({ foo: 'bar' }, 't', '/url');
-            expect(testResult.pushState.state).to.eql({
+            expect(testResult.pushState.state).toEqual({
                 origUrl: '/url',
                 referrerUrl: '/currentUrl',
                 foo: 'bar',
             });
-            expect(testResult.pushState.title).to.equal('t');
-            expect(testResult.pushState.url).to.equal('/url');
-            expect(windowMock.HTML5.document.title).to.equal('t');
+            expect(testResult.pushState.title).toBe('t');
+            expect(testResult.pushState.url).toBe('/url');
+            expect(windowMock.HTML5.document.title).toBe('t');
 
             history.pushState({ foo: 'bar' }, 'tt', '/url?a=b&x=y');
-            expect(testResult.pushState.state).to.eql({
+            expect(testResult.pushState.state).toEqual({
                 origUrl: '/url?a=b&x=y',
                 referrerUrl: '/currentUrl',
                 foo: 'bar',
             });
-            expect(testResult.pushState.title).to.equal('tt');
-            expect(testResult.pushState.url).to.equal('/url?a=b&x=y');
-            expect(windowMock.HTML5.document.title).to.equal('tt');
+            expect(testResult.pushState.title).toBe('tt');
+            expect(testResult.pushState.url).toBe('/url?a=b&x=y');
+            expect(windowMock.HTML5.document.title).toBe('tt');
 
             var unicodeUrl =
                 '/post/128097060420/2015-fno-vogue全球購物夜-眾藝人名人共襄盛舉';
             history.pushState({ foo: 'bar' }, 'tt', unicodeUrl);
-            expect(testResult.pushState.state).to.eql({
+            expect(testResult.pushState.state).toEqual({
                 origUrl: unicodeUrl,
                 referrerUrl: '/currentUrl',
                 foo: 'bar',
             });
-            expect(testResult.pushState.title).to.equal('tt');
-            expect(testResult.pushState.url).to.equal(unicodeUrl);
-            expect(windowMock.HTML5.document.title).to.equal('tt');
+            expect(testResult.pushState.title).toBe('tt');
+            expect(testResult.pushState.url).toBe(unicodeUrl);
+            expect(windowMock.HTML5.document.title).toBe('tt');
         });
         it('has pushState, Firefox', function () {
             var win = _.extend(windowMock.Firefox, {
@@ -272,31 +271,31 @@ describe('History', function () {
             var history = new History({ win: win });
 
             history.pushState({ foo: 'bar' });
-            expect(testResult.pushState.state).to.eql({
+            expect(testResult.pushState.state).toEqual({
                 origUrl: '/currentUrl',
                 referrerUrl: '/currentUrl',
                 foo: 'bar',
             });
-            expect(testResult.pushState.title).to.equal('current title');
-            expect(testResult.pushState.url).to.equal('/currentUrl');
+            expect(testResult.pushState.title).toBe('current title');
+            expect(testResult.pushState.url).toBe('/currentUrl');
 
             history.pushState({ foo: 'bar' }, 't');
-            expect(testResult.pushState.state).to.eql({
+            expect(testResult.pushState.state).toEqual({
                 origUrl: '/currentUrl',
                 referrerUrl: '/currentUrl',
                 foo: 'bar',
             });
-            expect(testResult.pushState.title).to.equal('t');
-            expect(testResult.pushState.url).to.equal('/currentUrl');
+            expect(testResult.pushState.title).toBe('t');
+            expect(testResult.pushState.url).toBe('/currentUrl');
 
             history.pushState({ foo: 'bar' }, 't', '/url');
-            expect(testResult.pushState.state).to.eql({
+            expect(testResult.pushState.state).toEqual({
                 origUrl: '/url',
                 referrerUrl: '/currentUrl',
                 foo: 'bar',
             });
-            expect(testResult.pushState.title).to.equal('t');
-            expect(testResult.pushState.url).to.equal('/url');
+            expect(testResult.pushState.title).toBe('t');
+            expect(testResult.pushState.url).toBe('/url');
         });
         it('no pushState', function () {
             var win = _.extend(windowMock.OLD, {
@@ -305,13 +304,13 @@ describe('History', function () {
             var history = new History({ win: win });
 
             history.pushState({ foo: 'bar' }, 't', '/url');
-            expect(win.location.href).to.equal('/url');
+            expect(win.location.href).toBe('/url');
 
             history.pushState({ foo: 'bar' }, 't', '/url?a=b&x=y');
-            expect(win.location.href).to.equal('/url?a=b&x=y');
+            expect(win.location.href).toBe('/url?a=b&x=y');
 
             history.pushState({ foo: 'bar' });
-            expect(win.location.href).to.equal('/url?a=b&x=y');
+            expect(win.location.href).toBe('/url?a=b&x=y');
         });
     });
 
@@ -328,41 +327,38 @@ describe('History', function () {
             var history = new History({ win: win });
 
             history.replaceState({ foo: 'bar' });
-            expect(testResult.replaceState.state).to.eql({
+            expect(testResult.replaceState.state).toEqual({
                 origUrl: '/currentUrl',
                 foo: 'bar',
             });
-            expect(testResult.replaceState.title).to.equal('current title');
-            expect(testResult.replaceState.url).to.equal('/currentUrl');
+            expect(testResult.replaceState.title).toBe('current title');
+            expect(testResult.replaceState.url).toBe('/currentUrl');
 
             history.replaceState({ foo: 'bar' }, 't');
-            expect(testResult.replaceState.state).to.eql({
+            expect(testResult.replaceState.state).toEqual({
                 origUrl: '/currentUrl',
                 foo: 'bar',
             });
-            expect(testResult.replaceState.title).to.equal('t');
-            expect(testResult.replaceState.url).to.equal('/currentUrl');
+            expect(testResult.replaceState.title).toBe('t');
+            expect(testResult.replaceState.url).toBe('/currentUrl');
 
             history.replaceState({ foo: 'bar' }, 't', '/url');
-            expect(testResult.replaceState.state).to.eql({
+            expect(testResult.replaceState.state).toEqual({
                 origUrl: '/url',
                 foo: 'bar',
             });
-            expect(testResult.replaceState.title).to.equal('t');
-            expect(testResult.replaceState.url).to.equal('/url');
-            expect(windowMock.HTML5.document.title).to.equal('t');
+            expect(testResult.replaceState.title).toBe('t');
+            expect(testResult.replaceState.url).toBe('/url');
+            expect(windowMock.HTML5.document.title).toBe('t');
 
             history.replaceState({ foo: 'bar' }, 'tt', '/url?a=b&x=y');
-            expect(testResult.replaceState.state).to.eql({
+            expect(testResult.replaceState.state).toEqual({
                 origUrl: '/url?a=b&x=y',
                 foo: 'bar',
             });
-            expect(testResult.replaceState.title).to.equal('tt');
-            expect(testResult.replaceState.url).to.equal(
-                '/url?a=b&x=y',
-                'url has query'
-            );
-            expect(windowMock.HTML5.document.title).to.equal('tt');
+            expect(testResult.replaceState.title).toBe('tt');
+            expect(testResult.replaceState.url).toBe('/url?a=b&x=y');
+            expect(windowMock.HTML5.document.title).toBe('tt');
         });
         it('has pushState, Firefox', function () {
             var win = _.extend(windowMock.Firefox, {
@@ -376,28 +372,28 @@ describe('History', function () {
             var history = new History({ win: win });
 
             history.replaceState({ foo: 'bar' });
-            expect(testResult.replaceState.state).to.eql({
+            expect(testResult.replaceState.state).toEqual({
                 origUrl: '/currentUrl',
                 foo: 'bar',
             });
-            expect(testResult.replaceState.title).to.equal('current title');
-            expect(testResult.replaceState.url).to.equal('/currentUrl');
+            expect(testResult.replaceState.title).toBe('current title');
+            expect(testResult.replaceState.url).toBe('/currentUrl');
 
             history.replaceState({ foo: 'bar' }, 't');
-            expect(testResult.replaceState.state).to.eql({
+            expect(testResult.replaceState.state).toEqual({
                 origUrl: '/currentUrl',
                 foo: 'bar',
             });
-            expect(testResult.replaceState.title).to.equal('t');
-            expect(testResult.replaceState.url).to.equal('/currentUrl');
+            expect(testResult.replaceState.title).toBe('t');
+            expect(testResult.replaceState.url).toBe('/currentUrl');
 
             history.replaceState({ foo: 'bar' }, 't', '/url');
-            expect(testResult.replaceState.state).to.eql({
+            expect(testResult.replaceState.state).toEqual({
                 origUrl: '/url',
                 foo: 'bar',
             });
-            expect(testResult.replaceState.title).to.equal('t');
-            expect(testResult.replaceState.url).to.equal('/url');
+            expect(testResult.replaceState.title).toBe('t');
+            expect(testResult.replaceState.url).toBe('/url');
         });
         it('no pushState', function () {
             var win = _.extend(windowMock.OLD, {
@@ -409,12 +405,12 @@ describe('History', function () {
             });
             var history = new History({ win: win });
             history.replaceState({ foo: 'bar' }, 't', '/url');
-            expect(testResult.locationReplace.url).to.equal('/url');
+            expect(testResult.locationReplace.url).toBe('/url');
             history.replaceState({ foo: 'bar' }, 't', '/url?a=b&x=y');
-            expect(testResult.locationReplace.url).to.equal('/url?a=b&x=y');
+            expect(testResult.locationReplace.url).toBe('/url?a=b&x=y');
             testResult.locationReplace.url = null;
             history.replaceState({ foo: 'bar' });
-            expect(testResult.locationReplace.url).to.equal(null);
+            expect(testResult.locationReplace.url).toBeNull();
         });
     });
 
@@ -432,7 +428,7 @@ describe('History', function () {
             var updatedTitle = 'updated title';
 
             history.pushState({ foo: 'bar' }, updatedTitle);
-            expect(win.document.title).to.equal(updatedTitle);
+            expect(win.document.title).toBe(updatedTitle);
         });
         it('updates document title, Firefox', function () {
             var win = _.extend(windowMock.Firefox, {
@@ -447,7 +443,7 @@ describe('History', function () {
             var updatedTitle = 'updated title';
 
             history.pushState({ foo: 'bar' }, updatedTitle);
-            expect(win.document.title).to.equal(updatedTitle);
+            expect(win.document.title).toBe(updatedTitle);
         });
     });
 });

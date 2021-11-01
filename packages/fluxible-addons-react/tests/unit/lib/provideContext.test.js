@@ -1,11 +1,9 @@
 /* globals describe, it, beforeEach, afterEach, document */
 /* eslint react/no-render-return-value:0 */
-import { expect } from 'chai';
-import React from 'react';
-import { renderToString } from 'react-dom/server';
-import { JSDOM } from 'jsdom';
-
-import { provideContext, useFluxible } from '../../../';
+const React = require('react');
+const { renderToString } = require('react-dom/server');
+const { JSDOM } = require('jsdom');
+const { provideContext, useFluxible } = require('../../../');
 
 describe('fluxible-addons-react', () => {
     describe('provideContext', () => {
@@ -30,7 +28,7 @@ describe('fluxible-addons-react', () => {
             }
 
             const WrappedComponent = provideContext(Component);
-            expect(WrappedComponent.displayName).to.equal(
+            expect(WrappedComponent.displayName).toBe(
                 'contextProvider(Component)'
             );
         });
@@ -44,7 +42,7 @@ describe('fluxible-addons-react', () => {
             Component.displayName = 'TestComponent';
 
             const WrappedComponent = provideContext(Component);
-            expect(WrappedComponent.displayName).to.equal(
+            expect(WrappedComponent.displayName).toBe(
                 'contextProvider(TestComponent)'
             );
         });
@@ -58,7 +56,7 @@ describe('fluxible-addons-react', () => {
 
             const Component = () => {
                 const componentContext = useFluxible();
-                expect(componentContext).to.deep.equal(context);
+                expect(componentContext).toEqual(context);
                 return null;
             };
 
@@ -79,8 +77,8 @@ describe('fluxible-addons-react', () => {
 
             const WrappedComponent = provideContext(Component);
 
-            expect(WrappedComponent.initAction).to.be.a('function');
-            expect(WrappedComponent.displayName).to.not.equal(
+            expect(WrappedComponent.initAction).toBeInstanceOf(Function);
+            expect(WrappedComponent.displayName).not.toBe(
                 Component.displayName
             );
         });

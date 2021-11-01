@@ -1,8 +1,7 @@
 /*globals describe,it*/
 'use strict';
 
-var expect = require('chai').expect,
-    createStore = require('../../../addons/createStore');
+var createStore = require('../../../addons/createStore');
 
 describe('createStore', function () {
     it('should return a valid Constructor', function () {
@@ -17,17 +16,17 @@ describe('createStore', function () {
                     handlers: mock.handlers,
                 },
                 initialize: function () {
-                    expect(this.dispatcher).to.deep.equal(mock.dispatcher);
+                    expect(this.dispatcher).toEqual(mock.dispatcher);
                 },
                 test: function (param) {
-                    expect(param).to.equal(mock.param);
+                    expect(param).toBe(mock.param);
                 },
             }),
             store = new ExampleStore(mock.dispatcher);
 
         store.test(mock.param);
-        expect(ExampleStore.handlers).to.deep.equal(mock.handlers);
-        expect(store.dispatcher).to.deep.equal(mock.dispatcher);
+        expect(ExampleStore.handlers).toEqual(mock.handlers);
+        expect(store.dispatcher).toEqual(mock.dispatcher);
     });
 
     it('should handle mixins', function () {
@@ -42,7 +41,7 @@ describe('createStore', function () {
                     mixin_initialize_called = true;
                 },
                 mixin_test: function (param) {
-                    expect(param).to.equal(mock.param);
+                    expect(param).toBe(mock.param);
                 },
             },
             ExampleStore = createStore({
@@ -51,20 +50,20 @@ describe('createStore', function () {
                     mixins: [ExampleMixin],
                 },
                 initialize: function () {
-                    expect(mixin_initialize_called).to.equal(true);
+                    expect(mixin_initialize_called).toBe(true);
                     base_initialize_called = true;
                 },
                 test: function (param) {
-                    expect(param).to.equal(mock.param);
+                    expect(param).toBe(mock.param);
                 },
             }),
             store = new ExampleStore(mock.dispatcher);
 
         store.test(mock.param);
         store.mixin_test(mock.param);
-        expect(store.dispatcher).to.deep.equal(mock.dispatcher);
-        expect(mixin_initialize_called).to.equal(true);
-        expect(base_initialize_called).to.equal(true);
+        expect(store.dispatcher).toEqual(mock.dispatcher);
+        expect(mixin_initialize_called).toBe(true);
+        expect(base_initialize_called).toBe(true);
     });
 
     it('should error on mixin conflict', function () {
@@ -84,6 +83,6 @@ describe('createStore', function () {
                 },
                 test: function () {},
             });
-        }).to.throw(Error);
+        }).toThrowError(Error);
     });
 });

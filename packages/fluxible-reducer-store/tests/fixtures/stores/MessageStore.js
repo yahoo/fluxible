@@ -1,4 +1,4 @@
-import { createReducerStore } from '../../../index';
+const { createReducerStore } = require('../../../');
 
 const reducers = {
     RECEIVE_MESSAGES: (state, messages) => {
@@ -77,4 +77,4 @@ var MessageStore = createReducerStore({
     getters: getters,
 });
 
-export default MessageStore;
+module.exports = MessageStore;

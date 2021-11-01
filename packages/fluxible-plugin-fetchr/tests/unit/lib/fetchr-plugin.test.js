@@ -5,21 +5,25 @@
 /*globals describe,it,before,beforeEach,after */
 'use strict';
 
-var expect = require('chai').expect;
-var fetchrPlugin = require('../../../lib/fetchr-plugin');
+var fetchr = require('fetchr');
 var FluxibleApp = require('fluxible');
-var mockService = require('../../fixtures/services/test');
-var sinon = require('sinon');
-var mockery = require('mockery');
+var fetchrPlugin = require('../../../lib/fetchr-plugin');
+var mockService = require('../../fixtures/services/mockService');
 
 describe('fetchrPlugin', function () {
-    var app, pluginInstance, context, mockReq, xhrContext;
+    let app;
+    let pluginInstance;
+    let context;
+    let mockReq;
+    let xhrContext;
+    let collectorStub = jest.fn();
 
     beforeEach(function () {
         mockReq = {};
         app = new FluxibleApp();
         pluginInstance = fetchrPlugin({
             xhrPath: 'custom/api',
+            statsCollector: collectorStub,
         });
         pluginInstance.registerService(mockService);
         app.plug(pluginInstance);
@@ -30,39 +34,41 @@ describe('fetchrPlugin', function () {
             req: mockReq,
             xhrContext: xhrContext,
         });
+        collectorStub.mockReset();
     });
 
     describe('factory', function () {
         it('should use default xhr path', function () {
             var p = fetchrPlugin();
-            expect(p.getXhrPath()).to.equal('/api');
+            expect(p.getXhrPath()).toEqual('/api');
         });
     });
 
     describe('actionContext', function () {
         var actionContext;
+
         beforeEach(function () {
             actionContext = context.getActionContext();
         });
+
         describe('service', function () {
             it('should have a service interface', function () {
-                expect(actionContext.service).to.be.an('object');
-                expect(actionContext.service.create).to.be.an('function');
-                expect(actionContext.service.read).to.be.an('function');
-                expect(actionContext.service.update).to.be.an('function');
-                expect(actionContext.service.delete).to.be.an('function');
+                expect(actionContext.service).toBeInstanceOf(Object);
+                expect(actionContext.service.create).toBeInstanceOf(Function);
+                expect(actionContext.service.read).toBeInstanceOf(Function);
+                expect(actionContext.service.update).toBeInstanceOf(Function);
+                expect(actionContext.service.delete).toBeInstanceOf(Function);
             });
-            describe('create', function () {
-                it("should call the service's create method", function (done) {
+
+            describe('read', function () {
+                it("should call the service's read method", function (done) {
                     actionContext.service.read(
                         'test',
                         {},
                         {},
                         function (err, result) {
-                            expect(result).to.equal('read');
-                            expect(
-                                actionContext.getServiceMeta()
-                            ).to.deep.equal([
+                            expect(result).toBe('read');
+                            expect(actionContext.getServiceMeta()).toEqual([
                                 {
                                     headers: {
                                         'Cache-Control': 'private',
@@ -74,20 +80,24 @@ describe('fetchrPlugin', function () {
                     );
                 });
             });
-            describe('read', function () {
-                it("should call the service's read method", function (done) {
+
+            describe('create', function () {
+                it("should call the service's create method", function (done) {
                     actionContext.service.create(
                         'test',
                         {},
                         {},
                         function (err, result) {
-                            expect(result).to.equal('create');
-                            expect(actionContext.getServiceMeta()).to.be.empty;
+                            expect(result).toBe('create');
+                            expect(actionContext.getServiceMeta()).toHaveLength(
+                                0
+                            );
                             done();
                         }
                     );
                 });
             });
+
             describe('update', function () {
                 it("should call the service's update method", function (done) {
                     actionContext.service.update(
@@ -95,21 +105,26 @@ describe('fetchrPlugin', function () {
                         {},
                         {},
                         function (err, result) {
-                            expect(result).to.equal('update');
-                            expect(actionContext.getServiceMeta()).to.be.empty;
+                            expect(result).toBe('update');
+                            expect(actionContext.getServiceMeta()).toHaveLength(
+                                0
+                            );
                             done();
                         }
                     );
                 });
             });
+
             describe('delete', function () {
                 it("should call the service's delete method", function (done) {
                     actionContext.service.delete(
                         'test',
                         {},
                         function (err, result) {
-                            expect(result).to.equal('delete');
-                            expect(actionContext.getServiceMeta()).to.be.empty;
+                            expect(result).toBe('delete');
+                            expect(actionContext.getServiceMeta()).toHaveLength(
+                                0
+                            );
                             done();
                         }
                     );
@@ -120,15 +135,17 @@ describe('fetchrPlugin', function () {
 
     describe('getMiddleware', function () {
         it('should return the fetchr middleware', function () {
-            expect(pluginInstance.getMiddleware()).to.be.an('function');
+            expect(pluginInstance.getMiddleware()).toBeInstanceOf(Function);
         });
     });
 
     describe('context level', function () {
         var actionContext;
+
         beforeEach(function () {
             actionContext = context.getActionContext();
         });
+
         it('should dehydrate / rehydrate context correctly', function () {
             var contextPlug = pluginInstance.plugContext({
                 xhrContext: { device: 'tablet' },
@@ -143,7 +160,7 @@ describe('fetchrPlugin', function () {
             });
             contextPlug.plugActionContext(actionContext);
 
-            expect(contextPlug.dehydrate()).to.deep.equal({
+            expect(contextPlug.dehydrate()).toEqual({
                 xhrContext: {
                     device: 'tablet',
                 },
@@ -168,7 +185,7 @@ describe('fetchrPlugin', function () {
             contextPlug.plugActionContext(actionContext);
             actionContext.service.updateOptions({ xhrTimeout: 1000 });
 
-            expect(contextPlug.dehydrate()).to.deep.equal({
+            expect(contextPlug.dehydrate()).toEqual({
                 xhrContext: {
                     device: 'tablet',
                 },
@@ -198,10 +215,7 @@ describe('fetchrPlugin', function () {
                         { a: 1 },
                         { cors: true }
                     )
-                ).to.equal(
-                    'http://example.com/resourceFoo;a=1?device=tablet',
-                    'default construct uri function'
-                );
+                ).toBe('http://example.com/resourceFoo;a=1?device=tablet');
             });
         });
 
@@ -222,10 +236,7 @@ describe('fetchrPlugin', function () {
                     actionContext.service.constructGetXhrUri('resourceFoo', {
                         a: 1,
                     })
-                ).to.equal(
-                    'custom2/api/resourceFoo;a=1?device=tablet',
-                    'default construct uri function'
-                );
+                ).toBe('custom2/api/resourceFoo;a=1?device=tablet');
 
                 expect(
                     actionContext.service.constructGetXhrUri(
@@ -237,7 +248,7 @@ describe('fetchrPlugin', function () {
                             },
                         }
                     )
-                ).to.equal('/customGetUri', 'custom custructGetUri function');
+                ).toBe('/customGetUri');
             });
         });
     });
@@ -256,8 +267,9 @@ describe('fetchrPlugin', function () {
                 xhrContext: { device: 'tablet' },
             });
 
-            expect(contextPlug.dehydrate().xhrPath).to.equal('custom2/api');
+            expect(contextPlug.dehydrate().xhrPath).toBe('custom2/api');
         });
+
         it('should allow dynamic xhrPath', function () {
             mockReq = {
                 site: 'foo',
@@ -274,49 +286,18 @@ describe('fetchrPlugin', function () {
                 xhrContext: { device: 'tablet' },
             });
 
-            expect(contextPlug.dehydrate().xhrPath).to.equal('foo/api');
+            expect(contextPlug.dehydrate().xhrPath).toBe('foo/api');
         });
     });
 
     describe('statsCollector', function () {
-        var fetcherStub;
-        before(function () {
-            mockery.enable({
-                warnOnReplace: false,
-                warnOnUnregistered: false,
-                useCleanCache: true,
-            });
-            fetcherStub = sinon.stub();
-            mockery.registerMock('fetchr', fetcherStub);
-        });
+        it('should use statsCollector', function (done) {
+            const actionContext = context.getActionContext();
 
-        it('should use statsCollector', function () {
-            this.timeout(10000);
-            mockReq = {
-                site: 'foo',
-            };
-            app = new FluxibleApp();
-            var collectorStub = sinon.stub();
-            pluginInstance = require('../../../lib/fetchr-plugin')({
-                statsCollector: collectorStub,
+            actionContext.service.read('test', {}, {}, function (err, result) {
+                expect(collectorStub).toHaveBeenCalledTimes(1);
+                done();
             });
-            var contextPlug = pluginInstance.plugContext({
-                req: mockReq,
-                xhrContext: { device: 'tablet' },
-            });
-            var actionContext = {};
-            try {
-                contextPlug.plugActionContext(actionContext);
-            } catch (ignore) {}
-            var statsCollector = fetcherStub.getCall(0).args[0].statsCollector;
-            expect(statsCollector).to.be.a('function');
-            var stats = { foo: 'bar' };
-            statsCollector(stats);
-            expect(collectorStub.getCall(0).args[0]).to.equal(actionContext);
-            expect(collectorStub.getCall(0).args[1]).to.equal(stats);
-        });
-        after(function () {
-            mockery.disable();
         });
     });
 });

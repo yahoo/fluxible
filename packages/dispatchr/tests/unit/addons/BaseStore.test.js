@@ -1,7 +1,6 @@
 /*globals describe,it */
 'use strict';
 
-var expect = require('chai').expect;
 var BaseStore = require('../../../addons/BaseStore');
 
 var contextMock = {
@@ -16,8 +15,8 @@ var dispatcherMock = {
 describe('BaseStore', function () {
     it('instantiates correctly', function () {
         var store = new BaseStore(dispatcherMock);
-        expect(store.dispatcher).to.equal(dispatcherMock);
-        expect(store.getContext()).to.equal(dispatcherMock.getContext());
+        expect(store.dispatcher).toBe(dispatcherMock);
+        expect(store.getContext()).toBe(dispatcherMock.getContext());
     });
 
     it('allows listening for changes', function (done) {
@@ -26,7 +25,7 @@ describe('BaseStore', function () {
             foo: 'bar',
         };
         store.addChangeListener(function (payload) {
-            expect(payload.foo).to.equal('bar');
+            expect(payload.foo).toBe('bar');
             done();
         });
         store.emitChange(payloadMock);

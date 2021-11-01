@@ -1,15 +1,12 @@
 /* globals describe, it, afterEach, beforeEach */
 /* eslint react/prop-types:0, react/no-render-return-value:0, react/no-find-dom-node:0 */
-import { expect } from 'chai';
-import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
-import { JSDOM } from 'jsdom';
-import createMockComponentContext from 'fluxible/utils/createMockComponentContext';
-import sinon from 'sinon';
-
-import { FluxibleComponent } from '../../../';
-import FooStore from '../../fixtures/stores/FooStore';
-import BarStore from '../../fixtures/stores/BarStore';
+const React = require('react');
+const ReactTestUtils = require('react-dom/test-utils');
+const { JSDOM } = require('jsdom');
+const createMockComponentContext = require('fluxible/utils/createMockComponentContext');
+const { FluxibleComponent } = require('../../../');
+const FooStore = require('../../fixtures/stores/FooStore');
+const BarStore = require('../../fixtures/stores/BarStore');
 
 describe('fluxible-addons-react', () => {
     describe('FluxibleComponent', () => {
@@ -33,7 +30,7 @@ describe('fluxible-addons-react', () => {
         });
 
         it('will not double render', () => {
-            const spy = sinon.spy();
+            const spy = jest.fn();
             class Component extends React.Component {
                 render() {
                     spy();
@@ -49,13 +46,13 @@ describe('fluxible-addons-react', () => {
                 </FluxibleComponent>
             );
 
-            expect(spy.callCount).to.equal(1);
+            expect(spy).toHaveBeenCalledTimes(1);
         });
 
         it('should pass context prop to child', (done) => {
             class Component extends React.Component {
                 render() {
-                    expect(this.props.context).to.equal(context);
+                    expect(this.props.context).toBe(context);
                     done();
                     return (
                         <div className="Component">{this.props.children}</div>
