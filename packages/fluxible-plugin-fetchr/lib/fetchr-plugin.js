@@ -151,7 +151,7 @@ module.exports = function fetchrPlugin(options) {
          * @method registerService
          */
         registerService: function registerService(service) {
-            Fetchr.registerFetcher(service);
+            Fetchr.registerService(service);
         },
         /**
          * Get the express middleware. Only works on the server!
