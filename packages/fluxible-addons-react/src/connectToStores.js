@@ -37,18 +37,11 @@ function connectToStores(Component, stores, getStateFromStores, options) {
             super(props, context);
             this._isMounted = false;
             this._onStoreChange = this._onStoreChange.bind(this);
-            this.getStateFromStores = this.getStateFromStores.bind(this);
-            this.state = this.getStateFromStores();
-        }
-
-        getStateFromStores(props) {
-            props = props || this.props;
-            return getStateFromStores(this.context, props);
         }
 
         _onStoreChange() {
             if (this._isMounted) {
-                this.setState(this.getStateFromStores());
+                this.forceUpdate();
             }
         }
 
@@ -68,15 +61,13 @@ function connectToStores(Component, stores, getStateFromStores, options) {
             );
         }
 
-        UNSAFE_componentWillReceiveProps(nextProps) {
-            this.setState(this.getStateFromStores(nextProps));
-        }
-
         render() {
+            const storeState = getStateFromStores(this.context, this.props);
+
             return createElement(Component, {
                 ref: this.props.fluxibleRef,
                 ...this.props,
-                ...this.state,
+                ...storeState,
             });
         }
     }
