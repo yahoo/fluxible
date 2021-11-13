@@ -13,9 +13,9 @@
     "lint": "../../node_modules/.bin/eslint lib/ addons/"
   },
   "dependencies": {
-    "dispatchr": "^1.0.0",
-    "is-promise": "^2.0.0",
-    "setimmediate": "^1.0.2"
+    "dispatchr": "^1.2.1",
+    "is-promise": "^4.0.0",
+    "setimmediate": "^1.0.5"
   },
   "author": "Michael Ridgway <mridgway@yahoo-inc.com>",
   "contributors": [],
