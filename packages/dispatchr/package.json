@@ -20,8 +20,8 @@
     }
   ],
   "dependencies": {
-    "eventemitter3": "^2.0.0",
-    "inherits": "^2.0.1"
+    "eventemitter3": "^4.0.7",
+    "inherits": "^2.0.4"
   },
   "keywords": [
     "yahoo",
