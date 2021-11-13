@@ -17,7 +17,6 @@ function createComponent(Component, stores, getStateFromStores, customContextTyp
 
     function StoreConnector(props, context) {
         React.Component.apply(this, arguments);
-        this.state = this.getStateFromStores();
         this._onStoreChange = null;
         this._isMounted = false;
     }
@@ -41,21 +40,15 @@ function createComponent(Component, stores, getStateFromStores, customContextTyp
                 this.context.getStore(Store).removeListener('change', this._onStoreChange);
             }, this);
         },
-        componentWillReceiveProps: function componentWillReceiveProps(nextProps){
-            this.setState(this.getStateFromStores(nextProps));
-        },
-        getStateFromStores: function (props) {
-            props = props || this.props;
-            return getStateFromStores(this.context, props);
-        },
         _onStoreChange: function onStoreChange() {
             if (this._isMounted) {
-                this.setState(this.getStateFromStores());
+                this.forceUpdate();
             }
         },
         render: function render() {
+            var state = getStateFromStores(this.context, this.props)
             var props = Component.prototype && Component.prototype.isReactComponent ? {ref: 'wrappedElement'} : null;
-            return React.createElement(Component, Object.assign({}, this.props, this.state, props));
+            return React.createElement(Component, Object.assign({}, this.props, state, props));
         }
     });
 
