@@ -62,11 +62,12 @@ function connectToStores(Component, stores, getStateFromStores, options) {
         }
 
         render() {
-            const storeState = getStateFromStores(this.context, this.props);
+            const { fluxibleRef, ...props } = this.props;
+            const storeState = getStateFromStores(this.context, props);
 
             return createElement(Component, {
-                ref: this.props.fluxibleRef,
-                ...this.props,
+                ref: fluxibleRef,
+                ...props,
                 ...storeState,
             });
         }
@@ -75,10 +76,12 @@ function connectToStores(Component, stores, getStateFromStores, options) {
     StoreConnector.contextType = FluxibleComponentContext;
 
     const forwarded = forwardRef((props, ref) =>
-        createElement(StoreConnector, {
-            ...props,
-            fluxibleRef: options?.forwardRef ? ref : null,
-        })
+        createElement(
+            StoreConnector,
+            options?.forwardRef
+                ? Object.assign({ fluxibleRef: ref }, props)
+                : props
+        )
     );
     forwarded.displayName = `storeConnector(${
         Component.displayName || Component.name || 'Component'

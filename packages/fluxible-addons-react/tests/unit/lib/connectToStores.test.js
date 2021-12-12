@@ -48,7 +48,10 @@ const renderComponent = (Component, ref) => {
     return { app, context };
 };
 
-const getComponent = (app) => app.root.findByType(DumbComponent);
+const getComponent = (app, component) => app.root.findByType(component);
+
+const getStoreConnector = (app) =>
+    app.root.find((node) => node.type.name === 'StoreConnector');
 
 describe('fluxible-addons-react', () => {
     describe('connectToStores', () => {
@@ -80,7 +83,7 @@ describe('fluxible-addons-react', () => {
 
         it('should forward props from getStateFromStores to component', () => {
             const { app } = renderComponent(ConnectedComponent);
-            const component = getComponent(app);
+            const component = getComponent(app, DumbComponent);
 
             expect(component.props.foo).toBe('bar');
             expect(component.props.bar).toBe('baz');
@@ -89,7 +92,7 @@ describe('fluxible-addons-react', () => {
 
         it('should listen to store changes', () => {
             const { app } = renderComponent(ConnectedComponent);
-            const component = getComponent(app);
+            const component = getComponent(app, DumbComponent);
 
             component.props.onClick();
 
@@ -155,6 +158,30 @@ describe('fluxible-addons-react', () => {
                 const ref2 = createRef(null);
                 renderComponent(ConnectedForwardComponent, ref2);
                 expect(ref2.current.number).toBe(24);
+            });
+
+            it('does not pass fluxibleRef to StoreConnector if ref is disabled', () => {
+                const ref = createRef(null);
+                const { app } = renderComponent(ConnectedComponent, ref);
+
+                const connector = app.root.find(
+                    (node) => node.type.name === 'StoreConnector'
+                );
+                expect(connector.props.fluxibleRef).toBe(undefined);
+
+                const component = getComponent(app, ConnectedComponent);
+                expect(component.props.fluxibleRef).toBe(undefined);
+            });
+
+            it('does not leak fluxibleRef to inner component', () => {
+                const ref = createRef(null);
+                const { app } = renderComponent(ConnectedClassComponent, ref);
+
+                const connector = getStoreConnector(app);
+                expect(connector.props.fluxibleRef).not.toBe(undefined);
+
+                const component = getComponent(app, ConnectedClassComponent);
+                expect(component.props.fluxibleRef).toBe(undefined);
             });
         });
     });
