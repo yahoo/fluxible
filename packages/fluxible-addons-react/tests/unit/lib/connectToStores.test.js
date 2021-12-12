@@ -8,7 +8,7 @@ const {
 } = require('react');
 const TestRenderer = require('react-test-renderer');
 const createMockComponentContext = require('fluxible/utils/createMockComponentContext');
-const { connectToStores, FluxibleComponent } = require('../../../');
+const { connectToStores, FluxibleProvider } = require('../../../');
 const FooStore = require('../../fixtures/stores/FooStore');
 const BarStore = require('../../fixtures/stores/BarStore');
 
@@ -40,9 +40,9 @@ const renderComponent = (Component, ref) => {
     const context = createMockComponentContext({ stores });
 
     const app = TestRenderer.create(
-        <FluxibleComponent context={context}>
+        <FluxibleProvider context={context}>
             <Component ref={ref} />
-        </FluxibleComponent>
+        </FluxibleProvider>
     );
 
     return { app, context };
