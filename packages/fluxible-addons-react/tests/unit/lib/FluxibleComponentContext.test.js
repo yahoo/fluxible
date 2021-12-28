@@ -1,7 +1,7 @@
 const React = require('react');
 const { useContext } = require('react');
 const { renderToString } = require('react-dom/server');
-const { FluxibleComponent, FluxibleComponentContext } = require('../../../');
+const { FluxibleProvider, FluxibleComponentContext } = require('../../../');
 
 describe('FluxibleComponentContext', () => {
     it('provides access to getStore and executeAction', () => {
@@ -20,9 +20,9 @@ describe('FluxibleComponentContext', () => {
         };
 
         renderToString(
-            <FluxibleComponent context={context}>
+            <FluxibleProvider context={context}>
                 <Component />
-            </FluxibleComponent>
+            </FluxibleProvider>
         );
 
         expect(context.getStore).toHaveBeenCalledTimes(1);
