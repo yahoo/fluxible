@@ -1,6 +1,6 @@
 {
   "name": "fluxible-addons-react",
-  "version": "0.2.16",
+  "version": "0.2.17",
   "description": "Fluxible addons for use with React",
   "main": "index.js",
   "repository": {
@@ -19,8 +19,8 @@
   },
   "peerDependencies": {
     "fluxible": ">=1.0.0",
-    "react": "^0.14.0 || ^15.0.0 || ^16.0.0",
-    "react-dom": "^0.14.0 || ^15.0.0 ||  || ^16.0.0"
+    "react": "^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0",
+    "react-dom": "^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0"
   },
   "author": "Michael Ridgway <mridgway@yahoo-inc.com>",
   "license": "BSD-3-Clause"

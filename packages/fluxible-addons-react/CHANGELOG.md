@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.2.17
+
+* [#566] Support React 17
+
 ## 0.2.14
 
 * [#566] Support React 16
