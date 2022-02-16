@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.8.0
+
+* Support React 17
+
 ## 1.7.0
 
 * [#670] fluxible-router: remove route from dehydrated state, closes (#522)  (@pablopalacios)

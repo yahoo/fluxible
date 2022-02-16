@@ -1,6 +1,6 @@
 {
   "name": "fluxible-router",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "Routing for Fluxible applications",
   "main": "index.js",
   "repository": {
@@ -30,7 +30,7 @@
   },
   "peerDependencies": {
     "fluxible": "^1.0.0",
-    "react": "^0.14.0 || ^15.0.0 || ^16.0.0"
+    "react": "^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0"
   },
   "keywords": [
     "flux",
