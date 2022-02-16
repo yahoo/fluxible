@@ -20,7 +20,7 @@
     "prop-types": "^15.7.2"
   },
   "peerDependencies": {
-    "react": "^0.14.0 || ^15.0.0 || ^16.0.0"
+    "react": "^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0"
   },
   "author": "Rajiv Tirumalareddy <rajivtirum@yahoo-inc.com>",
   "contributors": [],
