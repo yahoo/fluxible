@@ -16,7 +16,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
-    "test": "lerna run lint --since --stream && jest"
+    "test": "lerna run lint --since --stream && jest --forceExit"
   },
   "devDependencies": {
     "@babel/cli": "^7.11.6",
