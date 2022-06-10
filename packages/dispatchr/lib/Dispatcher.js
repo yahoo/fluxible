@@ -188,7 +188,7 @@ Dispatcher.prototype._throwOrCallErrorHandler =
                 context
             );
         } else {
-            throw new Error(message);
+            throw new Error(message, { cause: meta && meta.error });
         }
     };
 
