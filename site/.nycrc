@@ -1,9 +1,7 @@
 {
-  "reporter": "lcov",
-  "sourceMap": false,
-  "instrument": false,
-  "extends": "@istanbuljs/nyc-config-babel",
-  "exclude": [
-    "components/**/*"
-  ]
+    "reporter": "lcov",
+    "sourceMap": false,
+    "instrument": false,
+    "extends": "@istanbuljs/nyc-config-babel",
+    "exclude": ["components/**/*"]
 }
