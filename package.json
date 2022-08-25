@@ -8,15 +8,13 @@
     "url": "https://github.com/yahoo/fluxible"
   },
   "scripts": {
-    "build": "lerna bootstrap --hoist --since --include-filtered-dependencies --no-ci",
-    "clean": "lerna exec -- rm -rf node_modules dist",
-    "cover": "jest --coverage",
-    "dev:lint": "lerna run lint --since master --stream",
-    "dev:test": "lerna run test --since master --stream",
+    "build": "npm run build --workspaces --if-present && npm run dist --workspaces --if-present",
+    "dev:lint": "npm run lint",
+    "dev:test": "npm run test",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint": "eslint .",
-    "test": "lerna run lint --since --stream && jest --forceExit"
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "jest --forceExit"
   },
   "devDependencies": {
     "@babel/cli": "^7.11.6",
@@ -32,7 +30,6 @@
     "fluxible": "^1.0.0",
     "jest": "^29.0.0",
     "jsdom": "^19.0.0",
-    "lerna": "^5.0.0",
     "lodash": "^4.17.5",
     "pre-commit": "^1.0.7",
     "prettier": "2.7.1",
@@ -47,5 +44,8 @@
     "dev:test"
   ],
   "author": "Michael Ridgway <mridgway@yahoo-inc.com>",
-  "license": "BSD-3-Clause"
+  "license": "BSD-3-Clause",
+  "workspaces": [
+    "packages/*"
+  ]
 }
