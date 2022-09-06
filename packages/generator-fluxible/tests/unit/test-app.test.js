@@ -2,30 +2,43 @@
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
  */
-/*globals describe,before,it*/
 
-var path = require('path');
-var assert = require('yeoman-generator').assert;
-var helpers = require('yeoman-generator').test;
-var os = require('os');
+const path = require('path');
+const helpers = require('yeoman-test');
+const assert = require('yeoman-assert');
+const TMP_DIR = process.env.TMP_DIR || __dirname;
+const tempDir = path.join(TMP_DIR, 'temp');
 
 describe('generator-fluxible', function () {
-    describe('app', function () {
-        beforeAll(function (done) {
-            helpers
-                .run(path.join(__dirname, '../../app'))
-                .inDir(path.join(os.tmpdir(), './temp-test'))
-                .withOptions({ 'skip-install': true })
-                .on('end', done);
-        });
+    beforeAll(function (done) {
+        helpers.testDirectory(tempDir, (err) => {
+            if (err) {
+                return done(err);
+            }
 
-        it('creates files', function () {
-            assert.file([
-                'package.json',
-                'babel.config.js',
-                'app.js',
-                'components/Application.js',
-            ]);
+            this.lib = helpers.createGenerator(
+                'fluxible',
+                [[require('../../app'), 'fluxible']],
+                'fluxy',
+                { 'skip-install': true }
+            );
+            done();
         });
+    });
+
+    it('creates files', function () {
+        return helpers
+            .run(path.join(__dirname, '../../app'))
+            .withOptions(test.options)
+            .withArguments(['fluxy'])
+            .withPrompts(Object.assign({}, test.prompts, { name: true }))
+            .then(function () {
+                assert.file([
+                    'package.json',
+                    'babel.config.js',
+                    'app.js',
+                    'components/Application.js',
+                ]);
+            });
     });
 });

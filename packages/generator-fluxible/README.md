@@ -17,6 +17,7 @@ npm install -g generator-fluxible
 Finally, initiate the generator:
 
 ```bash
+cd new-project
 yo fluxible
 ```
 
@@ -28,18 +29,3 @@ the server will be reloaded and the bundle will be rebuilt.
 
 For other environments, make sure your application is built using
 `npm run build` and then run `npm start`.
-
-## Debugging
-
-Fluxible uses [debug](https://www.npmjs.com/package/debug) to expose debugging
-information on the server and client.
-
-### Server
-
-Start the application with the `DEBUG` environment variable: `DEBUG=* grunt`.
-
-### Client
-
-`fluxibleDebug` is exposed to the `window` object to manage debugging. You can
-enable it via the browser console: `fluxibleDebug.enable('*');` then refresh
-the page. To disable, type the following: `fluxibleDebug.disable();`.

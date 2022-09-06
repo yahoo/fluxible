@@ -4,19 +4,19 @@
  */
 
 'use strict';
-var yeoman = require('yeoman-generator');
-var chalk = require('chalk');
-var yosay = require('yosay');
-var str = require('underscore.string');
 
-module.exports = yeoman.generators.Base.extend({
-    initializing: function () {
+const Generator = require('yeoman-generator');
+const chalk = require('chalk');
+const yosay = require('yosay');
+const str = require('underscore.string');
+
+module.exports = class extends Generator {
+    constructor(args, opts) {
+        super(args, opts);
         this.pkg = require('../package.json');
-    },
+    }
 
-    prompting: function () {
-        var done = this.async();
-
+    async prompting() {
         this.log(
             yosay(
                 'Welcome to the riveting ' +
@@ -24,8 +24,7 @@ module.exports = yeoman.generators.Base.extend({
                     ' generator!'
             )
         );
-
-        var prompts = [
+        this.answers = await this.prompt([
             {
                 type: 'input',
                 name: 'name',
@@ -35,48 +34,20 @@ module.exports = yeoman.generators.Base.extend({
                     return !!input;
                 },
             },
-        ];
+        ]);
 
-        this.prompt(
-            prompts,
-            function (props) {
-                this.displayName = props.name;
-                this.name = str.slugify(props.name);
-                this.buildSystem = str.slugify(props.buildSystem);
-                done();
-            }.bind(this)
+        this.displayName = this.answers.name;
+        this.name = str.slugify(this.answers.name);
+        this.buildSystem = str.slugify(this.answers.buildSystem);
+    }
+
+    writing() {
+        this.fs.copyTpl(
+            this.templatePath(),
+            this.destinationRoot(),
+            this,
+            null,
+            { globOptions: { dot: true } }
         );
-    },
-
-    writing: {
-        config: function () {
-            this.template('babel.config.js', 'babel.config.js', this.context);
-            // .gitignore is renamed by npm to .npmignore, so use underscore
-            this.template('_gitignore', '.gitignore', this.context);
-            this.template('package.json', 'package.json', this.context);
-        },
-
-        projectfiles: function () {
-            this.template('app.js', 'app.js', this.context);
-            this.template('client.js', 'client.js', this.context);
-            this.template('server.js', 'server.js', this.context);
-            this.template(
-                'webpack.config.js',
-                'webpack.config.js',
-                this.context
-            );
-            this.directory('actions', 'actions', this.context);
-            this.directory('components', 'components', this.context);
-            this.directory('configs', 'configs', this.context);
-            this.directory('stores', 'stores', this.context);
-        },
-    },
-
-    install: function () {
-        this.installDependencies({
-            npm: true,
-            bower: false,
-            skipInstall: this.options['skip-install'],
-        });
-    },
-});
+    }
+};

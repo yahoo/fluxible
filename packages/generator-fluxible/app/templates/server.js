@@ -11,15 +11,12 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import serialize from 'serialize-javascript';
 import { navigateAction } from 'fluxible-router';
-import debugLib from 'debug';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import app from './app';
 import HtmlComponent from './components/Html';
 import { createElementWithContext } from 'fluxible-addons-react';
 const env = process.env.NODE_ENV;
-
-const debug = debugLib('<%= name %>');
 
 const server = express();
 server.use('/public', express.static(path.join(__dirname, 'public')));
@@ -29,7 +26,6 @@ server.use(bodyParser.json());
 server.use((req, res, next) => {
     const context = app.createContext();
 
-    debug('Executing navigate action');
     context.getActionContext().executeAction(
         navigateAction,
         {
@@ -46,11 +42,9 @@ server.use((req, res, next) => {
                 return;
             }
 
-            debug('Exposing context state');
             const exposed =
                 'window.App=' + serialize(app.dehydrate(context)) + ';';
 
-            debug('Rendering Application component into html');
             const markup = ReactDOMServer.renderToString(
                 createElementWithContext(context)
             );
@@ -62,7 +56,6 @@ server.use((req, res, next) => {
             });
             const html = ReactDOMServer.renderToStaticMarkup(htmlElement);
 
-            debug('Sending markup');
             res.type('html');
             res.write('<!DOCTYPE html>' + html);
             res.end();
