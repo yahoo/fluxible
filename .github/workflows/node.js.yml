@@ -27,7 +27,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     needs: [test]
-    if: "${{ github.repository_owner == 'acss-io' && github.event_name == 'push' }}"
+    if: "${{ github.repository_owner == 'yahoo' && github.event_name == 'push' }}"
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
