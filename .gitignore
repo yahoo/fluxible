@@ -8,3 +8,4 @@ node_modules
 .jshintrc
 *.sh
 examples/*/build
+temp/
