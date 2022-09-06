@@ -10,8 +10,8 @@ should be used to wrap your top level component. It provides access to
 the methods on the [component
 context](../../../../packages/fluxible/docs/api/Components.md#component-context).
 
-You can get access to these methods by using [`useFluxible`]('./useFluxible.md') hook or
-[`withFluxible`]('./withFluxible.md') higher-order component.
+You can get access to these methods by using [`useFluxible`](./useFluxible.md) hook or
+[`withFluxible`](./withFluxible.md) higher-order component.
 
 ## Usage
 

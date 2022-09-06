@@ -29,9 +29,9 @@ export default provideContext(Application);
 Now when you render the Application component, you can pass in the
 component context via the `context` prop and be assured that all
 children will have access to through
-[`useFluxible`]('./useFluxible.md'),
-[`withFluxible`]('./withFluxible.md') or
-[`connectToStores`]('./connectToStores.md').
+[`useFluxible`](./useFluxible.md),
+[`withFluxible`](./withFluxible.md) or
+[`connectToStores`](./connectToStores.md).
 
 ```js
 ReactDOM.renderToString(<Application context={context} />);
