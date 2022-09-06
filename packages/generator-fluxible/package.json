@@ -30,7 +30,7 @@
     "chalk": "^1.0.0",
     "prop-types": "^15.7.2",
     "underscore.string": "^3.0.2",
-    "yeoman-generator": "^0.20.1",
+    "yeoman-generator": "^5.7.0",
     "yo": ">=1.0.0",
     "yosay": "^2.0.2"
   },
