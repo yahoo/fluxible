@@ -20,7 +20,7 @@
     }
   ],
   "dependencies": {
-    "eventemitter3": "^4.0.7",
+    "eventemitter3": "^5.0.0",
     "inherits": "^2.0.4"
   },
   "keywords": [
