@@ -43,7 +43,8 @@ class Home extends React.Component {
                             <a
                                 href="https://www.flickr.com/photos/devinmoore/2670474853"
                                 title="Splash derived from Blue Ring Electricity Fractal by Devin Moore used under CC BY 2.0"
-                                _target="blank"
+                                target="_blank"
+                                rel="noopener noreferrer"
                             >
                                 &copy; Devon Moore
                             </a>
