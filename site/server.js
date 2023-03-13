@@ -24,16 +24,6 @@ import redirects from './configs/redirects';
 const htmlComponent = React.createFactory(HtmlComponent);
 const server = express();
 
-try {
-    server.use(require('mod_status')());
-    server.use(require('mod_akamai')());
-    server.use(
-        require('mod_log')({
-            keep_days: 6,
-        })
-    );
-} catch (ignore) {}
-
 server.use(
     require('limits')({
         enable: true,
@@ -47,6 +37,7 @@ server.use(
 
 server.set('state namespace', 'App');
 server.use(favicon(path.join(__dirname, '/assets/images/favicon.ico')));
+server.use('/status.html', (req, res) => res.sendStatus(200));
 server.use(
     '/public',
     express.static(path.join(__dirname, '/build'), {
