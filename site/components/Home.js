@@ -121,10 +121,9 @@ class Home extends React.Component {
                     </div>
 
                     <div className="Bxz(bb) D(ib) Va(t) W(100%) Pstart(20px)--sm W(50%)--sm Bdt(1)--sm Mt(2em)--sm">
-                        <h2>Updated for React 15</h2>
+                        <h2>Updated with Latest React</h2>
                         <p>
-                            Updated to follow React 15's changes and the
-                            deprecations coming in the next version of React.
+                            Updated to follow the latest React changes and best practices.
                         </p>
                     </div>
 
