@@ -4,12 +4,12 @@ Want to add your application? Click edit above and open a PR!
 
 ## Open Source
 
-- [Contactor](https://github.com/localnerve/flux-react-example) ([live link](http://flux-react-example.herokuapp.com)) is a data-driven Fluxible demo application. Uses [Fetchr](https://github.com/yahoo/fetchr), AMQP, and Github as a simple data service. Another possible useful source of inspiration for solving problems encountered while developing an isomorphic application.
-- [Dockunit.io](https://github.com/tlovett1/dockunit-platform/) ([live link](http://dockunit.io)) is a containerized continuous integration testing service for running [Dockunit](https://github.com/tlovett1/dockunit) test suites hosted on Github. Built on Fluxible and Docker. It is 100% open source.
+- [Contactor](https://github.com/localnerve/flux-react-example) is a data-driven Fluxible demo application. Uses [Fetchr](https://github.com/yahoo/fetchr), AMQP, and Github as a simple data service. Another possible useful source of inspiration for solving problems encountered while developing an isomorphic application.
+- [Dockunit.io](https://github.com/tlovett1/dockunit-platform/) is a containerized continuous integration testing service for running [Dockunit](https://github.com/tlovett1/dockunit) test suites hosted on Github. Built on Fluxible and Docker. It is 100% open source.
 - [Flux Examples](https://github.com/yahoo/fluxible/blob/master/examples) contains various Flux examples built with Fluxible.
 - [Fluxible.io](https://github.com/yahoo/fluxible/blob/master/site) is this website! Showcases data fetching, routing, analytics, search and more. 
-- [isomorphic500](https://github.com/gpbl/isomorphic500) ([live link](https://isomorphic500.herokuapp.com/)) is a Fluxible demo application showing photos from 500px. It uses the official Fluxible plugins, supports multiple language and includes a full-stack development environment. Useful as a source of inspiration to solve some common cases encountered while developing an isomorphic application.   
-- [quad-blog](https://github.com/cesarandreu/quad-blog/) ([live link](https://blog.cesarandreu.com/)) is a blog written with Fluxible. Another possible useful source of inspiration for solving problems encountered while developing an isomorphic application.
+- [isomorphic500](https://github.com/gpbl/isomorphic500) is a Fluxible demo application showing photos from 500px. It uses the official Fluxible plugins, supports multiple language and includes a full-stack development environment. Useful as a source of inspiration to solve some common cases encountered while developing an isomorphic application.   
+- [quad-blog](https://github.com/cesarandreu/quad-blog/) is a blog written with Fluxible. Another possible useful source of inspiration for solving problems encountered while developing an isomorphic application.
 - [SlideWiki Platform](https://github.com/slidewiki/slidewiki-platform) is an OpenCourseWare authoring platform.
 
 ## Closed Source
@@ -26,13 +26,8 @@ Want to add your application? Click edit above and open a PR!
 - [ShaderFrog](http://shaderfrog.com) is a WebGL, Three.js, Fluxible browser-based shader editor that can export GLSL shaders to multiple targets.
 - [SVT Sport](http://www.svt.se/sport/) is a isomorphic site providing sports coverage for Swedish Television.
 - [Vanity Fair](http://www.vanityfair.com/) is a magazine of popular culture, fashion, and current affairs published by Condé Nast.
-- [Yahoo Beauty](https://www.yahoo.com/beauty) is Yahoo's first digital magazine on Fluxible.
-  - International Magazines:
-    - [https://uk.style.yahoo.com/](https://uk.style.yahoo.com/)
-    - [https://fr.people.yahoo.com/](https://fr.people.yahoo.com/)
 - [Yahoo Daily Fantasy](https://sports.yahoo.com/dailyfantasy) is a fantasy sports app where users can compete everyday with one-day or weeklong contests, setting lineups with simplified salary caps and easy access to news and scores from Yahoo’s Fantasy experts. 
 - [Yahoo Finance](https://finance.yahoo.com/) Finance site for Yahoo.
 - [Yahoo News](https://news.yahoo.com/) News site for Yahoo.
-- [Yahoo Search SDK](https://developer.yahoo.com/search-sdk/apps/) is a software developer toolkit to integrate Yahoo Search into native apps. 
 - [Yahoo Sports](https://sports.yahoo.com/) Sports site for Yahoo.
 - [Yahoo Taiwan](https://tw.mobi.yahoo.com/) is the mobile frontpage for Yahoo Taiwan.
