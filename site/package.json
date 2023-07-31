@@ -47,6 +47,8 @@
     "superagent": "^3.8.3"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-proposal-object-rest-spread": "^7.20.7",
     "@istanbuljs/nyc-config-babel": "^3.0.0",
     "babel-eslint": "^10.0.0",
     "babel-loader": "^8.2.2",
