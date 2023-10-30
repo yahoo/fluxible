@@ -32,7 +32,7 @@
     "underscore.string": "^3.0.2",
     "yeoman-generator": "^5.7.0",
     "yo": "^4.0.0",
-    "yosay": "^2.0.2"
+    "yosay": "^3.0.0"
   },
   "peerDependencies": {
     "yo": "^4.0.0"
