@@ -2,7 +2,7 @@ import { createContext } from 'react';
 
 const throwError = () => {
     throw new Error(
-        'Fluxible component context not found. Wrap your component with FluxibleProvider.'
+        'Fluxible component context not found. Wrap your component with FluxibleProvider.',
     );
 };
 

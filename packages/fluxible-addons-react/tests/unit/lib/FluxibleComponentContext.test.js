@@ -12,7 +12,7 @@ describe('FluxibleComponentContext', () => {
 
         const Component = () => {
             const { getStore, executeAction } = useContext(
-                FluxibleComponentContext
+                FluxibleComponentContext,
             );
             getStore('SomeStore');
             executeAction('SomeAction');
@@ -22,7 +22,7 @@ describe('FluxibleComponentContext', () => {
         renderToString(
             <FluxibleProvider context={context}>
                 <Component />
-            </FluxibleProvider>
+            </FluxibleProvider>,
         );
 
         expect(context.getStore).toHaveBeenCalledTimes(1);

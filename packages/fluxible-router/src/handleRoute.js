@@ -24,8 +24,8 @@ function handleRoute(Component) {
                         isActive: routeStore.isActive.bind(routeStore),
                         makePath: routeStore.makePath.bind(routeStore),
                     },
-                    this.props
-                )
+                    this.props,
+                ),
             );
         }
     };
@@ -50,7 +50,7 @@ function handleRoute(Component) {
                 isNavigateComplete: routeStore.isNavigateComplete(),
                 currentRoute: routeStore.getCurrentRoute(),
             };
-        }
+        },
     );
 
     hoistNonReactStatics(RouteHandler, Component);

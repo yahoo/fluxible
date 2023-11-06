@@ -76,7 +76,7 @@ describe('fetchrPlugin', function () {
                                 },
                             ]);
                             done();
-                        }
+                        },
                     );
                 });
             });
@@ -90,10 +90,10 @@ describe('fetchrPlugin', function () {
                         function (err, result) {
                             expect(result).toBe('create');
                             expect(actionContext.getServiceMeta()).toHaveLength(
-                                0
+                                0,
                             );
                             done();
-                        }
+                        },
                     );
                 });
             });
@@ -107,10 +107,10 @@ describe('fetchrPlugin', function () {
                         function (err, result) {
                             expect(result).toBe('update');
                             expect(actionContext.getServiceMeta()).toHaveLength(
-                                0
+                                0,
                             );
                             done();
-                        }
+                        },
                     );
                 });
             });
@@ -123,10 +123,10 @@ describe('fetchrPlugin', function () {
                         function (err, result) {
                             expect(result).toBe('delete');
                             expect(actionContext.getServiceMeta()).toHaveLength(
-                                0
+                                0,
                             );
                             done();
-                        }
+                        },
                     );
                 });
             });
@@ -213,8 +213,8 @@ describe('fetchrPlugin', function () {
                     actionContext.service.constructGetXhrUri(
                         'resourceFoo',
                         { a: 1 },
-                        { cors: true }
-                    )
+                        { cors: true },
+                    ),
                 ).toBe('http://example.com/resourceFoo;a=1?device=tablet');
             });
         });
@@ -235,7 +235,7 @@ describe('fetchrPlugin', function () {
                 expect(
                     actionContext.service.constructGetXhrUri('resourceFoo', {
                         a: 1,
-                    })
+                    }),
                 ).toBe('custom2/api/resourceFoo;a=1?device=tablet');
 
                 expect(
@@ -246,8 +246,8 @@ describe('fetchrPlugin', function () {
                             constructGetUri: function () {
                                 return '/customGetUri';
                             },
-                        }
-                    )
+                        },
+                    ),
                 ).toBe('/customGetUri');
             });
         });

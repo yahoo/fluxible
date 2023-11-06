@@ -96,7 +96,7 @@ describe('HistoryWithHash', function () {
             var history = new HistoryWithHash({
                 win: _.merge(
                     { history: { state: { foo: 'bar' } } },
-                    windowMock.HTML5
+                    windowMock.HTML5,
                 ),
             });
             expect(history.getState()).toEqual({ foo: 'bar' });
@@ -412,7 +412,7 @@ describe('HistoryWithHash', function () {
             expect(testResult.replaceState.state).toEqual({ foo: 'bar' });
             expect(testResult.replaceState.title).toBe('t');
             expect(testResult.replaceState.url).toBe(
-                '/path?foo=bar#/url?a=b&x=y'
+                '/path?foo=bar#/url?a=b&x=y',
             );
         });
         it('useHashRouter=true; has pushState; has hashRouteTransformer', function () {
@@ -440,7 +440,7 @@ describe('HistoryWithHash', function () {
             expect(testResult.replaceState.state).toEqual({ foo: 'bar' });
             expect(testResult.replaceState.title).toBe('t');
             expect(testResult.replaceState.url).toBe(
-                '/path?foo=bar#-url+a=b&x=y'
+                '/path?foo=bar#-url+a=b&x=y',
             );
         });
         it('useHashRoute=true; no pushState', function () {
@@ -458,7 +458,7 @@ describe('HistoryWithHash', function () {
             expect(testResult.locationReplace.url).toBe('/path?foo=bar#/url');
             history.replaceState({ foo: 'bar' }, 't', '/url?a=b&x=y');
             expect(testResult.locationReplace.url).toBe(
-                '/path?foo=bar#/url?a=b&x=y'
+                '/path?foo=bar#/url?a=b&x=y',
             );
             testResult.locationReplace.url = null;
             history.replaceState({ foo: 'bar' });

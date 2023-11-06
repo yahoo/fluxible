@@ -60,5 +60,5 @@ module.exports = connectToStores(
     (context) => ({
         messages: context.getStore(MessageStore).getAllForCurrentThread(),
         thread: context.getStore(ThreadStore).getCurrent(),
-    })
+    }),
 );

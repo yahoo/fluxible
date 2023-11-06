@@ -20,7 +20,7 @@ describe('generator-fluxible', function () {
                 'fluxible',
                 [[require('../../app'), 'fluxible']],
                 'fluxy',
-                { 'skip-install': true }
+                { 'skip-install': true },
             );
             done();
         });

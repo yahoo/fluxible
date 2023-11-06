@@ -20,7 +20,7 @@ class Page extends React.Component {
 }
 
 Page = connectToStores(Page, [PageStore], (context) =>
-    context.getStore(PageStore).getState()
+    context.getStore(PageStore).getState(),
 );
 
 export default Page;

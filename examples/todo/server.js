@@ -57,10 +57,10 @@ server.use(function (req, res, next) {
             HtmlComponent({
                 state: exposed,
                 markup: ReactDOM.renderToString(
-                    createElementWithContext(context)
+                    createElementWithContext(context),
                 ),
                 context: componentContext,
-            })
+            }),
         );
 
         res.send(html);

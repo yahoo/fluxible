@@ -26,7 +26,7 @@ function callAction(actionContext, action, payload, done) {
                         } else {
                             resolve(result);
                         }
-                    }
+                    },
                 );
                 if (isPromise(syncResult)) {
                     syncResult.then(resolve, reject);

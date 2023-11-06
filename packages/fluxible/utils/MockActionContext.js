@@ -28,7 +28,7 @@ MockActionContext.prototype.dispatch = function (name, payload) {
 MockActionContext.prototype.executeAction = function (
     action,
     payload,
-    callback
+    callback,
 ) {
     this.executeActionCalls.push({
         action: action,

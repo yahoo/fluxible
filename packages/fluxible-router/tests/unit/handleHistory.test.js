@@ -135,7 +135,7 @@ describe('handleHistory', function () {
                 ReactTestUtils.renderIntoDocument(
                     <MockAppComponent context={mockContext}>
                         <Child />
-                    </MockAppComponent>
+                    </MockAppComponent>,
                 );
                 expect(rendered).toBe(true);
             });
@@ -145,25 +145,25 @@ describe('handleHistory', function () {
             it('listen to popstate event', function () {
                 var MockAppComponent = mockCreator();
                 ReactTestUtils.renderIntoDocument(
-                    <MockAppComponent context={mockContext} />
+                    <MockAppComponent context={mockContext} />,
                 );
                 window.dispatchEvent(
                     Object.assign(new Event('popstate'), {
                         state: { params: { a: 1 } },
-                    })
+                    }),
                 );
                 expect(mockContext.executeActionCalls.length).toBe(1);
                 expect(mockContext.executeActionCalls[0].action).toBeInstanceOf(
-                    Function
+                    Function,
                 );
                 expect(mockContext.executeActionCalls[0].payload.type).toBe(
-                    'popstate'
+                    'popstate',
                 );
                 expect(mockContext.executeActionCalls[0].payload.url).toBe(
-                    window.location.pathname
+                    window.location.pathname,
                 );
                 expect(
-                    mockContext.executeActionCalls[0].payload.params
+                    mockContext.executeActionCalls[0].payload.params,
                 ).toEqual({ a: 1 });
             });
             it('handle pre-emptive popstate events', function (done) {
@@ -171,34 +171,34 @@ describe('handleHistory', function () {
                 window.dispatchEvent(
                     Object.assign(new Event('popstate'), {
                         state: { params: { a: 1 } },
-                    })
+                    }),
                 );
                 window.dispatchEvent(
                     Object.assign(new Event('popstate'), {
                         state: { params: { a: 2 } },
-                    })
+                    }),
                 );
                 window.dispatchEvent(
                     Object.assign(new Event('popstate'), {
                         state: { params: { a: 3 } },
-                    })
+                    }),
                 );
                 setTimeout(function () {
                     ReactTestUtils.renderIntoDocument(
-                        <MockAppComponent context={mockContext} />
+                        <MockAppComponent context={mockContext} />,
                     );
                     expect(mockContext.executeActionCalls.length).toBe(1);
                     expect(
-                        mockContext.executeActionCalls[0].action
+                        mockContext.executeActionCalls[0].action,
                     ).toBeInstanceOf(Function);
                     expect(mockContext.executeActionCalls[0].payload.type).toBe(
-                        'popstate'
+                        'popstate',
                     );
                     expect(mockContext.executeActionCalls[0].payload.url).toBe(
-                        window.location.pathname
+                        window.location.pathname,
                     );
                     expect(
-                        mockContext.executeActionCalls[0].payload.params
+                        mockContext.executeActionCalls[0].payload.params,
                     ).toEqual({ a: 3 });
                     done();
                 }, 10);
@@ -215,7 +215,7 @@ describe('handleHistory', function () {
                     },
                 });
                 ReactTestUtils.renderIntoDocument(
-                    <MockAppComponent context={mockContext} />
+                    <MockAppComponent context={mockContext} />,
                 );
                 window.scrollY = 0;
                 window.dispatchEvent(new Event('scroll'));
@@ -253,18 +253,18 @@ describe('handleHistory', function () {
                     },
                 });
                 ReactTestUtils.renderIntoDocument(
-                    <MockAppComponent context={mockContext} />
+                    <MockAppComponent context={mockContext} />,
                 );
                 window.setTimeout(function () {
                     expect(mockContext.executeActionCalls.length).toBe(1);
                     expect(
-                        mockContext.executeActionCalls[0].action
+                        mockContext.executeActionCalls[0].action,
                     ).toBeInstanceOf(Function);
                     expect(mockContext.executeActionCalls[0].payload.type).toBe(
-                        'pageload'
+                        'pageload',
                     );
                     expect(mockContext.executeActionCalls[0].payload.url).toBe(
-                        '/the_path_from_history'
+                        '/the_path_from_history',
                     );
                     done();
                 }, 150);
@@ -281,7 +281,7 @@ describe('handleHistory', function () {
                     },
                 });
                 ReactTestUtils.renderIntoDocument(
-                    <MockAppComponent context={mockContext} />
+                    <MockAppComponent context={mockContext} />,
                 );
                 window.setTimeout(function () {
                     expect(testResult.dispatch).toBe(undefined);
@@ -305,23 +305,23 @@ describe('handleHistory', function () {
 
                     // simulate page load popstate
                     window.dispatchEvent(
-                        Object.assign(new Event('popstate'), { state: null })
+                        Object.assign(new Event('popstate'), { state: null }),
                     );
 
                     ReactTestUtils.renderIntoDocument(
-                        <MockAppComponent context={mockContext} />
+                        <MockAppComponent context={mockContext} />,
                     );
 
                     setTimeout(function () {
                         expect(mockContext.executeActionCalls.length).toBe(1);
                         expect(
-                            mockContext.executeActionCalls[0].action
+                            mockContext.executeActionCalls[0].action,
                         ).toBeInstanceOf(Function);
                         expect(
-                            mockContext.executeActionCalls[0].payload.type
+                            mockContext.executeActionCalls[0].payload.type,
                         ).toBe('popstate');
                         expect(
-                            mockContext.executeActionCalls[0].payload.url
+                            mockContext.executeActionCalls[0].payload.url,
                         ).toBe('/browserUrl');
                         done();
                     }, 150);
@@ -342,11 +342,11 @@ describe('handleHistory', function () {
 
                     // simulate page load popstate
                     window.dispatchEvent(
-                        Object.assign(new Event('popstate'), { state: null })
+                        Object.assign(new Event('popstate'), { state: null }),
                     );
 
                     ReactTestUtils.renderIntoDocument(
-                        <MockAppComponent context={mockContext} />
+                        <MockAppComponent context={mockContext} />,
                     );
 
                     setTimeout(function () {
@@ -372,23 +372,23 @@ describe('handleHistory', function () {
 
                     // simulate page load popstate
                     window.dispatchEvent(
-                        Object.assign(new Event('popstate'), { state: null })
+                        Object.assign(new Event('popstate'), { state: null }),
                     );
 
                     ReactTestUtils.renderIntoDocument(
-                        <MockAppComponent context={mockContext} />
+                        <MockAppComponent context={mockContext} />,
                     );
 
                     setTimeout(function () {
                         expect(mockContext.executeActionCalls.length).toBe(1);
                         expect(
-                            mockContext.executeActionCalls[0].action
+                            mockContext.executeActionCalls[0].action,
                         ).toBeInstanceOf(Function);
                         expect(
-                            mockContext.executeActionCalls[0].payload.type
+                            mockContext.executeActionCalls[0].payload.type,
                         ).toBe('popstate');
                         expect(
-                            mockContext.executeActionCalls[0].payload.url
+                            mockContext.executeActionCalls[0].payload.url,
                         ).toBe('/browserUrl');
                         done();
                     }, 150);
@@ -411,11 +411,11 @@ describe('handleHistory', function () {
 
                     // simulate page load popstate
                     window.dispatchEvent(
-                        Object.assign(new Event('popstate'), { state: null })
+                        Object.assign(new Event('popstate'), { state: null }),
                     );
 
                     ReactTestUtils.renderIntoDocument(
-                        <MockAppComponent context={mockContext} />
+                        <MockAppComponent context={mockContext} />,
                     );
 
                     setTimeout(function () {
@@ -428,7 +428,7 @@ describe('handleHistory', function () {
                 var MockAppComponent;
                 beforeEach(function () {
                     global.window.dispatchEvent(
-                        Object.assign(new Event('popstate'), {})
+                        Object.assign(new Event('popstate'), {}),
                     );
                     var routeStore = mockContext.getStore('RouteStore');
                     routeStore._handleNavigateStart({
@@ -450,12 +450,12 @@ describe('handleHistory', function () {
                         },
                     });
                     ReactTestUtils.renderIntoDocument(
-                        <MockAppComponent context={mockContext} />
+                        <MockAppComponent context={mockContext} />,
                     );
                     window.setTimeout(function () {
                         expect(testResult.pushState).toHaveLength(1);
                         expect(testResult.pushState[0].url).toBe(
-                            '/the_path_from_history'
+                            '/the_path_from_history',
                         );
                         expect(mockContext.executeActionCalls.length).toBe(0);
                         done();
@@ -479,11 +479,11 @@ describe('handleHistory', function () {
                         },
                     });
                     ReactTestUtils.renderIntoDocument(
-                        <MockAppComponent context={mockContext} />
+                        <MockAppComponent context={mockContext} />,
                     );
                     window.setTimeout(function () {
                         expect(loggerWarning[0]).toBe(
-                            'Warning: Call of window.onbeforeunload failed'
+                            'Warning: Call of window.onbeforeunload failed',
                         );
                         expect(loggerWarning[1].message).toBe('Test error');
                         expect(testResult.pushState).toBeUndefined();
@@ -504,14 +504,14 @@ describe('handleHistory', function () {
                 });
                 ReactDOM.render(
                     <MockAppComponent context={mockContext} />,
-                    div
+                    div,
                 );
                 ReactDOM.unmountComponentAtNode(div);
                 expect(testResult.historyMockOn).toBeNull();
                 window.dispatchEvent(
                     Object.assign(new Event('popstate'), {
                         state: { params: { a: 1 } },
-                    })
+                    }),
                 );
                 expect(testResult.dispatch).toBeUndefined();
             });
@@ -527,7 +527,7 @@ describe('handleHistory', function () {
                     },
                 });
                 ReactTestUtils.renderIntoDocument(
-                    <MockAppComponent context={mockContext} />
+                    <MockAppComponent context={mockContext} />,
                 );
                 routeStore._handleNavigateStart({ url: '/foo', method: 'GET' });
                 expect(testResult.pushState).toBeUndefined();
@@ -541,7 +541,7 @@ describe('handleHistory', function () {
                     },
                 });
                 ReactTestUtils.renderIntoDocument(
-                    <MockAppComponent context={mockContext} />
+                    <MockAppComponent context={mockContext} />,
                 );
                 routeStore._handleNavigateStart({
                     url: '/bar',
@@ -559,7 +559,7 @@ describe('handleHistory', function () {
                     },
                 });
                 ReactTestUtils.renderIntoDocument(
-                    <MockAppComponent context={mockContext} />
+                    <MockAppComponent context={mockContext} />,
                 );
                 routeStore._handleNavigateStart({ url: '/bar', method: 'GET' });
                 expect(testResult.pushState[0]).toEqual({
@@ -578,7 +578,7 @@ describe('handleHistory', function () {
                     },
                 });
                 ReactTestUtils.renderIntoDocument(
-                    <MockAppComponent context={mockContext} />
+                    <MockAppComponent context={mockContext} />,
                 );
                 routeStore._handleNavigateStart({ url: '/föö', method: 'GET' });
                 expect(testResult.pushState[0]).toEqual({
@@ -598,7 +598,7 @@ describe('handleHistory', function () {
                     },
                 });
                 ReactTestUtils.renderIntoDocument(
-                    <MockAppComponent context={mockContext} />
+                    <MockAppComponent context={mockContext} />,
                 );
                 routeStore._handleNavigateStart({ url: '/bar', method: 'GET' });
                 expect(testResult.pushState[0]).toEqual({
@@ -618,7 +618,7 @@ describe('handleHistory', function () {
                     },
                 });
                 ReactTestUtils.renderIntoDocument(
-                    <MockAppComponent context={mockContext} />
+                    <MockAppComponent context={mockContext} />,
                 );
                 routeStore._handleNavigateStart({
                     url: '/bar',
@@ -641,7 +641,7 @@ describe('handleHistory', function () {
                     },
                 });
                 ReactTestUtils.renderIntoDocument(
-                    <MockAppComponent context={mockContext} />
+                    <MockAppComponent context={mockContext} />,
                 );
                 routeStore._handleNavigateStart({ url: '/bar', method: 'GET' });
                 expect(testResult.pushState[0]).toEqual({
@@ -663,7 +663,7 @@ describe('handleHistory', function () {
                     },
                 });
                 ReactTestUtils.renderIntoDocument(
-                    <MockAppComponent context={mockContext} />
+                    <MockAppComponent context={mockContext} />,
                 );
                 routeStore._handleNavigateStart({ url: '/bar', method: 'GET' });
                 expect(testResult.pushState[0]).toEqual({
@@ -684,7 +684,7 @@ describe('handleHistory', function () {
                     },
                 });
                 ReactTestUtils.renderIntoDocument(
-                    <MockAppComponent context={mockContext} />
+                    <MockAppComponent context={mockContext} />,
                 );
                 routeStore._handleNavigateStart({
                     url: '/foo#hash1',
@@ -706,7 +706,7 @@ describe('handleHistory', function () {
                     },
                 });
                 ReactTestUtils.renderIntoDocument(
-                    <MockAppComponent context={mockContext} />
+                    <MockAppComponent context={mockContext} />,
                 );
                 routeStore._handleNavigateStart({
                     url: '/bar',
@@ -726,7 +726,7 @@ describe('handleHistory', function () {
                     },
                 });
                 ReactTestUtils.renderIntoDocument(
-                    <MockAppComponent context={mockContext} />
+                    <MockAppComponent context={mockContext} />,
                 );
                 routeStore._handleNavigateStart({
                     url: '/bar',
@@ -744,7 +744,7 @@ describe('handleHistory', function () {
                     },
                 });
                 ReactTestUtils.renderIntoDocument(
-                    <MockAppComponent context={mockContext} />
+                    <MockAppComponent context={mockContext} />,
                 );
                 routeStore._handleNavigateStart({
                     url: '/bar',
@@ -773,7 +773,7 @@ describe('handleHistory', function () {
                     },
                 });
                 ReactTestUtils.renderIntoDocument(
-                    <MockAppComponent context={mockContext} />
+                    <MockAppComponent context={mockContext} />,
                 );
                 routeStore._handleNavigateStart({
                     url: '/foo#hash2',
@@ -799,7 +799,7 @@ describe('handleHistory', function () {
                     },
                 });
                 ReactTestUtils.renderIntoDocument(
-                    <MockAppComponent context={mockContext} />
+                    <MockAppComponent context={mockContext} />,
                 );
                 routeStore._handleNavigateStart({
                     url: '/bar',
@@ -826,7 +826,7 @@ describe('handleHistory', function () {
                     },
                 });
                 ReactTestUtils.renderIntoDocument(
-                    <MockAppComponent context={mockContext} />
+                    <MockAppComponent context={mockContext} />,
                 );
                 routeStore._handleNavigateStart({
                     url: '/bar',
@@ -850,7 +850,7 @@ describe('handleHistory', function () {
                     },
                 });
                 ReactTestUtils.renderIntoDocument(
-                    <MockAppComponent context={mockContext} />
+                    <MockAppComponent context={mockContext} />,
                 );
                 routeStore._handleNavigateStart({
                     url: '/bar',
@@ -875,7 +875,7 @@ describe('handleHistory', function () {
                     },
                 });
                 ReactTestUtils.renderIntoDocument(
-                    <MockAppComponent context={mockContext} />
+                    <MockAppComponent context={mockContext} />,
                 );
                 routeStore._handleNavigateStart({
                     url: '/bar',

@@ -30,7 +30,7 @@ if (secrets.github.accessToken) {
     console.log('All good! Found access token.');
 } else {
     console.error(
-        'Not good! Missing access token. Will be rate-limited by github API.'
+        'Not good! Missing access token. Will be rate-limited by github API.',
     );
 }
 
@@ -134,7 +134,7 @@ function fetchAPI(docParams, cb) {
                         (result[1].indexOf('http') !== -1 &&
                             -1 !==
                                 result[1].indexOf(
-                                    `/${routeConfig.githubRepo}/blob/${githubRef}${routeConfig.githubPath}`
+                                    `/${routeConfig.githubRepo}/blob/${githubRef}${routeConfig.githubPath}`,
                                 ))
                     ) {
                         matchedDoc = routeConfig;
@@ -151,7 +151,7 @@ function fetchAPI(docParams, cb) {
                                 githubPath +
                                 ' has a broken ' +
                                 'link to ' +
-                                fixedRelativePath
+                                fixedRelativePath,
                         );
                     }
                     continue;
@@ -187,7 +187,7 @@ function fetchAPI(docParams, cb) {
                 'Doc not found for',
                 githubRepo,
                 githubPath,
-                res.body
+                res.body,
             );
 
             cache[key] = {
@@ -207,7 +207,7 @@ function fetchAPI(docParams, cb) {
             type: 'contents/' + githubPath,
             ref: githubRef,
         },
-        fetchCallback
+        fetchCallback,
     );
 }
 
@@ -264,7 +264,7 @@ function fetchGitBranch(pkg, cb) {
                     resolve(result);
                 });
             });
-        }, {})
+        }, {}),
     )
         .then(() => {
             const fetches = [];

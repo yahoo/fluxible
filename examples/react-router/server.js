@@ -34,7 +34,7 @@ server.use(function (req, res, next) {
             } else if (redirectLocation) {
                 res.redirect(
                     302,
-                    redirectLocation.pathname + redirectLocation.search
+                    redirectLocation.pathname + redirectLocation.search,
                 );
             } else if (renderProps) {
                 var context = app.createContext();
@@ -50,24 +50,24 @@ server.use(function (req, res, next) {
                         var markupElement = React.createElement(
                             FluxibleComponent,
                             { context: context.getComponentContext() },
-                            React.createElement(RouterContext, renderProps)
+                            React.createElement(RouterContext, renderProps),
                         );
                         var html = renderToStaticMarkup(
                             <HtmlComponent
                                 context={context.getComponentContext()}
                                 state={exposed}
                                 markup={renderToString(markupElement)}
-                            />
+                            />,
                         );
 
                         debug('Sending markup');
                         res.status(200).send(html);
-                    }
+                    },
                 );
             } else {
                 next();
             }
-        }
+        },
     );
 });
 

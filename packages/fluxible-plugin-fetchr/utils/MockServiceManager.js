@@ -14,7 +14,7 @@ MockServiceManager.prototype.read = function (name) {
     this.serviceCalls.push(args.concat(name));
     if (!this.services[name]) {
         throw new Error(
-            'Fetcher ' + name + ' has not been registered to mock fetcher'
+            'Fetcher ' + name + ' has not been registered to mock fetcher',
         );
     }
     this.services[name].apply(null, args);

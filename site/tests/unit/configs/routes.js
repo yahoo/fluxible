@@ -32,7 +32,7 @@ describe('site', () => {
                     }
 
                     callback(null, docResponse);
-                }
+                },
             );
             context.service.setService(
                 'api',
@@ -42,7 +42,7 @@ describe('site', () => {
                     }
 
                     callback(null, docResponse);
-                }
+                },
             );
         });
 
@@ -78,7 +78,7 @@ describe('site', () => {
                     let docs = context.getStore(DocStore).getAll();
                     expect(docs).to.be.an('object');
                     done();
-                }
+                },
             );
         });
     });

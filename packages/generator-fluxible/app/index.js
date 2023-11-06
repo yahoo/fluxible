@@ -21,8 +21,8 @@ module.exports = class extends Generator {
             yosay(
                 'Welcome to the riveting ' +
                     chalk.red('Fluxible') +
-                    ' generator!'
-            )
+                    ' generator!',
+            ),
         );
         this.answers = await this.prompt([
             {
@@ -47,7 +47,7 @@ module.exports = class extends Generator {
             this.destinationRoot(),
             this,
             null,
-            { globOptions: { dot: true } }
+            { globOptions: { dot: true } },
         );
     }
 };

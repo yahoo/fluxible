@@ -82,7 +82,7 @@ Fluxible.prototype.createContext = function createContext(options) {
  * @returns {Dispatcher}
  */
 Fluxible.prototype.createDispatcherInstance = function createDispatcherInstance(
-    contextOptions
+    contextOptions,
 ) {
     return this._dispatcher.createContext(contextOptions);
 };
@@ -181,7 +181,7 @@ Fluxible.prototype.rehydrate = function rehydrate(obj, callback) {
             throw new Error(
                 '`rehydrate` called with a non-object. Ensure ' +
                     'that the parameter passed to rehydrate is a state object ' +
-                    'produced by a dehydrate call.'
+                    'produced by a dehydrate call.',
             );
         }
     }
@@ -203,7 +203,7 @@ Fluxible.prototype.rehydrate = function rehydrate(obj, callback) {
                         } else {
                             resolve();
                         }
-                    }
+                    },
                 );
                 if (isPromise(result)) {
                     result.then(resolve, reject);
@@ -217,7 +217,7 @@ Fluxible.prototype.rehydrate = function rehydrate(obj, callback) {
     var rehydratePromise = Promise.all(pluginTasks).then(
         function rehydratePluginTasks() {
             return context.rehydrate(obj.context || {});
-        }
+        },
     );
 
     if (callback) {

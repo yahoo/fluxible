@@ -48,7 +48,7 @@ function connectToStores(Component, stores, getStateFromStores, options) {
         componentDidMount() {
             this._isMounted = true;
             stores.forEach((Store) =>
-                this.context.getStore(Store).on('change', this._onStoreChange)
+                this.context.getStore(Store).on('change', this._onStoreChange),
             );
         }
 
@@ -57,7 +57,7 @@ function connectToStores(Component, stores, getStateFromStores, options) {
             stores.forEach((Store) =>
                 this.context
                     .getStore(Store)
-                    .removeListener('change', this._onStoreChange)
+                    .removeListener('change', this._onStoreChange),
             );
         }
 
@@ -80,8 +80,8 @@ function connectToStores(Component, stores, getStateFromStores, options) {
             StoreConnector,
             options?.forwardRef
                 ? Object.assign({ fluxibleRef: ref }, props)
-                : props
-        )
+                : props,
+        ),
     );
     forwarded.displayName = `storeConnector(${
         Component.displayName || Component.name || 'Component'

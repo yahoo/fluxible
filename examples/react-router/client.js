@@ -25,12 +25,12 @@ function RenderApp(context) {
             React.createElement(ReactRouter.Router, {
                 routes: context.getComponent(),
                 history: ReactRouter.browserHistory,
-            })
+            }),
         ),
         mountNode,
         function () {
             bootstrapDebug('React Rendered');
-        }
+        },
     );
 }
 

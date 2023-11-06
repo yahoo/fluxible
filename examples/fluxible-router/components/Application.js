@@ -32,6 +32,6 @@ export default provideContext(
         connectToStores(Application, [ApplicationStore], (context) => ({
             ...context.getStore(ApplicationStore).getState(),
         })),
-        { enableScroll: false }
-    )
+        { enableScroll: false },
+    ),
 );

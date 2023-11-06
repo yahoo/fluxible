@@ -33,7 +33,7 @@ const getStateFromStores = ({ getStore, executeAction }) => ({
 const ConnectedComponent = connectToStores(
     DumbComponent,
     stores,
-    getStateFromStores
+    getStateFromStores,
 );
 
 const renderComponent = (Component, ref) => {
@@ -42,7 +42,7 @@ const renderComponent = (Component, ref) => {
     const app = TestRenderer.create(
         <FluxibleProvider context={context}>
             <Component ref={ref} />
-        </FluxibleProvider>
+        </FluxibleProvider>,
     );
 
     return { app, context };
@@ -57,12 +57,12 @@ describe('fluxible-addons-react', () => {
     describe('connectToStores', () => {
         it('should hoist and set static properties properly', () => {
             expect(ConnectedComponent.displayName).toBe(
-                'storeConnector(DumbComponent)'
+                'storeConnector(DumbComponent)',
             );
             expect(ConnectedComponent.WrappedComponent).toBe(DumbComponent);
             expect(ConnectedComponent.initAction).toBeInstanceOf(Function);
             expect(ConnectedComponent.initAction).toBe(
-                DumbComponent.initAction
+                DumbComponent.initAction,
             );
         });
 
@@ -115,7 +115,7 @@ describe('fluxible-addons-react', () => {
                 ClassComponent,
                 stores,
                 getStateFromStores,
-                { forwardRef: true }
+                { forwardRef: true },
             );
 
             const ForwardComponent = forwardRef((props, ref) => {
@@ -128,14 +128,14 @@ describe('fluxible-addons-react', () => {
                 ForwardComponent,
                 stores,
                 getStateFromStores,
-                { forwardRef: true }
+                { forwardRef: true },
             );
 
             const WithoutRefComponent = connectToStores(
                 DumbComponent,
                 stores,
                 getStateFromStores,
-                { forwardRef: false }
+                { forwardRef: false },
             );
 
             it('should not forward ref by default', () => {
@@ -165,7 +165,7 @@ describe('fluxible-addons-react', () => {
                 const { app } = renderComponent(ConnectedComponent, ref);
 
                 const connector = app.root.find(
-                    (node) => node.type.name === 'StoreConnector'
+                    (node) => node.type.name === 'StoreConnector',
                 );
                 expect(connector.props.fluxibleRef).toBe(undefined);
 

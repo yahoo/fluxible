@@ -102,9 +102,9 @@ Application = provideContext(
         connectToStores(Application, ['DocStore'], (context) => ({
             currentTitle: context.getStore('DocStore').getCurrentTitle() || '',
             currentDoc: context.getStore('DocStore').getCurrent(),
-        }))
+        })),
     ),
-    ['query', 'devtools']
+    ['query', 'devtools'],
 );
 
 export default Application;

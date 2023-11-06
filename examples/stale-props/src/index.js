@@ -12,5 +12,5 @@ ReactDOM.render(
             <App />
         </FluxibleProvider>
     </React.StrictMode>,
-    document.getElementById('root')
+    document.getElementById('root'),
 );

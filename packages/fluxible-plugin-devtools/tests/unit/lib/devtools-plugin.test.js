@@ -27,15 +27,15 @@ describe('devToolsPlugin', function () {
             var ctx;
             ctx = app.createContext();
             expect(
-                ctx.dehydrate().plugins[pluginInstance.name].enableDebug
+                ctx.dehydrate().plugins[pluginInstance.name].enableDebug,
             ).toEqual(false);
             ctx = app.createContext({ debug: false });
             expect(
-                ctx.dehydrate().plugins[pluginInstance.name].enableDebug
+                ctx.dehydrate().plugins[pluginInstance.name].enableDebug,
             ).toEqual(false);
             ctx = app.createContext({ debug: true });
             expect(
-                ctx.dehydrate().plugins[pluginInstance.name].enableDebug
+                ctx.dehydrate().plugins[pluginInstance.name].enableDebug,
             ).toEqual(true);
         });
     });
@@ -51,13 +51,13 @@ describe('devToolsPlugin', function () {
             let ctx;
             ctx = app.createContext();
             expect(
-                ctx.dehydrate().plugins[pluginInstance.name].enableDebug
+                ctx.dehydrate().plugins[pluginInstance.name].enableDebug,
             ).toEqual(false);
             expect(
-                ctx.dehydrate().plugins[pluginInstance.name].actionHistory
+                ctx.dehydrate().plugins[pluginInstance.name].actionHistory,
             ).toHaveLength(0);
             expect(ctx._createSubActionContext.name).toEqual(
-                'createSubActionContext'
+                'createSubActionContext',
             );
             ctx.rehydrate({
                 plugins: {
@@ -68,17 +68,17 @@ describe('devToolsPlugin', function () {
                 },
             });
             expect(
-                ctx.dehydrate().plugins[pluginInstance.name].enableDebug
+                ctx.dehydrate().plugins[pluginInstance.name].enableDebug,
             ).toEqual(true);
             expect(
-                ctx.dehydrate().plugins[pluginInstance.name].actionHistory
+                ctx.dehydrate().plugins[pluginInstance.name].actionHistory,
             ).toHaveLength(1);
             expect(
                 ctx.dehydrate().plugins[pluginInstance.name].actionHistory[0]
-                    .name
+                    .name,
             ).toEqual('navigateAction');
             expect(ctx._createSubActionContext.name).toEqual(
-                'createDevSubActionContext'
+                'createDevSubActionContext',
             );
         });
     });
@@ -93,7 +93,7 @@ describe('devToolsPlugin', function () {
         it('should plug componentContext with a devtools namespace', function () {
             expect(componentContext.devtools).toBeInstanceOf(Object);
             expect(componentContext.devtools.getActionHistory).toBeInstanceOf(
-                Function
+                Function,
             );
         });
     });
@@ -111,7 +111,7 @@ describe('devToolsPlugin', function () {
             expect(Array.isArray(getActionHistory())).toBe(true);
             expect(getActionHistory()).toHaveLength(1);
             expect(getActionHistory()[0].name).toEqual(
-                MockActionFromComponent.name
+                MockActionFromComponent.name,
             );
             function MockActionFromAction(ctx, payload, cb) {
                 cb();
@@ -120,10 +120,10 @@ describe('devToolsPlugin', function () {
             expect(Array.isArray(getActionHistory())).toBe(true);
             expect(getActionHistory()).toHaveLength(2);
             expect(getActionHistory()[0].name).toEqual(
-                MockActionFromComponent.name
+                MockActionFromComponent.name,
             );
             expect(getActionHistory()[1].name).toEqual(
-                MockActionFromAction.name
+                MockActionFromAction.name,
             );
         });
 
@@ -141,9 +141,9 @@ describe('devToolsPlugin', function () {
                                         payload,
                                         function actionOneSecondCallback() {
                                             cb();
-                                        }
+                                        },
                                     );
-                                }
+                                },
                             );
                         },
                         function (cb) {
@@ -152,14 +152,14 @@ describe('devToolsPlugin', function () {
                                 payload,
                                 function actionOneThirdcallback() {
                                     cb();
-                                }
+                                },
                             );
                         },
                         async.apply(context.executeAction, actionFour, payload),
                     ],
                     function (err) {
                         callback(err);
-                    }
+                    },
                 );
             };
             actionOne.displayName = 'One';
@@ -214,22 +214,22 @@ describe('devToolsPlugin', function () {
                             duration: expect.anything(),
                             failed: expect.anything(),
                             rootId: expect.anything(),
-                        })
+                        }),
                     );
                     expect(expected.name).toEqual(actual.name);
                     if (expected.actionCalls) {
                         expect(actual).toEqual(
                             expect.objectContaining({
                                 actionCalls: expect.any(Array),
-                            })
+                            }),
                         );
                         expect(expected.actionCalls.length).toEqual(
-                            actual.actionCalls.length
+                            actual.actionCalls.length,
                         );
                         expected.actionCalls.forEach((a, index) => {
                             compareHeirarchy(
                                 expected.actionCalls[index],
-                                actual.actionCalls[index]
+                                actual.actionCalls[index],
                             );
                         });
                     }
@@ -256,9 +256,9 @@ describe('devToolsPlugin', function () {
                                         payload,
                                         function actionOneSecondCallback() {
                                             cb();
-                                        }
+                                        },
                                     );
-                                }
+                                },
                             );
                         },
                         function (cb) {
@@ -267,7 +267,7 @@ describe('devToolsPlugin', function () {
                                 payload,
                                 function actionOneThirdcallback() {
                                     cb();
-                                }
+                                },
                             );
                         },
                         async.apply(context.executeAction, actionFour, payload),
@@ -275,7 +275,7 @@ describe('devToolsPlugin', function () {
                     function (err) {
                         context.dispatch('ONE_STOP');
                         callback(err);
-                    }
+                    },
                 );
             };
             actionOne.displayName = 'One';
@@ -344,21 +344,21 @@ describe('devToolsPlugin', function () {
                             duration: expect.anything(),
                             failed: expect.anything(),
                             rootId: expect.anything(),
-                        })
+                        }),
                     );
                     expect(expected.name).toEqual(actual.name);
                     if (expected.dispatchCalls) {
                         expect(actual).toEqual(
                             expect.objectContaining({
                                 dispatchCalls: expect.any(Array),
-                            })
+                            }),
                         );
                         expect(expected.dispatchCalls.length).toEqual(
-                            actual.dispatchCalls.length
+                            actual.dispatchCalls.length,
                         );
                         expected.dispatchCalls.forEach((a, index) => {
                             expect(expected.dispatchCalls[index].name).toEqual(
-                                actual.dispatchCalls[index].name
+                                actual.dispatchCalls[index].name,
                             );
                         });
                     }
@@ -366,15 +366,15 @@ describe('devToolsPlugin', function () {
                         expect(actual).toEqual(
                             expect.objectContaining({
                                 actionCalls: expect.any(Array),
-                            })
+                            }),
                         );
                         expect(expected.actionCalls.length).toEqual(
-                            actual.actionCalls.length
+                            actual.actionCalls.length,
                         );
                         expected.actionCalls.forEach((a, index) => {
                             compareHeirarchy(
                                 expected.actionCalls[index],
-                                actual.actionCalls[index]
+                                actual.actionCalls[index],
                             );
                         });
                     }

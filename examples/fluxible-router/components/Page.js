@@ -9,5 +9,5 @@ import { connectToStores } from 'fluxible-addons-react';
 const Page = ({ content }) => <p>{content}</p>;
 
 export default connectToStores(Page, [PageStore], (context) =>
-    context.getStore(PageStore).getState()
+    context.getStore(PageStore).getState(),
 );

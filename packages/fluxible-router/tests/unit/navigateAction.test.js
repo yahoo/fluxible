@@ -74,15 +74,15 @@ describe('navigateAction', function () {
                 expect(err).toBeUndefined();
                 expect(mockContext.dispatchCalls.length).toBe(2);
                 expect(mockContext.dispatchCalls[0].name).toBe(
-                    'NAVIGATE_START'
+                    'NAVIGATE_START',
                 );
                 expect(mockContext.dispatchCalls[0].payload.url).toBe('/');
                 expect(mockContext.dispatchCalls[1].name).toBe(
-                    'NAVIGATE_SUCCESS'
+                    'NAVIGATE_SUCCESS',
                 );
                 expect(mockContext.dispatchCalls[1].payload.url).toBe('/');
                 done();
-            }
+            },
         );
     });
 
@@ -97,7 +97,7 @@ describe('navigateAction', function () {
                 expect(err).toBeUndefined();
                 expect(mockContext.dispatchCalls.length).toBe(2);
                 expect(mockContext.dispatchCalls[0].name).toBe(
-                    'NAVIGATE_START'
+                    'NAVIGATE_START',
                 );
                 var route = mockContext
                     .getStore('RouteStore')
@@ -108,15 +108,15 @@ describe('navigateAction', function () {
                     bool: '',
                 });
                 expect(mockContext.dispatchCalls[1].name).toBe(
-                    'NAVIGATE_SUCCESS'
+                    'NAVIGATE_SUCCESS',
                 );
                 var navigateSuccessPayload =
                     mockContext.dispatchCalls[1].payload;
                 expect(navigateSuccessPayload.route.url).toBe(
-                    url.split('#')[0]
+                    url.split('#')[0],
                 );
                 done();
-            }
+            },
         );
     });
 
@@ -154,7 +154,7 @@ describe('navigateAction', function () {
             function () {
                 expect(mockContext.executeActionCalls.length).toBe(0);
                 done();
-            }
+            },
         );
     });
 
@@ -168,20 +168,20 @@ describe('navigateAction', function () {
                 expect(err).toBeUndefined();
                 expect(mockContext.dispatchCalls.length).toBe(2);
                 expect(mockContext.dispatchCalls[1].name).toBe(
-                    'NAVIGATE_SUCCESS'
+                    'NAVIGATE_SUCCESS',
                 );
                 expect(mockContext.dispatchCalls[1].payload.url).toBe(
-                    '/action'
+                    '/action',
                 );
                 expect(mockContext.executeActionCalls.length).toBe(1);
                 expect(mockContext.executeActionCalls[0].action).toBe(
-                    routes.action.action
+                    routes.action.action,
                 );
                 expect(mockContext.executeActionCalls[0].payload.url).toBe(
-                    '/action'
+                    '/action',
                 );
                 done();
-            }
+            },
         );
     });
 
@@ -195,20 +195,20 @@ describe('navigateAction', function () {
                 expect(err).toBeUndefined();
                 expect(mockContext.dispatchCalls.length).toBe(2);
                 expect(mockContext.dispatchCalls[1].name).toBe(
-                    'NAVIGATE_SUCCESS'
+                    'NAVIGATE_SUCCESS',
                 );
                 expect(mockContext.dispatchCalls[1].payload.url).toBe(
-                    '/string'
+                    '/string',
                 );
                 expect(mockContext.executeActionCalls.length).toBe(1);
                 expect(mockContext.executeActionCalls[0].action).toBe(
-                    fooAction
+                    fooAction,
                 );
                 expect(mockContext.executeActionCalls[0].payload.url).toBe(
-                    '/string'
+                    '/string',
                 );
                 done();
-            }
+            },
         );
     });
 
@@ -222,19 +222,19 @@ describe('navigateAction', function () {
                 expect(err).toBeInstanceOf(Error);
                 expect(mockContext.dispatchCalls.length).toBe(2);
                 expect(mockContext.dispatchCalls[1].name).toBe(
-                    'NAVIGATE_FAILURE'
+                    'NAVIGATE_FAILURE',
                 );
                 expect(
-                    mockContext.dispatchCalls[1].payload.error
+                    mockContext.dispatchCalls[1].payload.error,
                 ).toBeInstanceOf(Object);
                 expect(mockContext.dispatchCalls[1].payload.error.message).toBe(
-                    err.message
+                    err.message,
                 );
                 expect(
-                    mockContext.getStore(RouteStore).isNavigateComplete()
+                    mockContext.getStore(RouteStore).isNavigateComplete(),
                 ).toBe(true);
                 done();
-            }
+            },
         );
     });
 
@@ -248,7 +248,7 @@ describe('navigateAction', function () {
                 expect(err).toBeInstanceOf(Error);
                 expect(err.statusCode).toBe(404);
                 done();
-            }
+            },
         );
     });
 
@@ -263,7 +263,7 @@ describe('navigateAction', function () {
                 expect(err).toBeInstanceOf(Error);
                 expect(err.statusCode).toBe(404);
                 done();
-            }
+            },
         );
     });
 
@@ -278,15 +278,15 @@ describe('navigateAction', function () {
                 expect(err).toBeUndefined();
                 expect(mockContext.dispatchCalls.length).toBe(2);
                 expect(mockContext.dispatchCalls[0].name).toBe(
-                    'NAVIGATE_START'
+                    'NAVIGATE_START',
                 );
                 expect(mockContext.dispatchCalls[0].payload.url).toBe('/post');
                 expect(mockContext.dispatchCalls[1].name).toBe(
-                    'NAVIGATE_SUCCESS'
+                    'NAVIGATE_SUCCESS',
                 );
                 expect(mockContext.dispatchCalls[1].payload.url).toBe('/post');
                 done();
-            }
+            },
         );
     });
 
@@ -300,23 +300,23 @@ describe('navigateAction', function () {
             function (err) {
                 expect(err.statusCode).toBe(500);
                 expect(err.message).toBe(
-                    'Action for /noMatchedAction can not be resolved'
+                    'Action for /noMatchedAction can not be resolved',
                 );
                 expect(mockContext.dispatchCalls.length).toBe(2);
                 expect(mockContext.dispatchCalls[0].name).toBe(
-                    'NAVIGATE_START'
+                    'NAVIGATE_START',
                 );
                 expect(mockContext.dispatchCalls[0].payload.url).toBe(
-                    '/noMatchedAction'
+                    '/noMatchedAction',
                 );
                 expect(mockContext.dispatchCalls[1].name).toBe(
-                    'NAVIGATE_FAILURE'
+                    'NAVIGATE_FAILURE',
                 );
                 expect(mockContext.dispatchCalls[1].payload.url).toBe(
-                    '/noMatchedAction'
+                    '/noMatchedAction',
                 );
                 done();
-            }
+            },
         );
     });
 
@@ -330,15 +330,15 @@ describe('navigateAction', function () {
                 expect(err).toBeUndefined();
                 expect(mockContext.dispatchCalls.length).toBe(2);
                 expect(mockContext.dispatchCalls[0].name).toBe(
-                    'NAVIGATE_START'
+                    'NAVIGATE_START',
                 );
                 expect(mockContext.dispatchCalls[0].payload.url).toBe('/');
                 expect(mockContext.dispatchCalls[1].name).toBe(
-                    'NAVIGATE_SUCCESS'
+                    'NAVIGATE_SUCCESS',
                 );
                 expect(mockContext.dispatchCalls[1].payload.url).toBe('/');
                 done();
-            }
+            },
         );
     });
 
@@ -353,19 +353,19 @@ describe('navigateAction', function () {
                 expect(err).toBeUndefined();
                 expect(mockContext.dispatchCalls.length).toBe(2);
                 expect(mockContext.dispatchCalls[0].name).toBe(
-                    'NAVIGATE_START'
+                    'NAVIGATE_START',
                 );
                 expect(mockContext.dispatchCalls[0].payload.url).toBe(
-                    '/withParams/5'
+                    '/withParams/5',
                 );
                 expect(mockContext.dispatchCalls[1].name).toBe(
-                    'NAVIGATE_SUCCESS'
+                    'NAVIGATE_SUCCESS',
                 );
                 expect(mockContext.dispatchCalls[1].payload.url).toBe(
-                    '/withParams/5'
+                    '/withParams/5',
                 );
                 done();
-            }
+            },
         );
     });
 
@@ -381,19 +381,19 @@ describe('navigateAction', function () {
                 expect(err).toBeUndefined();
                 expect(mockContext.dispatchCalls.length).toBe(2);
                 expect(mockContext.dispatchCalls[0].name).toBe(
-                    'NAVIGATE_START'
+                    'NAVIGATE_START',
                 );
                 expect(mockContext.dispatchCalls[0].payload.url).toBe(
-                    '/withParams/5?foo=bar'
+                    '/withParams/5?foo=bar',
                 );
                 expect(mockContext.dispatchCalls[1].name).toBe(
-                    'NAVIGATE_SUCCESS'
+                    'NAVIGATE_SUCCESS',
                 );
                 expect(mockContext.dispatchCalls[1].payload.url).toBe(
-                    '/withParams/5?foo=bar'
+                    '/withParams/5?foo=bar',
                 );
                 done();
-            }
+            },
         );
     });
 
@@ -414,10 +414,10 @@ describe('navigateAction', function () {
             function (err) {
                 expect(err).toBeInstanceOf(Error);
                 expect(err.message).toBe(
-                    'RouteStore has not implemented `getCurrentRoute` method.'
+                    'RouteStore has not implemented `getCurrentRoute` method.',
                 );
                 done();
-            }
+            },
         );
     });
 });

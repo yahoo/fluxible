@@ -16,7 +16,7 @@ function createElementWithContext(fluxibleContext, props) {
     const Component = fluxibleContext.getComponent();
     if (!Component) {
         throw new Error(
-            'A top-level component was not passed to the Fluxible constructor.'
+            'A top-level component was not passed to the Fluxible constructor.',
         );
     }
 

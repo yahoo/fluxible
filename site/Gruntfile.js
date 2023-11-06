@@ -182,19 +182,19 @@ module.exports = function (grunt) {
                                 assets: {},
                             };
 
-                            Object.keys(assets).forEach(function eachAsset(
-                                key
-                            ) {
-                                var value = assets[key];
+                            Object.keys(assets).forEach(
+                                function eachAsset(key) {
+                                    var value = assets[key];
 
-                                // if `*.[chunkhash].min.js` regex matched, then use file name for key
-                                var matches = key.match(CHUNK_REGEX);
-                                if (matches) {
-                                    key = matches[1];
-                                }
+                                    // if `*.[chunkhash].min.js` regex matched, then use file name for key
+                                    var matches = key.match(CHUNK_REGEX);
+                                    if (matches) {
+                                        key = matches[1];
+                                    }
 
-                                output.assets[key] = value;
-                            });
+                                    output.assets[key] = value;
+                                },
+                            );
                             return JSON.stringify(output, null, 4);
                         },
                     }),

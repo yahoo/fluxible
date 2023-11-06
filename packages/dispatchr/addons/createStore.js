@@ -29,7 +29,7 @@ function mixInto(dest, src) {
         } else {
             if (dest.hasOwnProperty(prop)) {
                 throw new Error(
-                    'Mixin property collision for property "' + prop + '"'
+                    'Mixin property collision for property "' + prop + '"',
                 );
             }
             dest[prop] = src[prop];

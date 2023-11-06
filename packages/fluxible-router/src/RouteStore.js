@@ -171,7 +171,7 @@ const RouteStore = createStore({
                 method:
                     (state.currentNavigate && state.currentNavigate.method) ||
                     'GET',
-            }
+            },
         );
     },
 });
@@ -189,7 +189,7 @@ RouteStore.withStaticRoutes = function (staticRoutes) {
             return Object.assign(
                 {},
                 StaticRouteStore.routes,
-                this._routes || {}
+                this._routes || {},
             );
         }
     }

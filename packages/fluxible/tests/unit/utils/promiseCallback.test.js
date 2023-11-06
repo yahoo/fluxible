@@ -108,7 +108,7 @@ describe('#promiseCallback', function () {
                 },
                 {
                     optimize: true,
-                }
+                },
             );
         });
         it('should call callback when promise rejects', function (done) {
@@ -125,7 +125,7 @@ describe('#promiseCallback', function () {
                 },
                 {
                     optimize: true,
-                }
+                },
             );
         });
         it.skip('should not throw error from success callback in same cycle', function (done) {
@@ -141,7 +141,7 @@ describe('#promiseCallback', function () {
                     },
                     {
                         optimize: true,
-                    }
+                    },
                 );
             } catch (e) {
                 caughtError = e;
@@ -168,7 +168,7 @@ describe('#promiseCallback', function () {
                     },
                     {
                         optimize: true,
-                    }
+                    },
                 );
             } catch (e) {
                 caughtError = e;

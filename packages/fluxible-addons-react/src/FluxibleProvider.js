@@ -6,7 +6,7 @@ const FluxibleProvider = ({ children, context }) =>
     createElement(
         FluxibleComponentContext.Provider,
         { value: context },
-        children
+        children,
     );
 
 FluxibleProvider.propTypes = {

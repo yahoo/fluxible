@@ -46,7 +46,7 @@ server.use((req, res, next) => {
                 'window.App=' + serialize(app.dehydrate(context)) + ';';
 
             const markup = ReactDOMServer.renderToString(
-                createElementWithContext(context)
+                createElementWithContext(context),
             );
             const htmlElement = React.createElement(HtmlComponent, {
                 clientFile: env === 'production' ? 'main.min.js' : 'main.js',
@@ -59,7 +59,7 @@ server.use((req, res, next) => {
             res.type('html');
             res.write('<!DOCTYPE html>' + html);
             res.end();
-        }
+        },
     );
 });
 

@@ -179,7 +179,7 @@ class ActionTree extends React.Component {
                     (d) =>
                         'Click to collapse ' +
                         d.name +
-                        '. Hover to see path to parent.'
+                        '. Hover to see path to parent.',
                 );
             nodeEnter
                 .append('text')
@@ -213,7 +213,7 @@ class ActionTree extends React.Component {
                 .text(
                     (d) =>
                         'Open your javascript console and click here to inspect the payload of ' +
-                        d.name
+                        d.name,
                 );
 
             // Transition nodes to their new position.
@@ -246,12 +246,12 @@ class ActionTree extends React.Component {
                 .insert('path', 'g')
                 .attr('class', 'link')
                 .attr('d', (d) =>
-                    diagonal({ source: d.source, target: d.source })
+                    diagonal({ source: d.source, target: d.source }),
                 )
                 .transition()
                 .duration(duration)
                 .attr('d', (d) =>
-                    diagonal({ source: d.source, target: d.target })
+                    diagonal({ source: d.source, target: d.target }),
                 );
 
             // Transition links to their new position.
@@ -262,7 +262,7 @@ class ActionTree extends React.Component {
                 .transition()
                 .duration(duration)
                 .attr('d', (d) =>
-                    diagonal({ source: d.source, target: d.source })
+                    diagonal({ source: d.source, target: d.source }),
                 )
                 .remove();
         }
@@ -325,13 +325,13 @@ class ActionTree extends React.Component {
             if (d.dispatchCalls) {
                 console.log(
                     '-> Dispatch Calls: %o',
-                    d.dispatchCalls.map((c) => c.name)
+                    d.dispatchCalls.map((c) => c.name),
                 );
             }
             if (d.actionCalls) {
                 console.log(
                     '-> Action Calls: %o',
-                    d.actionCalls.map((c) => c.name)
+                    d.actionCalls.map((c) => c.name),
                 );
             }
             console.log('===');

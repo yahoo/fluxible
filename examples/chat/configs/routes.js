@@ -23,9 +23,9 @@ module.exports = {
                         { threadID: threadID },
                         function () {
                             done();
-                        }
+                        },
                     );
-                }
+                },
             );
         },
     },

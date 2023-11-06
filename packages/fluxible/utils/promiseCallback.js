@@ -37,7 +37,7 @@ function promiseCallback(promise, callbackFn, options) {
             function (err) {
                 // Ensures that errors in callback are not swallowed by promise
                 setImmediate(callbackFn, err);
-            }
+            },
         );
     }
 }

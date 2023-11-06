@@ -40,7 +40,7 @@ app.rehydrate(dehydratedState, function (err, context) {
                 },
                 function (err) {
                     throw err;
-                }
+                },
             );
         }, 1000);
     }

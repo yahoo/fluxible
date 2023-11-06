@@ -14,7 +14,7 @@ var app = new Fluxible({
 app.plug(
     fetchrPlugin({
         xhrPath: '/api',
-    })
+    }),
 );
 
 app.registerStore(require('./stores/RouteStore'));

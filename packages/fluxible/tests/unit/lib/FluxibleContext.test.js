@@ -126,9 +126,9 @@ describe('FluxibleContext', function () {
                                             payload,
                                             function actionOneSecondCallback() {
                                                 cb();
-                                            }
+                                            },
                                         );
-                                    }
+                                    },
                                 );
                             },
                             function (cb) {
@@ -137,18 +137,18 @@ describe('FluxibleContext', function () {
                                     payload,
                                     function actionOneThirdcallback() {
                                         cb();
-                                    }
+                                    },
                                 );
                             },
                             async.apply(
                                 context.executeAction,
                                 actionFour,
-                                payload
+                                payload,
                             ),
                         ],
                         function (err) {
                             callback(err);
-                        }
+                        },
                     );
                 };
                 actionOne.displayName = 'One';
@@ -196,35 +196,35 @@ describe('FluxibleContext', function () {
                     expectToHaveActionContextProperties(actionCalls[1]);
                     expect(actionCalls[1].context.rootId).toBe(firstId);
                     expect(actionCalls[1].context.stack.join('.')).toBe(
-                        'One.Two'
+                        'One.Two',
                     );
                     expect(actionCalls[1].payload).toBe(payload);
 
                     expectToHaveActionContextProperties(actionCalls[2]);
                     expect(actionCalls[2].context.rootId).toBe(firstId);
                     expect(actionCalls[2].context.stack.join('.')).toBe(
-                        'One.Two'
+                        'One.Two',
                     );
                     expect(actionCalls[2].payload).toBe(payload);
 
                     expectToHaveActionContextProperties(actionCalls[3]);
                     expect(actionCalls[3].context.rootId).toBe(firstId);
                     expect(actionCalls[3].context.stack.join('.')).toBe(
-                        'One.Three'
+                        'One.Three',
                     );
                     expect(actionCalls[3].payload).toBe(payload);
 
                     expectToHaveActionContextProperties(actionCalls[4]);
                     expect(actionCalls[4].context.rootId).toBe(firstId);
                     expect(actionCalls[4].context.stack.join('.')).toBe(
-                        'One.Four'
+                        'One.Four',
                     );
                     expect(actionCalls[4].payload).toBe(payload);
 
                     expectToHaveActionContextProperties(actionCalls[5]);
                     expect(actionCalls[5].context.rootId).toBe(firstId);
                     expect(actionCalls[5].context.stack.join('.')).toBe(
-                        'One.Four.Five'
+                        'One.Four.Five',
                     );
                     expect(actionCalls[5].payload).toBe(payload);
                     done();
@@ -244,7 +244,7 @@ describe('FluxibleContext', function () {
                     function (executeActionError) {
                         expect(executeActionError).toBe(err);
                         done();
-                    }
+                    },
                 );
             });
 
@@ -295,7 +295,7 @@ describe('FluxibleContext', function () {
                         expect(err).toBeNull();
                         expect(result).toBe(payload);
                         done();
-                    }
+                    },
                 );
             });
 
@@ -462,7 +462,7 @@ describe('FluxibleContext', function () {
                     warningCalls = [];
                     console.warn = function () {
                         warningCalls.push(
-                            Array.prototype.slice.call(arguments)
+                            Array.prototype.slice.call(arguments),
                         );
                     };
 
@@ -512,7 +512,7 @@ describe('FluxibleContext', function () {
                                         'Warning: executeAction for `action2` was ' +
                                             'called, but `TEST` is currently being dispatched. This could mean there are ' +
                                             'cascading updates, which should be avoided. `action2` will only start after ' +
-                                            '`TEST` is complete.'
+                                            '`TEST` is complete.',
                                     );
                                     expect(action1ExecuteCount).toBe(1);
                                     expect(action2ExecuteCount).toBe(1);
@@ -520,7 +520,7 @@ describe('FluxibleContext', function () {
                                 } catch (e) {
                                     done(e);
                                 }
-                            }
+                            },
                         );
                     });
 
@@ -583,9 +583,9 @@ describe('FluxibleContext', function () {
                                             payload,
                                             function actionOneSecondCallback() {
                                                 cb();
-                                            }
+                                            },
                                         );
-                                    }
+                                    },
                                 );
                             },
                             function (cb) {
@@ -594,7 +594,7 @@ describe('FluxibleContext', function () {
                                     payload,
                                     function actionOneThirdcallback() {
                                         cb();
-                                    }
+                                    },
                                 );
                             },
                         ],
@@ -607,39 +607,39 @@ describe('FluxibleContext', function () {
                             expectToHaveActionContextProperties(actionCalls[0]);
                             var firstId = actionCalls[0].context.rootId;
                             expect(actionCalls[0].context.stack.join('.')).toBe(
-                                'One'
+                                'One',
                             );
                             expect(actionCalls[0].payload).toBe(payload);
 
                             expectToHaveActionContextProperties(actionCalls[1]);
                             expect(actionCalls[1].context.rootId).toBe(firstId);
                             expect(actionCalls[1].context.stack.join('.')).toBe(
-                                'One.Two'
+                                'One.Two',
                             );
                             expect(actionCalls[1].payload).toBe(payload);
 
                             expectToHaveActionContextProperties(actionCalls[2]);
                             expect(actionCalls[2].context.rootId).toBe(firstId);
                             expect(actionCalls[2].context.stack.join('.')).toBe(
-                                'One.Two'
+                                'One.Two',
                             );
                             expect(actionCalls[2].payload).toBe(payload);
 
                             expectToHaveActionContextProperties(actionCalls[3]);
                             expect(actionCalls[3].context.rootId).toBe(firstId);
                             expect(actionCalls[3].context.stack.join('.')).toBe(
-                                'One.Three'
+                                'One.Three',
                             );
                             expect(actionCalls[3].payload).toBe(payload);
 
                             expectToHaveActionContextProperties(actionCalls[4]);
                             expect(actionCalls[4].context.rootId).toBe(firstId);
                             expect(actionCalls[4].context.stack.join('.')).toBe(
-                                'One.Three.Four'
+                                'One.Three.Four',
                             );
                             expect(actionCalls[4].payload).toBe(payload);
                             done();
-                        }
+                        },
                     );
                 };
                 actionOne.displayName = 'One';
@@ -708,7 +708,7 @@ describe('FluxibleContext', function () {
                 d.run(function () {
                     var componentActionErrorHandler = function (
                         context,
-                        payload
+                        payload,
                     ) {
                         throw payload.err;
                     };
@@ -808,7 +808,7 @@ describe('FluxibleContext', function () {
                         action: function modifiedAction(
                             context,
                             payload,
-                            callback
+                            callback,
                         ) {
                             modifiedActionCalled = true;
                             args.action(context, payload, callback);
@@ -860,7 +860,7 @@ describe('FluxibleContext', function () {
             expect(state.plugins).toBeInstanceOf(Object);
             expect(state.plugins.DimensionsPlugin).toBeInstanceOf(Object);
             expect(state.plugins.DimensionsPlugin.dimensions).toEqual(
-                dimensions
+                dimensions,
             );
             var newContext = app.createContext();
             newContext.plug(dimensionsPlugin());
@@ -868,13 +868,13 @@ describe('FluxibleContext', function () {
                 .rehydrate(state)
                 .then(function () {
                     expect(
-                        newContext.getActionContext().getDimensions()
+                        newContext.getActionContext().getDimensions(),
                     ).toEqual(dimensions);
                     expect(
-                        newContext.getComponentContext().getDimensions()
+                        newContext.getComponentContext().getDimensions(),
                     ).toEqual(dimensions);
                     expect(
-                        newContext.getStoreContext().getDimensions()
+                        newContext.getStoreContext().getDimensions(),
                     ).toEqual(dimensions);
                     done();
                 }, done);
@@ -888,7 +888,7 @@ describe('FluxibleContext', function () {
             expect(state.plugins).toBeInstanceOf(Object);
             expect(state.plugins.DimensionsPlugin).toBeInstanceOf(Object);
             expect(state.plugins.DimensionsPlugin.dimensions).toEqual(
-                dimensions
+                dimensions,
             );
             var newContext = app.createContext();
             newContext.plug(dimensionsPluginSync());
@@ -896,13 +896,13 @@ describe('FluxibleContext', function () {
                 .rehydrate(state)
                 .then(function () {
                     expect(
-                        newContext.getActionContext().getDimensions()
+                        newContext.getActionContext().getDimensions(),
                     ).toEqual(dimensions);
                     expect(
-                        newContext.getComponentContext().getDimensions()
+                        newContext.getComponentContext().getDimensions(),
                     ).toEqual(dimensions);
                     expect(
-                        newContext.getStoreContext().getDimensions()
+                        newContext.getStoreContext().getDimensions(),
                     ).toEqual(dimensions);
                     done();
                 }, done);
@@ -916,7 +916,7 @@ describe('FluxibleContext', function () {
             expect(state.plugins).toBeInstanceOf(Object);
             expect(state.plugins.DimensionsPlugin).toBeInstanceOf(Object);
             expect(state.plugins.DimensionsPlugin.dimensions).toEqual(
-                dimensions
+                dimensions,
             );
             var newContext = app.createContext();
             newContext.plug(dimensionsPluginPromise());
@@ -924,13 +924,13 @@ describe('FluxibleContext', function () {
                 .rehydrate(state)
                 .then(function () {
                     expect(
-                        newContext.getActionContext().getDimensions()
+                        newContext.getActionContext().getDimensions(),
                     ).toEqual(dimensions);
                     expect(
-                        newContext.getComponentContext().getDimensions()
+                        newContext.getComponentContext().getDimensions(),
                     ).toEqual(dimensions);
                     expect(
-                        newContext.getStoreContext().getDimensions()
+                        newContext.getStoreContext().getDimensions(),
                     ).toEqual(dimensions);
                     done();
                 }, done);

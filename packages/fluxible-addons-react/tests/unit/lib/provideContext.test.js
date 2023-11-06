@@ -29,7 +29,7 @@ describe('fluxible-addons-react', () => {
 
             const WrappedComponent = provideContext(Component);
             expect(WrappedComponent.displayName).toBe(
-                'contextProvider(Component)'
+                'contextProvider(Component)',
             );
         });
 
@@ -43,7 +43,7 @@ describe('fluxible-addons-react', () => {
 
             const WrappedComponent = provideContext(Component);
             expect(WrappedComponent.displayName).toBe(
-                'contextProvider(TestComponent)'
+                'contextProvider(TestComponent)',
             );
         });
 
@@ -79,7 +79,7 @@ describe('fluxible-addons-react', () => {
 
             expect(WrappedComponent.initAction).toBeInstanceOf(Function);
             expect(WrappedComponent.displayName).not.toBe(
-                Component.displayName
+                Component.displayName,
             );
         });
     });
