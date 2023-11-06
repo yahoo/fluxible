@@ -259,7 +259,7 @@ class NavLink extends React.Component {
             } catch (error) {
                 console.warn(
                     'Warning: Call of window.onbeforeunload failed',
-                    error
+                    error,
                 );
             }
         }
@@ -296,12 +296,12 @@ class NavLink extends React.Component {
                     "NavLink created with empty or missing href '" +
                         props.href +
                         "'or unresolvable routeName '" +
-                        props.routeName
+                        props.routeName,
                 );
             } else {
                 console.error(
                     'Error: Render NavLink with empty or missing href',
-                    props
+                    props,
                 );
             }
         }
@@ -325,7 +325,7 @@ class NavLink extends React.Component {
                 'routeName',
                 'stopPropagation',
                 'validate',
-            ].concat(this.getFilteredProps())
+            ].concat(this.getFilteredProps()),
         );
 
         var isActive = false;

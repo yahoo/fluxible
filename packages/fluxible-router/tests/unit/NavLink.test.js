@@ -143,7 +143,7 @@ describe('NavLink', () => {
             });
             expect(link.getAttribute('class')).toBe('foo');
             expect(link.getAttribute('style')).toEqual(
-                'background-color: rgb(0, 0, 0);'
+                'background-color: rgb(0, 0, 0);',
             );
         });
 
@@ -171,7 +171,7 @@ describe('NavLink', () => {
             });
             expect(link.getAttribute('class')).toBe('bar');
             expect(link.getAttribute('style').replace(/ /g, '')).toBe(
-                'color:red;'
+                'color:red;',
             );
         });
 
@@ -186,7 +186,7 @@ describe('NavLink', () => {
 
             expect(link.getAttribute('class')).toBe('bar active2');
             expect(link.getAttribute('style').replace(/ /g, '')).toBe(
-                'background:blue;color:red;'
+                'background:blue;color:red;',
             );
         });
 
@@ -209,7 +209,7 @@ describe('NavLink', () => {
             };
             const component = React.createElement(
                 createNavLinkComponent({ getDefaultChildProps: () => props }),
-                { routeName: 'foo' }
+                { routeName: 'foo' },
             );
 
             renderComponent(component, context);
@@ -235,7 +235,7 @@ describe('NavLink', () => {
             expect(context.executeActionCalls[0].payload.type).toBe('click');
             expect(context.executeActionCalls[0].payload.url).toBe('/foo');
             expect(
-                context.executeActionCalls[0].payload.preserveScrollPosition
+                context.executeActionCalls[0].payload.preserveScrollPosition,
             ).toBe(true);
             expect(context.executeActionCalls[0].payload.params).toEqual({
                 a: 1,
@@ -255,7 +255,7 @@ describe('NavLink', () => {
                 createNavLinkComponent({
                     getNavParams: () => ({ a: 2, b: false }),
                 }),
-                props
+                props,
             );
             const context = createContext();
 
@@ -268,7 +268,7 @@ describe('NavLink', () => {
             expect(context.executeActionCalls[0].payload.type).toBe('click');
             expect(context.executeActionCalls[0].payload.url).toBe('/foo');
             expect(
-                context.executeActionCalls[0].payload.preserveScrollPosition
+                context.executeActionCalls[0].payload.preserveScrollPosition,
             ).toBe(true);
             expect(context.executeActionCalls[0].payload.params).toEqual({
                 a: 2,
@@ -504,7 +504,7 @@ describe('NavLink', () => {
                 simulateClick(link);
 
                 expect(loggerWarning[0]).toBe(
-                    'Warning: Call of window.onbeforeunload failed'
+                    'Warning: Call of window.onbeforeunload failed',
                 );
                 expect(loggerWarning[1].message).toBe('Test error');
                 expect(context.executeActionCalls.length).toBe(1);
@@ -514,7 +514,7 @@ describe('NavLink', () => {
         it('should throw if context not available', () => {
             expect(() => {
                 ReactTestUtils.renderIntoDocument(
-                    <NavLink href="/foo" followLink={false} />
+                    <NavLink href="/foo" followLink={false} />,
                 );
             }).toThrowError();
         });
@@ -528,10 +528,10 @@ describe('NavLink', () => {
 
                 expect(context.executeActionCalls.length).toBe(1);
                 expect(context.executeActionCalls[0].action).toBe(
-                    navigateAction
+                    navigateAction,
                 );
                 expect(context.executeActionCalls[0].payload.type).toBe(
-                    'click'
+                    'click',
                 );
             });
 
@@ -545,10 +545,10 @@ describe('NavLink', () => {
                 simulateClick(link);
 
                 expect(context.executeActionCalls[0].action).toBe(
-                    navigateAction
+                    navigateAction,
                 );
                 expect(context.executeActionCalls[0].payload.type).toBe(
-                    'replacestate'
+                    'replacestate',
                 );
             });
 
@@ -659,7 +659,7 @@ describe('NavLink NODE_ENV === production', () => {
         expect(link.textContent).toBe('bar');
         expect(spy).toHaveBeenCalledWith(
             'Error: Render NavLink with empty or missing href',
-            expect.anything()
+            expect.anything(),
         );
     });
 
@@ -669,7 +669,7 @@ describe('NavLink NODE_ENV === production', () => {
         expect(link.textContent).toBe('bar');
         expect(spy).toHaveBeenCalledWith(
             'Error: Render NavLink with empty or missing href',
-            expect.anything()
+            expect.anything(),
         );
     });
 });

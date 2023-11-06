@@ -18,7 +18,7 @@ describe('fluxible-addons-react', () => {
             const testRenderer = TestRenderer.create(
                 <FluxibleProvider context={context}>
                     <FooComponent />
-                </FluxibleProvider>
+                </FluxibleProvider>,
             );
 
             const component = testRenderer.root.findByType('p');

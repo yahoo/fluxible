@@ -20,7 +20,7 @@ module.exports = function TestApplicationPlugin(initialFoo, initialBar) {
                     };
                 },
                 plugComponentContext: function plugComponentContext(
-                    componentContext
+                    componentContext,
                 ) {
                     componentContext.getFoo = function () {
                         return foo;

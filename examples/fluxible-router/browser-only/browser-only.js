@@ -35,6 +35,6 @@ app.rehydrate(dehydratedState, (err, context) => {
             window.context = context;
             bootstrapDebug('React Rendering');
             render(createElementWithContext(context, {}), mountNode);
-        }
+        },
     );
 });

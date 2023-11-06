@@ -22,7 +22,7 @@ function provideContext(Component) {
         createElement(
             FluxibleProvider,
             { context: props.context },
-            createElement(Component, props)
+            createElement(Component, props),
         );
 
     ContextProvider.propTypes = {

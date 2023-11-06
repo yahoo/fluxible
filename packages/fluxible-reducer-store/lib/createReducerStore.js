@@ -44,7 +44,7 @@ module.exports = function createReducerStore(spec) {
             if (!ReducerStore.handlers[eventName]) {
                 ReducerStore.handlers[eventName] = function (
                     payload,
-                    dispatchedEventName
+                    dispatchedEventName,
                 ) {
                     if (__DEV__) {
                         if (!spec.reducers[eventName]) {
@@ -54,7 +54,7 @@ module.exports = function createReducerStore(spec) {
                                 eventName +
                                     ' reducer on ' +
                                     spec.storeName +
-                                    ' has been removed.'
+                                    ' has been removed.',
                             );
                             return;
                         }
@@ -63,7 +63,7 @@ module.exports = function createReducerStore(spec) {
                     this.state = spec.reducers[eventName](
                         this.state,
                         payload,
-                        dispatchedEventName
+                        dispatchedEventName,
                     );
                     if (this.state !== startingState) {
                         this.emitChange();
@@ -89,13 +89,13 @@ module.exports = function createReducerStore(spec) {
                                 methodName +
                                     ' on ' +
                                     storeName +
-                                    ' has been removed but was still called.'
+                                    ' has been removed but was still called.',
                             );
                         }
                     }
                     var state = this.state;
                     var args = [state].concat(
-                        Array.prototype.slice.call(arguments)
+                        Array.prototype.slice.call(arguments),
                     );
                     return spec.getters[methodName].apply(null, args);
                 };

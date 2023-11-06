@@ -28,7 +28,7 @@ describe('site', () => {
                     }
 
                     callback(null, docResponse);
-                }
+                },
             );
         });
 

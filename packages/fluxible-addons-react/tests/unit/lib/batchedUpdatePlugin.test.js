@@ -34,7 +34,7 @@ const createComponent = (context) => {
         connectToStores(DumbComponent, [FooStore, BarStore], (context) => ({
             foo: context.getStore(FooStore).getFoo(),
             bar: context.getStore(BarStore).getBar(),
-        }))
+        })),
     );
 
     const props = {

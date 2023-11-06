@@ -52,7 +52,7 @@ describe('RouteStore', function () {
                 });
                 expect(newStore.getCurrentRoute()).toBeInstanceOf(Object);
                 expect(newStore.getCurrentNavigate().transactionId).toBe(
-                    'first'
+                    'first',
                 );
                 expect(newStore.getCurrentNavigate().url).toBe('/foo');
                 expect(newStore.getCurrentNavigate().method).toBe('get');
@@ -122,7 +122,7 @@ describe('RouteStore', function () {
                 method: 'get',
             });
             expect(routeStore.getCurrentNavigate().transactionId).toBe(
-                'second'
+                'second',
             );
         });
         it('should update transactionId with same url navigation', function () {
@@ -132,7 +132,7 @@ describe('RouteStore', function () {
                 method: 'get',
             });
             expect(routeStore.getCurrentNavigate().transactionId).toBe(
-                'second'
+                'second',
             );
         });
     });

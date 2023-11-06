@@ -20,6 +20,6 @@ module.exports = function (context, payload, done) {
 
             context.dispatch('TOGGLE_ALL_TODO_SUCCESS', todos);
             done();
-        }
+        },
     );
 };

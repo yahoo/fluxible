@@ -92,7 +92,7 @@ class Docs extends React.Component {
 Docs = handleRoute(
     connectToStores(Docs, [SearchStore], (context) => ({
         search: context.getStore(SearchStore).getState(),
-    }))
+    })),
 );
 
 export default Docs;

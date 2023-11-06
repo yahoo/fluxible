@@ -87,7 +87,7 @@ module.exports = function fetchrPlugin(options) {
                         constructGetXhrUri: function constructGetXhrUri(
                             resource,
                             params,
-                            config
+                            config,
                         ) {
                             config = config || {};
                             uri = config.cors ? corsPath : currentXhrPath;
@@ -100,7 +100,7 @@ module.exports = function fetchrPlugin(options) {
                                 resource,
                                 params,
                                 config,
-                                xhrContext
+                                xhrContext,
                             );
                         },
                         updateOptions: function (options) {

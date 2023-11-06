@@ -12,9 +12,12 @@ var randomResponseTime = function (min, max) {
 module.exports = {
     name: 'todo',
     read: function (req, resource, params, config, callback) {
-        setTimeout(function () {
-            callback(null, _todos.concat());
-        }, randomResponseTime(100, 1000));
+        setTimeout(
+            function () {
+                callback(null, _todos.concat());
+            },
+            randomResponseTime(100, 1000),
+        );
     },
     create: function (req, resource, params, body, config, callback) {
         var newTodo = {
@@ -24,16 +27,22 @@ module.exports = {
 
         if (params.text.indexOf('fail') > -1) {
             var err = new Error('Shenanigans');
-            setTimeout(function () {
-                callback(err);
-            }, randomResponseTime(800, 1000));
+            setTimeout(
+                function () {
+                    callback(err);
+                },
+                randomResponseTime(800, 1000),
+            );
             return;
         } else {
             _todos.push(newTodo);
 
-            setTimeout(function () {
-                callback(null, newTodo);
-            }, randomResponseTime(100, 1000));
+            setTimeout(
+                function () {
+                    callback(null, newTodo);
+                },
+                randomResponseTime(100, 1000),
+            );
         }
     },
     update: function (req, resource, params, body, config, callback) {
@@ -42,9 +51,12 @@ module.exports = {
                 todo.completed = params.checked;
             });
 
-            setTimeout(function () {
-                callback(null, _todos);
-            }, randomResponseTime(100, 1000));
+            setTimeout(
+                function () {
+                    callback(null, _todos);
+                },
+                randomResponseTime(100, 1000),
+            );
         } else {
             var foundTodo;
 
@@ -57,9 +69,12 @@ module.exports = {
                 }
             });
 
-            setTimeout(function () {
-                callback(null, foundTodo);
-            }, randomResponseTime(100, 1000));
+            setTimeout(
+                function () {
+                    callback(null, foundTodo);
+                },
+                randomResponseTime(100, 1000),
+            );
         }
     },
     delete: function (req, resource, params, config, callback) {
@@ -67,8 +82,11 @@ module.exports = {
             return params.ids.indexOf(todo.id) === -1;
         });
 
-        setTimeout(function () {
-            callback(null, _todos);
-        }, randomResponseTime(100, 1000));
+        setTimeout(
+            function () {
+                callback(null, _todos);
+            },
+            randomResponseTime(100, 1000),
+        );
     },
 };

@@ -44,7 +44,7 @@ export default provideContext(
                 return {
                     pageTitle: appStore.getPageTitle(),
                 };
-            }
-        )
-    )
+            },
+        ),
+    ),
 );

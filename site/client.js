@@ -30,6 +30,6 @@ app.rehydrate(dehydratedState, function (err, context) {
 
     render(
         createElementWithContext(context),
-        document.getElementById('docsapp')
+        document.getElementById('docsapp'),
     );
 });

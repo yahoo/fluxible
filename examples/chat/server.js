@@ -46,7 +46,7 @@ function renderPage(req, res, context) {
         React.createElement(HtmlComponent, {
             state: exposed,
             markup: mainMarkup,
-        })
+        }),
     );
 
     debug('Sending markup');
@@ -78,7 +78,7 @@ server.use(function (req, res, next) {
                     return;
                 }
                 renderPage(req, res, context);
-            }
+            },
         );
     }
 });

@@ -12,15 +12,12 @@ let assets = {
 
 if ('production' === process.env.NODE_ENV) {
     try {
-        var webpackAssets = require(path.join(
-            __dirname,
-            '..',
-            'build',
-            'assets.json'
-        ));
+        var webpackAssets = require(
+            path.join(__dirname, '..', 'build', 'assets.json'),
+        );
     } catch (e) {
         throw new Error(
-            'Please run `grunt build` to generate the production assets.'
+            'Please run `grunt build` to generate the production assets.',
         );
     }
     assets.main = CDN_PATH + webpackAssets.assets.main;

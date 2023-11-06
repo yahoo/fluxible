@@ -116,7 +116,7 @@ function executeActionProxy(context, actionContext, action, payload, done) {
         if (!action) {
             throw new Error(
                 'executeAction called with an invalid action. Action ' +
-                    'must be a function.'
+                    'must be a function.',
             );
         }
     }
@@ -138,25 +138,25 @@ function executeActionProxy(context, actionContext, action, payload, done) {
                     displayName +
                     '` will only start after `' +
                     currentActionDisplayName +
-                    '` is complete.'
+                    '` is complete.',
             );
         }
     }
 
-    context._executeActionPlugins.forEach(function pluginsEach(
-        executeActionPlugin
-    ) {
-        var pluggedExecuteAction = executeActionPlugin({
-            actionContext: actionContext,
-            action: action,
-            payload: payload,
-            done: done,
-        });
-        actionContext = pluggedExecuteAction.actionContext;
-        action = pluggedExecuteAction.action;
-        payload = pluggedExecuteAction.payload;
-        done = pluggedExecuteAction.done;
-    });
+    context._executeActionPlugins.forEach(
+        function pluginsEach(executeActionPlugin) {
+            var pluggedExecuteAction = executeActionPlugin({
+                actionContext: actionContext,
+                action: action,
+                payload: payload,
+                done: done,
+            });
+            actionContext = pluggedExecuteAction.actionContext;
+            action = pluggedExecuteAction.action;
+            payload = pluggedExecuteAction.payload;
+            done = pluggedExecuteAction.done;
+        },
+    );
 
     return callAction(actionContext, action, payload, done);
 }
@@ -172,11 +172,11 @@ function executeActionProxy(context, actionContext, action, payload, done) {
 FluxContext.prototype.executeAction = function executeAction(
     action,
     payload,
-    done
+    done,
 ) {
     var subActionContext = this._createSubActionContext(
         this.getActionContext(),
-        action
+        action,
     );
     return executeActionProxy(this, subActionContext, action, payload, done);
 };
@@ -188,7 +188,7 @@ FluxContext.prototype.executeAction = function executeAction(
  */
 FluxContext.prototype._initializeDispatcher = function initializeDispatcher() {
     this._dispatcher = this._app.createDispatcherInstance(
-        this.getStoreContext()
+        this.getStoreContext(),
     );
 };
 
@@ -204,7 +204,7 @@ FluxContext.prototype._initializeDispatcher = function initializeDispatcher() {
  */
 FluxContext.prototype._createSubActionContext = function createSubActionContext(
     parentActionContext,
-    action
+    action,
 ) {
     /*
      * We store the action's stack array on the `stack` property
@@ -246,14 +246,14 @@ FluxContext.prototype.getActionContext = function getActionContext() {
                 // `this` will be the current action context
                 var subActionContext = self._createSubActionContext(
                     this,
-                    action
+                    action,
                 );
                 return executeActionProxy(
                     self,
                     subActionContext,
                     action,
                     payload,
-                    callback
+                    callback,
                 );
             },
             getStore: self._dispatcher.getStore.bind(self._dispatcher),
@@ -295,7 +295,7 @@ FluxContext.prototype.getComponentContext = function getComponentContext() {
                     console.warn(
                         'When calling executeAction from a component, ' +
                             "a callback isn't allowed. See our docs for more info: " +
-                            'http://fluxible.io/api/components.html#component-context'
+                            'http://fluxible.io/api/components.html#component-context',
                     );
                 }
             }
@@ -306,7 +306,7 @@ FluxContext.prototype.getComponentContext = function getComponentContext() {
                         {
                             actionName: action.displayName || action.name,
                             err: err,
-                        }
+                        },
                     );
                 })
                 .catch(function unhandledError(err) {
@@ -392,7 +392,7 @@ FluxContext.prototype.rehydrate = function rehydrate(obj) {
             throw new Error(
                 '`rehydrate` called with a non-object. Ensure ' +
                     'that the parameter passed to rehydrate is a state object ' +
-                    'produced by a dehydrate call.'
+                    'produced by a dehydrate call.',
             );
         }
     }
@@ -417,7 +417,7 @@ FluxContext.prototype.rehydrate = function rehydrate(obj) {
                         } else {
                             resolve();
                         }
-                    }
+                    },
                 );
                 if (isPromise(result)) {
                     result.then(resolve, reject);
@@ -429,7 +429,7 @@ FluxContext.prototype.rehydrate = function rehydrate(obj) {
 
     return Promise.all(pluginTasks).then(function rehydratePluginTasks() {
         self._dispatcher = self._app.createDispatcherInstance(
-            self.getStoreContext()
+            self.getStoreContext(),
         );
         self._dispatcher.rehydrate(obj.dispatcher || {});
         return self;

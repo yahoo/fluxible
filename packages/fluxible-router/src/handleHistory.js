@@ -142,7 +142,7 @@ function handleHistory(Component, opts) {
             }
             this._scrollTimer = window.setTimeout(
                 this._saveScrollPosition,
-                150
+                150,
             );
         }
 
@@ -178,7 +178,7 @@ function handleHistory(Component, opts) {
                 } catch (error) {
                     console.warn(
                         'Warning: Call of window.onbeforeunload failed',
-                        error
+                        error,
                     );
                 }
             }
@@ -284,13 +284,13 @@ function handleHistory(Component, opts) {
                         this._history.replaceState(
                             historyState,
                             pageTitle,
-                            nav.url
+                            nav.url,
                         );
                     } else {
                         this._history.pushState(
                             historyState,
                             pageTitle,
-                            nav.url
+                            nav.url,
                         );
                     }
                     break;

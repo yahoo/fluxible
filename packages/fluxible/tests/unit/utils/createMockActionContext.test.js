@@ -79,7 +79,7 @@ describe('createMockActionContext', function () {
                     .executeAction(mockActionFailure, mockPayload)
                     .then(function () {
                         done(
-                            new Error('should not have resolved successfully')
+                            new Error('should not have resolved successfully'),
                         );
                     })
                     .catch(function (error) {
@@ -93,11 +93,10 @@ describe('createMockActionContext', function () {
                 var result = context.executeAction(function (
                     context,
                     payload,
-                    fn
+                    fn,
                 ) {
                     fn(null, returnValue);
-                },
-                mockPayload);
+                }, mockPayload);
                 expect(result.then).toBeInstanceOf(Function);
                 result
                     .then(function (r) {

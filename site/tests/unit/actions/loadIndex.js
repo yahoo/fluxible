@@ -24,7 +24,7 @@ describe('site', () => {
                 'search',
                 function (method, params, config, callback) {
                     callback(null, mockIndex);
-                }
+                },
             );
         });
 

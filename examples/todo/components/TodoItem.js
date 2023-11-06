@@ -39,7 +39,7 @@ class Component extends React.Component {
                 const node = this.editField.current;
                 node.focus();
                 node.setSelectionRange(node.value.length, node.value.length);
-            }.bind(this)
+            }.bind(this),
         );
 
         this.setState({ editText: this.props.todo.text });

@@ -37,7 +37,7 @@ server.use((req, res, next) => {
         const state = 'window.App=' + serialize(app.dehydrate(context)) + ';';
 
         const markup = ReactDOM.renderToString(
-            createElementWithContext(context)
+            createElementWithContext(context),
         );
         const helmet = Helmet.renderStatic();
 
@@ -48,7 +48,7 @@ server.use((req, res, next) => {
                 markup,
                 helmet,
                 context: context.getComponentContext(),
-            })
+            }),
         );
 
         debug('Sending markup');

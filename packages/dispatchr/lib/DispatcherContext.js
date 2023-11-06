@@ -47,11 +47,11 @@ DispatcherContext.prototype.getStore = function getStore(name) {
                 message,
                 'STORE_UNREGISTERED',
                 this.context,
-                meta
+                meta,
             );
         }
         this.storeInstances[storeName] = new this.dispatcher.stores[storeName](
-            this.dispatcherInterface
+            this.dispatcherInterface,
         );
         if (this.rehydratedStoreState && this.rehydratedStoreState[storeName]) {
             var state = this.rehydratedStoreState[storeName];
@@ -77,7 +77,7 @@ DispatcherContext.prototype.dispatch = function dispatch(actionName, payload) {
         return this.dispatcher._throwOrCallErrorHandler(
             message,
             'DISPATCH_INVALID_ACTIONNAME',
-            this.context
+            this.context,
         );
     }
     if (this.currentAction) {
@@ -95,7 +95,7 @@ DispatcherContext.prototype.dispatch = function dispatch(actionName, payload) {
             message,
             'DISPATCH_EXECUTING',
             this.context,
-            meta
+            meta,
         );
     }
     var actionHandlers = this.dispatcher.handlers[actionName] || [],
@@ -131,7 +131,7 @@ DispatcherContext.prototype.dispatch = function dispatch(actionName, payload) {
                         message,
                         'DISPATCH_INVALID_STORE_METHOD',
                         self.context,
-                        meta
+                        meta,
                     );
                 }
                 handlerFns[store.name] =
@@ -148,7 +148,7 @@ DispatcherContext.prototype.dispatch = function dispatch(actionName, payload) {
             message,
             'DISPATCH_EXCEPTION',
             this.context,
-            meta
+            meta,
         );
     } finally {
         this.currentAction = null;
@@ -165,18 +165,18 @@ DispatcherContext.prototype.dispatch = function dispatch(actionName, payload) {
 DispatcherContext.prototype.dehydrate = function dehydrate() {
     var self = this,
         stores = {};
-    Object.keys(self.storeInstances).forEach(function storeInstancesEach(
-        storeName
-    ) {
-        var store = self.storeInstances[storeName];
-        if (
-            !store.dehydrate ||
-            (store.shouldDehydrate && !store.shouldDehydrate())
-        ) {
-            return;
-        }
-        stores[storeName] = store.dehydrate();
-    });
+    Object.keys(self.storeInstances).forEach(
+        function storeInstancesEach(storeName) {
+            var store = self.storeInstances[storeName];
+            if (
+                !store.dehydrate ||
+                (store.shouldDehydrate && !store.shouldDehydrate())
+            ) {
+                return;
+            }
+            stores[storeName] = store.dehydrate();
+        },
+    );
     return {
         stores: stores,
     };
@@ -191,12 +191,12 @@ DispatcherContext.prototype.dehydrate = function dehydrate() {
 DispatcherContext.prototype.rehydrate = function rehydrate(dispatcherState) {
     var self = this;
     if (dispatcherState.stores) {
-        Object.keys(dispatcherState.stores).forEach(function storeStateEach(
-            storeName
-        ) {
-            self.rehydratedStoreState[storeName] =
-                dispatcherState.stores[storeName];
-        });
+        Object.keys(dispatcherState.stores).forEach(
+            function storeStateEach(storeName) {
+                self.rehydratedStoreState[storeName] =
+                    dispatcherState.stores[storeName];
+            },
+        );
     }
 };
 
@@ -219,7 +219,7 @@ DispatcherContext.prototype.waitFor = function waitFor(stores, callback) {
             message,
             'WAITFOR_NO_ACTION',
             this.context,
-            meta
+            meta,
         );
     }
     this.currentAction.waitFor(stores, callback);

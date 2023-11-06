@@ -47,5 +47,5 @@ module.exports = connectToStores(
         currentThreadID: context.getStore(ThreadStore).getCurrentID(),
         threads: context.getStore(ThreadStore).getAllChrono(),
         unreadCount: context.getStore(UnreadThreadStore).getCount(),
-    })
+    }),
 );

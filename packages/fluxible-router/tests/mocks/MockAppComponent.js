@@ -28,7 +28,7 @@ module.exports.default = provideContext(
     handleHistory(MockAppComponent, {
         checkRouteOnPageLoad: false,
         enableScroll: true,
-    })
+    }),
 );
 
 module.exports.createWrappedMockAppComponent =

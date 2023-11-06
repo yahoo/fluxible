@@ -18,5 +18,5 @@ export default connectToStores(
     (context) => ({
         number: context.getStore(AppStore).getNumber(),
         setRandomNumber: () => context.executeAction(actions.setRandomNumber),
-    })
+    }),
 );

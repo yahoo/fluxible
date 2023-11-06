@@ -190,5 +190,5 @@ module.exports = provideContext(
     connectToStores(TodoApp, [TodoStore], (context) => ({
         items: context.getStore(TodoStore).getAll(),
         context,
-    }))
+    })),
 );

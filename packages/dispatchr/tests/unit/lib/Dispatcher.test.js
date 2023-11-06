@@ -34,7 +34,7 @@ describe('Dispatchr', function () {
         expect(dispatcher.handlers.NAVIGATE.length).toBe(2);
         expect(dispatcher.handlers.NAVIGATE[0].name).toBe('Store');
         expect(dispatcher.handlers.NAVIGATE[0].handler).toBeInstanceOf(
-            Function
+            Function,
         );
     });
 
@@ -121,7 +121,7 @@ describe('Dispatchr', function () {
             dispatcherContext.dispatch('NAVIGATE', {});
             expect(dispatcherContext.storeInstances).toBeInstanceOf(Object);
             expect(dispatcherContext.storeInstances.Store).toBeInstanceOf(
-                Object
+                Object,
             );
             var mockStore = dispatcherContext.storeInstances.Store;
             expect(mockStore.dispatcher).toBeInstanceOf(Object);
@@ -138,7 +138,7 @@ describe('Dispatchr', function () {
 
             dispatcherContext.dispatch('DELAY', {});
             expect(dispatcherContext.getStore('Store').getState().page).toBe(
-                'delay'
+                'delay',
             );
         });
 
@@ -148,7 +148,7 @@ describe('Dispatchr', function () {
 
             dispatcherContext.dispatch('WAITFOR', {});
             expect(dispatcherContext.getStore('Store').getState().called).toBe(
-                true
+                true,
             );
         });
 
@@ -158,10 +158,10 @@ describe('Dispatchr', function () {
 
             dispatcherContext.dispatch('NAVIGATE', {});
             expect(dispatcherContext.getStore(delayedStore).defaultCalled).toBe(
-                true
+                true,
             );
             expect(dispatcherContext.getStore(delayedStore).actionHandled).toBe(
-                'NAVIGATE'
+                'NAVIGATE',
             );
         });
 
@@ -171,10 +171,10 @@ describe('Dispatchr', function () {
 
             dispatcherContext.dispatch('FOO', {});
             expect(dispatcherContext.getStore(delayedStore).defaultCalled).toBe(
-                true
+                true,
             );
             expect(dispatcherContext.getStore(delayedStore).actionHandled).toBe(
-                'FOO'
+                'FOO',
             );
         });
 
@@ -183,10 +183,10 @@ describe('Dispatchr', function () {
                 dispatcherContext = dispatcher.createContext(context);
             dispatcherContext.dispatch('DELAY', {});
             expect(dispatcherContext.getStore(delayedStore).defaultCalled).toBe(
-                false
+                false,
             );
             expect(
-                dispatcherContext.getStore(delayedStore).actionHandled
+                dispatcherContext.getStore(delayedStore).actionHandled,
             ).toBeNull();
         });
 
@@ -280,7 +280,7 @@ describe('Dispatchr', function () {
                     expect(info).toBeInstanceOf(Object);
                     expect(info.type).toBe('REGISTER_STORE_NO_CONSTRUCTOR');
                     expect(info.message).toBe(
-                        'registerStore requires a constructor as first parameter'
+                        'registerStore requires a constructor as first parameter',
                     );
                     expect(info.meta.error).toBeInstanceOf(Error);
                     done();
@@ -311,7 +311,7 @@ describe('Dispatchr', function () {
                         expect(info).toBeInstanceOf(Object);
                         expect(info.type).toBe('STORE_UNREGISTERED');
                         expect(info.message).toBe(
-                            'Store NewStore was not registered.'
+                            'Store NewStore was not registered.',
                         );
                         expect(info.meta.storeName).toBe('NewStore');
                         expect(info.meta.error).toBeInstanceOf(Error);

@@ -32,7 +32,7 @@ server.use(
         inc_req_timeout: 5000,
         out_req_timeout: 5000,
         post_max_size: 2000000,
-    })
+    }),
 );
 
 server.set('state namespace', 'App');
@@ -42,7 +42,7 @@ server.use(
     '/public',
     express.static(path.join(__dirname, '/build'), {
         maxAge: '1y',
-    })
+    }),
 );
 server.use(cookieParser());
 server.use(bodyParser.json());
@@ -86,7 +86,7 @@ function renderApp(res, context) {
             context: componentContext,
             state: exposed,
             markup: renderedApp,
-        })
+        }),
     );
 
     res.send(doctype + html);

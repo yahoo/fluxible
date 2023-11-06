@@ -21,7 +21,7 @@ class Menu extends React.Component {
                         key={menuitem.category}
                     >
                         {menuitem.category}
-                    </h3>
+                    </h3>,
                 );
             }
 
@@ -57,7 +57,7 @@ class Menu extends React.Component {
                 submenu.push(
                     <li key={link.label} className={classList}>
                         {linkNode}
-                    </li>
+                    </li>,
                 );
             });
 
@@ -65,7 +65,7 @@ class Menu extends React.Component {
                 menu.push(
                     <ul className="reset" key={menuitem.category + 'sub'}>
                         {submenu}
-                    </ul>
+                    </ul>,
                 );
             }
         });

@@ -68,7 +68,7 @@ describe('History', function () {
             var history = new History({
                 win: _.merge(
                     { history: { state: { foo: 'bar' } } },
-                    windowMock.HTML5
+                    windowMock.HTML5,
                 ),
             });
             expect(history.getState()).toEqual({ foo: 'bar' });

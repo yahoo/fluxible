@@ -107,7 +107,7 @@ History.prototype = {
             // remember the referrer url in state, so that it can be used for back navigations
             var _state = Object.assign(
                 { origUrl: url, referrerUrl: win.location.href },
-                state
+                state,
             );
 
             try {

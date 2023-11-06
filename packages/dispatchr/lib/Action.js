@@ -57,7 +57,7 @@ Action.prototype._callHandler = function callHandler(storeName) {
         handlerFn = self._handlers[storeName];
     if (!handlerFn) {
         throw new Error(
-            storeName + ' does not have a handler for action ' + self.name
+            storeName + ' does not have a handler for action ' + self.name,
         );
     }
     if (self._isCompleted[storeName]) {
@@ -80,7 +80,7 @@ Action.prototype.waitFor = function waitFor(stores, callback) {
     var self = this;
     if (!self._isExecuting) {
         throw new Error(
-            'waitFor called even though there is no action being executed!'
+            'waitFor called even though there is no action being executed!',
         );
     }
     if (!Array.isArray(stores)) {

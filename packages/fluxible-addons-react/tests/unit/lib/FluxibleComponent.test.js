@@ -43,7 +43,7 @@ describe('fluxible-addons-react', () => {
             ReactTestUtils.renderIntoDocument(
                 <FluxibleComponent context={context}>
                     <Component>Some child</Component>
-                </FluxibleComponent>
+                </FluxibleComponent>,
             );
 
             expect(spy).toHaveBeenCalledTimes(1);
@@ -63,7 +63,7 @@ describe('fluxible-addons-react', () => {
             ReactTestUtils.renderIntoDocument(
                 <FluxibleComponent context={context}>
                     <Component>Some child</Component>
-                </FluxibleComponent>
+                </FluxibleComponent>,
             );
         });
     });

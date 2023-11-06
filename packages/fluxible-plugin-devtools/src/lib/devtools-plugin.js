@@ -73,11 +73,11 @@ export default function devToolsPlugin() {
                 context._createSubActionContext =
                     function createDevSubActionContext(
                         parentActionContext,
-                        action
+                        action,
                     ) {
                         let subActionContext = createSubActionContext(
                             parentActionContext,
-                            action
+                            action,
                         );
                         let actionReference = {
                             rootId: subActionContext.rootId,
@@ -98,7 +98,7 @@ export default function devToolsPlugin() {
                             parentActionReference.actionCalls =
                                 parentActionReference.actionCalls || [];
                             parentActionReference.actionCalls.push(
-                                actionReference
+                                actionReference,
                             );
                             // TODO: perhaps also push to an parentActionReference.actions reference array.
                             // This way we can still correctly detect leaf nodes. Actually are leaf nodes even useful?
@@ -189,7 +189,7 @@ export default function devToolsPlugin() {
                  * @param componentContext
                  */
                 plugComponentContext: function plugComponentContext(
-                    componentContext
+                    componentContext,
                 ) {
                     provideDevTools(componentContext);
                 },

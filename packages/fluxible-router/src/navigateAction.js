@@ -9,13 +9,13 @@ function navigateAction(context, payload, done) {
         {
             transactionId: context.rootId,
         },
-        payload
+        payload,
     );
     if (!payload.url && payload.routeName) {
         navigate.url = routeStore.makePath(
             payload.routeName,
             payload.params,
-            payload.query
+            payload.query,
         );
         navigate.routeName = null;
     }
@@ -25,8 +25,8 @@ function navigateAction(context, payload, done) {
     if (!routeStore.getCurrentRoute) {
         done(
             new Error(
-                'RouteStore has not implemented `getCurrentRoute` method.'
-            )
+                'RouteStore has not implemented `getCurrentRoute` method.',
+            ),
         );
         return;
     }

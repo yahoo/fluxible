@@ -29,5 +29,5 @@ export default connectToStores(
     ({ getStore, executeAction }, { itemId }) => ({
         item: getStore(ListStore).getItem(itemId),
         remove: () => executeAction(removeItem, { itemId }),
-    })
+    }),
 );

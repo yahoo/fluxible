@@ -28,7 +28,7 @@ MockComponentContext.prototype.executeAction = function (action, payload) {
             dispatcherContext: this.dispatcherContext,
         }),
         payload,
-        noop
+        noop,
     );
 };
 

@@ -45,7 +45,7 @@ Dispatcher.prototype.registerStore = function registerStore(store) {
         var message = 'registerStore requires a constructor as first parameter';
         return this._throwOrCallErrorHandler(
             message,
-            'REGISTER_STORE_NO_CONSTRUCTOR'
+            'REGISTER_STORE_NO_CONSTRUCTOR',
         );
     }
     var storeName = this.getStoreName(store);
@@ -53,7 +53,7 @@ Dispatcher.prototype.registerStore = function registerStore(store) {
         var message = 'Store is required to have a `storeName` property.';
         return this._throwOrCallErrorHandler(
             message,
-            'REGISTER_STORE_NO_STORENAME'
+            'REGISTER_STORE_NO_STORENAME',
         );
     }
     if (this.stores[storeName]) {
@@ -68,7 +68,7 @@ Dispatcher.prototype.registerStore = function registerStore(store) {
             'Make sure you do not have multiple copies of the store installed.';
         return this._throwOrCallErrorHandler(
             message,
-            'REGISTER_STORE_DUPLICATE_REGISTERED'
+            'REGISTER_STORE_DUPLICATE_REGISTERED',
         );
     }
     this.stores[storeName] = store;
@@ -127,7 +127,7 @@ Dispatcher.prototype.getStoreName = function getStoreName(store) {
                     'minify your stores during build time and could break string ' +
                     'references to your store. It is advised that you add a ' +
                     'static `storeName` property to your store to ensure the ' +
-                    'store name does not change during your build.'
+                    'store name does not change during your build.',
             );
             this.hasWarnedAboutNameProperty = true;
         }
@@ -148,7 +148,7 @@ Dispatcher.prototype.getStoreName = function getStoreName(store) {
 Dispatcher.prototype._registerHandler = function registerHandler(
     action,
     name,
-    handler
+    handler,
 ) {
     this.handlers[action] = this.handlers[action] || [];
     this.handlers[action].push({
@@ -185,7 +185,7 @@ Dispatcher.prototype._throwOrCallErrorHandler =
                     type: type || 'DISPATCHER_ERROR',
                     meta: meta,
                 },
-                context
+                context,
             );
         } else {
             throw new Error(message, { cause: meta && meta.error });
