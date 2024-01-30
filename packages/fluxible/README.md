@@ -1,42 +1,36 @@
-# Fluxible
-
-[![NPM version](https://badge.fury.io/js/fluxible.svg)](http://badge.fury.io/js/fluxible)
-<!--
-[![Build Status](https://img.shields.io/travis/yahoo/fluxible.svg)](https://travis-ci.org/yahoo/fluxible)
-[![Coverage Status](https://img.shields.io/coveralls/yahoo/fluxible.svg)](https://coveralls.io/r/yahoo/fluxible?branch=master)
-[![Dependency Status](https://img.shields.io/david/yahoo/fluxible.svg)](https://david-dm.org/yahoo/fluxible)
-[![devDependency Status](https://img.shields.io/david/dev/yahoo/fluxible.svg)](https://david-dm.org/yahoo/fluxible#info=devDependencies)
--->
+# Fluxible [![NPM version](https://badge.fury.io/js/fluxible.svg)](http://badge.fury.io/js/fluxible)
 
 Pluggable, singleton-free container for isomorphic [Flux](https://github.com/facebook/flux) applications.
 
 ```bash
-$ npm install --save fluxible
+npm install --save fluxible
 ```
 
 For support, please use [GitHub Discussions](https://github.com/yahoo/fluxible/discussions).
 
 ## Docs
 
- * [Quick Start](https://github.com/yahoo/fluxible/blob/master/docs/quick-start.md)
- * [API](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/README.md)
+* [Quick Start](https://github.com/yahoo/fluxible/blob/master/docs/quick-start.md)
+* [API](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/README.md)
+* [Data Fetching](https://github.com/yahoo/fluxible/blob/main/packages/fluxible-plugin-fetchr/README.md)
+* [Routing](https://github.com/yahoo/fluxible/blob/main/packages/fluxible-router/README.md)
 
 ## Features
 
- * Singleton-free for server rendering
- * [Store](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/Stores.md) dehydration for client bootstrapping
- * Stateless async [actions](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/Actions.md)
- * Higher order [components](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/Components.md) for easy integration
- * Enforcement of Flux flow - restricted access to the [Flux interface](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/FluxibleContext.md) from within components
- * [Pluggable](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/Plugins.md) - add your own interfaces to the Flux context
- * Updated for React 15
+* Singleton-free for server rendering
+* [Store](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/Stores.md) dehydration for client bootstrapping
+* Stateless async [actions](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/Actions.md)
+* Higher order [components](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/Components.md) for easy integration
+* Enforcement of Flux flow - restricted access to the [Flux interface](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/FluxibleContext.md) from within components
+* [Pluggable](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/Plugins.md) - add your own interfaces to the Flux context
+* Updated for React 15
 
 ## Extras
 
- * [Yeoman generator](https://github.com/yahoo/fluxible/blob/master/packages/generator-fluxible)
- * [Example Applications](https://github.com/yahoo/fluxible/blob/master/examples)
- * [Fluxible Routing](https://github.com/yahoo/fluxible/blob/master/packages/fluxible-router)
- * [Isomorphic Data Services](https://github.com/yahoo/fluxible/blob/master/packages/fluxible-plugin-fetchr)
+* [Yeoman generator](https://github.com/yahoo/fluxible/blob/master/packages/generator-fluxible)
+* [Example Applications](https://github.com/yahoo/fluxible/blob/master/examples)
+* [Fluxible Routing](https://github.com/yahoo/fluxible/blob/master/packages/fluxible-router)
+* [Isomorphic Data Services](https://github.com/yahoo/fluxible/blob/master/packages/fluxible-plugin-fetchr)
 
 ## Usage
 
@@ -102,7 +96,7 @@ context.executeAction(action, 'bar', (err) => {
 ## Browser Compatibility
 
 Fluxible is written with ES2015 in mind and should be used along with polyfills
-for features like [`Promise`][Promise] and [`Object.assign`][objectAssign] 
+for features like [`Promise`][Promise] and [`Object.assign`][objectAssign]
 in order to support all browsers. We recommend using [Babel][babel] along with
 its [polyfill][polyfill].
 

@@ -18,7 +18,7 @@ Creates a new `fetchr` plugin instance with the following parameters:
 
 getter for the `xhrPath` option passed into the constructor.
 
-```
+```js
 var pluginInstance = fetchrPlugin({
     xhrPath: '/api'
 });

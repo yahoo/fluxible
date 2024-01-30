@@ -4,6 +4,10 @@ This repository is the home of Fluxible and related libraries.
 
 For support, please use [GitHub Discussions](https://github.com/yahoo/fluxible/discussions).
 
+## Documentation
+
+Please check out the Fluxible package [README](https://github.com/yahoo/fluxible/blob/main/packages/fluxible/README.md) for documentation.
+
 ## Development
 
 All code is developed against the latest Node LTS version. This repository leverages [npm workspaces][] for package management.

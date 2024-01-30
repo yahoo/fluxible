@@ -8,6 +8,7 @@ Here, we'll give components access to the `getFoo()` function:
 
 ```js
 import Fluxible from 'fluxible';
+
 let app = new Fluxible();
 
 app.plug({
