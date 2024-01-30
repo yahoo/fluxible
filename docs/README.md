@@ -4,7 +4,6 @@ If you want to jump right into building your application, head over to our [Quic
 
 If you want to look at example applications, check out our examples:
 
- - [Fluxible.io](https://github.com/yahoo/fluxible/blob/master/site) - Our very own documentation site written with Fluxible.
  - [Chat](https://github.com/yahoo/fluxible/blob/master/examples/chat) - Port of [Facebook's Flux chat example](https://github.com/facebook/flux/tree/master/examples/).
  - [Fluxible Router](https://github.com/yahoo/fluxible/blob/master/examples/fluxible-router) - Simple isomorphic routing in Flux flow.
  - [React Router](https://github.com/yahoo/fluxible/blob/master/examples/react-router) - Simple isomorphic routing with React router.

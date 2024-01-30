@@ -34,9 +34,6 @@ const Component = (props) => (
                         TodoMVC React (Pete Hunt)
                     </a>
                 </p>
-                <p>
-                    Showing off <a href="http://fluxible.io">Fluxible</a>
-                </p>
             </footer>
             <script dangerouslySetInnerHTML={{ __html: props.state }}></script>
             <script src="/public/js/client.js" defer></script>

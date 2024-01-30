@@ -6,6 +6,7 @@ Instantiated once for your application, this holds settings and interfaces that 
 
 ```js
 import Fluxible from 'fluxible';
+
 const fluxibleApp = new Fluxible({
     component: require('./components/App.jsx')
 });
@@ -15,6 +16,7 @@ For each request:
 
 ```js
 const context = fluxibleApp.createContext();
+
 context.executeAction(action, payload, function () {
     const element = React.createElement(context.getComponent(), {
         context: context.getComponentContext()

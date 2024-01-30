@@ -295,7 +295,7 @@ FluxContext.prototype.getComponentContext = function getComponentContext() {
                     console.warn(
                         'When calling executeAction from a component, ' +
                             "a callback isn't allowed. See our docs for more info: " +
-                            'http://fluxible.io/api/components.html#component-context',
+                            'https://github.com/yahoo/fluxible/blob/main/packages/fluxible/docs/api/Components.md#component-context',
                     );
                 }
             }

@@ -20,6 +20,6 @@ Helper utilities for integrating your Fluxible app into React [components](../pa
 
 Want to add your own interfaces to the Flux flow? [Plugins](../packages/fluxible/docs/api/Plugins.md) allow you to add methods to any of the contexts.
 
-## Updated for React 17
+## Updated for Latest React
 
-Updated to follow React 17's changes and the deprecations coming in the next version of React.
+Updated to follow React's changes and the deprecations coming in the next version of React.

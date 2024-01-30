@@ -98,7 +98,7 @@ By Default, fetchr appends all context values to the xhr url as query params. `c
 
 To collect fetcher service's success/failure/latency stats, you can configure `statsCollector` for `FetchrPlugin`.  The `statsCollector` function will be invoked with two arguments: `actionContext` and `stats`:
 
-* **actionContext:**  This is the [action context](http://fluxible.io/api/actions.html#action-context) object provided by [Fluxible](http://fluxible.io/).
+* **actionContext:**  This is the [action context](https://github.com/yahoo/fluxible/blob/main/packages/fluxible/docs/api/Actions.md#action-context) object provided by [Fluxible](http://fluxible.io/).
 * **stats:**  This object contains all stats data for each service CRUD request. [See Fetchr docs for more info about provided stats data fields.](https://github.com/yahoo/fetchr/blob/master/README.md#stats-monitoring--analysis)
 
 Example for how to configure `statsCollector`:

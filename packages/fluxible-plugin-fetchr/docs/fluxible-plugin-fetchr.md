@@ -9,7 +9,7 @@ Creates a new `fetchr` plugin instance with the following parameters:
  * `options.xhrPath='/api'` (optional): Stores your xhr path prefix used by client side requests.
  * `options.xhrTimeout=3000` (optional): Timeout in milliseconds for all XHR requests (can be overridden per request).
  * `options.statsCollector` (optional): This function will be invoked for each fetcher request with two arguments:
-    * **actionContext:**  This is the [action context](http://fluxible.io/api/actions.html#action-context) object provided by [Fluxible](http://fluxible.io/).
+    * **actionContext:**  This is the [action context](https://github.com/yahoo/fluxible/blob/main/packages/fluxible/docs/api/Actions.md#action-context) object provided by [Fluxible](http://fluxible.io/).
     * **stats:**  This object contains all stats data for each service CRUD request. [See Fetchr docs for more info about provided stats data fields.](https://github.com/yahoo/fetchr/blob/master/README.md#stats-monitoring--analysis)
 
 ## Instance Methods
@@ -18,7 +18,7 @@ Creates a new `fetchr` plugin instance with the following parameters:
 
 getter for the `xhrPath` option passed into the constructor.
 
-```
+```js
 var pluginInstance = fetchrPlugin({
     xhrPath: '/api'
 });
