@@ -1,8 +1,8 @@
 # Fluxible ![Build Status](https://github.com/yahoo/fluxible/actions/workflows/node.js.yml/badge.svg)
 
-This repository is the home of [Fluxible](http://fluxible.io/) and related libraries.
+This repository is the home of Fluxible and related libraries.
 
-For support, join our [gitter.im](https://gitter.im/yahoo/fluxible) channel.
+For support, please use [GitHub Discussions](https://github.com/yahoo/fluxible/discussions).
 
 ## Development
 

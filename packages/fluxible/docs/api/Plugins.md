@@ -92,7 +92,7 @@ context.getComponentContext().getFoo(); // returns 'bar'
 
 ### componentContext
 
-To leverage the new context value in componentContext, `provideContext` has an option for [passing custom contextTypes](http://fluxible.io/addons/provideContext.html#plugins-and-custom-component-context) which will ensure that it is made available to all children.
+To leverage the new context value in componentContext, `provideContext` has an option for [passing custom contextTypes](https://github.com/yahoo/fluxible/blob/main/packages/fluxible/docs/api/Components.md#providing-the-context) which will ensure that it is made available to all children.
 
 ```js
 // create the React component as usual

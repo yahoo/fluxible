@@ -8,9 +8,7 @@
 $ npm install --save fluxible-addons-react
 ```
 
-Join the #fluxible channel of the [Reactiflux](http://reactiflux.com) Discord community.
-
-[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/yahoo/fluxible)
+For support, please use [GitHub Discussions](https://github.com/yahoo/fluxible/discussions).
 
 ## Docs
 
