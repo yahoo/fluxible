@@ -8,6 +8,15 @@ npm install --save fluxible
 
 For support, please use [GitHub Discussions](https://github.com/yahoo/fluxible/discussions).
 
+## Features
+
+* Singleton-free for server rendering
+* [Store](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/Stores.md) dehydration for client bootstrapping
+* Stateless async [actions](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/Actions.md)
+* Higher-order [components](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/Components.md) for easy integration
+* Enforcement of Flux flow - restricted access to the [Flux interface](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/FluxibleContext.md) from within components
+* [Pluggable](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/Plugins.md) - add your own interfaces to the Flux context
+
 ## Docs
 
 * [Quick Start](https://github.com/yahoo/fluxible/blob/master/docs/quick-start.md)
@@ -15,15 +24,6 @@ For support, please use [GitHub Discussions](https://github.com/yahoo/fluxible/d
 * [Data Fetching](https://github.com/yahoo/fluxible/blob/main/packages/fluxible-plugin-fetchr/README.md)
 * [Routing](https://github.com/yahoo/fluxible/blob/main/packages/fluxible-router/README.md)
 
-## Features
-
-* Singleton-free for server rendering
-* [Store](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/Stores.md) dehydration for client bootstrapping
-* Stateless async [actions](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/Actions.md)
-* Higher order [components](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/Components.md) for easy integration
-* Enforcement of Flux flow - restricted access to the [Flux interface](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/FluxibleContext.md) from within components
-* [Pluggable](https://github.com/yahoo/fluxible/blob/master/packages/fluxible/docs/api/Plugins.md) - add your own interfaces to the Flux context
-* Updated for React 15
 
 ## Extras
 
@@ -31,6 +31,13 @@ For support, please use [GitHub Discussions](https://github.com/yahoo/fluxible/d
 * [Example Applications](https://github.com/yahoo/fluxible/blob/master/examples)
 * [Fluxible Routing](https://github.com/yahoo/fluxible/blob/master/packages/fluxible-router)
 * [Isomorphic Data Services](https://github.com/yahoo/fluxible/blob/master/packages/fluxible-plugin-fetchr)
+
+## Community
+
+* [Article](https://github.com/yahoo/fluxible/blob/main/docs/community/articles.md)
+* [Libraries](https://github.com/yahoo/fluxible/blob/main/docs/community/libraries.md)
+* [Presentations](https://github.com/yahoo/fluxible/blob/main/docs/community/presentations.md)
+* [References Apps](https://github.com/yahoo/fluxible/blob/main/docs/community/reference-applications.md)
 
 ## Usage
 

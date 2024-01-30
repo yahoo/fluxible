@@ -14,8 +14,8 @@ Occasionally you may find that you need to use [plugins](Plugins.md) to extend F
 
 FluxibleAddons provides helper utilities for creating stores:
 
-* [`FluxibleAddons.BaseStore`](addons/BaseStore.md)
-* [`FluxibleAddons.createStore`](addons/createStore.md)
+* [`BaseStore`](addons/BaseStore.md)
+* [`createStore`](addons/createStore.md)
 
 ```js
 import { BaseStore, createStore } from 'fluxible/addons';
@@ -33,10 +33,14 @@ npm i --save fluxible-addons-react
 
 `fluxible-addons-react` provides helpers for using Fluxible with React.
 
-* [`FluxibleAddons.connectToStores`](../../../../packages/fluxible-addons-react/docs/api/connectToStores.md)
-* [`FluxibleAddons.FluxibleComponent`](../../../../packages/fluxible-addons-react/docs/api/FluxibleComponent.md)
-* [`FluxibleAddons.FluxibleMixin`](../../../../packages/fluxible-addons-react/docs/api/FluxibleMixin.md)
-* [`FluxibleAddons.provideContext`](../../../../packages/fluxible-addons-react/docs/api/provideContext.md)
+* [`batchedUpdatePlugin`](../../../../packages/fluxible-addons-react/docs/api/batchedUpdatePlugin.md)
+* [`connectToStores`](../../../../packages/fluxible-addons-react/docs/api/connectToStores.md)
+* [`createElementWithContext`](../../../../packages/fluxible-addons-react/docs/api/createElementWithContext.md)
+* [`FluxibleComponent`](../../../../packages/fluxible-addons-react/docs/api/FluxibleComponent.md)
+* [`FluxibleMixin`](../../../../packages/fluxible-addons-react/docs/api/FluxibleMixin.md)
+* [`provideContext`](../../../../packages/fluxible-addons-react/docs/api/provideContext.md)
+* [`useFluxible`](../../../../packages/fluxible-addons-react/docs/api/useFluxible.md)
+* [`withFluxible`](../../../../packages/fluxible-addons-react/docs/api/withFluxible.md)
 
 ```js
 import { connectToStores, FluxibleComponent, FluxibleMixin, provideContext } from 'fluxible-addons-react';
@@ -45,7 +49,11 @@ import { connectToStores, FluxibleComponent, FluxibleMixin, provideContext } fro
 These libraries are not bundled with Fluxible to allow for Fluxible usage with
 other view libraries such as React Native.
 
-## Utils
+## Debugging
+
+* [fluxible-plugin-devtools](https://github.com/yahoo/fluxible/blob/main/packages/fluxible-plugin-devtools/docs/fluxible-plugin-devtools.md)
+
+## Testing
 
 Fluxible also provides the following utilities for testing your components:
 
