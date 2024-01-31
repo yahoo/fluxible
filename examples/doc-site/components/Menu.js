@@ -6,7 +6,7 @@
 import React from 'react';
 import cx from 'classnames';
 import { NavLink } from 'fluxible-router';
-import docsConfig from './../configs/menu';
+import docsConfig from '../configs/menu';
 
 class Menu extends React.Component {
     render() {
