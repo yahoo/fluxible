@@ -28,7 +28,7 @@
     "@changesets/cli": "^2.24.3",
     "async": "^3.0.1",
     "es6-promise": "^4.0.2",
-    "eslint": "^8.2.0",
+    "eslint": "^9.2.0",
     "eslint-plugin-react": "^7.0.0",
     "fluxible": "^1.0.0",
     "jest": "^29.0.0",
