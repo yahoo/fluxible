@@ -1,3 +1,7 @@
+> ⚠️ **DEPRECATED / END-OF-LIFE (EOL)** — `fluxible` and packages in this repository will be unmaintained as of **2025-12-31**.
+> No new features, issues, PRs, or security fixes will be provided.
+> See the issue for more information https://github.com/yahoo/fluxible/issues/854
+
 # Fluxible ![Build Status](https://github.com/yahoo/fluxible/actions/workflows/node.js.yml/badge.svg)
 
 This repository is the home of Fluxible and related libraries.
